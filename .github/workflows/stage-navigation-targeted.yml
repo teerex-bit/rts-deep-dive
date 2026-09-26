@@ -1,0 +1,68 @@
+name: Stage Navigation Targeted Candidate Checks
+
+on:
+  push:
+    branches:
+      - test/stage-navigation-targeted
+
+permissions:
+  contents: read
+
+jobs:
+  stage-navigation-targeted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: 'true'
+      RTS_TEST_MODE: '1'
+      SUPABASE_PROJECT_ID: rts-phase1-prototype
+      SUPABASE_URL: http://127.0.0.1:54321
+      TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      AI_TEST_ADAPTER: fake
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx supabase start --workdir .
+      - name: Load isolated local credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          status_env="$(mktemp)"
+          trap 'rm -f "$status_env"' EXIT
+          npx supabase status --workdir . -o env > "$status_env"
+          set -a
+          source "$status_env"
+          set +a
+          test -n "${ANON_KEY:-}"
+          printf 'SUPABASE_ANON_KEY=%s\n' "$ANON_KEY" >> "$GITHUB_ENV"
+      - run: npx playwright install --with-deps chromium
+      - name: Type, build, and focused navigation tests
+        run: |
+          npm run typecheck
+          npm run build
+          npx vitest run --config vitest.config.ts tests/unit/components/see-clearly-stage-navigation.test.tsx tests/unit/components/see-clearly-stage.test.tsx tests/unit/components/lesson-state.test.ts
+      - name: Hub and doorway browser flows at 375, 768, and 1536
+        shell: bash
+        run: |
+          set -euo pipefail
+          export RTS_DATABASE_URL="$TEST_DATABASE_URL"
+          export DATABASE_URL="$TEST_DATABASE_URL"
+          export NEXT_PUBLIC_SUPABASE_URL="$SUPABASE_URL"
+          export NEXT_PUBLIC_SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY"
+          export NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$SUPABASE_ANON_KEY"
+          npx playwright test tests/e2e/see-clearly-stage-navigation.spec.ts
+      - name: Preserve viewport evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage-navigation-viewport-evidence
+          path: test-results/
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Stop local Supabase
+        if: always()
+        run: npx supabase stop --workdir . --no-backup

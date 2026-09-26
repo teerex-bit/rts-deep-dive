@@ -13,9 +13,11 @@ import { getSG2 } from '../../../../server/services/see-clearly-sg2-service';
 import { getSG3 } from '../../../../server/services/see-clearly-sg3-service';
 import { getSG4 } from '../../../../server/services/see-clearly-sg4-service';
 import { SeeClearlyStage } from '../../../../components/deep-dive/SeeClearlyStage';
+import { BecomeStage } from '../../../../components/deep-dive/BecomeStage';
 
 export default async function StagePage({ params }: { params: Promise<{ stageId: string }> }) {
   const { stageId } = await params;
+  if (stageId === 'become') return <AppShell stage="Become"><BecomeStage /></AppShell>;
   if (stageId === 'see-clearly') {
     const [{ progress }, { progress: sy2 }, { progress: sy3 }, { progress: sy4 }, { progress: sg1 }, { progress: sg2 }, { progress: sg3 }, { progress: sg4 }] = await Promise.all([getSC1(), getSY2(), getSY3(), getSY4(), getSG1(), getSG2(), getSG3(), getSG4()]);
     const status = progress?.completedAt ? 'review' : progress ? 'resume' : 'begin';

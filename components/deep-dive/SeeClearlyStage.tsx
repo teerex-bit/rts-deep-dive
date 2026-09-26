@@ -12,9 +12,26 @@ const godLessons = [
   'Jesus Shows Us the Father',
   'Can I Trust God Here?',
 ] as const;
+const lessonRoutes = [
+  'facts-and-interpretation', 'follow-the-formation-chain', 'the-learned-self-story',
+  'what-is-actually-true-about-me', 'the-god-i-learned', 'what-i-expect-from-god',
+  'jesus-shows-us-the-father', 'can-i-trust-god-here',
+] as const;
+type LessonStatus = 'begin' | 'resume' | 'review';
+
+export function seeClearlyStageAction(statuses: readonly LessonStatus[]) {
+  const next = statuses.findIndex(status => status !== 'review');
+  if (next < 0 || next >= lessonRoutes.length) return { label: 'CONTINUE TO BECOME', href: '/deep-dive/become' };
+  return {
+    label: statuses[next] === 'resume' ? 'RESUME SEE CLEARLY' : 'CONTINUE SEE CLEARLY',
+    title: [...selfLessons, ...godLessons][next],
+    href: `/deep-dive/see-clearly/${lessonRoutes[next]}`,
+  };
+}
 
 export function SeeClearlyStage({ status, sy2Status, sy3Status, sy4Status, sg1Status, sg2Status, sg3Status, sg4Status }: { status: 'begin' | 'resume' | 'review'; sy2Status?: 'begin' | 'resume' | 'review'; sy3Status?: 'begin' | 'resume' | 'review'; sy4Status?: 'begin' | 'resume' | 'review'; sg1Status?: 'begin' | 'resume' | 'review'; sg2Status?: 'begin' | 'resume' | 'review'; sg3Status?: 'begin' | 'resume' | 'review'; sg4Status?: 'begin' | 'resume' | 'review' }) {
   const href = `/deep-dive/see-clearly/facts-and-interpretation${status === 'review' ? '?section=entry' : ''}`;
+  const action = seeClearlyStageAction([status, sy2Status ?? 'begin', sy3Status ?? 'begin', sy4Status ?? 'begin', sg1Status ?? 'begin', sg2Status ?? 'begin', sg3Status ?? 'begin', sg4Status ?? 'begin']);
   return <section className="deep-dive-home deep-dive-home--see-clearly">
     <p className="eyebrow">THE FORMATION JOURNEY · SEE CLEARLY</p>
     <h1>See Clearly</h1>
@@ -51,5 +68,9 @@ export function SeeClearlyStage({ status, sy2Status, sy3Status, sy4Status, sg1St
         </ol>
       </section>
     </div>
+    <nav className="deep-dive-stage-actions" aria-label="Continue your journey">
+      <Link className="button deep-dive-stage-actions__primary" href={action.href}><span>{action.label}</span>{'title' in action && <strong>{action.title}</strong>}</Link>
+      <Link className="deep-dive-stage-actions__back" href="/dashboard">BACK TO FORMATION JOURNEY</Link>
+    </nav>
   </section>;
 }

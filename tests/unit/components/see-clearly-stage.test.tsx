@@ -13,7 +13,7 @@ describe('See Clearly movements', () => {
     expect(screen.getByRole('list', { name: 'See God Clearly modules' }).children).toHaveLength(4);
     expect(screen.getByText('SY1')).toBeInTheDocument();
     expect(screen.getByText('SG1')).toBeInTheDocument();
-    expect(screen.getAllByRole('link')).toHaveLength(1);
+    expect(screen.getAllByRole('link')).toHaveLength(3);
     expect(screen.getByRole('link', { name: 'Begin SY1' })).toHaveAttribute('href', '/deep-dive/see-clearly/facts-and-interpretation');
   });
 
