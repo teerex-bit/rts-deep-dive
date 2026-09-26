@@ -31,6 +31,6 @@ export const SC1_SECTIONS: readonly SC1Section[] = [
     'During the next few days, choose one small moment when you feel an immediate reaction. Name what you could verify, then name the meaning that appeared. You do not have to argue with that meaning or invent a better one; simply notice both before you choose a response.',
   ] },
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'Keep the two distinct', paragraphs: [
-    'You have practiced seeing an event and your interpretation as related but distinct. The meaning may matter, and it may still need to be tested. In the next See Clearly movement, you will follow how a meaning can connect with belief, expectation, desire, intention, choice, and outcome.',
+    'You have practiced seeing an event and your interpretation as related but distinct. The meaning may matter, and it may still need to be tested. Notice how a meaning can connect with belief, expectation, desire, intention, choice, and the way you live.',
   ] },
 ];

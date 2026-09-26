@@ -18,6 +18,6 @@ export const SG2_SECTIONS: readonly SG2Section[] = [
   ] },
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'Look toward Jesus', paragraphs: [
     'You have named an expectation that may appear in a real moment. Hold it with openness rather than treating it as the final word.',
-    'Next, SG3 — Jesus Shows Us the Father — turns our attention to Jesus. We will notice what He reveals before drawing conclusions about the picture we carry.',
+    'Look at Jesus and notice what He reveals about the Father. Let what you see remain alongside the expectation you named, without forcing a conclusion yet.',
   ] },
 ];

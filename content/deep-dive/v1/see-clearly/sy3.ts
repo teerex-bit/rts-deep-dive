@@ -35,7 +35,7 @@ export const SY3_SECTIONS: readonly SY3Section[] = [
     "title": "A story is not a verdict",
     "paragraphs": [
       "A familiar story is not automatically a true story. It may contain something real, leave out something important, or reflect a conclusion that helped you make sense of repeated experiences. You may not yet know which part describes your situation. The fact that a sentence feels familiar does not give it the authority to define you.",
-      "There is no need to correct the sentence immediately or replace it with something more positive. Keep it in your own words and hold it lightly. SY3 helps you recognize the story you may have learned to carry. The next lesson will ask a different question: what is actually true?"
+      "There is no need to correct the sentence immediately or replace it with something more positive. Keep it in your own words and hold it lightly. You can recognize a story you may have learned to carry without deciding that it is true."
     ]
   },
   {
@@ -52,7 +52,7 @@ export const SY3_SECTIONS: readonly SY3Section[] = [
     "title": "A question worth carrying",
     "paragraphs": [
       "The story you learned may have shaped you deeply. That does not automatically make it true. Carry your tentative sentence forward if you have one; if you do not, carry the question. You can return and revise your words as you notice more.",
-      "Next: SY4 — What Is Actually True About Me. There, you will examine what has authority to tell the truth about you. For now, you have made room to hear a story without letting it become your identity."
+      "A familiar story can feel true without having the authority to define you. The question worth carrying forward is: What is actually true about me?"
     ]
   }
 ];

@@ -27,6 +27,6 @@ export const SY2_SECTIONS: readonly SY2Section[] = [
     'Trace one full chain from a real moment. In two other moments, notice just a few links. There is nothing further to enter here; you are learning to recognize the movement in ordinary life.',
   ] },
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'Behavior has a beginning', paragraphs: [
-    'Behavior is often the visible end of a deeper process. The point is not endless self-analysis. It is learning to notice where the chain begins shaping how you live. As you continue, the next movement will look more closely at the story you learned to tell about yourself.',
+    'Behavior is often the visible end of a deeper process. The point is not endless self-analysis. It is learning to notice where the chain begins shaping how you live. What story about yourself seems to travel with you through different moments?',
   ] },
 ];

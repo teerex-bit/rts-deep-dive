@@ -21,7 +21,7 @@ export const SG1_SECTIONS: readonly SG1Section[] = [
     'For the next few days, simply notice when that picture becomes visible: after failure, in prayer, during uncertainty or disappointment, while afraid, or while waiting. You do not need to correct it yet or make an app entry. Notice what feels familiar, and leave room for further examination. You may reflect privately without proving where it came from.',
   ] },
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'From picture to expectation', paragraphs: [
-    'The picture of God I learned may help explain how I relate to Him. A learned picture is not automatically the final truth about God. Keep it in view with curiosity as See God Clearly continues.',
-    'Next, SG2 — What I Expect From God — will look at what this picture leads me to expect in ordinary moments. This lesson has only begun to notice the picture itself.',
+    'The picture of God I learned may help explain how I relate to Him. A learned picture is not automatically the final truth about God. Keep it in view with curiosity.',
+    'In an ordinary moment of failure, prayer, or waiting, what do I find myself expecting from Him?',
   ] },
 ];

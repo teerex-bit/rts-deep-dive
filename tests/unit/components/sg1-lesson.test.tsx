@@ -11,7 +11,7 @@ describe('SG1 participant recognition', () => {
   it('opens with narrative and separates recognition from future SG2/SG3 questions', () => {
     expect(SG1_SECTIONS.map(section => section.id)).toEqual(['entry', 'formation', 'influences', 'recognition', 'reflection', 'carry-forward']);
     expect(SG1_SECTIONS[0].paragraphs[0]).toContain('Someone may sincerely believe');
-    expect(SG1_SECTIONS[5].paragraphs.join(' ')).toContain('SG2 — What I Expect From God');
+    expect(SG1_SECTIONS[5].paragraphs.join(' ')).toContain('what do I find myself expecting from Him?');
     render(<SG1Lesson {...props} section={SG1_SECTIONS[3]} />);
     expect(screen.getByLabelText('The God I learned seemed…')).toHaveValue('');
     expect(screen.getByLabelText(/Some things that may have shaped this picture/)).toHaveValue('');

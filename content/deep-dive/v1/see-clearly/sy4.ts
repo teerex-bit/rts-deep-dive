@@ -22,8 +22,8 @@ export const SY4_SECTIONS: readonly SY4Section[] = [
   { id: 'reflection', eyebrow: 'IN YOUR DAY', title: 'Pause before the verdict', paragraphs: [
     'For the next few days, when a moment seems to confirm an old story, pause and ask: “What am I allowing this moment to say about who I am?” Take the event seriously. Criticism, failure, rejection, and consequences may need a response. Then return to what has been established as true, without allowing the event to become the final authority over your identity.',
   ] },
-  { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'See God Clearly', paragraphs: [
+  { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'The picture of God I carry', paragraphs: [
     'What formed me matters. What formed me does not have final authority to define me. You can carry that distinction into ordinary moments, even while old reactions take time to change.',
-    'The way we see ourselves and the way we see God are not unrelated. If acceptance has felt earned, we may expect God to make us earn it. If weakness has felt unsafe, surrender may feel dangerous. If authority has been unpredictable, trust may be difficult. See Yourself Clearly closes here; next, See God Clearly begins with SG1 — The God I Learned.',
+    'The way we see ourselves and the way we see God are not unrelated. If acceptance has felt earned, we may expect God to make us earn it. If weakness has felt unsafe, surrender may feel dangerous. If authority has been unpredictable, trust may be difficult. What picture of God have I learned to carry?',
   ] },
 ];
