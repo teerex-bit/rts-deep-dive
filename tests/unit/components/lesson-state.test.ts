@@ -55,6 +55,7 @@ describe('shared lesson state across authored modules', () => {
       expect(lessonState({ ...input, lastSectionId: current, requestedSection: sections[1].id }).section.id).toBe(sections[1].id);
       expect(lessonState({ ...input, lastSectionId: current, requestedSection: 'not-a-section' }).section.id).toBe(current);
       expect(lessonState({ ...input, completedAt: new Date(), requestedSection: sections.at(-1)!.id }).section.id).toBe(sections.at(-1)!.id);
+      expect(lessonState({ ...input, requestedSection: sections.at(-1)!.id, reviewerJump: true }).section.id).toBe(sections.at(-1)!.id);
     });
   }
 });

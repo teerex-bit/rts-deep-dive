@@ -1,3 +1,4 @@
+import { reviewJumpFor } from '../../server/auth/review-navigator';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { AppShell } from '../design-system/AppShell';
@@ -11,10 +12,11 @@ import { completeSC1, editSC1Reflection, getSC1, saveSC1Reflection, saveSC1Respo
 
 const route = '/deep-dive/see-clearly/facts-and-interpretation';
 
-export async function SC1Page({ query }: { query: { section?: string; returnTo?: string } }) {
+export async function SC1Page({ query }: { query: { section?: string; returnTo?: string; reviewJump?: string } }) {
+  const reviewerJump = await reviewJumpFor(query, route);
   const { progress, record, sources } = await getSC1();
   const completionNavigation = seeClearlyNavigation('sc1');
-  const state = lessonState({ sections: SC1_SECTIONS, pathname: route, groupHref: completionNavigation.backHref, requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection' });
+  const state = lessonState({ sections: SC1_SECTIONS, pathname: route, groupHref: completionNavigation.backHref, requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { completed, index, section, next } = state;
 
   async function advance(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> {

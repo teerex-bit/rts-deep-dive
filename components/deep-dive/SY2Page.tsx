@@ -1,3 +1,4 @@
+import { reviewJumpFor } from '../../server/auth/review-navigator';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { AppShell } from '../design-system/AppShell';
@@ -13,11 +14,12 @@ import { completeSY2, getSY2, saveSY2Chain, saveSY2Reflection, saveSY2Section } 
 const route = '/deep-dive/see-clearly/follow-the-formation-chain';
 const group = '/deep-dive/see-clearly#see-yourself-heading';
 
-export async function SY2Page({ query }: { query: { section?: string; returnTo?: string } }) {
+export async function SY2Page({ query }: { query: { section?: string; returnTo?: string; reviewJump?: string } }) {
+  const reviewerJump = await reviewJumpFor(query, route);
   const { progress, record, source } = await getSY2();
   const state = lessonState({ sections: SY2_SECTIONS, pathname: route, groupHref: group,
     requestedSection: query.section, lastSectionId: progress?.lastSectionId,
-    completedAt: progress?.completedAt, reflectionSection: 'reflection' });
+    completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { completed, index, section, next } = state;
 
   async function advance(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> {

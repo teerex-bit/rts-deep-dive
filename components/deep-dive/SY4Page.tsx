@@ -1,3 +1,4 @@
+import { reviewJumpFor } from '../../server/auth/review-navigator';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { AppShell } from '../design-system/AppShell';
@@ -12,11 +13,12 @@ import { deleteSY4Reflection } from '../../server/services/see-clearly-sy4-servi
 const route = '/deep-dive/see-clearly/what-is-actually-true-about-me';
 const group = '/deep-dive/see-clearly#see-yourself-heading';
 
-export async function SY4Page({ query }: { query: { section?: string; returnTo?: string } }) {
+export async function SY4Page({ query }: { query: { section?: string; returnTo?: string; reviewJump?: string } }) {
+  const reviewerJump = await reviewJumpFor(query, route);
   const { progress, record, source } = await getSY4();
   const state = lessonState({ sections: SY4_SECTIONS, pathname: route, groupHref: group,
     requestedSection: query.section, lastSectionId: progress?.lastSectionId,
-    completedAt: progress?.completedAt, reflectionSection: 'reflection' });
+    completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { completed, index, section, next } = state;
 
   async function advance(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> {

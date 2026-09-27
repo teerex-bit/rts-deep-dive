@@ -7,6 +7,7 @@ export function lessonState<S extends { id: string }>(input: {
   lastSectionId?: string | null;
   completedAt?: string | Date | null;
   reflectionSection?: string;
+  reviewerJump?: boolean;
 }) {
   const { sections, pathname, groupHref, lastSectionId, reflectionSection } = input;
   if (!sections.length) throw new Error('A lesson must have at least one section');
@@ -14,7 +15,7 @@ export function lessonState<S extends { id: string }>(input: {
   const reached = Math.max(0, sections.findIndex(section => section.id === lastSectionId));
   const requested = input.requestedSection ?? (completed ? sections[0].id : sections[reached].id);
   const found = sections.findIndex(section => section.id === requested);
-  const index = found < 0 ? (completed ? 0 : reached) : completed ? found : Math.min(found, reached);
+  const index = found < 0 ? (completed ? 0 : reached) : completed || input.reviewerJump ? found : Math.min(found, reached);
   const section = sections[index];
   const next = sections[index + 1];
   const reflectionIndex = reflectionSection ? sections.findIndex(item => item.id === reflectionSection) : -1;

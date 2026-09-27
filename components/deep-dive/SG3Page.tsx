@@ -1,3 +1,4 @@
+import { reviewJumpFor } from '../../server/auth/review-navigator';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { AppShell } from '../design-system/AppShell';
@@ -13,12 +14,13 @@ import { deleteSG3Reflection } from '../../server/services/see-clearly-sg3-servi
 const route = '/deep-dive/see-clearly/jesus-shows-us-the-father';
 const group = '/deep-dive/see-clearly#see-god-heading';
 
-export async function SG3Page({ query }: { query: { section?: string; returnTo?: string } }) {
+export async function SG3Page({ query }: { query: { section?: string; returnTo?: string; reviewJump?: string } }) {
+  const reviewerJump = await reviewJumpFor(query, route);
   const [{ progress, record }, { record: sg2Context, progress: sg2Progress }] = await Promise.all([getSG3(), getSG2()]);
-  if (!sg2Progress?.completedAt) redirect(group);
+  if (!sg2Progress?.completedAt && !reviewerJump) redirect(group);
   const state = lessonState({ sections: SG3_SECTIONS, pathname: route, groupHref: group,
     requestedSection: query.section, lastSectionId: progress?.lastSectionId,
-    completedAt: progress?.completedAt, reflectionSection: 'reflection' });
+    completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { completed, index, section, next } = state;
 
   async function advance(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> {

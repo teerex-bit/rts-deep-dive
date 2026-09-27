@@ -1,3 +1,4 @@
+import { reviewJumpFor } from '../../../../../server/auth/review-navigator';
 import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { AppShell } from '../../../../../components/design-system/AppShell';
@@ -29,9 +30,10 @@ function LessonProgress({ module, title, index, total }: { module: 'A1' | 'A2'; 
   </section>;
 }
 
-async function A2Page({ query }: { query: { section?: string } }) {
+async function A2Page({ query }: { query: { section?: string; reviewJump?: string } }) {
+  const reviewerJump = await reviewJumpFor(query, '/deep-dive/awaken/catch-yourself-being-you');
   const progress = await getA2();
-  const state = lessonState({ sections: A2_SECTIONS, pathname: '/deep-dive/awaken/catch-yourself-being-you', groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection' });
+  const state = lessonState({ sections: A2_SECTIONS, pathname: '/deep-dive/awaken/catch-yourself-being-you', groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { index, section, next } = state;
 
   async function saveSection(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> {
@@ -108,7 +110,7 @@ async function A2Page({ query }: { query: { section?: string } }) {
 
 export default async function A1Page({ params, searchParams }: { params: Promise<{ stageId: string; moduleId: string }>; searchParams: Promise<{ section?: string; returnTo?: string }> }) {
   const { stageId, moduleId } = await params; const query = await searchParams;
-  if (stageId === 'see-clearly' && moduleId === 'what-has-become-clear') return SeeClearlyRecapPage();
+  if (stageId === 'see-clearly' && moduleId === 'what-has-become-clear') return SeeClearlyRecapPage({ query });
   if (stageId === 'see-clearly' && moduleId === 'facts-and-interpretation') return SC1Page({ query });
   if (stageId === 'see-clearly' && moduleId === 'follow-the-formation-chain') return SY2Page({ query });
   if (stageId === 'see-clearly' && moduleId === 'the-learned-self-story') return SY3Page({ query });
@@ -121,8 +123,9 @@ export default async function A1Page({ params, searchParams }: { params: Promise
   if (stageId === 'awaken' && moduleId === 'your-reactions-have-a-history') return NewAwakenPage({ module: 'a3', query });
   if (stageId === 'awaken' && moduleId === 'formation-is-not-identity') return NewAwakenPage({ module: 'a4', query });
   if (stageId !== 'awaken' || moduleId !== 'pay-attention') notFound();
+  const reviewerJump = await reviewJumpFor(query, '/deep-dive/awaken/pay-attention');
   const progress = await getA1();
-  const state = lessonState({ sections: A1_SECTIONS, pathname: '/deep-dive/awaken/pay-attention', groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection' });
+  const state = lessonState({ sections: A1_SECTIONS, pathname: '/deep-dive/awaken/pay-attention', groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { index, section, next } = state;
   async function saveSection(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> { 'use server'; const result = await attemptLessonTransition(() => advanceLessonSection(A1_SECTIONS, '/deep-dive/awaken/pay-attention', String(formData.get('section')), saveA1Section, async () => { const progress = await getA1(); return { completed: Boolean(progress?.completedAt), lastSectionId: progress?.lastSectionId }; })); if (result.destination) redirect(result.destination); return result; }
   async function saveReflection(_: A1ReflectionSaveState, formData: FormData): Promise<A1ReflectionSaveState> {

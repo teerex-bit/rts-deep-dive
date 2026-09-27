@@ -1,3 +1,4 @@
+import { reviewJumpFor } from '../../server/auth/review-navigator';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { AppShell } from '../design-system/AppShell';
@@ -12,11 +13,12 @@ import { deleteSG1Reflection } from '../../server/services/see-clearly-sg1-servi
 const route = '/deep-dive/see-clearly/the-god-i-learned';
 const group = '/deep-dive/see-clearly#see-god-heading';
 
-export async function SG1Page({ query }: { query: { section?: string; returnTo?: string } }) {
+export async function SG1Page({ query }: { query: { section?: string; returnTo?: string; reviewJump?: string } }) {
+  const reviewerJump = await reviewJumpFor(query, route);
   const { progress, record } = await getSG1();
   const state = lessonState({ sections: SG1_SECTIONS, pathname: route, groupHref: group,
     requestedSection: query.section, lastSectionId: progress?.lastSectionId,
-    completedAt: progress?.completedAt, reflectionSection: 'reflection' });
+    completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { completed, index, section, next } = state;
 
   async function advance(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> {

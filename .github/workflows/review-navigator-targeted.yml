@@ -1,0 +1,74 @@
+name: Review Navigator Targeted Candidate Checks
+
+on:
+  push:
+    branches:
+      - test/review-navigator-targeted
+
+permissions:
+  contents: read
+
+jobs:
+  review-navigator-targeted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: 'true'
+      RTS_TEST_MODE: '1'
+      SUPABASE_PROJECT_ID: rts-phase1-prototype
+      SUPABASE_URL: http://127.0.0.1:54321
+      TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      AI_TEST_ADAPTER: fake
+      REVIEW_TEST_ACCESS: 'true'
+      REVIEW_TEST_USER_EMAIL: review-navigator@rts.test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx supabase start --workdir .
+      - name: Load isolated local credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          status_env="$(mktemp)"
+          trap 'rm -f "$status_env"' EXIT
+          npx supabase status --workdir . -o env > "$status_env"
+          set -a
+          source "$status_env"
+          set +a
+          test -n "${ANON_KEY:-}"
+          test -n "${SERVICE_ROLE_KEY:-}"
+          printf 'SUPABASE_ANON_KEY=%s\n' "$ANON_KEY" >> "$GITHUB_ENV"
+          printf 'SUPABASE_SECRET_KEY=%s\n' "$SERVICE_ROLE_KEY" >> "$GITHUB_ENV"
+      - run: npx playwright install --with-deps chromium
+      - name: Focused type, build and navigator tests
+        run: |
+          npm run typecheck
+          npm run build
+          npx vitest run --config vitest.config.ts tests/unit/auth/review-navigator.test.ts tests/unit/components/lesson-state.test.ts
+      - name: Database and RLS regression
+        run: npm run test:db
+      - name: Reviewer and participant browser flows at 375, 768, 1536
+        shell: bash
+        run: |
+          set -euo pipefail
+          export RTS_DATABASE_URL="$TEST_DATABASE_URL"
+          export DATABASE_URL="$TEST_DATABASE_URL"
+          export NEXT_PUBLIC_SUPABASE_URL="$SUPABASE_URL"
+          export NEXT_PUBLIC_SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY"
+          export NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$SUPABASE_ANON_KEY"
+          npx playwright test tests/e2e/review-navigator.spec.ts --workers=1
+      - name: Preserve viewport evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: review-navigator-viewport-evidence
+          path: test-results/
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Stop local Supabase
+        if: always()
+        run: npx supabase stop --workdir . --no-backup

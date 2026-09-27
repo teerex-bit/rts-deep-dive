@@ -1,3 +1,4 @@
+import { reviewJumpFor } from '../../server/auth/review-navigator';
 import { redirect } from 'next/navigation';
 import { AppShell } from '../design-system/AppShell';
 import { SeeClearlyRecap } from './SeeClearlyRecap';
@@ -5,9 +6,10 @@ import { lessonSaveFailure } from './lesson-state';
 import { getSG4 } from '../../server/services/see-clearly-sg4-service';
 import { confirmSeeClearlyRecap, getSeeClearlyRecap } from '../../server/services/see-clearly-recap-service';
 
-export async function SeeClearlyRecapPage() {
+export async function SeeClearlyRecapPage({ query = {} }: { query?: { section?: string; reviewJump?: string } } = {}) {
+  const reviewerJump = await reviewJumpFor(query, '/deep-dive/see-clearly/what-has-become-clear');
   const { progress } = await getSG4();
-  if (!progress?.completedAt) redirect('/deep-dive/see-clearly');
+  if (!progress?.completedAt && !reviewerJump) redirect('/deep-dive/see-clearly');
   const data = await getSeeClearlyRecap();
   async function confirm(_: { error?: string; signIn?: boolean }, form: FormData) {
     'use server';

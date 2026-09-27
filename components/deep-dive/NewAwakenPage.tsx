@@ -1,3 +1,4 @@
+import { reviewJumpFor } from '../../server/auth/review-navigator';
 import Link from 'next/link';
 import { requestA4Reframe } from '../../server/ai/a4-reframe';
 import { redirect } from 'next/navigation';
@@ -11,14 +12,15 @@ import { A3_SECTIONS, A4_SECTIONS } from '../../content/deep-dive/v1/awaken/four
 import { editDeepDiveReflection, getA3, getA4, saveA3Section, saveA4Section, saveA3Reflection, saveA4Reflection, completeA3, completeA4 } from '../../server/services/deep-dive-service';
 import { A3_MODULE_ID, A3_REFLECTION_PROMPT_ID, A4_MODULE_ID, A4_REFLECTION_PROMPT_ID } from '../../domain/deep-dive';
 
-export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; query: { section?: string } }) {
+export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; query: { section?: string; reviewJump?: string } }) {
   const a3 = module === 'a3';
   const sections = a3 ? A3_SECTIONS : A4_SECTIONS;
   const slug = a3 ? 'your-reactions-have-a-history' : 'formation-is-not-identity';
   const title = a3 ? 'Your Reactions Have a History' : 'Formation Is Not Identity';
   const prefix = `/deep-dive/awaken/${slug}`;
+  const reviewerJump = await reviewJumpFor(query, prefix);
   const progress = a3 ? await getA3() : await getA4();
-  const state = lessonState({ sections, pathname: prefix, groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection' });
+  const state = lessonState({ sections, pathname: prefix, groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { index, section, next } = state;
 
   async function advance(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> {
