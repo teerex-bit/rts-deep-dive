@@ -23,7 +23,7 @@ test('SY3 story, optional source, resume, review, deletion lineage, and handoff'
     await expect(page.getByRole('heading', { name: 'How a story becomes familiar' })).toBeVisible();
     await page.getByRole('button', { name: 'Continue' }).click();
     await expect(page).toHaveURL(/section=recognition$/);
-    await expect(page.getByText(/No earlier trace is needed/)).toBeVisible();
+    await expect(page.getByText('You can start with something you have been noticing lately.', { exact: true })).toBeVisible();
     await page.getByLabel('A story I sometimes carry is…').fill('  I may have learned I disappoint people.  ');
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await expect(page).toHaveURL(/section=clarification$/);
