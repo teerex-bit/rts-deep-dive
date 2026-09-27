@@ -6,6 +6,7 @@ import { REVIEW_NAVIGATION } from '../../components/deep-dive/review-navigator-c
 
 const reviewerEmail = 'review-navigator@rts.test';
 const password = 'local-e2e-only-password';
+test.skip(process.env.REVIEW_TEST_ACCESS !== 'true', 'Review access is tested in the dedicated review-enabled browser step.');
 
 async function signUp(page: import('@playwright/test').Page, email: string) {
   await page.goto(appRuntimeUrl('/sign-up'));
