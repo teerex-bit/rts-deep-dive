@@ -48,7 +48,7 @@ jobs:
         run: |
           npm run typecheck
           npm run build
-          npx vitest run --config vitest.config.ts tests/unit/auth/review-navigator.test.ts tests/unit/components/lesson-state.test.ts
+          npx vitest run --config vitest.config.ts tests/unit/auth/review-navigator.test.ts tests/unit/components/lesson-state.test.ts tests/unit/components/review-navigator.test.tsx
       - name: Database and RLS regression
         run: npm run test:db
       - name: Reviewer and participant browser flows at 375, 768, 1536

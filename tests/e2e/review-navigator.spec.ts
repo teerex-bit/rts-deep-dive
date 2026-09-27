@@ -51,6 +51,16 @@ test('reviewer can inspect every section without changing progress or participan
     await page.getByRole('navigation', { name: 'Review navigator' }).getByRole('link', { name: 'What Has Become Clear' }).click();
     await expect(page).toHaveURL(/what-has-become-clear\?section=overview&reviewJump=/);
     await expect(page.getByRole('main')).toContainText('What Has Become Clear');
+    await expect(page.locator('.review-navigator > summary')).toBeVisible();
+    await page.locator('.review-navigator > summary').click();
+    await expect(page.getByRole('navigation', { name: 'Review navigator' })).toContainText('SEE CLEARLY / What Has Become Clear');
+    await page.getByRole('navigation', { name: 'Review navigator' }).locator('details > summary').filter({ hasText: 'Follow the Formation Chain' }).click();
+    await page.getByRole('navigation', { name: 'Review navigator' }).getByRole('link', { name: 'Trace one real moment' }).click();
+    await expect(page).toHaveURL(/follow-the-formation-chain\?section=trace&reviewJump=/);
+    await expect(page.getByRole('main')).toContainText('Trace one real moment');
+    await page.locator('.review-navigator > summary').click();
+    await page.getByRole('navigation', { name: 'Review navigator' }).getByRole('link', { name: 'What Has Become Clear' }).click();
+    await expect(page.getByRole('main')).toContainText('What Has Become Clear');
     await page.locator('.review-navigator > summary').click();
     await page.getByRole('navigation', { name: 'Review navigator' }).getByRole('link', { name: 'Become — Stage Overview' }).click();
     await expect(page).toHaveURL(/\/deep-dive\/become$/);

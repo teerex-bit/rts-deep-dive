@@ -12,7 +12,7 @@ export function ReviewNavigator({ stages }: { stages: ReviewNavStage[] }) {
   const currentSection = current?.lesson.sections.find(item => item.id === section);
   const currentStage = current?.stage ?? (path.startsWith('/deep-dive/awaken') ? 'AWAKEN' : path.startsWith('/deep-dive/see-clearly') ? 'SEE CLEARLY' : path.startsWith('/deep-dive/become') ? 'BECOME' : 'FORMATION JOURNEY');
 
-  return <details className="review-navigator">
+  return <details key={`${path}?section=${section ?? ''}`} className="review-navigator">
     <summary>REVIEW NAVIGATOR</summary>
     <nav className="review-navigator__panel" aria-label="Review navigator">
       <div className="review-navigator__orientation" aria-live="polite">Current: {currentStage}{current ? ` / ${current.lesson.title}` : ''}{currentSection ? ` / ${currentSection.title}` : path.endsWith('/what-has-become-clear') ? ' / What Has Become Clear' : ''}</div>
