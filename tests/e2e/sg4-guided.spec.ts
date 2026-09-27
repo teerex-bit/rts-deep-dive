@@ -44,8 +44,8 @@ test('SG4 guided trust question, review and independent deletion', async ({ page
       await page.getByRole('button', { name: section.id === 'uncertainty' ? 'Begin' : 'Continue' }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
-    await expect(page.getByText('My SG3 observation (optional)')).toBeVisible();
-    await page.getByText('My SG3 observation (optional)').click();
+    await expect(page.getByText('What I noticed earlier (optional)')).toBeVisible();
+    await page.getByText('What I noticed earlier (optional)').click();
     await expect(page.getByText('  Jesus remained with Peter.  ')).toBeVisible();
     for (const width of [375, 768, 1536]) {
       await page.setViewportSize({ width, height: 900 });
@@ -68,7 +68,7 @@ test('SG4 guided trust question, review and independent deletion', async ({ page
     await page.getByLabel('What remains yours to do while the outcome is open?').fill('  I can make the call.  ');
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What Has Become Clear/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to What Has Become Clear/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-has-become-clear');
     const query = `select p.completed_at,p.updated_at,r.situation,r.trust_meaning,f.body from public.deep_dive_module_progress p
       left join public.see_clearly_sg4_records r on r.progress_id=p.id
       left join public.deep_dive_reflections f on f.progress_id=p.id and f.prompt_id='sg4-reflection'
@@ -90,7 +90,7 @@ test('SG4 guided trust question, review and independent deletion', async ({ page
     await page.reload(); await expect(trust).toHaveValue('');
     await pool.query(`delete from public.see_clearly_sg3_records where user_id=$1`, [owner]);
     await page.reload();
-    await expect(page.getByText('My SG3 observation (optional)')).toHaveCount(0);
+    await expect(page.getByText('What I noticed earlier (optional)')).toHaveCount(0);
     expect((await pool.query(query, [owner])).rows[0]).toMatchObject({ situation: null, trust_meaning: null, body: before[0].body, completed_at: before[0].completed_at });
     await page.goto(appRuntimeUrl(`${base}?section=reflection`));
     await page.getByRole('button', { name: 'Delete reflection' }).click();
@@ -112,7 +112,7 @@ test('SG4 optional trust and reflection can be skipped', async ({ page }, testIn
     await page.getByRole('button', { name: 'Continue without saving' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What Has Become Clear/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to What Has Become Clear/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-has-become-clear');
     expect((await pool.query(`select count(*)::integer as n from public.see_clearly_sg4_records where user_id=$1`, [owner])).rows[0].n).toBe(0);
   } finally { await pool.end(); await resetLocalE2eAccount(user.email); }
 });

@@ -44,7 +44,7 @@ jobs:
         run: |
           npm run typecheck
           npm run build
-          npx vitest run --config vitest.config.ts tests/unit/components/see-clearly-stage-navigation.test.tsx tests/unit/components/see-clearly-stage.test.tsx tests/unit/components/see-clearly-navigation.test.ts tests/unit/domain/see-clearly-recap.test.ts tests/unit/components/lesson-state.test.ts
+          npx vitest run --config vitest.config.ts tests/unit/components/see-clearly-stage-navigation.test.tsx tests/unit/components/see-clearly-stage.test.tsx tests/unit/components/see-clearly-navigation.test.ts tests/unit/domain/see-clearly-recap.test.ts tests/unit/content/see-clearly-timing.test.ts tests/unit/components/lesson-state.test.ts
       - name: Recap migration, ownership, and deletion
         run: npm run test:db
       - name: Journey handoff and recap browser flows at 375, 768, and 1536

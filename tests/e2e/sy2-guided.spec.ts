@@ -60,7 +60,7 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
       } else {
         await page.getByRole('button', { name: 'Complete lesson' }).click();
         await expect(page).toHaveURL(/section=carry-forward$/);
-    await expect(page.getByRole('link', { name: /Continue to The Learned Self-Story/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to The Learned Self-Story/ })).toHaveAttribute('href', '/deep-dive/see-clearly/the-learned-self-story');
       }
     }
     const query = `select p.last_section_id,p.completed_at,p.updated_at,r.perception,r.belief,r.source_sc1_record_id,r.updated_at as record_updated_at,
@@ -92,7 +92,8 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     expect((await pool.query(query, [user.email])).rows[0]).toMatchObject({ source_sc1_record_id: source });
     await pool.query('delete from public.see_clearly_sc1_records where id=$1', [source]);
     await page.reload();
-    await expect(page.getByRole('status')).toContainText('Your earlier SY1 source is no longer available.');
+    await expect(page.getByRole('status')).toContainText('Your own words remain here.');
+    await expect(page.getByRole('complementary', { name: 'A moment you wrote about earlier' })).toHaveCount(0);
     expect((await pool.query(query, [user.email])).rows[0]).toMatchObject({ perception: '  The room became quiet.  ', source_sc1_record_id: null,
       completed_at: before[0].completed_at, updated_at: before[0].updated_at });
   } finally { await pool.end(); await resetLocalE2eAccount(user.email); }

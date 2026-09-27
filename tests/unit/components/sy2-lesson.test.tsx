@@ -16,7 +16,8 @@ describe('SY2 authored flow', () => {
   it('offers an independent moment and a deliberate owned SY1 source without assuming its meaning', () => {
     render(<SY2Lesson {...props} section={SY2_SECTIONS[3]} source={{ id: 'owned', eventFacts: 'A message went unanswered.', automaticInterpretation: 'I felt ignored.' }} />);
     expect(screen.getByLabelText('Use a moment I wrote about earlier')).toBeInTheDocument();
-    expect(screen.getByLabelText('Use another recent moment')).toBeInTheDocument();
+    expect(screen.getByLabelText('Use another recent moment')).toBeChecked();
+    expect(screen.queryByRole('complementary', { name: 'A moment you wrote about earlier' })).not.toBeInTheDocument();
     expect(screen.getByLabelText('What was I seeing in this moment?')).toHaveValue('');
     expect(screen.getByRole('button', { name: 'Continue without saving this trace' })).toBeInTheDocument();
     const context = screen.getByRole('list', { name: 'Your place in the formation chain' });
@@ -28,5 +29,10 @@ describe('SY2 authored flow', () => {
     render(<SY2Lesson {...props} completed section={SY2_SECTIONS[3]} record={{ sourceSc1RecordId: null, sourceWasLinked: false, perception: 'I saw a pause.', belief: null, expectation: null, desire: null, intention: null, choice: null, outcome: null }} />);
     expect(screen.getByLabelText('What was I seeing in this moment?')).toHaveValue('I saw a pause.');
     expect(screen.getByRole('button', { name: 'Save changes' })).toBeInTheDocument();
+  });
+  it('starts naturally when there is no earlier moment', () => {
+    render(<SY2Lesson {...props} section={SY2_SECTIONS[3]} />);
+    expect(screen.getByText('Use a recent moment.')).toBeInTheDocument();
+    expect(screen.queryByRole('group', { name: 'Choose a starting point' })).not.toBeInTheDocument();
   });
 });

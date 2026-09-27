@@ -37,7 +37,7 @@ test('SY3 story, optional source, resume, review, deletion lineage, and handoff'
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await expect(page).toHaveURL(/section=carry-forward$/);
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What Is Actually True About Me/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to What Is Actually True About Me/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-is-actually-true-about-me');
     const query = `select p.completed_at,p.updated_at,p.last_section_id,r.self_story_hypothesis,r.source_sy2_record_id,r.source_was_linked,
       f.body from public.deep_dive_module_progress p left join public.see_clearly_sy3_records r on r.progress_id=p.id
       left join public.deep_dive_reflections f on f.progress_id=p.id and f.prompt_id='sy3-reflection'
@@ -59,25 +59,29 @@ test('SY3 story, optional source, resume, review, deletion lineage, and handoff'
     const source = (await pool.query<{ id: string }>(`insert into public.see_clearly_sy2_records(user_id,progress_id,perception,belief)
       values($1,$2,'The room became quiet.','I had said too much.') returning id`, [owner, sy2Progress])).rows[0].id;
     await page.goto(appRuntimeUrl(`${base}?section=recognition`));
-    await page.getByLabel('Use my SY2 trace').check();
-    await expect(page.getByRole('complementary', { name: 'Your SY2 trace' })).toContainText('The room became quiet.');
+    await page.getByLabel('Use what I wrote earlier').check();
+    await expect(page.getByRole('complementary', { name: 'Your earlier words' })).toContainText('The room became quiet.');
+    await page.getByLabel('Start from what I have been noticing lately').check();
+    await expect(page.getByRole('complementary', { name: 'Your earlier words' })).toHaveCount(0);
+    await page.getByLabel('Use what I wrote earlier').check();
     await page.getByRole('button', { name: 'Save changes' }).click();
     if (await page.getByRole('alert').filter({ hasText: 'Your session ended.' }).count()) {
       await expect(page.getByLabel('A story I sometimes carry is…')).toHaveValue('  I may have learned I disappoint people.  ');
-      await expect(page.getByLabel('Use my SY2 trace')).toBeChecked();
+      await expect(page.getByLabel('Use what I wrote earlier')).toBeChecked();
       await page.getByRole('link', { name: 'Sign in' }).click();
       await page.getByLabel('Email').fill(user.email);
       await page.getByLabel('Password').fill(user.password);
       await Promise.all([page.waitForURL(/\/dashboard$/), page.getByRole('button', { name: 'Sign in' }).click()]);
       await page.goto(appRuntimeUrl(`${base}?section=recognition`));
-      await page.getByLabel('Use my SY2 trace').check();
+      await page.getByLabel('Use what I wrote earlier').check();
       await page.getByRole('button', { name: 'Save changes' }).click();
     }
     await expect(page.getByRole('status')).toContainText('Your words were saved.');
     expect((await pool.query(query, [user.email])).rows[0]).toMatchObject({ source_sy2_record_id: source, source_was_linked: true });
     await pool.query('delete from public.see_clearly_sy2_records where id=$1', [source]);
     await page.reload();
-    await expect(page.getByRole('status')).toContainText('Your earlier SY2 source is no longer available.');
+    await expect(page.getByRole('status')).toContainText('Your own words remain here.');
+    await expect(page.getByRole('complementary', { name: 'Your earlier words' })).toHaveCount(0);
     expect((await pool.query(query, [user.email])).rows[0]).toMatchObject({ source_sy2_record_id: null, self_story_hypothesis: before[0].self_story_hypothesis, completed_at: before[0].completed_at });
     await page.goto(appRuntimeUrl(`${base}?section=reflection`));
     await page.getByRole('button', { name: 'Delete reflection' }).click();
@@ -112,6 +116,6 @@ test('SY3 recognition fits three viewports with keyboard focus', async ({ page }
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What Is Actually True About Me/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to What Is Actually True About Me/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-is-actually-true-about-me');
   } finally { await resetLocalE2eAccount(user.email); }
 });

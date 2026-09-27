@@ -23,6 +23,6 @@ export const SG1_SECTIONS: readonly SG1Section[] = [
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'From picture to expectation', paragraphs: [
     'The picture of God I learned may help explain how I relate to Him. A learned picture is not automatically the final truth about God. Keep it in view with curiosity.',
     'In an ordinary moment of failure, prayer, or waiting, what do I find myself expecting from Him?',
-    'In the coming days, notice when this picture becomes visible. You do not need to correct it or prove where it came from.'
+    'In the coming days, notice when this picture of God becomes visible. You do not need to correct it or prove where it came from.'
   ] },
 ];

@@ -21,7 +21,7 @@ function Recognition({ record, source, completed, saveStory }: Pick<Props, 'reco
     {source ? <fieldset className="sy2-trace__source"><legend>Where would you like to begin?</legend>
       <label><input type="radio" name="source_choice" checked={useSource} onChange={() => setUseSource(true)} />Use what I wrote earlier</label>
       <label><input type="radio" name="source_choice" checked={!useSource} onChange={() => setUseSource(false)} />Start from what I have been noticing lately</label>
-    </fieldset> : <p>You can start from what you have been noticing lately. No earlier trace is needed.</p>}
+    </fieldset> : <p>You can start with something you have been noticing lately.</p>}
     {useSource && source ? <aside className="sy3-recognition__source" aria-label="Your earlier words">
       <p className="eyebrow">YOUR EARLIER WORDS</p>
       {([['What I saw', source.perception], ['What I believed', source.belief], ['What I expected', source.expectation], ['What I desired', source.desire], ['What I intended', source.intention], ['What I chose', source.choice], ['How I lived', source.outcome]] as const).map(([label, value]) => value ? <p key={label}><strong>{label}:</strong> {value}</p> : null)}

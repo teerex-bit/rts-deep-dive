@@ -30,7 +30,8 @@ test('SG2 guided expectation, review, deletion, and responsive recognition', asy
       await page.getByRole('button', { name: section.id === 'examples' ? 'Begin' : 'Continue' }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
-    await expect(page.getByText('Look back at my SG1 picture (optional)')).toBeVisible();
+    await page.getByText('Look back at what I wrote earlier (optional)').click();
+    await expect(page.getByText('  He seemed distant.  ')).toBeVisible();
     for (const width of [375, 768, 1536]) {
       await page.setViewportSize({ width, height: 900 });
       await expect(page.getByLabel('In that moment, I expected God to…')).toBeVisible();
@@ -43,7 +44,7 @@ test('SG2 guided expectation, review, deletion, and responsive recognition', asy
     await expect(page).toHaveURL(/section=reflection$/);
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to Jesus Shows Us the Father/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to Jesus Shows Us the Father/ })).toHaveAttribute('href', '/deep-dive/see-clearly/jesus-shows-us-the-father');
     const query = `select p.completed_at,p.updated_at,r.situation,r.expectation from public.deep_dive_module_progress p
       left join public.see_clearly_sg2_records r on r.progress_id=p.id where p.user_id=$1 and p.module_id='see-clearly.sg2'`;
     const before = (await pool.query(query, [owner])).rows;

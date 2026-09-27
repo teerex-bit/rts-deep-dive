@@ -11,6 +11,8 @@ describe('SY3 authored story', () => {
   it('keeps one tentative participant field and allows continuation without disclosure', () => {
     expect(SY3_SECTIONS.map(section => section.id)).toEqual(['entry', 'teaching', 'recognition', 'clarification', 'reflection', 'carry-forward']);
     render(<SY3Lesson {...props} section={SY3_SECTIONS[2]} />);
+    expect(screen.getByText('You can start with something you have been noticing lately.')).toBeInTheDocument();
+    expect(screen.queryByRole('group', { name: 'Where would you like to begin?' })).not.toBeInTheDocument();
     expect(screen.getAllByRole('textbox')).toHaveLength(1);
     expect(screen.getByLabelText('A story I sometimes carry is…')).toHaveValue('');
     expect(screen.getByRole('button', { name: 'Continue without saving a story' })).toBeInTheDocument();

@@ -28,7 +28,8 @@ test('SY4 guided truth, owned SY3 link, deletion, review, and movement handoff',
     }
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await expect(page.getByRole('heading', { name: 'What has authority?' })).toBeVisible();
-    await expect(page.getByText('You can continue without a saved SY3 story.')).toBeVisible();
+    await expect(page.getByLabel('A truth I want to learn to live from is…')).toBeVisible();
+    await expect(page.getByRole('group', { name: 'Bring something you wrote earlier into view?' })).toHaveCount(0);
     const input = page.getByLabel('A truth I want to learn to live from is…');
     await input.fill('  I want to live from what God has made new.  ');
     await page.getByRole('button', { name: 'Save & continue' }).click();
@@ -41,7 +42,7 @@ test('SY4 guided truth, owned SY3 link, deletion, review, and movement handoff',
     await page.getByLabel(reflection).fill('  I often trust the familiar story first.  ');
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to The God I Learned/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to The God I Learned/ })).toHaveAttribute('href', '/deep-dive/see-clearly/the-god-i-learned');
     const query = `select p.last_section_id,p.completed_at,p.updated_at,r.truth_to_live_from,r.source_sy3_record_id,r.source_was_linked,f.body
       from public.deep_dive_module_progress p left join public.see_clearly_sy4_records r on r.progress_id=p.id
       left join public.deep_dive_reflections f on f.progress_id=p.id and f.prompt_id='sy4-reflection'
@@ -63,25 +64,29 @@ test('SY4 guided truth, owned SY3 link, deletion, review, and movement handoff',
     }
     expect((await pool.query(query, [user.email])).rows).toEqual(before);
     await page.goto(appRuntimeUrl(`${base}?section=look-again`));
-    await page.getByLabel('Look at my SY3 story').check();
-    await expect(page.getByRole('complementary', { name: 'Your SY3 story' })).toContainText('I may have learned to earn acceptance.');
+    await page.getByLabel('Yes, show what I wrote').check();
+    await expect(page.getByRole('complementary', { name: 'A story I learned to carry' })).toContainText('I may have learned to earn acceptance.');
+    await page.getByLabel('No, continue without it').check();
+    await expect(page.getByRole('complementary', { name: 'A story I learned to carry' })).toHaveCount(0);
+    await page.getByLabel('Yes, show what I wrote').check();
     await page.getByRole('button', { name: 'Save changes' }).click();
     if (await page.getByRole('alert').filter({ hasText: 'Your session ended.' }).count()) {
       await expect(page.getByLabel('A truth I want to learn to live from is…')).toHaveValue('  I want to live from what God has made new.  ');
-      await expect(page.getByLabel('Look at my SY3 story')).toBeChecked();
+      await expect(page.getByLabel('Yes, show what I wrote')).toBeChecked();
       await page.getByRole('link', { name: 'Sign in' }).click();
       await page.getByLabel('Email').fill(user.email);
       await page.getByLabel('Password').fill(user.password);
       await Promise.all([page.waitForURL(/\/dashboard$/), page.getByRole('button', { name: 'Sign in' }).click()]);
       await page.goto(appRuntimeUrl(`${base}?section=look-again`));
-      await page.getByLabel('Look at my SY3 story').check();
+      await page.getByLabel('Yes, show what I wrote').check();
       await page.getByRole('button', { name: 'Save changes' }).click();
     }
     await expect(page.getByRole('status')).toContainText('Your words were saved.');
     expect((await pool.query(query, [user.email])).rows[0]).toMatchObject({ source_sy3_record_id: source, source_was_linked: true });
     await pool.query('delete from public.see_clearly_sy3_records where id=$1', [source]);
     await page.reload();
-    await expect(page.getByRole('status')).toContainText('Your earlier SY3 story is no longer available.');
+    await expect(page.getByRole('complementary', { name: 'A story I learned to carry' })).toHaveCount(0);
+    await expect(page.getByLabel('A truth I want to learn to live from is…')).toHaveValue(before[0].truth_to_live_from);
     expect((await pool.query(query, [user.email])).rows[0]).toMatchObject({ truth_to_live_from: before[0].truth_to_live_from, source_sy3_record_id: null, completed_at: before[0].completed_at });
     await page.goto(appRuntimeUrl(`${base}?section=reflection`));
     await page.getByRole('button', { name: 'Delete reflection' }).click();
@@ -120,6 +125,6 @@ test('SY4 optional no-source path and focused responsive truth surface', async (
     await page.getByRole('button', { name: 'Continue without saving a statement' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to The God I Learned/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to The God I Learned/ })).toHaveAttribute('href', '/deep-dive/see-clearly/the-god-i-learned');
   } finally { await resetLocalE2eAccount(user.email); }
 });

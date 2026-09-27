@@ -76,7 +76,7 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     await expect(page).toHaveURL(/\/deep-dive\/see-clearly\/what-has-become-clear$/);
     await expect(page.getByRole('heading', { name: 'What Has Become Clear' })).toBeVisible();
     await page.getByLabel('The story I can see so far').fill('I am beginning to see my responses more clearly.');
-    await page.getByRole('button', { name: 'Confirm what I want to carry' }).click();
+    await page.getByRole('button', { name: 'YES — SAVE THIS RECAP' }).click();
     await page.getByRole('link', { name: 'Continue to Become' }).click();
     await expect(page).toHaveURL(/\/deep-dive\/become$/);
     await expect(page.getByRole('heading', { name: 'Live With God' })).toBeVisible();

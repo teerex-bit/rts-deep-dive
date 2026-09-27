@@ -12,17 +12,30 @@ export const recapPrompts = [
 export type RecapSource = { module: string; title: string; href: string; words: string[]; progressId: string };
 export type RecapRecord = { narrative: string; clarification: string; carryForward: string; confirmedAt: Date | null };
 export function provisionalNarrative(items: RecapSource[]) {
-  const lead: Record<string, string> = {
-    sc1: 'I began with what happened and what it seemed to mean:',
-    sy2: 'I followed what that moment set in motion:',
-    sy3: 'A story I may have learned to carry sounded like this:',
-    sy4: 'I began to put a deeper truth into my own words:',
-    sg1: 'The picture of God I had learned seemed to be:',
-    sg2: 'In an ordinary moment, I noticed an expectation:',
-    sg3: 'Looking at Jesus, I noticed:',
-    sg4: 'With the outcome still open, I wondered what trust might mean:',
-  };
-  const sentences = items.map(item => `${lead[item.module] ?? 'I noticed:'} “${item.words.join('” and “')}”`);
-  const self = items.filter(item => ['sc1', 'sy2', 'sy3', 'sy4'].includes(item.module)).length;
-  return [sentences.slice(0, self).join(' '), sentences.slice(self).join(' ')].filter(Boolean).join('\n\n');
+  const byModule = new Map(items.map(item => [item.module, item.words]));
+  const quote = (word: string) => `“${word}”`;
+  const self: string[] = [];
+  const moment = byModule.get('sc1');
+  if (moment) self.push(moment.length > 1
+    ? `I described what happened as ${quote(moment[0])}, and the meaning that arrived was ${quote(moment[1])}.`
+    : `I described what happened as ${quote(moment[0])}.`);
+  const chain = byModule.get('sy2');
+  if (chain) self.push(chain.length > 1
+    ? `Following a reaction, my words began with ${quote(chain[0])} and reached ${quote(chain[chain.length - 1])}.`
+    : `Following a reaction, I noticed ${quote(chain[0])}.`);
+  const story = byModule.get('sy3');
+  if (story) self.push(`A story I sometimes carried was ${quote(story[0])}.`);
+  const truth = byModule.get('sy4');
+  if (truth) self.push(`I also wrote a truth I want to live from: ${quote(truth[0])}.`);
+
+  const god: string[] = [];
+  const picture = byModule.get('sg1');
+  if (picture) god.push(`A picture of God I had learned was ${quote(picture[0])}.`);
+  const expectation = byModule.get('sg2');
+  if (expectation) god.push(`In a real moment, I expected ${quote(expectation[0])}.`);
+  const observation = byModule.get('sg3');
+  if (observation) god.push(`Looking at Jesus, I noticed ${quote(observation[0])}.`);
+  const trust = byModule.get('sg4');
+  if (trust) god.push(`With an outcome still open, I wrote ${quote(trust[0])}.`);
+  return [self.join(' '), god.join(' ')].filter(Boolean).join('\n');
 }
