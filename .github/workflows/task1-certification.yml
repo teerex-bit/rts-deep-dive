@@ -111,17 +111,6 @@ jobs:
 
       - name: Browser and visual-authority tests
         run: npm run test:e2e
-      - name: Review-enabled navigator browser tests
-        env:
-          REVIEW_TEST_ACCESS: 'true'
-          REVIEW_TEST_USER_EMAIL: review-navigator@rts.test
-        run: |
-          export RTS_DATABASE_URL="$TEST_DATABASE_URL"
-          export DATABASE_URL="$TEST_DATABASE_URL"
-          export NEXT_PUBLIC_SUPABASE_URL="$SUPABASE_URL"
-          export NEXT_PUBLIC_SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY"
-          export NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$SUPABASE_ANON_KEY"
-          npx playwright test tests/e2e/review-navigator.spec.ts --workers=1
       - name: Preserve Awaken viewport screenshots
         if: always()
         uses: actions/upload-artifact@v4
@@ -144,6 +133,17 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      - name: Review-enabled navigator browser tests
+        env:
+          REVIEW_TEST_ACCESS: 'true'
+          REVIEW_TEST_USER_EMAIL: review-navigator@rts.test
+        run: |
+          export RTS_DATABASE_URL="$TEST_DATABASE_URL"
+          export DATABASE_URL="$TEST_DATABASE_URL"
+          export NEXT_PUBLIC_SUPABASE_URL="$SUPABASE_URL"
+          export NEXT_PUBLIC_SUPABASE_ANON_KEY="$SUPABASE_ANON_KEY"
+          export NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$SUPABASE_ANON_KEY"
+          npx playwright test tests/e2e/review-navigator.spec.ts --workers=1
 
       - name: Guided Deep Dive journey and historical isolation from clean database twice
         shell: bash

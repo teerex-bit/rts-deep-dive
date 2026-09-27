@@ -23,6 +23,14 @@ test('Task 6 E2E obtains the actual local anonymous key after Supabase starts', 
   assert.match(workflow, /SUPABASE_ANON_KEY=.*ANON_KEY.*GITHUB_ENV/);
 });
 
+test('Task 1 preserves viewport screenshots before another Playwright invocation clears test results', () => {
+  const browser = workflow.indexOf('- name: Browser and visual-authority tests');
+  const screenshots = workflow.indexOf('- name: Preserve Awaken viewport screenshots');
+  const reviewBrowser = workflow.indexOf('- name: Review-enabled navigator browser tests');
+  assert.ok(browser >= 0 && browser < screenshots && screenshots < reviewBrowser);
+  assert.match(workflow.slice(screenshots, reviewBrowser), /if-no-files-found: error/);
+});
+
 test('Task 6 E2E pins every application runtime alias before dotenv can supply a target', () => {
   const validated = {
     TEST_DATABASE_URL: 'postgresql://postgres:postgres@127.0.0.1:54322/postgres',
