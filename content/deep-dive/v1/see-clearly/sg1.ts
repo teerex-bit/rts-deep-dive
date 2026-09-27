@@ -18,10 +18,11 @@ export const SG1_SECTIONS: readonly SG1Section[] = [
   ] },
   { id: 'reflection', eyebrow: 'HOLD THE DISTINCTION', title: 'Familiar is not final', paragraphs: [
     'Understanding what may have shaped a picture does not prove it true or false. It helps us distinguish what formed my picture of God from what God is actually like. We do not need to force an answer before we have seen the picture clearly.',
-    'For the next few days, simply notice when that picture becomes visible: after failure, in prayer, during uncertainty or disappointment, while afraid, or while waiting. You do not need to correct it yet or make an app entry. Notice what feels familiar, and leave room for further examination. You may reflect privately without proving where it came from.',
+    'What picture seems familiar to you today, and where do you notice it? You may keep this tentative.',
   ] },
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'From picture to expectation', paragraphs: [
     'The picture of God I learned may help explain how I relate to Him. A learned picture is not automatically the final truth about God. Keep it in view with curiosity.',
     'In an ordinary moment of failure, prayer, or waiting, what do I find myself expecting from Him?',
+    'In the coming days, notice when this picture becomes visible. You do not need to correct it or prove where it came from.'
   ] },
 ];

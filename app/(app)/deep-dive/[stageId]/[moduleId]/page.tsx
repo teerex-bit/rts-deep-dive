@@ -16,6 +16,7 @@ import { SG1Page } from '../../../../../components/deep-dive/SG1Page';
 import { SG2Page } from '../../../../../components/deep-dive/SG2Page';
 import { SG3Page } from '../../../../../components/deep-dive/SG3Page';
 import { SG4Page } from '../../../../../components/deep-dive/SG4Page';
+import { SeeClearlyRecapPage } from '../../../../../components/deep-dive/SeeClearlyRecapPage';
 import { A1_SECTIONS } from '../../../../../content/deep-dive/v1';
 import { A2_SECTIONS } from '../../../../../content/deep-dive/v1/awaken/catch-yourself-being-you';
 import { completeA1, completeA2, editDeepDiveReflection, getA1, getA2, saveA1Reflection, saveA1Section, saveA2Reflection, saveA2Section } from '../../../../../server/services/deep-dive-service';
@@ -105,8 +106,9 @@ async function A2Page({ query }: { query: { section?: string } }) {
   );
 }
 
-export default async function A1Page({ params, searchParams }: { params: Promise<{ stageId: string; moduleId: string }>; searchParams: Promise<{ section?: string }> }) {
+export default async function A1Page({ params, searchParams }: { params: Promise<{ stageId: string; moduleId: string }>; searchParams: Promise<{ section?: string; returnTo?: string }> }) {
   const { stageId, moduleId } = await params; const query = await searchParams;
+  if (stageId === 'see-clearly' && moduleId === 'what-has-become-clear') return SeeClearlyRecapPage();
   if (stageId === 'see-clearly' && moduleId === 'facts-and-interpretation') return SC1Page({ query });
   if (stageId === 'see-clearly' && moduleId === 'follow-the-formation-chain') return SY2Page({ query });
   if (stageId === 'see-clearly' && moduleId === 'the-learned-self-story') return SY3Page({ query });

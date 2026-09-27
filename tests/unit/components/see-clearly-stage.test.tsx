@@ -70,7 +70,7 @@ describe('See Clearly movements', () => {
     render(<SeeClearlyStage status="review" sy2Status="review" sy3Status="review" sy4Status="review"
       sg1Status="review" sg2Status="review" sg3Status="review" sg4Status="review" />);
     expect(screen.getByRole('link', { name: 'Review SG4' })).toHaveAttribute('href', '/deep-dive/see-clearly/can-i-trust-god-here?section=entry');
-    expect(screen.getByText('See Clearly complete · Become is next')).toBeInTheDocument();
+    expect(screen.getByText('See Clearly complete · Your story comes together')).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /Begin Become/ })).not.toBeInTheDocument();
   });
 });

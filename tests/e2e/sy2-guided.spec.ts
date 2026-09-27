@@ -28,7 +28,7 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     await page.goto(appRuntimeUrl(`${base}?section=chain`));
     await expect(page.getByRole('heading', { name: 'The formation chain' })).toBeVisible();
     await page.goto(appRuntimeUrl(`${base}?section=trace`));
-    await expect(page.getByText(/You do not need a saved SY1 moment/)).toBeVisible();
+    await expect(page.getByText(/Use a recent moment/)).toBeVisible();
     const context = page.getByRole('list', { name: 'Your place in the formation chain' });
     await expect(context.locator('[aria-current="step"]')).toContainText('SEE');
     await expect(context).toContainText('LIVE');
@@ -60,7 +60,7 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
       } else {
         await page.getByRole('button', { name: 'Complete lesson' }).click();
         await expect(page).toHaveURL(/section=carry-forward$/);
-    await expect(page.getByRole('link', { name: /Return to See Yourself Clearly · SY3 is next/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to The Learned Self-Story/ })).toBeVisible();
       }
     }
     const query = `select p.last_section_id,p.completed_at,p.updated_at,r.perception,r.belief,r.source_sc1_record_id,r.updated_at as record_updated_at,
@@ -85,8 +85,8 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     const source = (await pool.query<{ id: string }>(`insert into public.see_clearly_sc1_records(user_id,progress_id,event_facts,automatic_interpretation)
       values($1,$2,'The message arrived.','I thought it meant a change.') returning id`, [owner, sy1Progress])).rows[0].id;
     await page.goto(appRuntimeUrl(`${base}?section=trace`));
-    await page.getByLabel('Use my SY1 moment').check();
-    await expect(page.getByRole('complementary', { name: 'Your SY1 moment' })).toContainText('The message arrived.');
+    await page.getByLabel('Use a moment I wrote about earlier').check();
+    await expect(page.getByRole('complementary', { name: 'A moment you wrote about earlier' })).toContainText('The message arrived.');
     await page.getByRole('button', { name: 'Save changes' }).click();
     await expect(page.getByRole('status')).toContainText('Your trace was saved.');
     expect((await pool.query(query, [user.email])).rows[0]).toMatchObject({ source_sc1_record_id: source });

@@ -12,7 +12,7 @@ import { deleteSY3Reflection } from '../../server/services/see-clearly-sy3-servi
 const route = '/deep-dive/see-clearly/the-learned-self-story';
 const group = '/deep-dive/see-clearly#see-yourself-heading';
 
-export async function SY3Page({ query }: { query: { section?: string } }) {
+export async function SY3Page({ query }: { query: { section?: string; returnTo?: string } }) {
   const { progress, record, source } = await getSY3();
   const state = lessonState({ sections: SY3_SECTIONS, pathname: route, groupHref: group,
     requestedSection: query.section, lastSectionId: progress?.lastSectionId,
@@ -37,6 +37,7 @@ export async function SY3Page({ query }: { query: { section?: string } }) {
     const sourceId = String(formData.get('source_sy2_record_id') ?? '') || null;
     try { await saveSY3Story(wording, sourceId); }
     catch (error) { return lessonSaveFailure(error, 'We could not save your words. They are still here; please try again.'); }
+    if (completed && query.returnTo === 'recap') redirect('/deep-dive/see-clearly/what-has-become-clear');
     if (completed) return { saved: true };
     redirect(`${route}?section=clarification`);
   }
@@ -82,6 +83,7 @@ export async function SY3Page({ query }: { query: { section?: string } }) {
         <div className="deep-dive-progress__track"><label htmlFor="sy3-progress">Section {index + 1} of {SY3_SECTIONS.length}</label><progress id="sy3-progress" value={index + 1} max={SY3_SECTIONS.length} /></div>
       </section>
       <div className="deep-dive-content">
+        {completed && query.returnTo === 'recap' ? <Link className="deep-dive-stage-actions__back" href="/deep-dive/see-clearly/what-has-become-clear">← Back to What Has Become Clear</Link> : null}
         <SY3Lesson section={section} record={record} source={source} reflection={progress?.reflection ?? null}
           completed={completed} reviewReflection={state.reviewReflection} saveStory={saveStory}
           saveReflection={saveReflection} editReflection={editReflection} deleteReflection={deleteReflection} />
@@ -91,7 +93,7 @@ export async function SY3Page({ query }: { query: { section?: string } }) {
               : <LessonTransitionForm action={advance} section={next.id} label={index === 0 ? 'Begin' : 'Continue'} />}
           </> : <><p className="deep-dive-transition__title">Carry the question forward.</p>
             {completed ? <nav className="deep-dive-completion-actions" aria-label="Continue your journey">
-              <Link className="button" href="/deep-dive/see-clearly#see-yourself-sy4">Return to See Yourself Clearly · SY4 is next</Link>
+              <Link className="button" href="/deep-dive/see-clearly/what-is-actually-true-about-me">Continue to What Is Actually True About Me</Link>
               <Link className="deep-dive-completion-actions__back" href={group}>Back to See Yourself Clearly</Link>
             </nav> : <LessonTransitionForm action={finish} label="Complete lesson" />}
           </>}

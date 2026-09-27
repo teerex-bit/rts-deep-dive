@@ -15,7 +15,7 @@ describe('SY2 authored flow', () => {
   });
   it('offers an independent moment and a deliberate owned SY1 source without assuming its meaning', () => {
     render(<SY2Lesson {...props} section={SY2_SECTIONS[3]} source={{ id: 'owned', eventFacts: 'A message went unanswered.', automaticInterpretation: 'I felt ignored.' }} />);
-    expect(screen.getByLabelText('Use my SY1 moment')).toBeInTheDocument();
+    expect(screen.getByLabelText('Use a moment I wrote about earlier')).toBeInTheDocument();
     expect(screen.getByLabelText('Use another recent moment')).toBeInTheDocument();
     expect(screen.getByLabelText('What was I seeing in this moment?')).toHaveValue('');
     expect(screen.getByRole('button', { name: 'Continue without saving this trace' })).toBeInTheDocument();

@@ -18,7 +18,7 @@ describe('SG4 trust in one unresolved moment', () => {
   });
   it('shows SG3 wording as optional read-only context without pre-filling trust', () => {
     render(<SG4Lesson {...actions} section={SG4_SECTIONS[3]} record={null} sg3Context={{ observation: '  Jesus remained with Peter.  ' }} reflection={null} completed={false} reviewReflection={false} />);
-    expect(screen.getByText('My SG3 observation (optional)')).toBeInTheDocument();
+    expect(screen.getByText('What I noticed earlier (optional)')).toBeInTheDocument();
     expect(screen.getAllByRole('textbox')).toHaveLength(2);
     expect(screen.getByLabelText('In this situation, trusting God would mean…')).toHaveValue('');
   });

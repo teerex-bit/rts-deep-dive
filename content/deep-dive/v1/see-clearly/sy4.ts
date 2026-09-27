@@ -2,7 +2,7 @@ export type SY4Section = Readonly<{ id: string; eyebrow: string; title: string; 
 
 export const SY4_SECTIONS: readonly SY4Section[] = [
   { id: 'entry', eyebrow: 'SEE CLEARLY · PART I · SY4', title: 'What gets to define me?', paragraphs: [
-    'In the last lesson you may have named a story you sometimes carry. A familiar story can feel true simply because it is familiar. Experience, failure, rejection, praise, criticism, and the roles we have filled can reinforce a conclusion until it seems to speak for us.',
+    'You may have named a story you sometimes carry. A familiar story can feel true simply because it is familiar. Experience, failure, rejection, praise, criticism, and the roles we have filled can reinforce a conclusion until it seems to speak for us.',
     'Those experiences matter. They may explain why a story formed and why it still feels powerful. But an explanation of how a conclusion formed is not the same as a verdict about who you are. Who—or what—has the authority to tell you who you are?',
   ] },
   { id: 'formation', eyebrow: 'REAL, BUT NOT FINAL', title: 'Formation is not identity', paragraphs: [
@@ -16,14 +16,15 @@ export const SY4_SECTIONS: readonly SY4Section[] = [
     'This does not make effort or responsibility unimportant. There is work to do and formation to practice. We can own a failure and repair what we can. We can learn a different response. But we do these things from a different starting place, rather than asking performance to establish our worth.',
   ] },
   { id: 'look-again', eyebrow: 'LOOK AGAIN', title: 'What has authority?', paragraphs: [
-    'If you named a story in SY3, you may bring your own sentence into view here. You can also continue without it. Notice the difference between a story that experience taught you and the deeper authority Scripture names. Do not rush to turn one sentence into its opposite.',
+    'If you named a story earlier, you may bring your own sentence into view here. You can also continue without it. Notice the difference between a story that experience taught you and the deeper authority Scripture names. Do not rush to turn one sentence into its opposite.',
     'You may still be unsure what words you want to carry. If a truth from this teaching is becoming clearer, write it in your own words. It can remain tentative and change as you learn. You do not need to prove certainty or contradict every part of your earlier story.',
   ] },
   { id: 'reflection', eyebrow: 'IN YOUR DAY', title: 'Pause before the verdict', paragraphs: [
-    'For the next few days, when a moment seems to confirm an old story, pause and ask: “What am I allowing this moment to say about who I am?” Take the event seriously. Criticism, failure, rejection, and consequences may need a response. Then return to what has been established as true, without allowing the event to become the final authority over your identity.',
+    'What feels difficult about allowing a deeper truth to speak more strongly than a familiar verdict? You may name what is still uncertain now.',
   ] },
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'The picture of God I carry', paragraphs: [
     'What formed me matters. What formed me does not have final authority to define me. You can carry that distinction into ordinary moments, even while old reactions take time to change.',
     'The way we see ourselves and the way we see God are not unrelated. If acceptance has felt earned, we may expect God to make us earn it. If weakness has felt unsafe, surrender may feel dangerous. If authority has been unpredictable, trust may be difficult. What picture of God have I learned to carry?',
+    'In the coming days, when a moment seems to confirm an old story, ask: “What am I allowing this moment to say about who I am?” Take the event seriously without letting it become the final verdict.'
   ] },
 ];

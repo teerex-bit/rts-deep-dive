@@ -13,7 +13,7 @@ import { completeSY2, getSY2, saveSY2Chain, saveSY2Reflection, saveSY2Section } 
 const route = '/deep-dive/see-clearly/follow-the-formation-chain';
 const group = '/deep-dive/see-clearly#see-yourself-heading';
 
-export async function SY2Page({ query }: { query: { section?: string } }) {
+export async function SY2Page({ query }: { query: { section?: string; returnTo?: string } }) {
   const { progress, record, source } = await getSY2();
   const state = lessonState({ sections: SY2_SECTIONS, pathname: route, groupHref: group,
     requestedSection: query.section, lastSectionId: progress?.lastSectionId,
@@ -41,6 +41,7 @@ export async function SY2Page({ query }: { query: { section?: string } }) {
     if (!sy2ChainFields.some(field => chain[field])) return { error: 'Write a link or continue without saving this trace.' };
     try { await saveSY2Chain(chain); }
     catch (error) { return lessonSaveFailure(error, 'Could not save your trace. Your words are still here; please try again.'); }
+    if (completed && query.returnTo === 'recap') redirect('/deep-dive/see-clearly/what-has-become-clear');
     if (completed) return { saved: true };
     redirect(`${route}?section=distinction`);
   }
@@ -80,6 +81,7 @@ export async function SY2Page({ query }: { query: { section?: string } }) {
         <div className="deep-dive-progress__track"><label htmlFor="sy2-progress">Section {index + 1} of {SY2_SECTIONS.length}</label><progress id="sy2-progress" value={index + 1} max={SY2_SECTIONS.length} /></div>
       </section>
       <div className="deep-dive-content">
+        {completed && query.returnTo === 'recap' ? <Link className="deep-dive-stage-actions__back" href="/deep-dive/see-clearly/what-has-become-clear">← Back to What Has Become Clear</Link> : null}
         <SY2Lesson section={section} record={record} source={source} reflection={progress?.reflection ?? null}
           completed={completed} reviewReflection={state.reviewReflection} saveChain={saveChain}
           saveReflection={saveReflection} editReflection={editReflection} />
@@ -89,7 +91,7 @@ export async function SY2Page({ query }: { query: { section?: string } }) {
               : <LessonTransitionForm action={advance} section={next.id} label={index === 0 ? 'Begin' : 'Continue'} />}
           </> : <><p className="deep-dive-transition__title">See where the chain begins.</p>
             {completed ? <nav className="deep-dive-completion-actions" aria-label="Continue your journey">
-              <Link className="button" href="/deep-dive/see-clearly#see-yourself-sy3">Return to See Yourself Clearly · SY3 is next</Link>
+              <Link className="button" href="/deep-dive/see-clearly/the-learned-self-story">Continue to The Learned Self-Story</Link>
               <Link className="deep-dive-completion-actions__back" href={group}>Back to See Yourself Clearly</Link>
             </nav> : <LessonTransitionForm action={finish} label="Complete lesson" />}
           </>}

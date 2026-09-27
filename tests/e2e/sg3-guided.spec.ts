@@ -33,7 +33,9 @@ test('SG3 guided observation, review and deletion preserve exact participant sta
     await expect(page).toHaveURL(/\/deep-dive\/see-clearly#see-god-heading$/);
     const owner = (await pool.query<{ id: string }>('select id from auth.users where email=$1', [user.email])).rows[0].id;
     await seedPrerequisites(pool, owner);
-    await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
+    // The prerequisite redirect has already landed on this hub. Reload its settled frame
+    // after fixture setup instead of starting a second navigation over that redirect.
+    await page.reload();
     await expect(page.getByRole('link', { name: 'Begin SG3' })).toBeVisible();
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await expect(page.getByRole('heading', { name: 'Look at Jesus' })).toBeVisible();
@@ -63,7 +65,7 @@ test('SG3 guided observation, review and deletion preserve exact participant sta
     await page.getByLabel('What feels familiar or surprising as you look at Jesus?').fill('  Mercy and truth appear together.  ');
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /SG4 is next/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to Can I Trust God Here?/ })).toBeVisible();
     const query = `select p.completed_at,p.updated_at,r.observation,f.body from public.deep_dive_module_progress p
       left join public.see_clearly_sg3_records r on r.progress_id=p.id
       left join public.deep_dive_reflections f on f.progress_id=p.id and f.prompt_id='sg3-reflection'
@@ -106,7 +108,7 @@ test('SG3 optional observation and reflection can both be skipped', async ({ pag
     await page.getByRole('button', { name: 'Continue without saving' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /SG4 is next/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to Can I Trust God Here?/ })).toBeVisible();
     expect((await pool.query(`select count(*)::integer as n from public.see_clearly_sg3_records where user_id=$1`, [owner])).rows[0].n).toBe(0);
   } finally { await pool.end(); await resetLocalE2eAccount(user.email); }
 });

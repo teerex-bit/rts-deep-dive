@@ -19,14 +19,14 @@ function Recognition({ record, source, completed, saveStory }: Pick<Props, 'reco
   const [useSource, setUseSource] = useState(Boolean(record?.sourceSy2RecordId && source));
   return <form className="sy3-recognition" action={action} onReset={event => event.preventDefault()}>
     {source ? <fieldset className="sy2-trace__source"><legend>Where would you like to begin?</legend>
-      <label><input type="radio" name="source_choice" checked={useSource} onChange={() => setUseSource(true)} />Use my SY2 trace</label>
+      <label><input type="radio" name="source_choice" checked={useSource} onChange={() => setUseSource(true)} />Use what I wrote earlier</label>
       <label><input type="radio" name="source_choice" checked={!useSource} onChange={() => setUseSource(false)} />Start from what I have been noticing lately</label>
     </fieldset> : <p>You can start from what you have been noticing lately. No earlier trace is needed.</p>}
-    {useSource && source ? <aside className="sy3-recognition__source" aria-label="Your SY2 trace">
-      <p className="eyebrow">YOUR EARLIER WORDS · SY2</p>
+    {useSource && source ? <aside className="sy3-recognition__source" aria-label="Your earlier words">
+      <p className="eyebrow">YOUR EARLIER WORDS</p>
       {([['What I saw', source.perception], ['What I believed', source.belief], ['What I expected', source.expectation], ['What I desired', source.desire], ['What I intended', source.intention], ['What I chose', source.choice], ['How I lived', source.outcome]] as const).map(([label, value]) => value ? <p key={label}><strong>{label}:</strong> {value}</p> : null)}
     </aside> : null}
-    {record?.sourceWasLinked && !record.sourceSy2RecordId ? <p role="status">Your earlier SY2 source is no longer available. Your own story wording remains here.</p> : null}
+    {record?.sourceWasLinked && !record.sourceSy2RecordId ? <p role="status">Your own words remain here.</p> : null}
     <input type="hidden" name="source_sy2_record_id" value={useSource ? source?.id ?? '' : ''} />
     <label htmlFor="sy3-story">A story I sometimes carry is…</label>
     <p id="sy3-story-help">As you think about this moment—and other moments that have felt similar—what does the story underneath them seem to say about you?</p>

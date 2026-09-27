@@ -22,10 +22,10 @@ describe('SY4 authored authority lesson', () => {
   it('shows owned SY3 wording read only and preserves source choice across retry', () => {
     const source = { id: 'owned', selfStoryHypothesis: 'I must earn approval.' };
     render(<SY4Lesson {...props} section={SY4_SECTIONS[3]} source={source} />);
-    fireEvent.click(screen.getByLabelText('Look at my SY3 story'));
-    fireEvent.reset(screen.getByLabelText('Look at my SY3 story').closest('form')!);
-    expect(screen.getByLabelText('Look at my SY3 story')).toBeChecked();
-    expect(screen.getByRole('complementary', { name: 'Your SY3 story' })).toHaveTextContent('I must earn approval.');
+    fireEvent.click(screen.getByLabelText('Yes, show what I wrote'));
+    fireEvent.reset(screen.getByLabelText('Yes, show what I wrote').closest('form')!);
+    expect(screen.getByLabelText('Yes, show what I wrote')).toBeChecked();
+    expect(screen.getByRole('complementary', { name: 'A story I learned to carry' })).toHaveTextContent('I must earn approval.');
     expect(screen.getByText('WHAT HAS AUTHORITY TO DEFINE ME?')).toBeInTheDocument();
   });
   it('clears the review editor when a separate reflection is deleted', () => {

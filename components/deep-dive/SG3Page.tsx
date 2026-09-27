@@ -13,7 +13,7 @@ import { deleteSG3Reflection } from '../../server/services/see-clearly-sg3-servi
 const route = '/deep-dive/see-clearly/jesus-shows-us-the-father';
 const group = '/deep-dive/see-clearly#see-god-heading';
 
-export async function SG3Page({ query }: { query: { section?: string } }) {
+export async function SG3Page({ query }: { query: { section?: string; returnTo?: string } }) {
   const [{ progress, record }, { record: sg2Context, progress: sg2Progress }] = await Promise.all([getSG3(), getSG2()]);
   if (!sg2Progress?.completedAt) redirect(group);
   const state = lessonState({ sections: SG3_SECTIONS, pathname: route, groupHref: group,
@@ -38,6 +38,7 @@ export async function SG3Page({ query }: { query: { section?: string } }) {
     if (!observation.trim()) return { error: 'Write an observation or continue without saving.' };
     try { await saveSG3Record(observation); }
     catch (error) { return lessonSaveFailure(error, 'We could not save your words. They are still here; please try again.'); }
+    if (completed && query.returnTo === 'recap') redirect('/deep-dive/see-clearly/what-has-become-clear');
     if (completed) return { saved: true };
     redirect(`${route}?section=reflection`);
   }
@@ -89,6 +90,7 @@ export async function SG3Page({ query }: { query: { section?: string } }) {
         <div className="deep-dive-progress__track"><label htmlFor="sg3-progress">Section {index + 1} of {SG3_SECTIONS.length}</label><progress id="sg3-progress" value={index + 1} max={SG3_SECTIONS.length} /></div>
       </section>
       <div className="deep-dive-content">
+        {completed && query.returnTo === 'recap' ? <Link className="deep-dive-stage-actions__back" href="/deep-dive/see-clearly/what-has-become-clear">← Back to What Has Become Clear</Link> : null}
         <SG3Lesson section={section} record={record} sg2Context={sg2Context} reflection={progress?.reflection ?? null}
           completed={completed} reviewReflection={state.reviewReflection} saveRecord={saveRecord} deleteRecord={deleteRecord}
           saveReflection={saveReflection} editReflection={editReflection} deleteReflection={deleteReflection} />
@@ -98,7 +100,7 @@ export async function SG3Page({ query }: { query: { section?: string } }) {
               : <LessonTransitionForm action={advance} section={next.id} label={index === 0 ? 'Begin' : 'Continue'} />}
           </> : <><p className="deep-dive-transition__title">Carry this observation into the next question.</p>
             {completed ? <nav className="deep-dive-completion-actions" aria-label="Continue your journey">
-              <Link className="button" href="/deep-dive/see-clearly#see-god-heading">Return to See God Clearly · SG4 is next</Link>
+              <Link className="button" href="/deep-dive/see-clearly/can-i-trust-god-here">Continue to Can I Trust God Here?</Link>
               <Link className="deep-dive-completion-actions__back" href={group}>Back to See God Clearly</Link>
             </nav> : <LessonTransitionForm action={finish} label="Complete lesson" />}
           </>}

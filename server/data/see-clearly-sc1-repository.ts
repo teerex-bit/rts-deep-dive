@@ -91,7 +91,7 @@ export function seeClearlySC1Repository() {
           `select id,completed_at from public.deep_dive_module_progress
            where user_id=$1 and module_id=$2 for update`, [actorId, SC1_MODULE_ID],
         )).rows[0];
-        if (!progress || progress.completed_at) throw new Error('SC1 review is read-only.');
+        if (!progress) throw new Error('Open this lesson before writing.');
         await client.query(
           `insert into public.see_clearly_sc1_records(user_id,progress_id,source_entry_id,event_facts,automatic_interpretation)
            values($1,$2,$3,$4,$5)

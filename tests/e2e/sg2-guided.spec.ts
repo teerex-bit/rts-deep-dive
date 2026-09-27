@@ -43,7 +43,7 @@ test('SG2 guided expectation, review, deletion, and responsive recognition', asy
     await expect(page).toHaveURL(/section=reflection$/);
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /SG3 is next/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to Jesus Shows Us the Father/ })).toBeVisible();
     const query = `select p.completed_at,p.updated_at,r.situation,r.expectation from public.deep_dive_module_progress p
       left join public.see_clearly_sg2_records r on r.progress_id=p.id where p.user_id=$1 and p.module_id='see-clearly.sg2'`;
     const before = (await pool.query(query, [owner])).rows;

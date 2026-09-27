@@ -17,13 +17,13 @@ describe('SC1 guided lesson', () => {
     expect(screen.getByText('Look again at the difference')).toBeInTheDocument();
   });
 
-  it('labels distinct participant fields and keeps review read-only', () => {
+  it('labels distinct participant fields and lets review edit the original wording', () => {
     const record = { eventFacts: 'The message was read.', automaticInterpretation: 'I upset my friend.', sourceEntryId: null };
     const { rerender } = render(<SC1Lesson {...props} section={SC1_SECTIONS[3]} record={record} />);
     expect(screen.getByLabelText(/What could a careful witness observe/)).toHaveValue('The message was read.');
     expect(screen.getByLabelText(/What did you immediately make it mean/)).toHaveValue('I upset my friend.');
     rerender(<SC1Lesson {...props} section={SC1_SECTIONS[3]} record={record} completed />);
-    expect(screen.getByRole('region', { name: 'Your saved moment' })).toHaveTextContent('I upset my friend.');
-    expect(screen.queryByRole('button', { name: 'Save & continue' })).not.toBeInTheDocument();
+    expect(screen.getByLabelText(/What did you immediately make it mean/)).toHaveValue('I upset my friend.');
+    expect(screen.getByRole('button', { name: 'Save changes' })).toBeInTheDocument();
   });
 });

@@ -19,7 +19,7 @@ describe('See Clearly stage continuation', () => {
   });
 
   it('hands completed See Clearly to the real Become doorway', () => {
-    expect(seeClearlyStageAction(completed)).toEqual({ label: 'CONTINUE TO BECOME', href: '/deep-dive/become' });
+    expect(seeClearlyStageAction(completed)).toEqual({ label: 'REVIEW WHAT HAS BECOME CLEAR', href: '/deep-dive/see-clearly/what-has-become-clear' });
   });
 
   it('keeps the lesson review links and gives the hub a journey return', () => {

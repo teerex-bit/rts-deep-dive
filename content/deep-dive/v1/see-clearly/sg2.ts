@@ -14,10 +14,11 @@ export const SG2_SECTIONS: readonly SG2Section[] = [
   ] },
   { id: 'reflection', eyebrow: 'HOLD IT WITH CURIOSITY', title: 'Notice without forcing an answer', paragraphs: [
     'An expectation may feel familiar even when you would not choose it as a statement of belief. You do not need to decide today where it came from or whether it accurately describes God.',
-    'Over the next few days, notice when a similar expectation appears. Which moment brings it into view? You may reflect privately; there is no need to produce an explanation.',
+    'What expectation did you notice in the moment you considered? You can hold it with curiosity now.',
   ] },
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'Look toward Jesus', paragraphs: [
     'You have named an expectation that may appear in a real moment. Hold it with openness rather than treating it as the final word.',
     'Look at Jesus and notice what He reveals about the Father. Let what you see remain alongside the expectation you named, without forcing a conclusion yet.',
+    'In the coming days, notice whether a similar expectation appears. Which moment brings it into view? There is no need to produce an explanation.'
   ] },
 ];

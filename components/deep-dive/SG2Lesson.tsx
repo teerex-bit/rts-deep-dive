@@ -24,7 +24,7 @@ function Recognition({ record, sg1Context, completed, saveRecord, deleteRecord }
   const [situation, setSituation] = useState(record?.situation ?? '');
   const [expectation, setExpectation] = useState(record?.expectation ?? '');
   return <div className="sg1-recognition">
-    {sg1Context ? <details className="sg1-recognition__frame"><summary>Look back at my SG1 picture (optional)</summary>
+    {sg1Context ? <details className="sg1-recognition__frame"><summary>Look back at what I wrote earlier (optional)</summary>
       <p>{sg1Context.learnedGodImage}</p><p>This is your earlier wording for context. It does not determine what you expect here.</p></details> : null}
     <form action={action} className="sg1-recognition__form">
       <label htmlFor="sg2-situation">A real moment I noticed…</label>

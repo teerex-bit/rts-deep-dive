@@ -12,7 +12,7 @@ import { deleteSY4Reflection } from '../../server/services/see-clearly-sy4-servi
 const route = '/deep-dive/see-clearly/what-is-actually-true-about-me';
 const group = '/deep-dive/see-clearly#see-yourself-heading';
 
-export async function SY4Page({ query }: { query: { section?: string } }) {
+export async function SY4Page({ query }: { query: { section?: string; returnTo?: string } }) {
   const { progress, record, source } = await getSY4();
   const state = lessonState({ sections: SY4_SECTIONS, pathname: route, groupHref: group,
     requestedSection: query.section, lastSectionId: progress?.lastSectionId,
@@ -37,6 +37,7 @@ export async function SY4Page({ query }: { query: { section?: string } }) {
     const sourceId = String(formData.get('source_sy3_record_id') ?? '') || null;
     try { await saveSY4Truth(wording, sourceId); }
     catch (error) { return lessonSaveFailure(error, 'We could not save your words. They are still here; please try again.'); }
+    if (completed && query.returnTo === 'recap') redirect('/deep-dive/see-clearly/what-has-become-clear');
     if (completed) return { saved: true };
     redirect(`${route}?section=reflection`);
   }
@@ -82,6 +83,7 @@ export async function SY4Page({ query }: { query: { section?: string } }) {
         <div className="deep-dive-progress__track"><label htmlFor="sy4-progress">Section {index + 1} of {SY4_SECTIONS.length}</label><progress id="sy4-progress" value={index + 1} max={SY4_SECTIONS.length} /></div>
       </section>
       <div className="deep-dive-content">
+        {completed && query.returnTo === 'recap' ? <Link className="deep-dive-stage-actions__back" href="/deep-dive/see-clearly/what-has-become-clear">← Back to What Has Become Clear</Link> : null}
         <SY4Lesson section={section} record={record} source={source} reflection={progress?.reflection ?? null}
           completed={completed} reviewReflection={state.reviewReflection} saveTruth={saveTruth}
           saveReflection={saveReflection} editReflection={editReflection} deleteReflection={deleteReflection} />
@@ -91,7 +93,7 @@ export async function SY4Page({ query }: { query: { section?: string } }) {
               : <LessonTransitionForm action={advance} section={next.id} label={index === 0 ? 'Begin' : 'Continue'} />}
           </> : <><p className="deep-dive-transition__title">Carry what is true into ordinary moments.</p>
             {completed ? <nav className="deep-dive-completion-actions" aria-label="Continue your journey">
-              <Link className="button" href="/deep-dive/see-clearly#see-god-heading">Return to See Clearly · See God Clearly is next</Link>
+              <Link className="button" href="/deep-dive/see-clearly/the-god-i-learned">Continue to The God I Learned</Link>
               <Link className="deep-dive-completion-actions__back" href={group}>Back to See Yourself Clearly</Link>
             </nav> : <LessonTransitionForm action={finish} label="Complete lesson" />}
           </>}

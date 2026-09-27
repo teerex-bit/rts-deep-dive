@@ -18,10 +18,11 @@ export const SG4_SECTIONS: readonly SG4Section[] = [
   ] },
   { id: 'reflection', eyebrow: 'LEAVE ROOM FOR THE UNKNOWN', title: 'What remains yours to do?', paragraphs: [
     'Trust does not require doing nothing. A responsible next step may be yours even when the outcome is not. Notice what you can choose, what you cannot secure, and what remains difficult to release. There is no need to claim more certainty than you have.',
-    'In the next few days, notice when the urge to control this situation rises. You may ask what is yours to do and what you are trying to carry beyond your reach. This is a question to live with, not a new app task or a test of spiritual maturity.',
+    'What remains yours to do in this situation while the outcome is open? You may name a small step or leave this open.',
   ] },
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'Bring the question into life', paragraphs: [
     'You have noticed a learned picture of God, a real expectation, what Jesus reveals, and one place where trust is a live question. You do not need every part settled to keep living with God. Carry the situation and your own wording into ordinary life.',
     'Release control → Receive the moment → Take the next right step → Repeat. You can practice this rhythm while the question remains open, without claiming to know how the situation will end.',
+    'In the coming days, notice when the urge to control rises. Ask what is yours to do and what you are trying to carry beyond your reach. This is a question to live with, not a task to complete here.'
   ] },
 ];

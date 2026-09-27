@@ -19,10 +19,11 @@ export const SG3_SECTIONS: readonly SG3Section[] = [
   ] },
   { id: 'reflection', eyebrow: 'LET THE PICTURE BREATHE', title: 'Notice the difference', paragraphs: [
     'You may find that something you see in Jesus sits comfortably beside what you have expected from God. You may also notice a tension. Neither response needs to be forced into a settled answer. Seeing carefully comes before explaining everything.',
-    'In the coming days, read one Gospel encounter slowly. Ask what Jesus notices, how He responds, and what He refuses to compromise. Let the scene speak before asking what you should do with it.',
+    'What do you notice in Jesus now? Is there a point of comfort or tension alongside what you have expected from God? An open question is welcome.',
   ] },
   { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'A question that can enter real life', paragraphs: [
     'You may now have a learned picture, an expectation that appears in a real moment, and something you have noticed in Jesus. These may not yet fit together neatly. You can carry the observation without declaring that all uncertainty has ended.',
     'In one unresolved situation, what might it mean to trust the God you have seen in Jesus? You do not need to predict the outcome to ask honestly.',
+    'In the coming days, read a Gospel encounter slowly. What does Jesus notice? How does He respond? What does He refuse to compromise? What does this show you about God?'
   ] },
 ];

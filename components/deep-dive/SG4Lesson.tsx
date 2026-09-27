@@ -24,7 +24,7 @@ function TrustQuestion({ record, sg3Context, completed, saveRecord, deleteRecord
   const [situation, setSituation] = useState(record?.situation ?? '');
   const [trustMeaning, setTrustMeaning] = useState(record?.trustMeaning ?? '');
   return <div className="sg4-trust">
-    {sg3Context ? <details className="sg4-trust__context"><summary>My SG3 observation (optional)</summary>
+    {sg3Context ? <details className="sg4-trust__context"><summary>What I noticed earlier (optional)</summary>
       <blockquote>{sg3Context.observation}</blockquote><p>Your earlier words are here for context. They do not supply your answer.</p></details> : null}
     <form action={action} className="sg4-trust__form">
       <div className="sg4-trust__moment">

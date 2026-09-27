@@ -21,7 +21,7 @@ type LessonStatus = 'begin' | 'resume' | 'review';
 
 export function seeClearlyStageAction(statuses: readonly LessonStatus[]) {
   const next = statuses.findIndex(status => status !== 'review');
-  if (next < 0 || next >= lessonRoutes.length) return { label: 'CONTINUE TO BECOME', href: '/deep-dive/become' };
+  if (next < 0 || next >= lessonRoutes.length) return { label: 'REVIEW WHAT HAS BECOME CLEAR', href: '/deep-dive/see-clearly/what-has-become-clear' };
   return {
     label: statuses[next] === 'resume' ? 'RESUME SEE CLEARLY' : 'CONTINUE SEE CLEARLY',
     title: [...selfLessons, ...godLessons][next],
@@ -57,7 +57,7 @@ export function SeeClearlyStage({ status, sy2Status, sy3Status, sy4Status, sg1St
         <h2 id="see-god-heading">See God Clearly</h2>
         {sy4Status === 'review' && sg2Status !== 'review' ? <p className="see-clearly-movement__next">Up next: {sg1Status === 'review' ? 'SG2 — What I Expect From God' : 'SG1 — The God I Learned'}</p> : null}
         {sg2Status === 'review' && sg4Status !== 'review' ? <p className="see-clearly-movement__next">Up next: {sg3Status === 'review' ? 'SG4 — Can I Trust God Here?' : 'SG3 — Jesus Shows Us the Father'}</p> : null}
-        {sg4Status === 'review' ? <p className="see-clearly-movement__next">See Clearly complete · Become is next</p> : null}
+        {sg4Status === 'review' ? <p className="see-clearly-movement__next">See Clearly complete · Your story comes together</p> : null}
         <p>Then examine the picture of God you actually expect and live from.</p>
         <ol className="see-clearly-movement__lessons" aria-label="See God Clearly modules">
           {godLessons.map((title, index) => <li key={title} id={`see-god-sg${index + 1}`}><span className="see-clearly-movement__number">SG{index + 1}</span><span>{title}</span>

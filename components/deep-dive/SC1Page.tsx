@@ -11,7 +11,7 @@ import { completeSC1, editSC1Reflection, getSC1, saveSC1Reflection, saveSC1Respo
 
 const route = '/deep-dive/see-clearly/facts-and-interpretation';
 
-export async function SC1Page({ query }: { query: { section?: string } }) {
+export async function SC1Page({ query }: { query: { section?: string; returnTo?: string } }) {
   const { progress, record, sources } = await getSC1();
   const completionNavigation = seeClearlyNavigation('sc1');
   const state = lessonState({ sections: SC1_SECTIONS, pathname: route, groupHref: completionNavigation.backHref, requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection' });
@@ -35,6 +35,7 @@ export async function SC1Page({ query }: { query: { section?: string } }) {
     } catch (error) {
       return lessonSaveFailure(error, 'Could not save your moment. Your words are still here; please try again.');
     }
+    if (completed && query.returnTo === 'recap') redirect('/deep-dive/see-clearly/what-has-become-clear');
     redirect(`${route}?section=reflection`);
   }
   async function saveReflection(_: SC1SaveState, formData: FormData): Promise<SC1SaveState> {
@@ -79,6 +80,7 @@ export async function SC1Page({ query }: { query: { section?: string } }) {
         <div className="deep-dive-progress__track"><label htmlFor="sc1-progress">Section {index + 1} of {SC1_SECTIONS.length}</label><progress id="sc1-progress" value={index + 1} max={SC1_SECTIONS.length} /></div>
       </section>
       <div className="deep-dive-content">
+        {completed && query.returnTo === 'recap' ? <Link className="deep-dive-stage-actions__back" href="/deep-dive/see-clearly/what-has-become-clear">← Back to What Has Become Clear</Link> : null}
         <SC1Lesson section={section} record={record} reflection={progress?.reflection ?? null} sources={sources} completed={completed} reviewReflection={reviewReflection} saveResponse={saveResponse} saveReflection={saveReflection} editReflection={editReflection} />
         {(section.id !== 'interaction' && section.id !== 'reflection' || completed || section.id === 'reflection' && reviewReflection) && <footer className="deep-dive-transition">
           {next ? <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>

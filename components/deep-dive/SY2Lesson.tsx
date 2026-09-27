@@ -39,14 +39,14 @@ function Trace({ record, source, completed, saveChain }: Pick<Props, 'record' | 
   const anyWords = sy2ChainFields.some(item => words[item].trim());
   return <form className="sy2-trace" action={action}>
     {source ? <fieldset className="sy2-trace__source"><legend>Choose a starting point</legend>
-      <label><input type="radio" name="source_choice" value="source" checked={mode === 'source'} onChange={() => setMode('source')} />Use my SY1 moment</label>
+      <label><input type="radio" name="source_choice" value="source" checked={mode === 'source'} onChange={() => setMode('source')} />Use a moment I wrote about earlier</label>
       <label><input type="radio" name="source_choice" value="new" checked={mode === 'new'} onChange={() => setMode('new')} />Use another recent moment</label>
-    </fieldset> : <p className="sy2-trace__source-note">Use another recent moment. You do not need a saved SY1 moment to continue.</p>}
-    {mode === 'source' && source ? <aside className="sy2-trace__reference" aria-label="Your SY1 moment">
+    </fieldset> : <p className="sy2-trace__source-note">Use a recent moment.</p>}
+    {mode === 'source' && source ? <aside className="sy2-trace__reference" aria-label="A moment you wrote about earlier">
       <p><strong>What happened:</strong> {source.eventFacts}</p>
       <p><strong>What it meant then:</strong> {source.automaticInterpretation}</p>
     </aside> : null}
-    {record?.sourceWasLinked && !record.sourceSc1RecordId ? <p role="status">Your earlier SY1 source is no longer available. Your own chain wording remains here.</p> : null}
+    {record?.sourceWasLinked && !record.sourceSc1RecordId ? <p role="status">Your own words remain here.</p> : null}
     <input type="hidden" name="source_sc1_record_id" value={mode === 'source' ? source?.id ?? '' : ''} />
     {sy2ChainFields.map(item => <input key={item} type="hidden" name={item} value={words[item]} />)}
     <ol className="sy2-trace__chain" aria-label="Your place in the formation chain">

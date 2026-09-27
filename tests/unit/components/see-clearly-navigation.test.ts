@@ -11,7 +11,7 @@ describe('See Clearly group navigation', () => {
     expect(seeClearlyNavigation('sc1')).toMatchObject({ nextLabel: 'Continue to Follow the Formation Chain', nextHref: '/deep-dive/see-clearly/follow-the-formation-chain' });
     expect(seeClearlyNavigation('sy2').nextLabel).toBe('Continue to The Learned Self-Story');
     expect(seeClearlyNavigation('sy3').nextLabel).toBe('Continue to What Is Actually True About Me');
-    expect(seeClearlyNavigation('sy4')).toMatchObject({ transition: 'You have finished See Yourself Clearly. Next: See God Clearly.', nextLabel: 'Continue to The God I Learned', nextHref: '/deep-dive/see-clearly#see-god-sg1' });
+    expect(seeClearlyNavigation('sy4')).toMatchObject({ transition: 'You have finished See Yourself Clearly.', nextLabel: 'Continue to The God I Learned', nextHref: '/deep-dive/see-clearly/the-god-i-learned' });
   });
 
   it('keeps the second movement within See God Clearly and hands off to Become', () => {
@@ -23,6 +23,6 @@ describe('See Clearly group navigation', () => {
     expect(seeClearlyNavigation('sg1').nextLabel).toBe('Continue to What I Expect From God');
     expect(seeClearlyNavigation('sg2').nextLabel).toBe('Continue to Jesus Shows Us the Father');
     expect(seeClearlyNavigation('sg3').nextLabel).toBe('Continue to Can I Trust God Here?');
-    expect(seeClearlyNavigation('sg4').nextLabel).toBe('Continue to Become');
+    expect(seeClearlyNavigation('sg4').nextLabel).toBe('Continue to What Has Become Clear');
   });
 });

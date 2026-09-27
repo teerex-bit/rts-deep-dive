@@ -32,10 +32,6 @@ function Moment({ record, sources, completed, saveResponse }: Pick<Props, 'recor
   const [state, action, pending] = useActionState(saveResponse, {});
   const [facts, setFacts] = useState(record?.eventFacts ?? '');
   const [meaning, setMeaning] = useState(record?.automaticInterpretation ?? '');
-  if (completed) return <section className="sc1-saved-moment" aria-label="Your saved moment">
-    <div><h2>What happened</h2><p>{record?.eventFacts ?? 'Your source entry was removed.'}</p></div>
-    <div><h2>What it meant to you</h2><p>{record?.automaticInterpretation ?? 'Your source entry was removed.'}</p></div>
-  </section>;
   return <form className="sc1-moment" action={action}>
     {sources.length ? <label className="sc1-moment__source" htmlFor="sc1-source">Connect an earlier Awaken moment (optional)
       <select id="sc1-source" name="source_entry_id" defaultValue={record?.sourceEntryId ?? ''}>
@@ -52,7 +48,7 @@ function Moment({ record, sources, completed, saveResponse }: Pick<Props, 'recor
       </label>
     </div>
     <p className="sc1-moment__bridge">What happened <span aria-hidden="true">→</span> what I believed it meant</p>
-    <button className="button" type="submit" disabled={pending || !facts.trim() || !meaning.trim()}>{pending ? 'Saving…' : 'Save & continue'}</button>
+    <button className="button" type="submit" disabled={pending || !facts.trim() || !meaning.trim()}>{pending ? 'Saving…' : completed ? 'Save changes' : 'Save & continue'}</button>
     <LessonActionError error={state.error} />
   </form>;
 }

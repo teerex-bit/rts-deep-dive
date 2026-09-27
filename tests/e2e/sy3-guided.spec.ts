@@ -37,7 +37,7 @@ test('SY3 story, optional source, resume, review, deletion lineage, and handoff'
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await expect(page).toHaveURL(/section=carry-forward$/);
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /SY4 is next/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to What Is Actually True About Me/ })).toBeVisible();
     const query = `select p.completed_at,p.updated_at,p.last_section_id,r.self_story_hypothesis,r.source_sy2_record_id,r.source_was_linked,
       f.body from public.deep_dive_module_progress p left join public.see_clearly_sy3_records r on r.progress_id=p.id
       left join public.deep_dive_reflections f on f.progress_id=p.id and f.prompt_id='sy3-reflection'
@@ -112,6 +112,6 @@ test('SY3 recognition fits three viewports with keyboard focus', async ({ page }
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /SY4 is next/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Continue to What Is Actually True About Me/ })).toBeVisible();
   } finally { await resetLocalE2eAccount(user.email); }
 });

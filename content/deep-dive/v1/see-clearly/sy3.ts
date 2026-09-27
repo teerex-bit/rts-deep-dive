@@ -7,7 +7,7 @@ export const SY3_SECTIONS: readonly SY3Section[] = [
     "paragraphs": [
       "Imagine Mara receiving a brief correction at work. She thanks her coworker, then spends the afternoon replaying the exchange. Later she forgets something she had promised to do and works late to make up for it. That evening, a friend seems quieter than usual. Mara sends another message, wondering whether she has upset them.",
       "From the outside, these moments look different. Mara rechecks her work, tries to repair a mistake, and seeks reassurance from a friend. Underneath them, a familiar sentence may be gathering strength: “I am disappointing people.” She might not say those words aloud. She may simply feel the pressure to prove she is still okay with everyone.",
-      "Mara's sentence is an example, not an explanation for your life. Your moments may have nothing in common with hers. This lesson invites you to listen for a conclusion that sometimes seems to follow you from one situation to another, while leaving room for the possibility that you do not hear one yet."
+      "Mara's sentence is an example, not an explanation for your life. Your moments may have nothing in common with hers. You are invited to listen for a conclusion that sometimes seems to follow you from one situation to another, while leaving room for the possibility that you do not hear one yet."
     ]
   },
   {
@@ -26,7 +26,7 @@ export const SY3_SECTIONS: readonly SY3Section[] = [
     "eyebrow": "YOUR WORDS",
     "title": "The sentence underneath",
     "paragraphs": [
-      "You may look at your SY2 trace as a reminder of one moment, or begin with what you have been noticing lately. A single moment may not show a recurring story. Think also of other moments that have felt similar, without trying to make them fit."
+      "You may look at words you wrote earlier as a reminder of one moment, or begin with what you have been noticing lately. A single moment may not show a recurring story. Think also of other moments that have felt similar, without trying to make them fit."
     ]
   },
   {
@@ -43,7 +43,7 @@ export const SY3_SECTIONS: readonly SY3Section[] = [
     "eyebrow": "IN YOUR DAY",
     "title": "Notice when it speaks",
     "paragraphs": [
-      "For the next few days, notice moments that seem to say something about you. Criticism, a mistake, appreciation, or someone's disappointment may each stir a sentence. Pause long enough to notice what that sentence says and whether it sounds familiar. You do not need to correct it, explain its origin, share it with anyone, or force a conclusion. Noticing is enough for now."
+      "What sentence seems to speak about you right now? You may name it tentatively, or leave the question open."
     ]
   },
   {
@@ -52,7 +52,8 @@ export const SY3_SECTIONS: readonly SY3Section[] = [
     "title": "A question worth carrying",
     "paragraphs": [
       "The story you learned may have shaped you deeply. That does not automatically make it true. Carry your tentative sentence forward if you have one; if you do not, carry the question. You can return and revise your words as you notice more.",
-      "A familiar story can feel true without having the authority to define you. The question worth carrying forward is: What is actually true about me?"
+      "A familiar story can feel true without having the authority to define you. The question worth carrying forward is: What is actually true about me?",
+      "In the coming days, notice moments that seem to say something about you. Pause long enough to hear whether a familiar sentence appears. You do not need to correct it or explain its origin. Noticing is enough."
     ]
   }
 ];

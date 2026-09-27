@@ -14,7 +14,7 @@ export const SY2_SECTIONS: readonly SY2Section[] = [
     'This is an example, not an interpretation of you. The other person may have been busy, and any link in my account could be wrong or incomplete. A different first meaning could lead somewhere else.',
   ] },
   { id: 'trace', eyebrow: 'YOUR MOMENT', title: 'Trace one real moment', paragraphs: [
-    'Choose a recent moment you can look at without forcing certainty. If you saved a moment in SY1, you may use it as a starting reference. You may also choose a different moment. Your words here belong to this trace; the earlier moment will not supply conclusions for you.',
+    'Choose a recent moment you can look at without forcing certainty. If you wrote about a moment earlier, you may use it as a starting point. You may also choose a different moment. Your words here belong to this trace; the earlier moment will not supply conclusions for you.',
     'Follow the links one at a time. Leave a link open when you do not know, or continue without saving a trace at all.',
   ] },
   { id: 'distinction', eyebrow: 'A USEFUL DISTINCTION', title: 'Belief and desire are different', paragraphs: [

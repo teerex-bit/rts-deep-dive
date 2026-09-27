@@ -82,7 +82,7 @@ test('SY1 teaches and saves a distinct fact and interpretation, resumes, and rev
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
       await expect(page.getByRole('heading', { level: 1, name: section.title })).toBeVisible();
       if (section.id === 'interaction') {
-        await expect(page.getByRole('region', { name: 'Your saved moment' })).toContainText('The message was read at 10:15.');
+        await expect(page.getByLabel('What could a careful witness observe?')).toHaveValue('The message was read at 10:15.');
         await page.getByRole('link', { name: '← Back' }).click();
         await expect(page).toHaveURL(/section=contrast$/);
         await expect(page.getByRole('heading', { level: 1, name: 'The same event, more than one meaning' })).toBeVisible();

@@ -18,21 +18,21 @@ describe('SY3 authored story', () => {
   it('offers an owned trace read only and keeps a deleted-source explanation', () => {
     const source = { id: 'owned', perception: 'The room became quiet.', belief: 'I had said too much.', expectation: null, desire: null, intention: null, choice: null, outcome: null };
     render(<SY3Lesson {...props} section={SY3_SECTIONS[2]} source={source} record={{ selfStoryHypothesis: 'Maybe I disappoint people.', sourceSy2RecordId: 'owned', sourceWasLinked: true }} />);
-    expect(screen.getByRole('complementary', { name: 'Your SY2 trace' })).toHaveTextContent('The room became quiet.');
+    expect(screen.getByRole('complementary', { name: 'Your earlier words' })).toHaveTextContent('The room became quiet.');
     expect(screen.getByLabelText('A story I sometimes carry is…')).toHaveValue('Maybe I disappoint people.');
     cleanup();
     render(<SY3Lesson {...props} completed section={SY3_SECTIONS[2]} record={{ selfStoryHypothesis: 'Maybe I disappoint people.', sourceSy2RecordId: null, sourceWasLinked: true }} />);
-    expect(screen.getByRole('status')).toHaveTextContent('earlier SY2 source is no longer available');
+    expect(screen.getByRole('status')).toHaveTextContent('own words remain here');
     expect(screen.getByRole('button', { name: 'Save changes' })).toBeInTheDocument();
   });
   it('keeps the selected source when a server action reports a retry state', () => {
     const source = { id: 'owned', perception: 'A moment.', belief: null, expectation: null, desire: null, intention: null, choice: null, outcome: null };
     render(<SY3Lesson {...props} section={SY3_SECTIONS[2]} source={source} />);
-    fireEvent.click(screen.getByLabelText('Use my SY2 trace'));
-    const form = screen.getByLabelText('Use my SY2 trace').closest('form')!;
+    fireEvent.click(screen.getByLabelText('Use what I wrote earlier'));
+    const form = screen.getByLabelText('Use what I wrote earlier').closest('form')!;
     fireEvent.reset(form);
-    expect(screen.getByLabelText('Use my SY2 trace')).toBeChecked();
-    expect(screen.getByRole('complementary', { name: 'Your SY2 trace' })).toBeInTheDocument();
+    expect(screen.getByLabelText('Use what I wrote earlier')).toBeChecked();
+    expect(screen.getByRole('complementary', { name: 'Your earlier words' })).toBeInTheDocument();
   });
   it('uses the approved single reflection question', () => {
     render(<SY3Lesson {...props} section={SY3_SECTIONS[4]} />);

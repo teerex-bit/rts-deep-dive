@@ -18,15 +18,14 @@ function LookAgain({ record, source, completed, saveTruth }: Pick<Props, 'record
   const [wording, setWording] = useState(record?.truthToLiveFrom ?? '');
   const [useSource, setUseSource] = useState(Boolean(record?.sourceSy3RecordId && source));
   return <form className="sy4-look-again" action={action} onReset={event => event.preventDefault()}>
-    {source ? <fieldset className="sy2-trace__source"><legend>Bring your own words into view?</legend>
-      <label><input type="radio" name="source_choice" checked={useSource} onChange={() => setUseSource(true)} />Look at my SY3 story</label>
-      <label><input type="radio" name="source_choice" checked={!useSource} onChange={() => setUseSource(false)} />Continue without using it</label>
-    </fieldset> : <p>You can continue without a saved SY3 story.</p>}
-    {useSource && source ? <aside className="sy4-look-again__source" aria-label="Your SY3 story">
-      <p className="eyebrow">THE STORY I LEARNED · SY3</p>
+    {source ? <fieldset className="sy2-trace__source"><legend>Bring something you wrote earlier into view?</legend>
+      <label><input type="radio" name="source_choice" checked={useSource} onChange={() => setUseSource(true)} />Yes, show what I wrote</label>
+      <label><input type="radio" name="source_choice" checked={!useSource} onChange={() => setUseSource(false)} />No, continue without it</label>
+    </fieldset> : null}
+    {useSource && source ? <aside className="sy4-look-again__source" aria-label="A story I learned to carry">
+      <p className="eyebrow">A STORY I LEARNED TO CARRY</p>
       <p>{source.selfStoryHypothesis}</p>
     </aside> : null}
-    {record?.sourceWasLinked && !record.sourceSy3RecordId ? <p role="status">Your earlier SY3 story is no longer available. Your own truth wording remains here.</p> : null}
     <div className="sy4-look-again__authority"><p className="eyebrow">WHAT HAS AUTHORITY TO DEFINE ME?</p>
       <p>New creation and God’s workmanship speak to identity before performance. Your earlier story can be examined without being given the final word.</p></div>
     <input type="hidden" name="source_sy3_record_id" value={useSource ? source?.id ?? '' : ''} />
