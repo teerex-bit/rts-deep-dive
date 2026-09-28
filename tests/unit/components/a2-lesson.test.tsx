@@ -54,18 +54,25 @@ describe('A2 participant experience', () => {
     expect(screen.getByRole('region', { name: 'Practice for the next few days' })).toHaveTextContent(/collect observations/i);
   });
 
-  it('lets the participant connect situations to recurring responses without saving those choices', () => {
+  it('moves through selected moments one at a time and shows the existing synthesis without saving choices', () => {
     const saveReflection = vi.fn();
     render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'patterns')!} reflection={null} saveReflection={saveReflection} />);
 
     fireEvent.click(screen.getByRole('checkbox', { name: 'A plan changes unexpectedly' }));
     fireEvent.click(screen.getByRole('checkbox', { name: 'I feel overlooked' }));
-    fireEvent.change(screen.getByLabelText('First internal move for A plan changes unexpectedly'), { target: { value: 'Urgency' } });
-    fireEvent.change(screen.getByLabelText('Typical response for A plan changes unexpectedly'), { target: { value: 'Control' } });
-    fireEvent.change(screen.getByLabelText('First internal move for I feel overlooked'), { target: { value: 'Insecurity' } });
-    fireEvent.change(screen.getByLabelText('Typical response for I feel overlooked'), { target: { value: 'Control' } });
-    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('Different things were happening inside');
-    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('both moments moved toward control');
+    expect(screen.queryByLabelText('What happened inside when A plan changes unexpectedly')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'LOOK AT THESE MOMENTS' }));
+    expect(screen.getByText('MOMENT 1 OF 2')).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('What happened inside when A plan changes unexpectedly'), { target: { value: 'Urgency' } });
+    fireEvent.change(screen.getByLabelText('What did you do when A plan changes unexpectedly'), { target: { value: 'Control' } });
+    fireEvent.click(screen.getByRole('button', { name: 'NEXT MOMENT' }));
+    expect(screen.queryByLabelText('What happened inside when A plan changes unexpectedly')).not.toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('What happened inside when I feel overlooked'), { target: { value: 'Insecurity' } });
+    fireEvent.change(screen.getByLabelText('What did you do when I feel overlooked'), { target: { value: 'Control' } });
+    fireEvent.click(screen.getByRole('button', { name: 'SEE WHAT MAY REPEAT' }));
+    const synthesis = screen.getByRole('region', { name: 'Pattern discovery' });
+    expect(synthesis).toHaveTextContent('Different things were happening inside');
+    expect(synthesis).toHaveTextContent('both moments moved toward control');
     expect(saveReflection).not.toHaveBeenCalled();
   });
 
@@ -74,12 +81,16 @@ describe('A2 participant experience', () => {
 
     fireEvent.click(screen.getByRole('checkbox', { name: 'A plan changes unexpectedly' }));
     fireEvent.click(screen.getByRole('checkbox', { name: 'I feel overlooked' }));
-    fireEvent.change(screen.getByLabelText('First internal move for A plan changes unexpectedly'), { target: { value: 'Urgency' } });
-    fireEvent.change(screen.getByLabelText('Typical response for A plan changes unexpectedly'), { target: { value: 'Control' } });
-    fireEvent.change(screen.getByLabelText('First internal move for I feel overlooked'), { target: { value: 'Insecurity' } });
+    fireEvent.click(screen.getByRole('button', { name: 'LOOK AT THESE MOMENTS' }));
+    fireEvent.change(screen.getByLabelText('What happened inside when A plan changes unexpectedly'), { target: { value: 'Urgency' } });
+    fireEvent.change(screen.getByLabelText('What did you do when A plan changes unexpectedly'), { target: { value: 'Control' } });
+    fireEvent.click(screen.getByRole('button', { name: 'NEXT MOMENT' }));
+    fireEvent.change(screen.getByLabelText('What happened inside when I feel overlooked'), { target: { value: 'Insecurity' } });
+    fireEvent.click(screen.getByRole('button', { name: 'SEE WHAT MAY REPEAT' }));
 
-    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('You have noticed one moment.');
-    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).not.toHaveTextContent('Control');
+    const synthesis = screen.getByRole('region', { name: 'Pattern discovery' });
+    expect(synthesis).toHaveTextContent('You have noticed one moment.');
+    expect(synthesis).not.toHaveTextContent('both moments moved toward control');
   });
 
   it('opens with ordinary situations before teaching the idea of patterns', () => {

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { AppShell } from '../design-system/AppShell';
 import { AwakenCompletionNav } from './AwakenCompletionNav';
+import { AwakenMovementCue } from './AwakenMovementCue';
 import { lessonState, advanceLessonSection, finishLesson, attemptLessonTransition, lessonSaveFailure } from './lesson-state';
 import { LessonTransitionForm, type LessonTransitionState } from './LessonTransitionForm';
 import { A3Lesson, A4Lesson, type NewReflectionSaveState } from './A3A4Lesson';
@@ -63,12 +64,13 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
 
   const review = state.completed;
   const reviewReflection = state.reviewReflection;
-  return <AppShell stage="Awaken"><section className="deep-dive-shell">
+  return <AppShell stage="Awaken"><section className="deep-dive-shell deep-dive-shell--awaken-v2">
     <div className="deep-dive-topline"><Link href={state.backHref}>← Back</Link><span>Formation Journey <span aria-hidden="true">/</span> {a3 ? 'A3' : 'A4'}</span></div>
     <div className="deep-dive-layout">
       <section className="deep-dive-progress" aria-label={`${a3 ? 'A3' : 'A4'} lesson progress`}>
         <div className="deep-dive-progress__identity"><span className="eyebrow">AWAKEN · {a3 ? 'A3' : 'A4'}</span><span aria-hidden="true">/</span><strong>{title}</strong></div>
         <div className="deep-dive-progress__track"><label htmlFor="new-awaken-progress">Section {index + 1} of {sections.length}</label><progress id="new-awaken-progress" value={index + 1} max={sections.length} /></div>
+        <AwakenMovementCue active={a3 ? 3 : 4} />
       </section>
       <div className="deep-dive-content">
         {a3 ? <A3Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} /> : <A4Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} />}

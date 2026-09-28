@@ -25,10 +25,11 @@ describe('A3 separates identity from learned patterns', () => {
     fireEvent.click(screen.getByRole('button', { name: 'I’m not sure' }));
     const comparison = screen.getByRole('region', { name: 'Notice the difference' });
     expect(comparison).toHaveTextContent('I’m not sure');
-    expect(comparison).toHaveTextContent('I am __________.');
+    expect(screen.getByText('I am')).toBeInTheDocument();
+    expect(comparison).toHaveTextContent('I’m not sure');
     expect(comparison).toHaveTextContent('I tend to I like ice cream when weekends.');
     expect(comparison).not.toHaveTextContent(/this means|learned to respond|your past|protect yourself/i);
-    expect(screen.getByText(/What you say about yourself is a conclusion/i)).toBeInTheDocument();
+    expect(comparison).toHaveTextContent('One statement names you. The other describes something you noticed yourself doing in a particular kind of moment.');
     expect(screen.getByText(/What you noticed yourself doing in a particular kind of moment describes a pattern/i)).toBeInTheDocument();
   });
 
@@ -44,10 +45,10 @@ describe('A3 separates identity from learned patterns', () => {
 describe('A4 understands what may be moving underneath a response', () => {
   it('guides one recent moment through expectation, desire, fear, and importance', () => {
     render(<A4Lesson {...base} section={A4_SECTIONS.find(s => s.id === 'trace')!} />);
-    expect(screen.getByLabelText('What happened?')).toBeInTheDocument();
+    expect(screen.getByLabelText('What happened in this moment?')).toBeInTheDocument();
     expect(screen.queryByLabelText('What were you expecting to happen?')).not.toBeInTheDocument();
     const answers = [
-      ['What happened?', 'A decision was questioned'],
+      ['What happened in this moment?', 'A decision was questioned'],
       ['What were you expecting to happen?', 'They would stop trusting me'],
       ['What did you want to happen?', 'To be understood'],
       ['What were you afraid might happen?', 'I would lose respect'],
@@ -63,7 +64,7 @@ describe('A4 understands what may be moving underneath a response', () => {
     expect(moment).toHaveTextContent('To be understood');
     expect(moment).toHaveTextContent('I would lose respect');
     expect(moment).toHaveTextContent('Being respected');
-    expect(moment).toHaveTextContent('What do you notice underneath your response?');
+    expect(moment).toHaveTextContent('WHAT DO YOU NOTICE?');
     expect(moment).not.toHaveTextContent(/this means|you do this because/i);
   });
 
@@ -83,5 +84,15 @@ describe('A4 understands what may be moving underneath a response', () => {
     render(<A4Lesson {...base} section={section} />);
     expect(section.prompt).toMatch(/anything you noticed here that you want to remember/i);
     expect(screen.getByRole('button', { name: 'Continue without writing' })).toBeEnabled();
+  });
+
+  it('ends A4 with the three memorable carry-forward questions in the approved order', () => {
+    render(<A4Lesson {...base} section={A4_SECTIONS.find(s => s.id === 'carry-forward')!} />);
+
+    const practice = screen.getByRole('region', { name: 'Daily questions' });
+    expect(practice).toHaveTextContent('TAKE THIS WITH YOU');
+    expect(practice).toHaveTextContent('WHAT AM I EXPECTING RIGHT NOW?');
+    expect(practice).toHaveTextContent('WHAT DO I WANT RIGHT NOW?');
+    expect(practice).toHaveTextContent('WHAT AM I AFRAID MIGHT HAPPEN?');
   });
 });

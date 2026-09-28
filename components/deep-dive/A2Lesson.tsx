@@ -57,6 +57,9 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
   const [body, setBody] = useState(reflection ?? '');
   const [situations, setSituations] = useState<string[]>([]);
   const [moves, setMoves] = useState<Record<string, { internal: string; response: string }>>({});
+  const [mappingIndex, setMappingIndex] = useState(0);
+  const [mappingStarted, setMappingStarted] = useState(false);
+  const [showSynthesis, setShowSynthesis] = useState(false);
   const [activePracticeStep, setActivePracticeStep] = useState(0);
   const [examplesOpen, setExamplesOpen] = useState(false);
 
@@ -66,6 +69,7 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
     return internal && response ? [{ internal, response }] : [];
   });
   const patternFeedback = getA2PatternBridgeFeedback(completedMoments);
+  const activeSituation = situations[mappingIndex];
   const updateMove = (situation: string, field: 'internal' | 'response', value: string) => {
     setMoves(current => ({ ...current, [situation]: { internal: current[situation]?.internal ?? '', response: current[situation]?.response ?? '', [field]: value } }));
   };
@@ -75,9 +79,16 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
   }, [pending, saveState.saved]);
 
   return (
-    <article className={`deep-dive-lesson deep-dive-lesson--a2 deep-dive-lesson--${section.id}`}>
-      <p className="eyebrow deep-dive-section-label">{section.eyebrow}</p>
-      <h1>{section.title}</h1>
+    <article className={`deep-dive-lesson awaken-v2 deep-dive-lesson--a2 deep-dive-lesson--${section.id}`}>
+      {section.id === 'entry' ? <header className="awaken-v2-opening">
+        <img className="awaken-v2-opening__mark" src="/assets/page-awaken/curriculum-logo-transparent.png" alt="Reforming the Soul" />
+        <div className="awaken-v2-opening__copy">
+          <p className="eyebrow">AWAKEN · 02</p>
+          <p className="awaken-v2-opening__movement">RECOGNIZE</p>
+          <h1>{section.title}</h1>
+          <p className="awaken-v2-opening__lead">Different moments can bring familiar responses to the surface.</p>
+        </div>
+      </header> : <><p className="eyebrow deep-dive-section-label">{section.eyebrow}</p><h1>{section.title}</h1></>}
       {section.id === 'entry' ? (
         <div className="a2-opening">
           <div className="a2-opening__situations">{section.paragraphs.slice(0, -1).map((paragraph, index) => <p key={paragraph}><span aria-hidden="true">0{index + 1}</span>{paragraph}</p>)}</div>
@@ -96,48 +107,61 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
       ) : section.id === 'patterns' ? (
         <>
           {section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-          <div className="a2-pattern-map">
-            <div className="a2-pattern-map__situations">
-              <fieldset>
-                <legend><span className="a2-pattern-map__step">01</span> Situations you recognize</legend>
-                <p className="a2-pattern-map__hint">Select the moments you want to compare.</p>
+          <section className="a2-discovery" aria-label="Notice what may be repeating">
+            {!mappingStarted ? <div className="a2-discovery__select">
+              <p className="eyebrow">FIRST · CHOOSE THE MOMENTS</p>
+              <p className="a2-discovery__instruction">Select a few situations that feel familiar. You can choose one, several, or none.</p>
+              <fieldset className="a2-moment-list">
+                <legend className="sr-only">Situations you recognize</legend>
                 {SITUATIONS.map((situation, index) => (
-                  <label className="a2-checkline" key={situation}>
-                    <input type="checkbox" checked={situations.includes(situation)} onChange={() => setSituations(current => toggle(current, situation))} />
-                    <span><span className="a2-checkline__number" aria-hidden="true">0{index + 1}</span>{situation}</span>
+                  <label className="a2-moment-choice" key={situation}>
+                    <input type="checkbox" checked={situations.includes(situation)} onChange={() => { setShowSynthesis(false); setMappingIndex(0); setSituations(current => toggle(current, situation)); }} />
+                    <span className="a2-moment-choice__number" aria-hidden="true">0{index + 1}</span>
+                    <span>{situation}</span>
+                    <span className="a2-moment-choice__mark" aria-hidden="true">+</span>
                   </label>
                 ))}
               </fieldset>
-            </div>
-            <div className="a2-pattern-map__responses">
-              <h2><span className="a2-pattern-map__step">02</span> What happened in each moment?</h2>
-              <p className="a2-pattern-map__hint">You choose what you noticed. Leaving a field blank is fine.</p>
-              {situations.length ? situations.map(situation => (
-                <div className="a2-mapped-moment" key={situation}>
-                  <h3>{situation}</h3>
-                  <div className="a2-mapped-moment__choices">
-                    <label>First internal move for {situation}
-                      <select aria-label={`First internal move for ${situation}`} value={moves[situation]?.internal ?? ''} onChange={event => updateMove(situation, 'internal', event.target.value)}>
-                        <option value="">Choose only if noticed</option>
-                        {FIRST_MOVES.map(move => <option key={move}>{move}</option>)}
-                      </select>
-                    </label>
-                    <label>Typical response for {situation}
-                      <select aria-label={`Typical response for ${situation}`} value={moves[situation]?.response ?? ''} onChange={event => updateMove(situation, 'response', event.target.value)}>
-                        <option value="">Choose only if noticed</option>
-                        {RESPONSES.map(response => <option key={response}>{response}</option>)}
-                      </select>
-                    </label>
-                  </div>
-                </div>
-              )) : <p className="a2-map-empty">Select a situation to begin connecting what happened inside with how you responded.</p>}
-            </div>
-            <section className="a2-pattern-map__reflection" role="region" aria-label="WHAT MAY BE REPEATING" aria-live="polite">
-              <span className="eyebrow">WHAT MAY BE REPEATING</span>
-              <p>{patternFeedback}</p>
-              <small>This working map is only for noticing. These selections are not saved.</small>
-            </section>
-          </div>
+              {situations.length > 0 ? <button className="button" type="button" onClick={() => { setMappingIndex(0); setMappingStarted(true); setShowSynthesis(false); }}>LOOK AT THESE MOMENTS</button> : null}
+            </div> : null}
+
+            {mappingStarted && situations.length > 0 && !showSynthesis && mappingIndex < situations.length ? <div className="a2-discovery__map" aria-live="polite">
+              <div className="a2-discovery__meter"><span>THEN · FOLLOW ONE MOMENT</span><span>MOMENT {mappingIndex + 1} OF {situations.length}</span></div>
+              <ol className="a2-discovery__thread" aria-label="Selected moments">
+                {situations.map((situation, index) => <li key={situation} aria-current={index === mappingIndex ? 'step' : undefined} className={index < mappingIndex ? 'is-complete' : undefined}><span>0{index + 1}</span>{situation}</li>)}
+              </ol>
+              <figure className="a2-discovery__moment"><figcaption>THE MOMENT</figcaption><blockquote>{activeSituation}</blockquote></figure>
+              <div className="a2-discovery__questions">
+                <label>WHAT HAPPENED INSIDE?
+                  <select aria-label={`What happened inside when ${activeSituation}`} value={moves[activeSituation]?.internal ?? ''} onChange={event => updateMove(activeSituation, 'internal', event.target.value)}>
+                    <option value="">Choose only if noticed</option>
+                    {FIRST_MOVES.map(move => <option key={move}>{move}</option>)}
+                  </select>
+                </label>
+                <label>WHAT DID YOU DO?
+                  <select aria-label={`What did you do when ${activeSituation}`} value={moves[activeSituation]?.response ?? ''} onChange={event => updateMove(activeSituation, 'response', event.target.value)}>
+                    <option value="">Choose only if noticed</option>
+                    {RESPONSES.map(response => <option key={response}>{response}</option>)}
+                  </select>
+                </label>
+              </div>
+              <div className="a2-discovery__actions">
+                <button className="button button--secondary" type="button" onClick={() => { setShowSynthesis(false); setMappingStarted(false); setMappingIndex(0); }}>EDIT MOMENTS</button>
+                {mappingIndex + 1 < situations.length ? <button className="button" type="button" onClick={() => setMappingIndex(value => value + 1)}>NEXT MOMENT</button> : <button className="button" type="button" onClick={() => setShowSynthesis(true)}>SEE WHAT MAY REPEAT</button>}
+              </div>
+            </div> : null}
+
+            {showSynthesis ? <section className="a2-discovery__synthesis" aria-live="polite" aria-label="Pattern discovery">
+              <p className="eyebrow">THEN · LOOK ACROSS THE MOMENTS</p>
+              <h2>What may be repeating?</h2>
+              <ol className="a2-discovery__summary">
+                {situations.map((situation, index) => <li key={situation}><span>0{index + 1}</span><div><strong>{situation}</strong><p>{moves[situation]?.internal || 'No internal move named'} <i aria-hidden="true">→</i> {moves[situation]?.response || 'No response named'}</p></div></li>)}
+              </ol>
+              <p className="a2-discovery__feedback">{patternFeedback}</p>
+              <p className="a2-discovery__note">This working map is only for noticing. These selections are not saved.</p>
+              <button className="button button--secondary" type="button" onClick={() => { setShowSynthesis(false); setMappingStarted(true); setMappingIndex(0); }}>RETURN TO MOMENTS</button>
+            </section> : null}
+          </section>
           <div className="deep-dive-reveal a2-response-disclosure">
             <button type="button" aria-expanded={examplesOpen} onClick={() => setExamplesOpen(value => !value)}><span>What can these responses look like?</span><span className="deep-dive-reveal__icon" aria-hidden="true">⌄</span></button>
             {examplesOpen ? <div className="a2-response-examples">{RESPONSE_EXAMPLES.map(example => <p key={example}>{example}</p>)}</div> : null}
@@ -186,7 +210,7 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
           {section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </section>
       ) : section.id === 'carry-forward' ? (
-        <div className="a2-carry-forward">{section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
+        <div className="a2-carry-forward awaken-v2-closing"><p className="eyebrow">TAKE THIS WITH YOU</p>{section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
       ) : section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
     </article>
   );

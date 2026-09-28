@@ -20,19 +20,29 @@ export function A1Lesson({ section, index, total, reflection, saveReflection, ed
   const renderParagraphs = (className?: string) => section.paragraphs.map((paragraph, paragraphIndex) => <p key={paragraphIndex} className={className}>{paragraph}</p>);
 
   return (
-    <article className={`deep-dive-lesson deep-dive-lesson--a1 deep-dive-lesson--${section.id}`}>
-      <p className="eyebrow deep-dive-section-label">{section.eyebrow}</p>
-      {section.id !== 'moment' ? <h1>{section.title}</h1> : null}
+    <article className={`deep-dive-lesson awaken-v2 deep-dive-lesson--a1 deep-dive-lesson--${section.id}`}>
+      {section.id === 'entry' ? <header className="awaken-v2-opening">
+        <img className="awaken-v2-opening__mark" src="/assets/page-awaken/curriculum-logo-transparent.png" alt="Reforming the Soul" />
+        <div className="awaken-v2-opening__copy">
+          <p className="eyebrow">AWAKEN · 01</p>
+          <p className="awaken-v2-opening__movement">NOTICE</p>
+          <h1>{section.title}</h1>
+          <p className="awaken-v2-opening__original-question">{section.paragraphs[0]}</p>
+          <p className="awaken-v2-opening__lead">{section.paragraphs[1]}</p>
+          <p className="awaken-v2-opening__question">WHAT JUST HAPPENED IN ME?</p>
+        </div>
+      </header> : <p className="eyebrow deep-dive-section-label">{section.eyebrow}</p>}
+      {section.id !== 'moment' && section.id !== 'entry' ? <h1>{section.title}</h1> : null}
       {section.id === 'moment' ? (
         <div className="a1-opening-moment">
           <div className="a1-message" role="group" aria-label="A message on your phone">
-            <span className="a1-message__sender">A message</span>
+            <span className="a1-message__sender">ONE ORDINARY MOMENT</span>
             <h1>{section.title}</h1>
           </div>
           <div className="a1-pause">
-            <span className="a1-pause__mark" aria-hidden="true">01</span>
+            <p className="eyebrow">PAUSE HERE</p>
+            <p className="a1-pause__question">WHAT HAPPENED IN YOU?</p>
             <p>{section.paragraphs[0]}</p>
-            <p>{section.paragraphs[1].split(': ')[0]}:</p>
             <div className="a1-response-lines">{section.paragraphs[1].split(': ')[1].split(/(?<=\.)\s+/).map(line => <p key={line}>{line}</p>)}</div>
           </div>
         </div>
@@ -53,7 +63,7 @@ export function A1Lesson({ section, index, total, reflection, saveReflection, ed
       ) : section.id === 'scripture' ? (
         <>
           <figure className="deep-dive-scripture a1-scripture" aria-label="Luke 6:45 Scripture passage">
-            <span className="a1-scripture__index" aria-hidden="true">LUKE<br />06:45</span>
+            <span className="a1-scripture__index">SCRIPTURE</span>
             <blockquote><p>{section.paragraphs[0]}</p></blockquote>
             <figcaption><cite>Luke 6:45 <span aria-hidden="true">·</span> World English Bible</cite></figcaption>
           </figure>
@@ -61,7 +71,7 @@ export function A1Lesson({ section, index, total, reflection, saveReflection, ed
         </>
       ) : section.id === 'practice' ? (
         <section className="deep-dive-guidance deep-dive-guidance--practice a1-practice" aria-label="Practice for the next few days">
-          <p className="deep-dive-guidance__label">For the next few days</p>
+          <p className="deep-dive-guidance__label">TAKE THIS WITH YOU</p>
           <p>{section.paragraphs[0]}</p>
           <p>When you catch one of those moments, stop briefly and ask:</p>
           <blockquote className="a1-practice__question" role="note">“What just happened in me?”</blockquote>
@@ -69,7 +79,10 @@ export function A1Lesson({ section, index, total, reflection, saveReflection, ed
           <p>{section.paragraphs[2]}</p>
         </section>
       ) : section.id === 'carry-forward' ? (
-        <section className="a1-calm-ending" role="region" aria-label="Carry forward">{renderParagraphs()}</section>
+        <section className="a1-calm-ending awaken-v2-closing" role="region" aria-label="Carry forward">
+          <p className="eyebrow">TAKE THIS WITH YOU</p>
+          {renderParagraphs()}
+        </section>
       ) : section.id === 'teaching' ? (
         <div className="a1-teaching">{renderParagraphs()}</div>
       ) : renderParagraphs()}

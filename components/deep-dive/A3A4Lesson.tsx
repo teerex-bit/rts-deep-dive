@@ -29,19 +29,31 @@ function Reflection({ section, reflection, saveReflection, editReflection, revie
 }
 
 const A4_PRACTICE = [
-  ['NOTICE', 'Something in me just changed.'],
-  ['ASK', 'What am I expecting right now? What do I want? What am I afraid might happen?'],
-  ['RECEIVE', 'Stay with what becomes clear without forcing an answer.'],
+  ['01', 'WHAT AM I EXPECTING RIGHT NOW?'],
+  ['02', 'WHAT DO I WANT RIGHT NOW?'],
+  ['03', 'WHAT AM I AFRAID MIGHT HAPPEN?'],
 ] as const;
 
 function Lesson({ section, reflection, saveReflection, editReflection, review, module }: LessonProps & { module: 'a3' | 'a4' }) {
-  return <article className={`deep-dive-lesson deep-dive-lesson--${module} deep-dive-lesson--${section.id}`}>
-    <p className="eyebrow deep-dive-section-label">{section.eyebrow}</p><h1>{section.title}</h1>
-    {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+  const movement = module === 'a3' ? 'SEPARATE' : 'UNDERSTAND';
+  const number = module === 'a3' ? '03' : '04';
+  return <article className={`deep-dive-lesson awaken-v2 deep-dive-lesson--${module} deep-dive-lesson--${section.id}`}>
+    {section.id === 'entry' ? <header className="awaken-v2-opening">
+      <img className="awaken-v2-opening__mark" src="/assets/page-awaken/curriculum-logo-transparent.png" alt="Reforming the Soul" />
+      <div className="awaken-v2-opening__copy">
+        <p className="eyebrow">AWAKEN · {number}</p>
+        <p className="awaken-v2-opening__movement">{movement}</p>
+        <h1>{section.title}</h1>
+        <p className="awaken-v2-opening__lead">{section.paragraphs[0]}</p>
+      </div>
+    </header> : <><p className="eyebrow deep-dive-section-label">{section.id === 'carry-forward' ? 'TAKE THIS WITH YOU' : section.eyebrow}</p><h1>{section.title}</h1>{section.id === 'carry-forward' ? <div className="awaken-v2-closing">{section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</div> : section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</>}
+    {section.id === 'entry' ? <div className="awaken-v2-opening__continuation">{section.paragraphs.slice(1).map(paragraph => <p key={paragraph}>{paragraph}</p>)}</div> : null}
     {module === 'a3' && section.id === 'trace' ? <AwakenIdentityPattern /> : null}
     {module === 'a4' && section.id === 'trace' ? <A4MomentInquiry /> : null}
     {module === 'a4' && section.id === 'carry-forward' ? <section className="a4-carry-practice" aria-label="Daily questions">
-      {A4_PRACTICE.map(([name, description]) => <div key={name}><strong>{name}</strong><p>{description}</p></div>)}
+      <p className="eyebrow">TAKE THIS WITH YOU</p>
+      {A4_PRACTICE.map(([number, question]) => <p className="a4-carry-practice__question" key={number}><span>{number}</span><strong>{question}</strong></p>)}
+      <p className="a4-carry-practice__close">You do not have to answer every question. Even noticing one expectation, desire, or fear can help you stay present.</p>
     </section> : null}
     {section.id === 'reflection' ? <Reflection section={section} reflection={reflection} saveReflection={saveReflection} editReflection={editReflection} review={review} /> : null}
   </article>;

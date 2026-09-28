@@ -15,6 +15,15 @@ afterEach(cleanup);
 const section = (id: string) => A1_SECTIONS.find(item => item.id === id)!;
 
 describe('A1 participant experience', () => {
+  it('opens A1 as a compact chapter with the approved Tree of Life identity and core question', () => {
+    render(<A1Lesson editReflection={vi.fn()} section={section('entry')} index={0} total={9} reflection={null} saveReflection={vi.fn()} />);
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Pay Attention' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Reforming the Soul' })).toHaveAttribute('src', '/assets/page-awaken/curriculum-logo-transparent.png');
+    expect(screen.getByText('NOTICE')).toBeInTheDocument();
+    expect(screen.getByText('WHAT JUST HAPPENED IN ME?')).toBeInTheDocument();
+  });
+
   it('announces reflection success only after the server action resolves', async () => {
     let confirmSave!: () => void;
     const saveReflection = vi.fn(() => new Promise<{ saved: boolean }>(resolve => {
