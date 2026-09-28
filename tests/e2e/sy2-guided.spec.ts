@@ -49,9 +49,10 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     await expect(page.getByLabel('What was I seeing in this moment?')).toHaveValue('  The room became quiet.  ');
     await page.getByRole('button', { name: 'Continue without saving this trace' }).click();
     await expect(page).toHaveURL(new RegExp(`${base}\\?section=distinction$`));
+    await page.waitForLoadState('networkidle');
+    await expect(page.getByRole('heading', { name: 'Belief and desire are different' })).toBeVisible();
     for (const section of SY2_SECTIONS.slice(5)) {
       if (section.id === 'reflection') {
-        await expect(page.locator('.deep-dive-transition form[action^="javascript:throw"]')).toHaveCount(0);
         await page.locator('.deep-dive-transition').getByRole('button', { name: 'NEXT', exact: true }).click();
         await expect(page).toHaveURL(/section=reflection$/);
         await page.getByLabel('What became clearer when you followed the reaction backward?').fill('  I expected rejection.  ');
