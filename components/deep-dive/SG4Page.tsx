@@ -99,11 +99,11 @@ export async function SG4Page({ query }: { query: { section?: string; returnTo?:
           saveReflection={saveReflection} editReflection={editReflection} deleteReflection={deleteReflection} />
         {(section.id !== 'trust-question' && section.id !== 'reflection' || completed || section.id === 'reflection' && state.reviewReflection) && <footer className="deep-dive-transition">
           {next ? <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>
-            {completed ? <Link className="button" href={`${route}?section=${next.id}`}>Continue</Link>
-              : <LessonTransitionForm action={advance} section={next.id} label={index === 0 ? 'Begin' : 'Continue'} />}
-          </> : <><p className="deep-dive-transition__title">Carry this question into Become.</p>
+            {completed ? <Link className="button" href={`${route}?section=${next.id}`}>NEXT</Link>
+              : <LessonTransitionForm action={advance} section={next.id} label="NEXT" />}
+          </> : <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">What Has Become Clear</p></div>
             {completed ? <nav className="deep-dive-completion-actions" aria-label="Continue your journey">
-              <Link className="button" href="/deep-dive/see-clearly/what-has-become-clear">Continue to What Has Become Clear</Link>
+              <Link className="button" href="/deep-dive/see-clearly/what-has-become-clear">NEXT</Link>
               <Link className="deep-dive-completion-actions__back" href={group}>Back to See God Clearly</Link>
             </nav> : <LessonTransitionForm action={finish} label="Complete lesson" />}
           </>}

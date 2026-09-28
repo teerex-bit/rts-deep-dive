@@ -21,7 +21,7 @@ test.skip('Awaken through fake AI Reflect enters See Clearly and resumes at Beco
     await expect(page.getByText('What did you notice just before your body responded?')).toBeVisible();
     await page.getByLabel('What would you like to save in your own words?').fill('I expected not to be heard.');
     await page.getByRole('button', { name: 'Save my added insight' }).click();
-    await page.getByRole('link', { name: 'Continue' }).click();
+    await page.getByRole('link', { name: 'NEXT' }).click();
     await page.getByLabel('What is the observable fact?').fill('The meeting ended ten minutes early.');
     await page.getByLabel('What is my interpretation?').fill('My contribution was unwanted.');
     await page.getByRole('radio', { name: 'expectation' }).check();

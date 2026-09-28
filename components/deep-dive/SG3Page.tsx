@@ -10,9 +10,11 @@ import { SG3_SECTIONS } from '../../content/deep-dive/v1/see-clearly/sg3';
 import { completeSG3, getSG3, saveSG3Record, deleteSG3Record, saveSG3Reflection, saveSG3Section } from '../../server/services/see-clearly-sg3-service';
 import { getSG2 } from '../../server/services/see-clearly-sg2-service';
 import { deleteSG3Reflection } from '../../server/services/see-clearly-sg3-service';
+import { seeClearlyNavigation } from './see-clearly-navigation';
 
 const route = '/deep-dive/see-clearly/jesus-shows-us-the-father';
 const group = '/deep-dive/see-clearly#see-god-heading';
+const completionNavigation = seeClearlyNavigation('sg3');
 
 export async function SG3Page({ query }: { query: { section?: string; returnTo?: string; reviewJump?: string } }) {
   const reviewerJump = await reviewJumpFor(query, route);
@@ -98,11 +100,11 @@ export async function SG3Page({ query }: { query: { section?: string; returnTo?:
           saveReflection={saveReflection} editReflection={editReflection} deleteReflection={deleteReflection} />
         {(section.id !== 'observation' && section.id !== 'reflection' || completed || section.id === 'reflection' && state.reviewReflection) && <footer className="deep-dive-transition">
           {next ? <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>
-            {completed ? <Link className="button" href={`${route}?section=${next.id}`}>Continue</Link>
-              : <LessonTransitionForm action={advance} section={next.id} label={index === 0 ? 'Begin' : 'Continue'} />}
-          </> : <><p className="deep-dive-transition__title">Carry this observation into the next question.</p>
+            {completed ? <Link className="button" href={`${route}?section=${next.id}`}>NEXT</Link>
+              : <LessonTransitionForm action={advance} section={next.id} label="NEXT" />}
+          </> : <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{completionNavigation.nextTitle}</p></div>
             {completed ? <nav className="deep-dive-completion-actions" aria-label="Continue your journey">
-              <Link className="button" href="/deep-dive/see-clearly/can-i-trust-god-here">Continue to Can I Trust God Here?</Link>
+              <Link className="button" href="/deep-dive/see-clearly/can-i-trust-god-here">NEXT</Link>
               <Link className="deep-dive-completion-actions__back" href={group}>Back to See God Clearly</Link>
             </nav> : <LessonTransitionForm action={finish} label="Complete lesson" />}
           </>}

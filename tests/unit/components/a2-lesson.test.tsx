@@ -64,10 +64,22 @@ describe('A2 participant experience', () => {
     fireEvent.change(screen.getByLabelText('Typical response for A plan changes unexpectedly'), { target: { value: 'Control' } });
     fireEvent.change(screen.getByLabelText('First internal move for I feel overlooked'), { target: { value: 'Insecurity' } });
     fireEvent.change(screen.getByLabelText('Typical response for I feel overlooked'), { target: { value: 'Control' } });
-    expect(screen.getByRole('region', { name: 'A response that repeats' })).toHaveTextContent('Control');
-    expect(screen.getByRole('region', { name: 'A response that repeats' })).toHaveTextContent('2 situations');
-    expect(screen.getByRole('region', { name: 'A response that repeats' })).toHaveTextContent(/Urgency.*Insecurity/);
+    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('Different things were happening inside');
+    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('both moments moved toward control');
     expect(saveReflection).not.toHaveBeenCalled();
+  });
+
+  it('ignores incomplete selections and offers no pattern claim until two moments are complete', () => {
+    render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'patterns')!} reflection={null} saveReflection={vi.fn()} />);
+
+    fireEvent.click(screen.getByRole('checkbox', { name: 'A plan changes unexpectedly' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'I feel overlooked' }));
+    fireEvent.change(screen.getByLabelText('First internal move for A plan changes unexpectedly'), { target: { value: 'Urgency' } });
+    fireEvent.change(screen.getByLabelText('Typical response for A plan changes unexpectedly'), { target: { value: 'Control' } });
+    fireEvent.change(screen.getByLabelText('First internal move for I feel overlooked'), { target: { value: 'Insecurity' } });
+
+    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('You have noticed one moment.');
+    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).not.toHaveTextContent('Control');
   });
 
   it('opens with ordinary situations before teaching the idea of patterns', () => {

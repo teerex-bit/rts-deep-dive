@@ -46,7 +46,7 @@ test('SG1 guided recognition, exact wording, independent deletion and no-write r
     await page.getByLabel(prompt).fill('  It feels familiar when I am waiting.  ');
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What I Expect From God/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-i-expect-from-god');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-i-expect-from-god');
     const query = `select p.last_section_id,p.completed_at,p.updated_at,r.learned_god_image,r.source_influence_note,f.body
       from public.deep_dive_module_progress p left join public.see_clearly_sg1_records r on r.progress_id=p.id
       left join public.deep_dive_reflections f on f.progress_id=p.id and f.prompt_id='sg1-reflection'
@@ -59,7 +59,7 @@ test('SG1 guided recognition, exact wording, independent deletion and no-write r
     await expect(page.getByText('Up next: SG2 — What I Expect From God')).toBeVisible();
     await page.getByRole('link', { name: 'Review SG1' }).click();
     for (const section of SG1_SECTIONS.slice(1)) {
-      await page.getByRole('link', { name: 'Continue', exact: true }).click();
+      await page.getByRole('link', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     expect((await pool.query(query, [user.email])).rows).toEqual(before);
@@ -109,6 +109,6 @@ test('SG1 skip path and responsive recognition', async ({ page }, testInfo) => {
     await page.getByRole('button', { name: 'Continue without saving a picture' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What I Expect From God/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-i-expect-from-god');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-i-expect-from-god');
   } finally { await resetLocalE2eAccount(user.email); }
 });

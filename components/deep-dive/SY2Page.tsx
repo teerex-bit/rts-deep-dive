@@ -79,7 +79,7 @@ export async function SY2Page({ query }: { query: { section?: string; returnTo?:
     <div className="deep-dive-topline"><Link href={state.backHref}>← Back</Link><span>Formation Journey <span aria-hidden="true">/</span> SY2</span></div>
     <div className="deep-dive-layout">
       <section className="deep-dive-progress" aria-label="SY2 lesson progress">
-        <div className="deep-dive-progress__identity"><span className="eyebrow">SEE CLEARLY · SY2</span><span aria-hidden="true">/</span><strong>Follow the Formation Chain</strong></div>
+        <div className="deep-dive-progress__identity"><span className="eyebrow">SEE CLEARLY · SY2</span><span aria-hidden="true">/</span><strong>How a Reaction Takes Shape</strong></div>
         <div className="deep-dive-progress__track"><label htmlFor="sy2-progress">Section {index + 1} of {SY2_SECTIONS.length}</label><progress id="sy2-progress" value={index + 1} max={SY2_SECTIONS.length} /></div>
       </section>
       <div className="deep-dive-content">
@@ -89,11 +89,11 @@ export async function SY2Page({ query }: { query: { section?: string; returnTo?:
           saveReflection={saveReflection} editReflection={editReflection} />
         {(section.id !== 'trace' && section.id !== 'reflection' || completed || section.id === 'reflection' && state.reviewReflection) && <footer className="deep-dive-transition">
           {next ? <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>
-            {completed ? <Link className="button" href={`${route}?section=${next.id}`}>Continue</Link>
-              : <LessonTransitionForm action={advance} section={next.id} label={index === 0 ? 'Begin' : 'Continue'} />}
-          </> : <><p className="deep-dive-transition__title">See where the chain begins.</p>
+            {completed ? <Link className="button" href={`${route}?section=${next.id}`}>NEXT</Link>
+              : <LessonTransitionForm action={advance} section={next.id} label="NEXT" />}
+          </> : <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">The Learned Self-Story</p></div>
             {completed ? <nav className="deep-dive-completion-actions" aria-label="Continue your journey">
-              <Link className="button" href="/deep-dive/see-clearly/the-learned-self-story">Continue to The Learned Self-Story</Link>
+              <Link className="button" href="/deep-dive/see-clearly/the-learned-self-story">NEXT</Link>
               <Link className="deep-dive-completion-actions__back" href={group}>Back to See Yourself Clearly</Link>
             </nav> : <LessonTransitionForm action={finish} label="Complete lesson" />}
           </>}

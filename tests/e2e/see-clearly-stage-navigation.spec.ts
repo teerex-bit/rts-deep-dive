@@ -28,8 +28,9 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     const hub = appRuntimeUrl('/deep-dive/see-clearly');
     await page.goto(hub);
     await expect(page.getByRole('link', { name: 'BACK TO FORMATION JOURNEY' })).toHaveAttribute('href', '/dashboard');
-    const primary = page.getByRole('link', { name: /CONTINUE SEE CLEARLY|RESUME SEE CLEARLY|REVIEW WHAT HAS BECOME CLEAR/ });
-    await expect(primary).toContainText('The Learned Self-Story');
+    const primary = page.getByRole('link', { name: /NEXT/ });
+    await expect(primary).toHaveText('NEXT');
+    await expect(page.getByText('The Learned Self-Story', { exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Review SY2' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Begin SY4' })).toHaveCount(0);
     await primary.click();
@@ -38,13 +39,14 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     await inProgress('see-clearly.sy3', 'teaching');
     await page.goto(hub);
     await expect(page.getByRole('link', { name: 'BACK TO FORMATION JOURNEY' })).toHaveAttribute('href', '/dashboard');
-    await expect(primary).toContainText('RESUME SEE CLEARLY');
+    await expect(primary).toHaveText('NEXT');
     await primary.click();
     await expect(page.getByRole('heading', { name: 'How a story becomes familiar' })).toBeVisible();
     await complete('see-clearly.sy3'); await complete('see-clearly.sy4');
     await page.goto(hub);
     await expect(page.getByRole('link', { name: 'BACK TO FORMATION JOURNEY' })).toHaveAttribute('href', '/dashboard');
-    await expect(primary).toContainText('The God I Learned');
+    await expect(primary).toHaveText('NEXT');
+    await expect(page.getByText('The God I Learned', { exact: true })).toBeVisible();
     await primary.click();
     await expect(page).toHaveURL(/\/the-god-i-learned$/);
 
@@ -52,7 +54,8 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     await inProgress('see-clearly.sg2', 'examples');
     await page.goto(hub);
     await expect(page.getByRole('link', { name: 'BACK TO FORMATION JOURNEY' })).toHaveAttribute('href', '/dashboard');
-    await expect(primary).toContainText('What I Expect From God');
+    await expect(primary).toHaveText('NEXT');
+    await expect(page.getByText('What I Expect From God', { exact: true })).toBeVisible();
     await primary.click();
     await expect(page).toHaveURL(/\/what-i-expect-from-god$/);
     await expect(page.getByRole('heading', { name: 'What did I expect here?' })).toBeVisible();
@@ -60,14 +63,15 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     await inProgress('see-clearly.sg3', 'scripture');
     await page.goto(hub);
     await expect(page.getByRole('link', { name: 'BACK TO FORMATION JOURNEY' })).toHaveAttribute('href', '/dashboard');
-    await expect(primary).toContainText('Jesus Shows Us the Father');
+    await expect(primary).toHaveText('NEXT');
+    await expect(page.getByText('Jesus Shows Us the Father', { exact: true })).toBeVisible();
     await primary.click();
     await expect(page).toHaveURL(/\/jesus-shows-us-the-father$/);
     await expect(page.getByRole('heading', { name: 'To see Him is to see the Father' })).toBeVisible();
     await complete('see-clearly.sg3'); await complete('see-clearly.sg4');
     const before = (await pool.query('select module_id,last_section_id,completed_at,updated_at from public.deep_dive_module_progress where user_id=$1 order by module_id', [owner])).rows;
     await page.goto(hub);
-    await expect(primary).toContainText('REVIEW WHAT HAS BECOME CLEAR');
+    await expect(primary).toHaveText('NEXT');
     await expect(page.getByRole('link', { name: 'Review SG4' })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: testInfo.outputPath(`see-clearly-hub-${testInfo.project.name}.png`), fullPage: true });
@@ -77,7 +81,7 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     await expect(page.getByRole('heading', { name: 'What Has Become Clear' })).toBeVisible();
     await page.getByLabel('The story I can see so far').fill('I am beginning to see my responses more clearly.');
     await page.getByRole('button', { name: 'YES — SAVE THIS RECAP' }).click();
-    await page.getByRole('link', { name: 'Continue to Become' }).click();
+    await page.getByRole('link', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/\/deep-dive\/become$/);
     await expect(page.getByRole('heading', { name: 'Live With God' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The Person Being Formed' })).toBeVisible();

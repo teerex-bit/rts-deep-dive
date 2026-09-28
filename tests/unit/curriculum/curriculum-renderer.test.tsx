@@ -31,6 +31,8 @@ describe('CurriculumRenderer', () => {
     expect(screen.getByRole('heading', { name: 'See clearly' })).toBeInTheDocument();
     expect(screen.getByText(/A situation and the meaning we give it are related/)).toBeInTheDocument();
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+    expect(screen.getByText('What is the observable fact?')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'NEXT' })).toHaveAttribute('href', '/formation/see-clearly.fact');
   });
 
   it('renders a supplied interaction sequence as one authored observation form', () => {

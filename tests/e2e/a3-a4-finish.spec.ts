@@ -35,7 +35,7 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       }
       await expect(page.locator('.app-shell-header').getByRole('button', { name: 'Sign out' })).toBeVisible();
       await expect(page.getByRole('region', { name: /A[34] lesson progress/ })).toBeVisible();
-      await page.getByRole('button', { name: 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT' }).click();
       await expect(page).toHaveURL(/section=teaching$/);
       await page.getByRole('link', { name: '← Back' }).click();
       await expect(page).toHaveURL(/section=entry$/);
@@ -49,7 +49,7 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       await expect(resume).toHaveAttribute('href', new RegExp('section=teaching$'));
       await resume.click();
       await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? 'Made new, still being formed' : 'What once made sense' })).toBeVisible();
-      await page.getByRole('button', { name: 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT' }).click();
       if (slug === 'your-reactions-have-a-history') {
         await page.getByLabel('Recurring response').selectOption('Withdrawal');
         await page.getByLabel('Possible source').selectOption("I'm not sure");
@@ -80,7 +80,7 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       const widths = await page.evaluate(() => ({ viewport: innerWidth, document: document.documentElement.scrollWidth }));
       expect(widths.document).toBeLessThanOrEqual(widths.viewport);
       await page.screenshot({ path: testInfo.outputPath(`${slug}-${testInfo.project.name}.png`), fullPage: true });
-      await page.getByRole('button', { name: 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT' }).click();
       const reflectionHeight = await page.locator('.deep-dive-reflection textarea').evaluate(element => element.getBoundingClientRect().height);
       if (firstScreen.viewport === 375) expect(reflectionHeight).toBeLessThan(145);
       await page.screenshot({ path: testInfo.outputPath(`${slug}-reflection-${testInfo.project.name}.png`), fullPage: true });
@@ -89,15 +89,14 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       await expect(page).toHaveURL(/section=practice$/);
       await page.goto(appRuntimeUrl(base));
       await expect(page.getByRole('heading', { level: 1, name: /Notice one possible connection|Notice without forcing an answer/ })).toBeVisible();
-      await page.getByRole('button', { name: 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT' }).click();
       if (slug === 'formation-is-not-identity') {
         await expect(page.getByRole('heading', { level: 1, name: 'Ready to see clearly' })).toBeVisible();
         await expect(page.getByText('ASK', { exact: true })).toBeVisible();
       }
       await page.getByRole('button', { name: 'Complete lesson' }).click();
       await expect(page).toHaveURL(/section=carry-forward$/);
-      const label = slug === 'formation-is-not-identity' ? 'Continue to See Clearly' : 'Continue to A4';
-      const forward = page.getByRole('link', { name: label });
+      const forward = page.getByRole('link', { name: 'NEXT' });
       const back = page.getByRole('link', { name: 'Back to Awaken' });
       await forward.focus();
       await expect(forward).toBeFocused();
@@ -116,14 +115,14 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? 'Formation Is Not Identity' : 'Your Reactions Have a History' })).toBeVisible();
       const sections = slug === 'formation-is-not-identity' ? A4_SECTIONS : A3_SECTIONS;
       for (const nextSection of sections.slice(1)) {
-        await page.getByRole('link', { name: 'Continue', exact: true }).click();
+        await page.getByRole('link', { name: 'NEXT', exact: true }).click();
         await expect(page).toHaveURL(new RegExp(`section=${nextSection.id}$`));
         await expect(page.getByRole('heading', { level: 1, name: nextSection.title })).toBeVisible();
         if (nextSection.id === 'reflection') await expect(page.locator('.deep-dive-reflection textarea')).toHaveValue(reflection);
         if (nextSection.id === 'reflection') {
           await page.getByRole('link', { name: '← Back' }).click();
           await expect(page).toHaveURL(new RegExp(`section=${sections[sections.findIndex(item => item.id === nextSection.id) - 1].id}$`));
-          await page.getByRole('link', { name: 'Continue', exact: true }).click();
+          await page.getByRole('link', { name: 'NEXT', exact: true }).click();
           await expect(page.locator('.deep-dive-reflection textarea')).toHaveValue(reflection);
         }
       }
@@ -152,7 +151,7 @@ test('A3 and A4 can skip an empty reflection and resume at practice', async ({ p
     for (const slug of ['your-reactions-have-a-history', 'formation-is-not-identity']) {
       const base = `/deep-dive/awaken/${slug}`;
       await page.goto(appRuntimeUrl(base));
-      for (let index = 0; index < 3; index += 1) await page.getByRole('button', { name: 'Continue', exact: true }).click();
+      for (let index = 0; index < 3; index += 1) await page.getByRole('button', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(/section=reflection$/);
       await page.getByRole('textbox', { name: /Where might|Which pattern/i }).fill('   ');
       await expect(page.getByRole('button', { name: 'Save & continue' })).toBeDisabled();

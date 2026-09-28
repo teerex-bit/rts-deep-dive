@@ -26,17 +26,17 @@ test('SY1 teaches and saves a distinct fact and interpretation, resumes, and rev
     expect(initial.scroll).toBeLessThanOrEqual(initial.viewport);
     if (initial.viewport === 375) expect(initial.title).toBeLessThan(420);
     await page.screenshot({ path: testInfo.outputPath(`sc1-entry-${testInfo.project.name}.png`), fullPage: true });
-    await page.getByRole('button', { name: 'Begin' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/section=teaching$/);
     await page.getByRole('link', { name: '← Back' }).click();
     await expect(page).toHaveURL(/section=entry$/);
     await page.goto(appRuntimeUrl(base));
     await expect(page.getByRole('heading', { level: 1, name: 'The meaning can feel like the event' })).toBeVisible();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'The same event, more than one meaning' })).toBeVisible();
     await page.getByText('Look again at the difference').click();
     await expect(page.getByText(/Neither explanation is visible/)).toBeVisible();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/section=interaction$/);
     await page.getByLabel(/What could a careful witness observe/).fill('The message was read at 10:15.');
     await page.getByLabel(/What did you immediately make it mean/).fill('I had upset my friend.');
@@ -48,10 +48,10 @@ test('SY1 teaches and saves a distinct fact and interpretation, resumes, and rev
     await page.getByLabel('A thought you want to keep (optional)').fill('I had already decided what the delay meant.');
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await expect(page).toHaveURL(/section=practice$/);
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
     await expect(page).toHaveURL(/section=carry-forward$/);
-    const forward = page.getByRole('link', { name: 'Continue to Follow the Formation Chain' });
+    const forward = page.getByRole('link', { name: 'NEXT' });
     const backToGroup = page.getByRole('link', { name: 'Back to See Yourself Clearly' });
     await expect(forward).toHaveAttribute('href', '/deep-dive/see-clearly/follow-the-formation-chain');
     await expect(backToGroup).toHaveAttribute('href', '/deep-dive/see-clearly#see-yourself-heading');
@@ -71,14 +71,14 @@ test('SY1 teaches and saves a distinct fact and interpretation, resumes, and rev
     expect(before.rows[0].completed_at).toBeTruthy();
     await forward.click();
     await expect(page).toHaveURL(/\/deep-dive\/see-clearly\/follow-the-formation-chain$/);
-    await expect(page.getByRole('heading', { name: 'Follow the Formation Chain' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'How a Reaction Takes Shape' })).toBeVisible();
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await page.getByRole('link', { name: 'Back to See Yourself Clearly' }).click();
     await expect(page).toHaveURL(/\/deep-dive\/see-clearly#see-yourself-heading$/);
     await page.getByRole('link', { name: 'Review SY1' }).click();
     await expect(page).toHaveURL(/section=entry$/);
     for (const section of SC1_SECTIONS.slice(1)) {
-      await page.getByRole('link', { name: 'Continue', exact: true }).click();
+      await page.getByRole('link', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
       await expect(page.getByRole('heading', { level: 1, name: section.title })).toBeVisible();
       if (section.id === 'interaction') {
@@ -86,7 +86,7 @@ test('SY1 teaches and saves a distinct fact and interpretation, resumes, and rev
         await page.getByRole('link', { name: '← Back' }).click();
         await expect(page).toHaveURL(/section=contrast$/);
         await expect(page.getByRole('heading', { level: 1, name: 'The same event, more than one meaning' })).toBeVisible();
-        await page.getByRole('link', { name: 'Continue', exact: true }).click();
+        await page.getByRole('link', { name: 'NEXT', exact: true }).click();
         await expect(page.getByRole('heading', { level: 1, name: 'Separate what happened from what it meant' })).toBeVisible();
       }
       if (section.id === 'reflection') await expect(page.locator('.deep-dive-reflection textarea')).toHaveValue(/I had already decided/);

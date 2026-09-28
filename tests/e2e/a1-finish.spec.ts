@@ -36,20 +36,20 @@ test('Awaken introduction and A1 complete responsively with confirmed reflection
     await expect(page.getByRole('region', { name: 'A1 lesson progress' })).toBeVisible();
     await expect(page.locator('.deep-dive-lesson-meta')).toHaveCount(0);
 
-    await advance(page, 'Begin', 2);
+    await advance(page, 'NEXT', 2);
     await expect(page).toHaveURL(/section=moment$/);
     await expect(page.getByRole('group', { name: 'A message on your phone' })).toBeVisible();
     await page.screenshot({ path: testInfo.outputPath(`a1-pause-${testInfo.project.name}.png`), fullPage: true });
-    await advance(page, 'Notice it', 3);
+    await advance(page, 'NEXT', 3);
     await expect(page.getByRole('group', { name: 'What happened around you' })).toBeVisible();
     await expect(page.getByRole('group', { name: 'What happened inside you' })).toBeVisible();
     await page.screenshot({ path: testInfo.outputPath(`a1-outside-inside-${testInfo.project.name}.png`), fullPage: true });
-    await advance(page, 'Keep going', 4);
-    await advance(page, 'Continue', 5);
-    await advance(page, 'Continue', 6);
+    await advance(page, 'NEXT', 4);
+    await advance(page, 'NEXT', 5);
+    await advance(page, 'NEXT', 6);
     await page.getByRole('link', { name: '← Back' }).click();
     await expect(page.getByRole('progressbar', { name: 'Section 5 of 9' })).toBeVisible();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page.getByRole('progressbar', { name: 'Section 6 of 9' })).toBeVisible();
 
     await expect(page.getByRole('heading', { level: 1, name: 'Notice a real moment' })).toBeVisible();
@@ -58,9 +58,9 @@ test('Awaken introduction and A1 complete responsively with confirmed reflection
     await expect(page).toHaveURL(/section=go-deeper$/);
     await expect(page.getByRole('progressbar', { name: 'Section 7 of 9' })).toBeVisible();
     await expect(page.getByRole('heading', { level: 1, name: 'Outside and inside' })).toBeVisible();
-    await advance(page, 'Continue', 8);
+    await advance(page, 'NEXT', 8);
     await expect(page.getByRole('heading', { level: 1, name: 'Take this into your day' })).toBeVisible();
-    await advance(page, 'Continue', 9);
+    await advance(page, 'NEXT', 9);
     await expect(page.getByRole('heading', { level: 1, name: 'Keep noticing' })).toBeVisible();
 
     const widths = await page.evaluate(() => ({ viewport: window.innerWidth, document: document.documentElement.scrollWidth }));
@@ -83,7 +83,7 @@ test('Awaken introduction and A1 complete responsively with confirmed reflection
     await expect(page.getByRole('heading', { level: 1, name: 'Keep noticing' })).toBeVisible();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
     await expect(page).toHaveURL(/pay-attention\?section=carry-forward$/);
-    const forward = page.getByRole('link', { name: 'Continue to A2' });
+    const forward = page.getByRole('link', { name: 'NEXT' });
     const back = page.getByRole('link', { name: 'Back to Awaken' });
     await expect(forward).toBeVisible();
     await expect(back).toBeVisible();
@@ -104,7 +104,7 @@ test('Awaken introduction and A1 complete responsively with confirmed reflection
     await expect(page).toHaveURL(/\/deep-dive\/awaken$/);
     await page.goto(appRuntimeUrl('/deep-dive/awaken/pay-attention?section=entry'));
     await expect(page.getByRole('heading', { level: 1, name: 'Pay Attention' })).toBeVisible();
-    await page.getByRole('link', { name: 'Continue' }).click();
+    await page.getByRole('link', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/section=moment$/);
     await page.goto(appRuntimeUrl('/deep-dive/awaken/pay-attention?section=carry-forward'));
     await expect(page.getByRole('link', { name: '← Back' })).toBeVisible();
@@ -136,7 +136,7 @@ test('A1 continues without writing and resumes at the next section', async ({ pa
     await page.getByLabel('Password').fill(user.password);
     await Promise.all([page.waitForURL(/\/dashboard$/), page.getByRole('button', { name: 'Create account' }).click()]);
     await page.goto(appRuntimeUrl('/deep-dive/awaken/pay-attention'));
-    for (const label of ['Begin', 'Notice it', 'Keep going', 'Continue', 'Continue']) await page.getByRole('button', { name: label, exact: true }).click();
+    for (let index = 0; index < 5; index += 1) await page.getByRole('button', { name: 'NEXT', exact: true }).click();
     await expect(page).toHaveURL(/section=reflection$/);
     await expect(page.getByRole('button', { name: 'Save & continue' })).toBeDisabled();
     await page.getByRole('textbox').fill('   ');

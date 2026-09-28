@@ -45,7 +45,7 @@ test('stage recap uses owned words, leaves gaps open, confirms, and invalidates 
     await page.getByRole('button', { name: 'Save changes' }).click();
     await expect(page).toHaveURL(/what-has-become-clear$/);
     await expect(page.getByLabel('The story I can see so far')).toHaveValue(/A friend paused before replying/);
-    await expect(page.getByRole('link', { name: 'Continue to Become' })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'NEXT' })).toHaveCount(0);
     expect((await pool.query(`select count(*)::integer as n from public.see_clearly_recaps where user_id=$1`, [owner])).rows[0].n).toBe(0);
     await draft.fill('Earlier I feared disappointing others. Now I can notice a pause without treating it as a verdict.');
     await page.getByRole('button', { name: 'KEEP EDITING' }).click();
@@ -54,7 +54,7 @@ test('stage recap uses owned words, leaves gaps open, confirms, and invalidates 
     await page.getByLabel('As you read this now, what has changed, become clearer, or no longer feels true? Optional').fill('I am learning that a mistake is not a verdict.');
     await page.getByLabel('What from this do you want to learn to live differently? Optional').fill('Ask for help instead of hiding.');
     await page.getByRole('button', { name: 'YES — SAVE THIS RECAP' }).click();
-    await expect(page.getByRole('link', { name: 'Continue to Become' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'NEXT' })).toBeVisible();
     const saved = (await pool.query<{ narrative: string; clarification: string; carry_forward: string }>(
       `select narrative,clarification,carry_forward from public.see_clearly_recaps where user_id=$1`, [owner],
     )).rows[0];
@@ -66,14 +66,14 @@ test('stage recap uses owned words, leaves gaps open, confirms, and invalidates 
     expect((await pool.query(`select count(*)::integer as n from public.ai_artifacts where user_id=$1`, [owner])).rows[0].n).toBe(0);
     await page.getByText('Look back at what I wrote').click();
     await expect(page.getByText('You left this open.').first()).toBeVisible();
-    await page.getByRole('link', { name: 'Continue to Become' }).click();
+    await page.getByRole('link', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/\/deep-dive\/become$/);
     await page.goto(appRuntimeUrl(recap));
     await page.screenshot({ path: testInfo.outputPath(`recap-${testInfo.project.name}.png`), fullPage: true });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await pool.query(`delete from public.see_clearly_sy3_records where user_id=$1`, [owner]);
     await page.reload();
-    await expect(page.getByRole('link', { name: 'Continue to Become' })).toHaveCount(0);
+    await expect(page.getByRole('link', { name: 'NEXT' })).toHaveCount(0);
     await expect(page.getByLabel('The story I can see so far')).not.toHaveValue(/I sometimes fear disappointing others\./);
     expect((await pool.query(`select narrative,confirmed_at,clarification,carry_forward from public.see_clearly_recaps where user_id=$1`, [owner])).rows[0])
       .toMatchObject({ narrative: '', confirmed_at: null, clarification: saved.clarification, carry_forward: saved.carry_forward });

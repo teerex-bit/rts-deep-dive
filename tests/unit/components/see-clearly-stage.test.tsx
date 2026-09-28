@@ -21,7 +21,7 @@ describe('See Clearly movements', () => {
     render(<SeeClearlyStage status="review" />);
     expect(screen.getByRole('link', { name: 'Review SY1' })).toHaveAttribute('href', '/deep-dive/see-clearly/facts-and-interpretation?section=entry');
     expect(screen.getByRole('link', { name: 'Begin SY2' })).toBeInTheDocument();
-    expect(document.getElementById('see-yourself-sy2')).toHaveTextContent('Follow the Formation Chain');
+    expect(document.getElementById('see-yourself-sy2')).toHaveTextContent('How a Reaction Takes Shape');
     expect(document.getElementById('see-god-sg1')).toHaveTextContent('The God I Learned');
   });
   it('offers SY2 after SY1 and keeps SY3 as the next group item', () => {

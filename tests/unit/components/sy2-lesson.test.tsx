@@ -17,6 +17,7 @@ describe('SY2 authored flow', () => {
     render(<SY2Lesson {...props} section={SY2_SECTIONS[3]} source={{ id: 'owned', eventFacts: 'A message went unanswered.', automaticInterpretation: 'I felt ignored.' }} />);
     expect(screen.getByLabelText('Use a moment I wrote about earlier')).toBeInTheDocument();
     expect(screen.getByLabelText('Use another recent moment')).toBeChecked();
+    expect(screen.getByText(/Don’t worry about explaining it perfectly/)).toBeInTheDocument();
     expect(screen.queryByRole('complementary', { name: 'A moment you wrote about earlier' })).not.toBeInTheDocument();
     expect(screen.getByLabelText('What was I seeing in this moment?')).toHaveValue('');
     expect(screen.getByRole('button', { name: 'Continue without saving this trace' })).toBeInTheDocument();
@@ -34,5 +35,11 @@ describe('SY2 authored flow', () => {
     render(<SY2Lesson {...props} section={SY2_SECTIONS[3]} />);
     expect(screen.getByText('Use a recent moment.')).toBeInTheDocument();
     expect(screen.queryByRole('group', { name: 'Choose a starting point' })).not.toBeInTheDocument();
+  });
+  it('puts reflection context before the optional writing controls', () => {
+    render(<SY2Lesson {...props} section={SY2_SECTIONS.find(section => section.id === 'reflection')!} />);
+    expect(screen.getByText(/Looking backward through the moment may have helped you notice/)).toBeInTheDocument();
+    expect(screen.getByText(/You do not need to settle everything here/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continue without writing' })).toBeInTheDocument();
   });
 });

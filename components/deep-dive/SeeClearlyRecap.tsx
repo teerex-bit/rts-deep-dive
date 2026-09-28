@@ -40,7 +40,7 @@ export function SeeClearlyRecap({ sources, fingerprint, record, action }: Props)
       </div>
       <LessonActionError error={state.error} signIn={state.signIn} />
     </form>
-    {record?.confirmedAt ? <Link className="button deep-dive-recap__continue" href="/deep-dive/become">Continue to Become</Link> : null}
+    {record?.confirmedAt ? <><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">Become</p><Link className="button deep-dive-recap__continue" href="/deep-dive/become">NEXT</Link></> : null}
     <details className="deep-dive-recap__review"><summary>Look back at what I wrote</summary>
       <ol>{recapPrompts.map(prompt => {
         const item = sources.find(source => source.module === prompt.module);

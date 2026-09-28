@@ -86,8 +86,8 @@ export async function SC1Page({ query }: { query: { section?: string; returnTo?:
         <SC1Lesson section={section} record={record} reflection={progress?.reflection ?? null} sources={sources} completed={completed} reviewReflection={reviewReflection} saveResponse={saveResponse} saveReflection={saveReflection} editReflection={editReflection} />
         {(section.id !== 'interaction' && section.id !== 'reflection' || completed || section.id === 'reflection' && reviewReflection) && <footer className="deep-dive-transition">
           {next ? <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>
-            {completed ? <Link className="button" href={`${route}?section=${next.id}`}>Continue</Link> : <LessonTransitionForm action={advance} section={next.id} label={index === 0 ? 'Begin' : 'Continue'} />}
-          </> : <><p className="deep-dive-transition__title">Keep this distinction with you.</p>
+            {completed ? <Link className="button" href={`${route}?section=${next.id}`}>NEXT</Link> : <LessonTransitionForm action={advance} section={next.id} label="NEXT" />}
+          </> : <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{completionNavigation.nextTitle}</p></div>
             {completed ? <nav className="deep-dive-completion-actions" aria-label="Continue your journey"><Link className="button" href={completionNavigation.nextHref!}>{completionNavigation.nextLabel}</Link><Link className="deep-dive-completion-actions__back" href={completionNavigation.backHref}>{completionNavigation.backLabel}</Link></nav> : <LessonTransitionForm action={finish} label="Complete lesson" />}
           </>}
         </footer>}

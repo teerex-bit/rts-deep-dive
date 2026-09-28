@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from 'react';
 import type { A2Section } from '../../content/deep-dive/v1/awaken/catch-yourself-being-you';
 import { LessonActionError } from './LessonTransitionForm';
 import { ReviewReflection, type ReviewReflectionAction } from './ReviewReflection';
+import { getA2PatternBridgeFeedback } from './A2_PATTERN_BRIDGE';
 
 export type A2ReflectionSaveState = Readonly<{ saved: boolean; error?: string }>;
 type A2ReflectionAction = (state: A2ReflectionSaveState, formData: FormData) => Promise<A2ReflectionSaveState>;
@@ -59,8 +60,12 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
   const [activePracticeStep, setActivePracticeStep] = useState(0);
   const [examplesOpen, setExamplesOpen] = useState(false);
 
-  const repeated = RESPONSES.map(response => ({ response, moments: situations.filter(situation => moves[situation]?.response === response) })).filter(group => group.moments.length > 1);
-  const firstMoves = [...new Set(situations.map(situation => moves[situation]?.internal).filter(Boolean))];
+  const completedMoments = situations.flatMap(situation => {
+    const internal = moves[situation]?.internal;
+    const response = moves[situation]?.response;
+    return internal && response ? [{ internal, response }] : [];
+  });
+  const patternFeedback = getA2PatternBridgeFeedback(completedMoments);
   const updateMove = (situation: string, field: 'internal' | 'response', value: string) => {
     setMoves(current => ({ ...current, [situation]: { internal: current[situation]?.internal ?? '', response: current[situation]?.response ?? '', [field]: value } }));
   };
@@ -127,13 +132,9 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
                 </div>
               )) : <p className="a2-map-empty">Select a situation to begin connecting what happened inside with how you responded.</p>}
             </div>
-            <section className="a2-pattern-map__reflection" role="region" aria-label="A response that repeats" aria-live="polite">
+            <section className="a2-pattern-map__reflection" role="region" aria-label="WHAT MAY BE REPEATING" aria-live="polite">
               <span className="eyebrow">WHAT MAY BE REPEATING</span>
-              {repeated.length ? (
-                <p><strong>{repeated.map(group => group.response).join(' · ')}</strong><span>across</span><strong>{repeated[0].moments.length} situations</strong>{firstMoves.length ? <span>First moves you named: {firstMoves.join(' · ')}</span> : null}</p>
-              ) : (
-                <p>Notice what connects these moments. You do not have to find a repeated response or choose a label.</p>
-              )}
+              <p>{patternFeedback}</p>
               <small>This working map is only for noticing. These selections are not saved.</small>
             </section>
           </div>

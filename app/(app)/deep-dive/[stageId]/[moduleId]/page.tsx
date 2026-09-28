@@ -92,7 +92,7 @@ async function A2Page({ query }: { query: { section?: string; reviewJump?: strin
               {next ? (
                 <>
                   <div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>
-                  {progress?.completedAt ? <Link className="button" href={`/deep-dive/awaken/catch-yourself-being-you?section=${next.id}`}>Continue</Link> : <LessonTransitionForm action={saveSection} section={next.id} label={section.id === 'entry' ? 'Begin' : section.id === 'reflection' ? 'Keep going' : 'Continue'} />}
+                  {progress?.completedAt ? <Link className="button" href={`/deep-dive/awaken/catch-yourself-being-you?section=${next.id}`}>NEXT</Link> : <LessonTransitionForm action={saveSection} section={next.id} label="NEXT" />}
                 </>
               ) : (
                 <>
@@ -170,7 +170,7 @@ export default async function A1Page({ params, searchParams }: { params: Promise
               {next ? (
                 <>
                   <div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>
-                  {progress?.completedAt ? <Link className="button" href={`/deep-dive/awaken/pay-attention?section=${next.id}`}>Continue</Link> : <LessonTransitionForm action={saveSection} section={next.id} label={section.id === 'entry' ? 'Begin' : section.id === 'moment' ? 'Notice it' : section.id === 'outside-inside' ? 'Keep going' : 'Continue'} />}
+                  {progress?.completedAt ? <Link className="button" href={`/deep-dive/awaken/pay-attention?section=${next.id}`}>NEXT</Link> : <LessonTransitionForm action={saveSection} section={next.id} label="NEXT" />}
                 </>
               ) : (
                 <>

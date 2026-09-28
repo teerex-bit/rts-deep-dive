@@ -49,7 +49,7 @@ test.skip('the exact approved vertical slice works end to end', async ({ page },
     await page.getByRole('button', { name: 'Save my added insight' }).click();
 
     // 8–10. See Clearly keeps fact, interpretation, and expectation distinct.
-    await page.getByRole('link', { name: 'Continue' }).click();
+    await page.getByRole('link', { name: 'NEXT' }).click();
     await page.getByLabel('What is the observable fact?').fill(VERTICAL_SLICE.seeClearly.fact);
     await page.getByLabel('What is my interpretation?').fill(VERTICAL_SLICE.seeClearly.interpretation);
     await page.getByRole('radio', { name: 'expectation' }).check();
@@ -57,7 +57,7 @@ test.skip('the exact approved vertical slice works end to end', async ({ page },
     await page.getByRole('button', { name: 'Save and continue' }).click();
 
     // 11–13. Become creates the open real-life practice.
-    await page.getByRole('link', { name: 'Continue' }).click();
+    await page.getByRole('link', { name: 'NEXT' }).click();
     await page.getByLabel('What outcome am I trying to control?').fill(VERTICAL_SLICE.become.controlTarget);
     await page.getByLabel('What is actually true in the present moment?').fill(VERTICAL_SLICE.become.presentTruth);
     await page.getByLabel('What is the next right step?').fill(VERTICAL_SLICE.become.nextRightStep);

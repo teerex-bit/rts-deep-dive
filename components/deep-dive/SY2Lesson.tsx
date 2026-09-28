@@ -46,7 +46,7 @@ function Trace({ record, source, completed, saveChain }: Pick<Props, 'record' | 
       <p><strong>What happened:</strong> {source.eventFacts}</p>
       <p><strong>What it meant then:</strong> {source.automaticInterpretation}</p>
     </aside> : null}
-    {record?.sourceWasLinked && !record.sourceSc1RecordId ? <p role="status">Your own words remain here.</p> : null}
+    {record?.sourceWasLinked && !record.sourceSc1RecordId ? <p role="status">Your earlier moment is no longer available. What you wrote in this trace remains.</p> : null}
     <input type="hidden" name="source_sc1_record_id" value={mode === 'source' ? source?.id ?? '' : ''} />
     {sy2ChainFields.map(item => <input key={item} type="hidden" name={item} value={words[item]} />)}
     <ol className="sy2-trace__chain" aria-label="Your place in the formation chain">

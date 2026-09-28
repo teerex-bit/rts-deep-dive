@@ -68,7 +68,7 @@ test('SG4 guided trust question, review and independent deletion', async ({ page
     await page.getByLabel('What remains yours to do while the outcome is open?').fill('  I can make the call.  ');
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What Has Become Clear/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-has-become-clear');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-has-become-clear');
     const query = `select p.completed_at,p.updated_at,r.situation,r.trust_meaning,f.body from public.deep_dive_module_progress p
       left join public.see_clearly_sg4_records r on r.progress_id=p.id
       left join public.deep_dive_reflections f on f.progress_id=p.id and f.prompt_id='sg4-reflection'
@@ -79,7 +79,7 @@ test('SG4 guided trust question, review and independent deletion', async ({ page
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await expect(page.getByText('See Clearly complete · Your story comes together')).toBeVisible();
     await page.getByRole('link', { name: 'Review SG4' }).click();
-    for (const section of SG4_SECTIONS.slice(1)) await page.getByRole('link', { name: 'Continue', exact: true }).click();
+    for (const section of SG4_SECTIONS.slice(1)) await page.getByRole('link', { name: 'NEXT', exact: true }).click();
     expect((await pool.query(query, [owner])).rows).toEqual(before);
     await page.goto(appRuntimeUrl(`${base}?section=trust-question`));
     await trust.fill('  I may ask for help while I wait.  ');
@@ -112,7 +112,7 @@ test('SG4 optional trust and reflection can be skipped', async ({ page }, testIn
     await page.getByRole('button', { name: 'Continue without saving' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What Has Become Clear/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-has-become-clear');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-has-become-clear');
     expect((await pool.query(`select count(*)::integer as n from public.see_clearly_sg4_records where user_id=$1`, [owner])).rows[0].n).toBe(0);
   } finally { await pool.end(); await resetLocalE2eAccount(user.email); }
 });

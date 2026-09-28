@@ -24,7 +24,7 @@ test('A2 saves, resumes, and completes with an isolated account on mobile and de
     await expect(page.getByRole('progressbar', { name: 'Section 1 of 7' })).toHaveJSProperty('value', 1);
     await expect(page.getByRole('region', { name: 'A2 lesson progress' })).toBeVisible();
     await expect(page.locator('.deep-dive-lesson-meta')).toHaveCount(0);
-    await page.getByRole('button', { name: 'Begin' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/section=patterns$/);
     await page.getByRole('link', { name: '← Back' }).click();
     await expect(page).toHaveURL(/section=entry$/);
@@ -55,14 +55,14 @@ test('A2 saves, resumes, and completes with an isolated account on mobile and de
     });
     expect(patternWidths.document, JSON.stringify({ layout: patternWidths.layout, overflow: patternWidths.overflow })).toBeLessThanOrEqual(patternWidths.viewport);
     await page.screenshot({ path: testInfo.outputPath(`a2-pattern-map-${testInfo.project.name}.png`), fullPage: true });
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'Seeing clearly' })).toBeVisible();
     await expect(page.getByRole('figure', { name: 'James 1:23–24 Scripture passage' })).toBeVisible();
     await page.getByRole('link', { name: '← Back' }).click();
     await expect(page).toHaveURL(/section=patterns$/);
     await page.goto(appRuntimeUrl('/deep-dive/awaken/catch-yourself-being-you'));
     await expect(page.getByRole('heading', { level: 1, name: 'Seeing clearly' })).toBeVisible();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'What are you beginning to recognize?' })).toBeVisible();
     await page.getByLabel(/which response do you notice most often/i).fill(reflection);
     await page.getByRole('button', { name: 'Save & continue' }).click();
@@ -73,9 +73,9 @@ test('A2 saves, resumes, and completes with an isolated account on mobile and de
     await page.getByRole('button', { name: 'RECEIVE' }).click();
     await expect(page.getByRole('region', { name: 'RECEIVE', exact: true })).toContainText(/stay with what becomes clear/i);
     await page.screenshot({ path: testInfo.outputPath(`a2-practice-${testInfo.project.name}.png`), fullPage: true });
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'Catch yourself being you' })).toBeVisible();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'A pattern is something you can notice' })).toBeVisible();
 
     const widths = await page.evaluate(() => ({ viewport: window.innerWidth, document: document.documentElement.scrollWidth }));
@@ -97,7 +97,7 @@ test('A2 saves, resumes, and completes with an isolated account on mobile and de
     await expect(page.getByRole('heading', { level: 1, name: 'A pattern is something you can notice' })).toBeVisible();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
     await expect(page).toHaveURL(/catch-yourself-being-you\?section=carry-forward$/);
-    const forward = page.getByRole('link', { name: 'Continue to A3' });
+    const forward = page.getByRole('link', { name: 'NEXT' });
     const back = page.getByRole('link', { name: 'Back to Awaken' });
     await forward.focus();
     await expect(forward).toBeFocused();
@@ -111,13 +111,13 @@ test('A2 saves, resumes, and completes with an isolated account on mobile and de
     await page.getByRole('link', { name: 'Review Catch Yourself Being You · A2' }).click();
     await expect(page).toHaveURL(/catch-yourself-being-you\?section=entry$/);
     await expect(page.getByRole('heading', { level: 1, name: 'Catch Yourself Being You' })).toBeVisible();
-    await page.getByRole('link', { name: 'Continue' }).click();
+    await page.getByRole('link', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/section=patterns$/);
     await page.goto(appRuntimeUrl('/deep-dive'));
     await page.getByRole('link', { name: 'Review Catch Yourself Being You · A2' }).click();
     await expect(page).toHaveURL(/section=entry$/);
     await expect(page.getByRole('link', { name: '← Back' })).toBeVisible();
-    await page.getByRole('link', { name: 'Continue' }).click();
+    await page.getByRole('link', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/section=patterns$/);
     await page.goto(appRuntimeUrl('/deep-dive/awaken/catch-yourself-being-you?section=reflection'));
     await expect(page.locator('.deep-dive-reflection textarea')).toHaveValue(reflection);

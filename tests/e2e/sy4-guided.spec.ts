@@ -42,7 +42,7 @@ test('SY4 guided truth, owned SY3 link, deletion, review, and movement handoff',
     await page.getByLabel(reflection).fill('  I often trust the familiar story first.  ');
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to The God I Learned/ })).toHaveAttribute('href', '/deep-dive/see-clearly/the-god-i-learned');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/the-god-i-learned');
     const query = `select p.last_section_id,p.completed_at,p.updated_at,r.truth_to_live_from,r.source_sy3_record_id,r.source_was_linked,f.body
       from public.deep_dive_module_progress p left join public.see_clearly_sy4_records r on r.progress_id=p.id
       left join public.deep_dive_reflections f on f.progress_id=p.id and f.prompt_id='sy4-reflection'
@@ -59,7 +59,7 @@ test('SY4 guided truth, owned SY3 link, deletion, review, and movement handoff',
     await expect(page.getByText('Up next: SG1 — The God I Learned')).toBeVisible();
     await page.getByRole('link', { name: 'Review SY4' }).click();
     for (const section of SY4_SECTIONS.slice(1)) {
-      await page.getByRole('link', { name: 'Continue', exact: true }).click();
+      await page.getByRole('link', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     expect((await pool.query(query, [user.email])).rows).toEqual(before);
@@ -125,6 +125,6 @@ test('SY4 optional no-source path and focused responsive truth surface', async (
     await page.getByRole('button', { name: 'Continue without saving a statement' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to The God I Learned/ })).toHaveAttribute('href', '/deep-dive/see-clearly/the-god-i-learned');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/the-god-i-learned');
   } finally { await resetLocalE2eAccount(user.email); }
 });

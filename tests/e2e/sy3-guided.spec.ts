@@ -17,11 +17,11 @@ test('SY3 story, optional source, resume, review, deletion lineage, and handoff'
     await Promise.all([page.waitForURL(/\/dashboard$/), page.getByRole('button', { name: 'Create account' }).click()]);
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await expect(page.getByRole('heading', { name: 'A familiar sentence' })).toBeVisible();
-    await page.getByRole('button', { name: 'Begin' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/section=teaching$/);
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await expect(page.getByRole('heading', { name: 'How a story becomes familiar' })).toBeVisible();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/section=recognition$/);
     await expect(page.getByText('You can start with something you have been noticing lately.', { exact: true })).toBeVisible();
     await page.getByLabel('A story I sometimes carry is…').fill('  I may have learned I disappoint people.  ');
@@ -32,12 +32,12 @@ test('SY3 story, optional source, resume, review, deletion lineage, and handoff'
     await page.getByRole('link', { name: /Back/ }).click();
     await expect(page.getByLabel('A story I sometimes carry is…')).toHaveValue('  I may have learned I disappoint people.  ');
     await page.getByRole('button', { name: 'Continue without saving a story' }).click();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await page.getByLabel('When this story shows up, what do you notice it changes in the way you respond?').fill('  I seek reassurance.  ');
     await page.getByRole('button', { name: 'Save & continue' }).click();
     await expect(page).toHaveURL(/section=carry-forward$/);
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What Is Actually True About Me/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-is-actually-true-about-me');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-is-actually-true-about-me');
     const query = `select p.completed_at,p.updated_at,p.last_section_id,r.self_story_hypothesis,r.source_sy2_record_id,r.source_was_linked,
       f.body from public.deep_dive_module_progress p left join public.see_clearly_sy3_records r on r.progress_id=p.id
       left join public.deep_dive_reflections f on f.progress_id=p.id and f.prompt_id='sy3-reflection'
@@ -52,7 +52,7 @@ test('SY3 story, optional source, resume, review, deletion lineage, and handoff'
     await expect(page.getByText('What Is Actually True About Me')).toBeVisible();
     await page.getByRole('link', { name: 'Review SY3' }).click();
     for (const section of SY3_SECTIONS.slice(1)) {
-      await page.getByRole('link', { name: 'Continue', exact: true }).click();
+      await page.getByRole('link', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     expect((await pool.query(query, [user.email])).rows).toEqual(before);
@@ -99,8 +99,8 @@ test('SY3 recognition fits three viewports with keyboard focus', async ({ page }
     await page.getByLabel('Email').fill(user.email); await page.getByLabel('Password').fill(user.password);
     await Promise.all([page.waitForURL(/\/dashboard$/), page.getByRole('button', { name: 'Create account' }).click()]);
     await page.goto(appRuntimeUrl(base));
-    await page.getByRole('button', { name: 'Begin' }).click();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     for (const width of [375, 768, 1536]) {
       await page.setViewportSize({ width, height: 900 });
       await expect(page.getByRole('heading', { name: 'The sentence underneath' })).toBeVisible();
@@ -113,9 +113,9 @@ test('SY3 recognition fits three viewports with keyboard focus', async ({ page }
     await page.getByLabel('A story I sometimes carry is…').fill('A long story '.repeat(40));
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await page.getByRole('button', { name: 'Continue without saving a story' }).click();
-    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'NEXT' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to What Is Actually True About Me/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-is-actually-true-about-me');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/what-is-actually-true-about-me');
   } finally { await resetLocalE2eAccount(user.email); }
 });

@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const selfLessons = [
   'Facts and Interpretation',
-  'Follow the Formation Chain',
+  'How a Reaction Takes Shape',
   'The Learned Self-Story',
   'What Is Actually True About Me',
 ] as const;
@@ -21,9 +21,9 @@ type LessonStatus = 'begin' | 'resume' | 'review';
 
 export function seeClearlyStageAction(statuses: readonly LessonStatus[]) {
   const next = statuses.findIndex(status => status !== 'review');
-  if (next < 0 || next >= lessonRoutes.length) return { label: 'REVIEW WHAT HAS BECOME CLEAR', href: '/deep-dive/see-clearly/what-has-become-clear' };
+  if (next < 0 || next >= lessonRoutes.length) return { label: 'NEXT', title: 'What Has Become Clear', href: '/deep-dive/see-clearly/what-has-become-clear' };
   return {
-    label: statuses[next] === 'resume' ? 'RESUME SEE CLEARLY' : 'CONTINUE SEE CLEARLY',
+    label: 'NEXT',
     title: [...selfLessons, ...godLessons][next],
     href: `/deep-dive/see-clearly/${lessonRoutes[next]}`,
   };
@@ -69,7 +69,8 @@ export function SeeClearlyStage({ status, sy2Status, sy3Status, sy4Status, sg1St
       </section>
     </div>
     <nav className="deep-dive-stage-actions" aria-label="Continue your journey">
-      <Link className="button deep-dive-stage-actions__primary" href={action.href}><span>{action.label}</span>{'title' in action && <strong>{action.title}</strong>}</Link>
+      <div><p className="eyebrow">{action.label}</p><p className="deep-dive-transition__title">{action.title}</p></div>
+      <Link className="button deep-dive-stage-actions__primary" href={action.href}>{action.label}</Link>
       <Link className="deep-dive-stage-actions__back" href="/dashboard">BACK TO FORMATION JOURNEY</Link>
     </nav>
   </section>;

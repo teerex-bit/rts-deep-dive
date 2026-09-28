@@ -16,9 +16,9 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     await page.getByLabel('Password').fill(user.password);
     await Promise.all([page.waitForURL(/\/dashboard$/), page.getByRole('button', { name: 'Create account' }).click()]);
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
-    await expect(page.getByRole('heading', { name: 'Follow the Formation Chain' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'How a Reaction Takes Shape' })).toBeVisible();
     await page.goto(appRuntimeUrl(base));
-    await expect(page.getByRole('heading', { name: 'Follow the Formation Chain' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'How a Reaction Takes Shape' })).toBeVisible();
     for (const section of SY2_SECTIONS.slice(1, 4)) {
       await page.getByRole('button', { name: section.id === 'chain' ? 'Begin' : 'Continue' }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
@@ -50,17 +50,17 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     await page.getByRole('button', { name: 'Continue without saving this trace' }).click();
     for (const section of SY2_SECTIONS.slice(5)) {
       if (section.id === 'reflection') {
-        await page.getByRole('button', { name: 'Continue' }).click();
+        await page.getByRole('button', { name: 'NEXT' }).click();
         await expect(page).toHaveURL(/section=reflection$/);
         await page.getByLabel('What became clearer when you followed the reaction backward?').fill('  I expected rejection.  ');
         await page.getByRole('button', { name: 'Save & continue' }).click();
       } else if (section.id === 'practice') {
         await expect(page).toHaveURL(/section=practice$/);
-        await page.getByRole('button', { name: 'Continue' }).click();
+        await page.getByRole('button', { name: 'NEXT' }).click();
       } else {
         await page.getByRole('button', { name: 'Complete lesson' }).click();
         await expect(page).toHaveURL(/section=carry-forward$/);
-    await expect(page.getByRole('link', { name: /Continue to The Learned Self-Story/ })).toHaveAttribute('href', '/deep-dive/see-clearly/the-learned-self-story');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/the-learned-self-story');
       }
     }
     const query = `select p.last_section_id,p.completed_at,p.updated_at,r.perception,r.belief,r.source_sc1_record_id,r.updated_at as record_updated_at,
@@ -77,7 +77,7 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await page.getByRole('link', { name: 'Review SY2' }).click();
     for (const section of SY2_SECTIONS.slice(1)) {
-      await page.getByRole('link', { name: 'Continue', exact: true }).click();
+      await page.getByRole('link', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
       if (section.id === 'trace') await expect(page.getByLabel('What was I seeing in this moment?')).toHaveValue('  The room became quiet.  ');
     }
@@ -92,7 +92,7 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     expect((await pool.query(query, [user.email])).rows[0]).toMatchObject({ source_sc1_record_id: source });
     await pool.query('delete from public.see_clearly_sc1_records where id=$1', [source]);
     await page.reload();
-    await expect(page.getByRole('status')).toContainText('Your own words remain here.');
+    await expect(page.getByRole('status')).toContainText('Your earlier moment is no longer available. What you wrote in this trace remains.');
     await expect(page.getByRole('complementary', { name: 'A moment you wrote about earlier' })).toHaveCount(0);
     expect((await pool.query(query, [user.email])).rows[0]).toMatchObject({ perception: '  The room became quiet.  ', source_sc1_record_id: null,
       completed_at: before[0].completed_at, updated_at: before[0].updated_at });

@@ -1,6 +1,6 @@
 const lessons = [
   'Facts and Interpretation',
-  'Follow the Formation Chain',
+  'How a Reaction Takes Shape',
   'The Learned Self-Story',
   'What Is Actually True About Me',
   'The God I Learned',
@@ -23,7 +23,8 @@ export function seeClearlyNavigation(module: SeeClearlyModule) {
   return {
     backLabel: `Back to ${group}`,
     backHref: `${groupRoute}#${self ? 'see-yourself' : 'see-god'}-heading`,
-    nextLabel: nextModule ? `Continue to ${lessons[nextIndex]}` : 'Continue to What Has Become Clear',
+    nextLabel: 'NEXT',
+    nextTitle: nextModule ? lessons[nextIndex] : 'What Has Become Clear',
     nextHref: nextModule ? `${groupRoute}/${routes[nextIndex]}` : `${groupRoute}/what-has-become-clear`,
     transition: module === 'sy4' ? 'You have finished See Yourself Clearly.' : module === 'sg4' ? 'You have finished See God Clearly.' : null,
   };

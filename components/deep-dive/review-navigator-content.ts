@@ -18,7 +18,7 @@ export const REVIEW_NAVIGATION = [
   ] },
   { stage: 'SEE CLEARLY', lessons: [
     { title: 'Facts and Interpretation', path: '/deep-dive/see-clearly/facts-and-interpretation', sections: SC1_SECTIONS },
-    { title: 'Follow the Formation Chain', path: '/deep-dive/see-clearly/follow-the-formation-chain', sections: SY2_SECTIONS },
+    { title: 'How a Reaction Takes Shape', path: '/deep-dive/see-clearly/follow-the-formation-chain', sections: SY2_SECTIONS },
     { title: 'The Learned Self-Story', path: '/deep-dive/see-clearly/the-learned-self-story', sections: SY3_SECTIONS },
     { title: 'What Is Actually True About Me', path: '/deep-dive/see-clearly/what-is-actually-true-about-me', sections: SY4_SECTIONS },
     { title: 'The God I Learned', path: '/deep-dive/see-clearly/the-god-i-learned', sections: SG1_SECTIONS },

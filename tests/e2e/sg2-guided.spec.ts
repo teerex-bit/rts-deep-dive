@@ -44,7 +44,7 @@ test('SG2 guided expectation, review, deletion, and responsive recognition', asy
     await expect(page).toHaveURL(/section=reflection$/);
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();
-    await expect(page.getByRole('link', { name: /Continue to Jesus Shows Us the Father/ })).toHaveAttribute('href', '/deep-dive/see-clearly/jesus-shows-us-the-father');
+    await expect(page.getByRole('link', { name: /NEXT/ })).toHaveAttribute('href', '/deep-dive/see-clearly/jesus-shows-us-the-father');
     const query = `select p.completed_at,p.updated_at,r.situation,r.expectation from public.deep_dive_module_progress p
       left join public.see_clearly_sg2_records r on r.progress_id=p.id where p.user_id=$1 and p.module_id='see-clearly.sg2'`;
     const before = (await pool.query(query, [owner])).rows;
@@ -52,7 +52,7 @@ test('SG2 guided expectation, review, deletion, and responsive recognition', asy
     expect(before[0].completed_at).toBeTruthy();
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await page.getByRole('link', { name: 'Review SG2' }).click();
-    for (const section of SG2_SECTIONS.slice(1)) await page.getByRole('link', { name: 'Continue', exact: true }).click();
+    for (const section of SG2_SECTIONS.slice(1)) await page.getByRole('link', { name: 'NEXT', exact: true }).click();
     expect((await pool.query(query, [owner])).rows).toEqual(before);
     await page.goto(appRuntimeUrl(`${base}?section=recognition`));
     await page.getByRole('button', { name: 'Delete saved expectation' }).click();

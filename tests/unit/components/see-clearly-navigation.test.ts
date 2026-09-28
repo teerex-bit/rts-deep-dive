@@ -8,10 +8,10 @@ describe('See Clearly group navigation', () => {
       expect(navigation.backLabel).toBe('Back to See Yourself Clearly');
       expect(navigation.backHref).toBe('/deep-dive/see-clearly#see-yourself-heading');
     }
-    expect(seeClearlyNavigation('sc1')).toMatchObject({ nextLabel: 'Continue to Follow the Formation Chain', nextHref: '/deep-dive/see-clearly/follow-the-formation-chain' });
-    expect(seeClearlyNavigation('sy2').nextLabel).toBe('Continue to The Learned Self-Story');
-    expect(seeClearlyNavigation('sy3').nextLabel).toBe('Continue to What Is Actually True About Me');
-    expect(seeClearlyNavigation('sy4')).toMatchObject({ transition: 'You have finished See Yourself Clearly.', nextLabel: 'Continue to The God I Learned', nextHref: '/deep-dive/see-clearly/the-god-i-learned' });
+    expect(seeClearlyNavigation('sc1')).toMatchObject({ nextLabel: 'NEXT', nextTitle: 'How a Reaction Takes Shape', nextHref: '/deep-dive/see-clearly/follow-the-formation-chain' });
+    expect(seeClearlyNavigation('sy2')).toMatchObject({ nextLabel: 'NEXT', nextTitle: 'The Learned Self-Story' });
+    expect(seeClearlyNavigation('sy3')).toMatchObject({ nextLabel: 'NEXT', nextTitle: 'What Is Actually True About Me' });
+    expect(seeClearlyNavigation('sy4')).toMatchObject({ transition: 'You have finished See Yourself Clearly.', nextLabel: 'NEXT', nextTitle: 'The God I Learned', nextHref: '/deep-dive/see-clearly/the-god-i-learned' });
   });
 
   it('keeps the second movement within See God Clearly and hands off to Become', () => {
@@ -20,9 +20,9 @@ describe('See Clearly group navigation', () => {
       expect(navigation.backLabel).toBe('Back to See God Clearly');
       expect(navigation.backHref).toBe('/deep-dive/see-clearly#see-god-heading');
     }
-    expect(seeClearlyNavigation('sg1').nextLabel).toBe('Continue to What I Expect From God');
-    expect(seeClearlyNavigation('sg2').nextLabel).toBe('Continue to Jesus Shows Us the Father');
-    expect(seeClearlyNavigation('sg3').nextLabel).toBe('Continue to Can I Trust God Here?');
-    expect(seeClearlyNavigation('sg4').nextLabel).toBe('Continue to What Has Become Clear');
+    expect(seeClearlyNavigation('sg1')).toMatchObject({ nextLabel: 'NEXT', nextTitle: 'What I Expect From God' });
+    expect(seeClearlyNavigation('sg2')).toMatchObject({ nextLabel: 'NEXT', nextTitle: 'Jesus Shows Us the Father' });
+    expect(seeClearlyNavigation('sg3')).toMatchObject({ nextLabel: 'NEXT', nextTitle: 'Can I Trust God Here?' });
+    expect(seeClearlyNavigation('sg4')).toMatchObject({ nextLabel: 'NEXT', nextTitle: 'What Has Become Clear' });
   });
 });

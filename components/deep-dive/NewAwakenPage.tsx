@@ -80,7 +80,7 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
         {a3 ? <A3Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} /> : <A4Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} generateReframe={generateReframe} />}
         {(section.id !== 'reflection' || reviewReflection) ? <footer className="deep-dive-transition">
           {next ? <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>
-            {review ? <Link className="button" href={`${prefix}?section=${next.id}`}>Continue</Link> : <LessonTransitionForm action={advance} section={next.id} label="Continue" />}
+            {review ? <Link className="button" href={`${prefix}?section=${next.id}`}>NEXT</Link> : <LessonTransitionForm action={advance} section={next.id} label="NEXT" />}
           </> : <><p className="deep-dive-transition__title">{a3 ? 'Carry this thread with you.' : 'Awaken is complete. See Clearly is next.'}</p>{review ? <AwakenCompletionNav module={a3 ? 'a3' : 'a4'} /> : <LessonTransitionForm action={finish} label="Complete lesson" />}</>}
         </footer> : null}
       </div>
