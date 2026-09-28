@@ -1,6 +1,5 @@
 import { reviewJumpFor } from '../../server/auth/review-navigator';
 import Link from 'next/link';
-import { requestA4Reframe } from '../../server/ai/a4-reframe';
 import { redirect } from 'next/navigation';
 import { AppShell } from '../design-system/AppShell';
 import { AwakenCompletionNav } from './AwakenCompletionNav';
@@ -16,7 +15,7 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
   const a3 = module === 'a3';
   const sections = a3 ? A3_SECTIONS : A4_SECTIONS;
   const slug = a3 ? 'your-reactions-have-a-history' : 'formation-is-not-identity';
-  const title = a3 ? 'Your Reactions Have a History' : 'Formation Is Not Identity';
+  const title = a3 ? 'Separate · A3' : 'Understand · A4';
   const prefix = `/deep-dive/awaken/${slug}`;
   const reviewerJump = await reviewJumpFor(query, prefix);
   const progress = a3 ? await getA3() : await getA4();
@@ -62,11 +61,6 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
     return result;
   }
 
-  async function generateReframe(statement: string) {
-    'use server';
-    return requestA4Reframe(statement);
-  }
-
   const review = state.completed;
   const reviewReflection = state.reviewReflection;
   return <AppShell stage="Awaken"><section className="deep-dive-shell">
@@ -77,7 +71,7 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
         <div className="deep-dive-progress__track"><label htmlFor="new-awaken-progress">Section {index + 1} of {sections.length}</label><progress id="new-awaken-progress" value={index + 1} max={sections.length} /></div>
       </section>
       <div className="deep-dive-content">
-        {a3 ? <A3Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} /> : <A4Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} generateReframe={generateReframe} />}
+        {a3 ? <A3Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} /> : <A4Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} />}
         {(section.id !== 'reflection' || reviewReflection) ? <footer className="deep-dive-transition">
           {next ? <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>
             {review ? <Link className="button" href={`${prefix}?section=${next.id}`}>NEXT</Link> : <LessonTransitionForm action={advance} section={next.id} label="NEXT" />}

@@ -35,8 +35,8 @@ export default async function StagePage({ params }: { params: Promise<{ stageId:
   const lessons = [
     awakenModuleNavigation('pay-attention', 'Pay Attention · A1', a1),
     awakenModuleNavigation('catch-yourself-being-you', 'Catch Yourself Being You · A2', a2),
-    awakenModuleNavigation('your-reactions-have-a-history', 'Your Reactions Have a History · A3', a3),
-    awakenModuleNavigation('formation-is-not-identity', 'Formation Is Not Identity · A4', a4),
+    awakenModuleNavigation('your-reactions-have-a-history', 'Separate · A3', a3),
+    awakenModuleNavigation('formation-is-not-identity', 'Understand · A4', a4),
   ];
 
   return (

@@ -13,8 +13,8 @@ export function currentJourneyDestination(
   const awaken = [
     ['pay-attention', 'Pay Attention · A1', a1],
     ['catch-yourself-being-you', 'Catch Yourself Being You · A2', a2],
-    ['your-reactions-have-a-history', 'Your Reactions Have a History · A3', a3],
-    ['formation-is-not-identity', 'Formation Is Not Identity · A4', a4],
+    ['your-reactions-have-a-history', 'Separate · A3', a3],
+    ['formation-is-not-identity', 'Understand · A4', a4],
   ] as const;
   const unfinished = awaken.find(([, , progress]) => progress && !progress.completedAt);
   if (unfinished) return { stage: 'Awaken' as const, href: awakenModuleNavigation(unfinished[0], unfinished[1], unfinished[2]).href };

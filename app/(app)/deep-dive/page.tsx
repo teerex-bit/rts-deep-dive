@@ -6,8 +6,8 @@ export default async function DeepDiveHome() {
   const [progress, a2Progress, a3Progress, a4Progress] = await Promise.all([getA1(), getA2(), getA3(), getA4()]);
   const a1 = awakenModuleNavigation('pay-attention', 'Pay Attention · A1', progress);
   const a2 = awakenModuleNavigation('catch-yourself-being-you', 'Catch Yourself Being You · A2', a2Progress);
-  const a3 = awakenModuleNavigation('your-reactions-have-a-history', 'Your Reactions Have a History · A3', a3Progress);
-  const a4 = awakenModuleNavigation('formation-is-not-identity', 'Formation Is Not Identity · A4', a4Progress);
+  const a3 = awakenModuleNavigation('your-reactions-have-a-history', 'Separate · A3', a3Progress);
+  const a4 = awakenModuleNavigation('formation-is-not-identity', 'Understand · A4', a4Progress);
 
   return (
     <AppShell stage="Awaken">

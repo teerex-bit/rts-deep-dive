@@ -15,8 +15,8 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
     await page.getByLabel('Password').fill(user.password);
     await Promise.all([page.waitForURL(/\/dashboard$/), page.getByRole('button', { name: 'Create account' }).click()]);
     for (const [slug, moduleId, reflection] of [
-      ['your-reactions-have-a-history', 'awaken.your-reactions-have-a-history', 'I may have learned to withdraw when conflict felt unsafe.'],
-      ['formation-is-not-identity', 'awaken.formation-is-not-identity', 'Withdrawal is learned; it is not the whole truth of me.'],
+      ['your-reactions-have-a-history', 'awaken.your-reactions-have-a-history', 'I notice a difference between a label and a behavior in a moment.'],
+      ['formation-is-not-identity', 'awaken.formation-is-not-identity', 'I noticed what I expected and wanted in that moment.'],
     ] as const) {
       const base = `/deep-dive/awaken/${slug}`;
       await page.goto(appRuntimeUrl(base));
@@ -42,40 +42,48 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       await page.getByRole('link', { name: '← Back' }).click();
       await expect(page).toHaveURL(/\/deep-dive\/awaken$/);
       await page.goto(appRuntimeUrl(base));
-      await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? 'Made new, still being formed' : 'What once made sense' })).toBeVisible();
+      await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? 'Expectations, Desires, and Fears' : 'What Was Formed Is Not All You Are' })).toBeVisible();
       await page.goto(appRuntimeUrl('/deep-dive/awaken'));
-      const lessonTitle = slug === 'formation-is-not-identity' ? 'Formation Is Not Identity · A4' : 'Your Reactions Have a History · A3';
+      const lessonTitle = slug === 'formation-is-not-identity' ? 'Understand · A4' : 'Separate · A3';
       const resume = page.getByRole('link', { name: `Resume ${lessonTitle}` });
       await expect(resume).toHaveAttribute('href', new RegExp('section=teaching$'));
       await resume.click();
-      await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? 'Made new, still being formed' : 'What once made sense' })).toBeVisible();
+      await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? 'Expectations, Desires, and Fears' : 'What Was Formed Is Not All You Are' })).toBeVisible();
       await page.getByRole('button', { name: 'NEXT' }).click();
       if (slug === 'your-reactions-have-a-history') {
-        await page.getByLabel('Recurring response').selectOption('Withdrawal');
-        await page.getByLabel('Possible source').selectOption("I'm not sure");
-        await expect(page.getByRole('region', { name: 'Your working thread' })).toContainText('Withdrawal');
-        const cards = await page.locator('.a3-thread__card').evaluateAll(elements => elements.map(element => {
-          const { x, y, width, height } = element.getBoundingClientRect();
-          const control = element.querySelector('select, input')!.getBoundingClientRect();
-          return { x, y, width, height, controlY: control.y };
-        }));
-        expect(cards).toHaveLength(3);
-        if (firstScreen.viewport === 1536) {
-          expect(Math.max(...cards.map(card => card.width)) - Math.min(...cards.map(card => card.width))).toBeLessThan(1);
-          expect(new Set(cards.map(card => card.y))).toHaveProperty('size', 1);
-          expect(new Set(cards.map(card => card.controlY))).toHaveProperty('size', 1);
-        } else {
-          expect(cards[0].y).toBeLessThan(cards[1].y);
-          expect(cards[1].y).toBeLessThan(cards[2].y);
-        }
-        expect(page.locator('.a3-thread').getByText('←')).toHaveCount(0);
+        const identity = page.getByRole('region', { name: 'Separate identity from pattern' });
+        await page.getByLabel('Something I notice myself doing').fill('go quiet');
+        await identity.getByRole('button', { name: 'NEXT', exact: true }).click();
+        await page.getByLabel('A situation where I notice it').fill('conflict begins');
+        await identity.getByRole('button', { name: 'NEXT', exact: true }).click();
+        await page.getByLabel(/what am I tempted to say about myself/i).fill('I am a withdrawn person');
+        await identity.getByRole('button', { name: 'NEXT', exact: true }).click();
+        await expect(identity).toContainText('I tend to go quiet when conflict begins.');
+        await expect(identity).toContainText('I am a withdrawn person');
       } else {
-        await page.getByLabel('A pattern you recognize').fill('I like to be in control.');
-        await page.getByRole('button', { name: 'See another way to say it' }).click();
-        await expect(page.getByRole('region', { name: 'Your working reframe' })).toContainText('not the whole truth');
-        await expect(page.getByRole('region', { name: 'Your working reframe' })).toContainText('I like to be in control.');
-        await page.getByLabel('A different way to say it').fill('I sometimes move toward control, but it is not the whole truth of who I am.');
-        await expect(page.getByLabel('A different way to say it')).toHaveValue(/I sometimes move toward control/);
+        const inquiry = page.getByRole('region', { name: 'Understand a response' });
+        for (const [label, answer] of [
+          ['What happened?', 'A decision was questioned'],
+          ['What were you expecting to happen?', 'They would stop trusting me'],
+          ['What did you want to happen?', 'To be understood'],
+          ['What were you afraid might happen?', 'I would lose respect'],
+          ['What felt threatened or important here?', 'Being respected'],
+        ]) {
+          await page.getByLabel(label).fill(answer);
+          await inquiry.getByRole('button', { name: 'NEXT', exact: true }).click();
+        }
+        await expect(page.getByRole('region', { name: 'Looking across this moment' })).toContainText('What do you notice underneath your response?');
+        await expect(page.getByRole('region', { name: 'Looking across this moment' })).toContainText('They would stop trusting me');
+      }
+      if (firstScreen.viewport === 375) {
+        for (const width of [375, 390, 430, 1536]) {
+          await page.setViewportSize({ width, height: width === 1536 ? 960 : 844 });
+          const dimensions = await page.evaluate(() => ({ viewport: innerWidth, document: document.documentElement.scrollWidth }));
+          expect(dimensions.document).toBeLessThanOrEqual(dimensions.viewport);
+          await expect(page.locator('.awaken-guided')).toBeVisible();
+          await page.screenshot({ path: testInfo.outputPath(`${slug}-guided-${width}.png`), fullPage: true });
+        }
+        await page.setViewportSize({ width: firstScreen.viewport, height: 812 });
       }
       const widths = await page.evaluate(() => ({ viewport: innerWidth, document: document.documentElement.scrollWidth }));
       expect(widths.document).toBeLessThanOrEqual(widths.viewport);
@@ -84,15 +92,15 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       const reflectionHeight = await page.locator('.deep-dive-reflection textarea').evaluate(element => element.getBoundingClientRect().height);
       if (firstScreen.viewport === 375) expect(reflectionHeight).toBeLessThan(145);
       await page.screenshot({ path: testInfo.outputPath(`${slug}-reflection-${testInfo.project.name}.png`), fullPage: true });
-      await page.getByRole('textbox', { name: /Where might|Which pattern/i }).fill(reflection);
+      await page.getByRole('textbox', { name: slug === 'formation-is-not-identity' ? /Was there anything you noticed here/i : /What difference do you notice/i }).fill(reflection);
       await page.getByRole('button', { name: 'Save & continue' }).click();
       await expect(page).toHaveURL(/section=practice$/);
       await page.goto(appRuntimeUrl(base));
-      await expect(page.getByRole('heading', { level: 1, name: /Notice one possible connection|Notice without forcing an answer/ })).toBeVisible();
+      await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? 'Pause and Ask' : 'Notice What You Call Yourself' })).toBeVisible();
       await page.getByRole('button', { name: 'NEXT' }).click();
       if (slug === 'formation-is-not-identity') {
-        await expect(page.getByRole('heading', { level: 1, name: 'Ready to see clearly' })).toBeVisible();
-        await expect(page.getByText('ASK', { exact: true })).toBeVisible();
+        await expect(page.getByRole('heading', { level: 1, name: 'Carry the Questions Forward' })).toBeVisible();
+        await expect(page.getByText('What am I expecting right now?', { exact: false })).toBeVisible();
       }
       await page.getByRole('button', { name: 'Complete lesson' }).click();
       await expect(page).toHaveURL(/section=carry-forward$/);
@@ -107,12 +115,12 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       const beforeReview = await pool.query('select p.last_section_id,p.completed_at,p.updated_at,r.body,r.updated_at as reflection_updated_at from public.deep_dive_module_progress p join public.deep_dive_reflections r on (p.id,p.user_id)=(r.progress_id,r.user_id) where p.user_id=(select id from auth.users where email=$1) and p.module_id=$2', [user.email, moduleId]);
       await forward.click();
       await expect(page).toHaveURL(slug === 'formation-is-not-identity' ? /see-clearly/ : /formation-is-not-identity$/);
-      await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? /See Clearly/i : 'Formation Is Not Identity' })).toBeVisible();
+      await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? /See Clearly/i : 'What Is Driving This Response?' })).toBeVisible();
       await page.goto(appRuntimeUrl('/deep-dive/awaken'));
       const reviewLink = page.getByRole('link', { name: `Review ${lessonTitle}` });
       await expect(reviewLink).toHaveAttribute('href', new RegExp('section=entry$'));
       await reviewLink.click();
-      await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? 'Formation Is Not Identity' : 'Your Reactions Have a History' })).toBeVisible();
+      await expect(page.getByRole('heading', { level: 1, name: slug === 'formation-is-not-identity' ? 'What Is Driving This Response?' : 'Is This Who I Am?' })).toBeVisible();
       const sections = slug === 'formation-is-not-identity' ? A4_SECTIONS : A3_SECTIONS;
       for (const nextSection of sections.slice(1)) {
         await page.getByRole('link', { name: 'NEXT', exact: true }).click();
@@ -129,7 +137,7 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       const afterReview = await pool.query('select p.last_section_id,p.completed_at,p.updated_at,r.body,r.updated_at as reflection_updated_at from public.deep_dive_module_progress p join public.deep_dive_reflections r on (p.id,p.user_id)=(r.progress_id,r.user_id) where p.user_id=(select id from auth.users where email=$1) and p.module_id=$2', [user.email, moduleId]);
       expect(afterReview.rows).toEqual(beforeReview.rows);
       await page.goto(appRuntimeUrl('/deep-dive'));
-      await page.getByRole('link', { name: new RegExp(`Review ${slug === 'formation-is-not-identity' ? 'Formation Is Not Identity' : 'Your Reactions Have a History'} · A[34]`) }).click();
+      await page.getByRole('link', { name: `Review ${lessonTitle}` }).click();
       await expect(page).toHaveURL(/section=entry$/);
       await page.goto(appRuntimeUrl(`${base}?section=reflection`));
       await expect(page.locator('.deep-dive-reflection textarea')).toHaveValue(reflection);
@@ -151,15 +159,18 @@ test('A3 and A4 can skip an empty reflection and resume at practice', async ({ p
     for (const slug of ['your-reactions-have-a-history', 'formation-is-not-identity']) {
       const base = `/deep-dive/awaken/${slug}`;
       await page.goto(appRuntimeUrl(base));
-      for (let index = 0; index < 3; index += 1) await page.getByRole('button', { name: 'NEXT', exact: true }).click();
+      for (let index = 0; index < 2; index += 1) await page.getByRole('button', { name: 'NEXT', exact: true }).click();
+      const unknownSteps = slug === 'formation-is-not-identity' ? 5 : 3;
+      for (let index = 0; index < unknownSteps; index += 1) await page.getByRole('button', { name: 'I’m not sure', exact: true }).click();
+      await page.getByRole('button', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(/section=reflection$/);
-      await page.getByRole('textbox', { name: /Where might|Which pattern/i }).fill('   ');
+      await page.getByRole('textbox', { name: slug === 'formation-is-not-identity' ? /Was there anything you noticed here/i : /What difference do you notice/i }).fill('   ');
       await expect(page.getByRole('button', { name: 'Save & continue' })).toBeDisabled();
       await page.getByRole('button', { name: 'Continue without writing' }).click();
       await expect(page).toHaveURL(/section=practice$/);
       await page.goto(appRuntimeUrl(base));
       await expect(page).toHaveURL(/formation-is-not-identity$|your-reactions-have-a-history$/);
-      await expect(page.getByRole('heading', { level: 1, name: /Notice one possible connection|Notice without forcing an answer/ })).toBeVisible();
+      await expect(page.getByRole('heading', { level: 1, name: /Pause and Ask|Notice What You Call Yourself/ })).toBeVisible();
     }
   } finally { await resetLocalE2eAccount(user.email); }
 });

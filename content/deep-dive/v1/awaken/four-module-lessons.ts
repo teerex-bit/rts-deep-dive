@@ -2,49 +2,49 @@ export type NewAwakenSectionId = 'entry' | 'teaching' | 'trace' | 'reframe' | 'r
 export type NewAwakenSection = Readonly<{ id: NewAwakenSectionId; eyebrow: string; title: string; paragraphs: readonly string[]; prompt?: string }>;
 
 export const A3_SECTIONS: readonly NewAwakenSection[] = [
-  { id: 'entry', eyebrow: 'AWAKEN · A3', title: 'Your Reactions Have a History', paragraphs: [
-    'In the last lesson, you may have noticed a response that appears in more than one situation. You do not need to remember a perfect example or recover a map of every moment. Choose one response you recognize and hold it gently as you read.',
-    'A response can become familiar long before we know how to describe it. When it appears again, we can pause and ask how it may have learned to make sense. The question invites curiosity, not a verdict about your past.',
+  { id: 'entry', eyebrow: 'AWAKEN · A3 · SEPARATE', title: 'Is This Who I Am?', paragraphs: [
+    'You may already recognize a pattern you have been noticing. Or you may only have a few reactions that seem familiar. You do not need to have it figured out. A2 helped you begin to recognize what you tend to do; this lesson gives you room to consider what that says about you—and what it does not.',
+    'A repeated response can be real, and a pattern may need to change. But something that has been formed in you is not automatically who you are. We will begin with what you have noticed, then compare the behavior itself with the conclusion you may draw about yourself.',
   ] },
-  { id: 'teaching', eyebrow: 'HOW A RESPONSE FORMS', title: 'What once made sense', paragraphs: [
-    'Our responses can be learned through repeated experiences, modeled by people around us, taught directly, rewarded, or chosen because they seemed to help. A response that once offered a little safety or predictability may begin to happen automatically. That history does not make every present response wise, but it helps explain why change can require more than deciding to act differently.',
-    'A person who learned that conflict usually became explosive may have discovered that going quiet kept things from getting worse. Years later, the same withdrawal may appear even when the present relationship is safe enough for honest conversation. This example does not tell you where your own response came from; only you can consider what fits, and “I’m not sure” is a truthful answer.',
-    'Recognizing a history does not assign blame to someone else or excuse harm we may have caused. It gives us a way to notice what was formed without pretending we know every cause. We can take responsibility for what we do now while remaining honest about how a response developed.',
+  { id: 'teaching', eyebrow: 'A PATTERN IS NOT IDENTITY', title: 'What Was Formed Is Not All You Are', paragraphs: [
+    'Responses can become familiar through repeated experiences, what we see modeled, what we are taught, and strategies that once seemed to help. A response may feel automatic because it has been practiced often. That history can help explain why change takes time, but you do not need to prove where a response began before you can notice it.',
+    'A person may say, “I am a withdrawn person,” when what they have noticed is, “I learned to protect myself by withdrawing.” Someone may call themselves controlling, while a more specific observation is, “I often become controlling when I feel uncertain.” The second statement does not excuse the behavior or guarantee that its history is known. It describes a response without making it the whole identity.',
+    'The goal is not positive thinking. The goal is accuracy. Second Corinthians 5:17 says that anyone in Christ is a new creation. Old habits and ways of responding may still need attention, but they are not the final truth about who you are in Christ. We can tell the truth about what we do while leaving room for the new life God gives.',
   ] },
-  { id: 'trace', eyebrow: 'TRACE A THREAD', title: 'What might have shaped it?', paragraphs: [
-    'Begin with one recurring response you actually recognize. Consider a possible source, then what the response may once have helped you accomplish, protect, or avoid. You may choose “I’m not sure” at any point. These selections are just for reflection and are not saved.',
+  { id: 'trace', eyebrow: 'NOTICE WHAT YOU HAVE SEEN', title: 'Describe What You Notice', paragraphs: [
+    'Start with whatever you have noticed, even if it happened once or is not yet a clear pattern. Then place it in a kind of moment where you noticed it. Only after that, consider what you may be tempted to say about yourself. “I’m not sure” is a complete and honest response; nothing here asks you to settle on a label.',
   ] },
-  { id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'What are you beginning to see?', paragraphs: [
-    'Where might this response have learned to make sense, and what might it once have helped you accomplish, protect, or avoid? Write only what you want to keep. You can also continue without writing or without knowing the answer.',
-  ], prompt: 'Where might this response have learned to make sense? What might it once have helped you accomplish, protect, or avoid?' },
-  { id: 'practice', eyebrow: 'IN YOUR DAY', title: 'Notice one possible connection', paragraphs: [
-    'When a familiar response appears this week, name it without rushing to explain it. If a possible source comes to mind, you can hold that possibility lightly and ask what the response may have helped with before. “I’m not sure” remains a valid place to stop.',
+  { id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'Notice the Difference', paragraphs: [
+    'You have seen two kinds of statements side by side: a conclusion about who you are and a description of what you noticed yourself doing in a particular kind of moment. You do not need to decide what the difference means for your whole life. If something stands out to you, put it in your own words; if not, you can continue without writing.',
+  ], prompt: 'What difference do you notice?' },
+  { id: 'practice', eyebrow: 'IN YOUR DAY', title: 'Notice What You Call Yourself', paragraphs: [
+    'Pay attention when a sentence like “I’m just like that,” “That’s who I am,” “I’ve always been this way,” or “I can’t help it” comes to mind. You do not have to argue with yourself or replace it with a positive slogan. Pause and ask: Is this my identity, or is this a pattern I have learned? A clear description can make room to respond differently while still taking responsibility for what you do.',
   ] },
-  { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'A response can have a history', paragraphs: [
-    'You have noticed a response and considered how it may have been formed. You do not need to prove its origin to keep paying attention. In the next lesson, you will consider why what was formed in you is not the whole truth of who you are.',
+  { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'Ready to Understand', paragraphs: [
+    'You can notice what you do without making that response the whole truth of who you are. A pattern can be real, shaped over time, and still not define your identity. Next, you will look at one real moment and begin to notice what may have been moving underneath your response.',
   ] },
 ];
 
 export const A4_SECTIONS: readonly NewAwakenSection[] = [
-  { id: 'entry', eyebrow: 'AWAKEN · A4', title: 'Formation Is Not Identity', paragraphs: [
-    'What formed you is not the same thing as who you are. A learned response can influence what you do, what you expect, and how you feel in a moment. It may still be active in you without defining your identity or deciding your future.',
-    'It is easy to turn a familiar pattern into a name for ourselves: “I’m just controlling,” “I’m bad at conflict,” or “I’m just this way.” Those statements may point to something real we need to face, but they say more than a pattern can tell us. A response is something to recognize and bring into the light, not the whole truth of a person.',
+  { id: 'entry', eyebrow: 'AWAKEN · A4 · UNDERSTAND', title: 'What Is Driving This Response?', paragraphs: [
+    'You have begun to notice an internal response, recognize something that may repeat, and separate a learned pattern from your identity. Now you can become curious about a particular moment: what were you expecting, wanting, or afraid might happen? What felt important or threatened?',
+    'These questions are not a search for one hidden cause. They help you slow down enough to notice what was going on inside. You may find one thing, several things, or no clear answer yet.',
   ] },
-  { id: 'teaching', eyebrow: 'NEW LIFE AND CONTINUING CHANGE', title: 'Made new, still being formed', paragraphs: [
-    'In Christ, old formation is no longer the final word about who you are. Being made new does not mean every thought, emotion, bodily response, habit, relationship pattern, and desire was retrained instantly. Discovering old formation does not cancel what happened in Christ; it shows where the work of transformation can continue.',
-    'Change reaches deeper than managing outward behavior. As we learn to notice an automatic response, we can bring it to God and practice a different way of living over time. We do not need to deny the pattern to believe that change is possible.',
+  { id: 'teaching', eyebrow: 'LOOK BENEATH THE FIRST RESPONSE', title: 'Expectations, Desires, and Fears', paragraphs: [
+    'Expectations can operate quietly: people should understand me; I should not fail; conflict will end badly; people may leave when disappointed; uncertainty may become danger; if I am not in control, something important may fall apart. The first step is not deciding whether an expectation is right. It is noticing what you expected in that moment.',
+    'Desire also shapes a response. We may want respect, acceptance, peace, certainty, to be right, to be needed, to avoid embarrassment, or for someone else to change. Desire is not automatically wrong. It becomes useful to examine when it grows so important that it begins governing our response. Wanting peace may lead someone to avoid a needed conversation; wanting to be understood may lead to defensiveness; wanting order may lead to control. These are examples, not interpretations of your choices.',
+    'Fear may be present too, though it is not always easy to name. You might wonder what could happen if you did not get what you wanted, or if your expectation failed. “I’m not sure” is a valid answer. You do not have to diagnose yourself or explain where a fear came from.',
   ] },
-  { id: 'reframe', eyebrow: 'SEPARATE THE TWO', title: 'A pattern is not a name', paragraphs: [
-    'Choose one familiar response and put it into words. “I am controlling” can become “I learned to move toward control when I feel uncertain.” This change in language does not excuse the response; it makes room to recognize what was formed without turning it into identity.',
+  { id: 'trace', eyebrow: 'ONE REAL MOMENT', title: 'Stay with a Moment', paragraphs: [
+    'Choose one recent moment when you noticed a response in yourself. We will take it one question at a time: what happened, what you expected, what you wanted, what you feared might happen, and what felt important. You do not need to tell the whole story or make every answer clear.',
   ] },
-  { id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'What have you called yourself?', paragraphs: [
-    'Which pattern have you been treating as “just who I am”? If you have already seen a small sign that change is possible, you may name it too. Write only what feels useful to keep.',
-  ], prompt: 'Which pattern have you been treating as “just who I am”? What would you say about it now?' },
-  { id: 'practice', eyebrow: 'IN YOUR DAY', title: 'Notice without forcing an answer', paragraphs: [
-    'When a familiar response appears, notice and name what is happening without judging your identity by it. Ask God what He wants you to see, then stay with what becomes clear. You can leave the question open; receiving does not require an immediate answer.',
+  { id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'Keep What You Noticed', paragraphs: [
+    'There may or may not be something from this moment you want to remember. If something meaningful emerged, you can save it here in your own words. You do not need a complete explanation, and you can continue without writing.',
+  ], prompt: 'Was there anything you noticed here that you want to remember?' },
+  { id: 'practice', eyebrow: 'IN YOUR DAY', title: 'Pause and Ask', paragraphs: [
+    'When you notice a familiar response beginning, pause and ask: What am I expecting right now? What do I want right now? What am I afraid might happen? You do not have to answer every question. Even noticing one expectation, desire, fear, or concern can help you stay present without pretending you have found the whole explanation.',
   ] },
-  { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'Ready to see clearly', paragraphs: [
-    'You can notice an internal response, recognize a recurring pattern, and consider that it has a history. What was formed in you is real, but it is not the whole truth of who you are. You can bring what you notice to God without forcing an interpretation.',
-    'Awaken ends here. In See Clearly, you will look more closely at what you believe about yourself and God, and ask what is actually true.',
+  { id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'Carry the Questions Forward', paragraphs: [
+    'You have practiced looking at one moment through your own expectations, desires, fears, and concerns. These questions can make a response easier to see without reducing it to one cause. Awaken ends here. In See Clearly, you will look more closely at what you believe about yourself and God, and ask what is actually true.',
   ] },
 ];

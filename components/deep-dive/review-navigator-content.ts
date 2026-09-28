@@ -13,8 +13,8 @@ export const REVIEW_NAVIGATION = [
   { stage: 'AWAKEN', lessons: [
     { title: 'Pay Attention', path: '/deep-dive/awaken/pay-attention', sections: A1_SECTIONS },
     { title: 'Catch Yourself Being You', path: '/deep-dive/awaken/catch-yourself-being-you', sections: A2_SECTIONS },
-    { title: 'Your Reactions Have a History', path: '/deep-dive/awaken/your-reactions-have-a-history', sections: A3_SECTIONS },
-    { title: 'Formation Is Not Identity', path: '/deep-dive/awaken/formation-is-not-identity', sections: A4_SECTIONS },
+    { title: 'Separate · A3: Is This Who I Am?', path: '/deep-dive/awaken/your-reactions-have-a-history', sections: A3_SECTIONS },
+    { title: 'Understand · A4: What Is Driving This Response?', path: '/deep-dive/awaken/formation-is-not-identity', sections: A4_SECTIONS },
   ] },
   { stage: 'SEE CLEARLY', lessons: [
     { title: 'Facts and Interpretation', path: '/deep-dive/see-clearly/facts-and-interpretation', sections: SC1_SECTIONS },

@@ -7,8 +7,8 @@ afterEach(cleanup);
 describe('completed Awaken lesson navigation', () => {
   const handoffs = [
     ['a1', 'Catch yourself being you', '/deep-dive/awaken/catch-yourself-being-you'],
-    ['a2', 'Your Reactions Have a History', '/deep-dive/awaken/your-reactions-have-a-history'],
-    ['a3', 'Formation Is Not Identity', '/deep-dive/awaken/formation-is-not-identity'],
+    ['a2', 'Separate · A3: Is This Who I Am?', '/deep-dive/awaken/your-reactions-have-a-history'],
+    ['a3', 'Understand · A4: What Is Driving This Response?', '/deep-dive/awaken/formation-is-not-identity'],
     ['a4', 'See Clearly', '/deep-dive/see-clearly'],
   ] as const;
 
