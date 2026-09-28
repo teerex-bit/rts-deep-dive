@@ -30,7 +30,8 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     await expect(page.getByRole('link', { name: 'BACK TO FORMATION JOURNEY' })).toHaveAttribute('href', '/dashboard');
     const primary = page.getByRole('link', { name: /NEXT/ });
     await expect(primary).toHaveText('NEXT');
-    await expect(page.getByText('The Learned Self-Story', { exact: true })).toBeVisible();
+    const nextDestination = page.getByRole('navigation', { name: 'Continue your journey' });
+    await expect(nextDestination.getByText('The Learned Self-Story', { exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Review SY2' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Begin SY4' })).toHaveCount(0);
     await primary.click();

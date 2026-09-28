@@ -28,7 +28,7 @@ test('SG1 guided recognition, exact wording, independent deletion and no-write r
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await expect(page.getByRole('heading', { name: 'The picture beneath what I say' })).toBeVisible();
     for (const section of SG1_SECTIONS.slice(1, 4)) {
-      await page.getByRole('button', { name: section.id === 'formation' ? 'Begin' : 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
@@ -93,7 +93,7 @@ test('SG1 skip path and responsive recognition', async ({ page }, testInfo) => {
     await signUp(page, user.email, user.password);
     await page.goto(appRuntimeUrl(base));
     for (const section of SG1_SECTIONS.slice(1, 4)) {
-      await page.getByRole('button', { name: section.id === 'formation' ? 'Begin' : 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT', exact: true }).click();
     }
     for (const width of [375, 768, 1536]) {
       await page.setViewportSize({ width, height: 900 });

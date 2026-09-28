@@ -40,7 +40,7 @@ test('SG3 guided observation, review and deletion preserve exact participant sta
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await expect(page.getByRole('heading', { name: 'Look at Jesus' })).toBeVisible();
     for (const section of SG3_SECTIONS.slice(1, 4)) {
-      await page.getByRole('button', { name: section.id === 'scripture' ? 'Begin' : 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     await expect(page.getByText('My earlier expectation (optional)')).toBeVisible();
@@ -104,7 +104,7 @@ test('SG3 optional observation and reflection can both be skipped', async ({ pag
     const owner = (await pool.query<{ id: string }>('select id from auth.users where email=$1', [user.email])).rows[0].id;
     await seedPrerequisites(pool, owner);
     await page.goto(appRuntimeUrl(base));
-    for (const section of SG3_SECTIONS.slice(1, 4)) await page.getByRole('button', { name: section.id === 'scripture' ? 'Begin' : 'Continue' }).click();
+    for (const section of SG3_SECTIONS.slice(1, 4)) await page.getByRole('button', { name: 'NEXT', exact: true }).click();
     await page.getByRole('button', { name: 'Continue without saving' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();

@@ -51,8 +51,9 @@ test('SY3 story, optional source, resume, review, deletion lineage, and handoff'
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await expect(page.getByText('What Is Actually True About Me')).toBeVisible();
     await page.getByRole('link', { name: 'Review SY3' }).click();
+    await expect(page).toHaveURL(new RegExp(`${base}\\?section=entry$`));
     for (const section of SY3_SECTIONS.slice(1)) {
-      await page.getByRole('link', { name: 'NEXT', exact: true }).click();
+      await page.locator('.deep-dive-transition').getByRole('link', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     expect((await pool.query(query, [user.email])).rows).toEqual(before);

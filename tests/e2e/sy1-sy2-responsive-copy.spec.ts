@@ -17,6 +17,8 @@ test('captures the SY1 handoff and affected SY2 screens at mobile and desktop wi
     const owner = (await pool.query<{ id: string }>('select id from auth.users where email=$1', [user.email])).rows[0].id;
     await pool.query(`insert into public.deep_dive_module_progress(user_id,curriculum_version_id,module_id,last_section_id,completed_at)
       values($1,'phase-1-v1','see-clearly.sc1','carry-forward',now())`, [owner]);
+    await pool.query(`insert into public.deep_dive_module_progress(user_id,curriculum_version_id,module_id,last_section_id,completed_at)
+      values($1,'phase-1-v1','see-clearly.sy2','carry-forward',now())`, [owner]);
 
     const widths = [375, 390, 430, 1536];
     for (const width of widths) {
@@ -41,7 +43,11 @@ test('captures the SY1 handoff and affected SY2 screens at mobile and desktop wi
         ['practice', 'Notice a chain as it forms'],
       ] as const) {
         await page.goto(appRuntimeUrl(`/deep-dive/see-clearly/follow-the-formation-chain?section=${section}`));
-        await expect(page.getByRole('heading', { name: heading })).toBeVisible();
+        if (section === 'chain') {
+          await expect(page.getByRole('list', { name: heading })).toBeVisible();
+        } else {
+          await expect(page.getByRole('heading', { name: heading })).toBeVisible();
+        }
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
         await page.screenshot({ path: testInfo.outputPath(`sy2-${section}-${width}.png`), fullPage: true });
       }

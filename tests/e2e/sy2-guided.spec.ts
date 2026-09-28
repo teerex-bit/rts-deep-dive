@@ -20,7 +20,7 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     await page.goto(appRuntimeUrl(base));
     await expect(page.getByRole('heading', { name: 'How a Reaction Takes Shape' })).toBeVisible();
     for (const section of SY2_SECTIONS.slice(1, 4)) {
-      await page.getByRole('button', { name: section.id === 'chain' ? 'Begin' : 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));

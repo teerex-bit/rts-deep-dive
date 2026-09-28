@@ -37,7 +37,8 @@ test('A2 saves, resumes, and completes with an isolated account on mobile and de
     await page.getByLabel('Typical response for A plan changes unexpectedly').selectOption('Control');
     await page.getByLabel('First internal move for I feel overlooked').selectOption('Insecurity');
     await page.getByLabel('Typical response for I feel overlooked').selectOption('Control');
-    await expect(page.getByRole('region', { name: 'A response that repeats' })).toContainText('2 situations');
+    const patternFeedback = page.getByRole('region', { name: 'WHAT MAY BE REPEATING' });
+    await expect(patternFeedback).toContainText('Different things were happening inside, but both moments moved toward control.');
     const patternWidths = await page.evaluate(() => {
       const layoutSelectors = ['.deep-dive-shell', '.deep-dive-layout', '.deep-dive-content', '.deep-dive-lesson--a2', '.a2-pattern-map', '.a2-pattern-map__reflection'];
       const layout = layoutSelectors.map(selector => {
@@ -160,7 +161,7 @@ test('A2 Skip for now advances without saving a reflection and resumes there', a
     ]);
 
     await page.goto(appRuntimeUrl('/deep-dive/awaken/catch-yourself-being-you'));
-    for (const label of ['Begin', 'Continue', 'Continue']) await page.getByRole('button', { name: label, exact: true }).click();
+    for (let section = 0; section < 3; section += 1) await page.getByRole('button', { name: 'NEXT', exact: true }).click();
     await expect(page).toHaveURL(/section=reflection$/);
     await expect(page.getByRole('heading', { level: 1, name: 'What are you beginning to recognize?' })).toBeVisible();
     await page.getByRole('button', { name: 'Continue without writing' }).click();

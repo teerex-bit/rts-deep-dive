@@ -27,7 +27,7 @@ test('SG2 guided expectation, review, deletion, and responsive recognition', asy
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await expect(page.getByRole('heading', { name: 'What I expect from God' })).toBeVisible();
     for (const section of SG2_SECTIONS.slice(1, 3)) {
-      await page.getByRole('button', { name: section.id === 'examples' ? 'Begin' : 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     await page.getByText('Look back at what I wrote earlier (optional)').click();

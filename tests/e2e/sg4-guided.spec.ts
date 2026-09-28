@@ -41,7 +41,7 @@ test('SG4 guided trust question, review and independent deletion', async ({ page
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await expect(page.getByRole('heading', { name: 'Can I trust God here?' })).toBeVisible();
     for (const section of SG4_SECTIONS.slice(1, 4)) {
-      await page.getByRole('button', { name: section.id === 'uncertainty' ? 'Begin' : 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     await expect(page.getByText('What I noticed earlier (optional)')).toBeVisible();
@@ -108,7 +108,7 @@ test('SG4 optional trust and reflection can be skipped', async ({ page }, testIn
     const owner = (await pool.query<{ id: string }>('select id from auth.users where email=$1', [user.email])).rows[0].id;
     await seedPrerequisites(pool, owner);
     await page.goto(appRuntimeUrl(base));
-    for (const section of SG4_SECTIONS.slice(1, 4)) await page.getByRole('button', { name: section.id === 'uncertainty' ? 'Begin' : 'Continue' }).click();
+    for (const section of SG4_SECTIONS.slice(1, 4)) await page.getByRole('button', { name: 'NEXT', exact: true }).click();
     await page.getByRole('button', { name: 'Continue without saving' }).click();
     await page.getByRole('button', { name: 'Continue without writing' }).click();
     await page.getByRole('button', { name: 'Complete lesson' }).click();

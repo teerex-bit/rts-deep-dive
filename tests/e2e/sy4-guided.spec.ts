@@ -23,7 +23,7 @@ test('SY4 guided truth, owned SY3 link, deletion, review, and movement handoff',
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
     await expect(page.getByRole('heading', { name: 'What gets to define me?' })).toBeVisible();
     for (const section of SY4_SECTIONS.slice(1, 4)) {
-      await page.getByRole('button', { name: section.id === 'formation' ? 'Begin' : 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     await page.goto(appRuntimeUrl(`${base}?section=carry-forward`));
@@ -109,7 +109,7 @@ test('SY4 optional no-source path and focused responsive truth surface', async (
     await signUp(page, user.email, user.password);
     await page.goto(appRuntimeUrl(base));
     for (const section of SY4_SECTIONS.slice(1, 4)) {
-      await page.getByRole('button', { name: section.id === 'formation' ? 'Begin' : 'Continue' }).click();
+      await page.getByRole('button', { name: 'NEXT', exact: true }).click();
     }
     for (const width of [375, 768, 1536]) {
       await page.setViewportSize({ width, height: 900 });
