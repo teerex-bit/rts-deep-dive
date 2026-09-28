@@ -23,6 +23,7 @@ test('A2 saves, resumes, and completes with an isolated account on mobile and de
     await expect(page.getByRole('heading', { level: 1, name: 'Catch Yourself Being You' })).toBeVisible();
     await expect(page.getByRole('progressbar', { name: 'Section 1 of 7' })).toHaveJSProperty('value', 1);
     await expect(page.getByRole('region', { name: 'A2 lesson progress' })).toBeVisible();
+    await expect(page.getByRole('list', { name: 'Awaken movements' })).toContainText('RECOGNIZE');
     await expect(page.locator('.deep-dive-lesson-meta')).toHaveCount(0);
     await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page).toHaveURL(/section=patterns$/);
@@ -56,6 +57,14 @@ test('A2 saves, resumes, and completes with an isolated account on mobile and de
     });
     expect(patternWidths.document, JSON.stringify({ layout: patternWidths.layout, overflow: patternWidths.overflow })).toBeLessThanOrEqual(patternWidths.viewport);
     await page.screenshot({ path: testInfo.outputPath(`a2-pattern-map-${testInfo.project.name}.png`), fullPage: true });
+    if (testInfo.project.name === 'mobile-375') {
+      for (const width of [375, 390, 430, 1536]) {
+        await page.setViewportSize({ width, height: width === 1536 ? 960 : 844 });
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `A2 discovery overflows at ${width}px`).toBe(true);
+        await page.screenshot({ path: testInfo.outputPath(`a2-discover-${width}.png`), fullPage: true });
+      }
+      await page.setViewportSize({ width: 375, height: 812 });
+    }
     await page.getByRole('button', { name: 'NEXT' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'Seeing clearly' })).toBeVisible();
     await expect(page.getByRole('figure', { name: 'James 1:23–24 Scripture passage' })).toBeVisible();

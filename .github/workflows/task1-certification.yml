@@ -9,6 +9,7 @@ on:
       - review
       - review-db-candidate
       - dev/a1-a2-experience-redesign
+      - prototype/awaken-experience
   workflow_dispatch:
 
 permissions:

@@ -16,7 +16,8 @@ describe('A3 separates identity from learned patterns', () => {
   });
 
   it('builds a direct wording comparison and accepts uncertainty without interpretation', () => {
-    render(<A3Lesson {...base} section={A3_SECTIONS.find(s => s.id === 'trace')!} />);
+    const { container } = render(<A3Lesson {...base} section={A3_SECTIONS.find(s => s.id === 'trace')!} />);
+    expect(container.querySelector('[data-experience-type="discover"]')).toBeInTheDocument();
     fireEvent.change(screen.getByLabelText('Something I notice myself doing'), { target: { value: 'I like ice cream' } });
     fireEvent.click(screen.getByRole('button', { name: 'NEXT' }));
     fireEvent.change(screen.getByLabelText('A situation where I notice it'), { target: { value: 'weekends' } });
@@ -30,6 +31,8 @@ describe('A3 separates identity from learned patterns', () => {
     expect(comparison).not.toHaveTextContent(/this means|learned to respond|your past|protect yourself/i);
     expect(screen.getByText(/What you say about yourself is a conclusion/i)).toBeInTheDocument();
     expect(screen.getByText(/What you noticed yourself doing in a particular kind of moment describes a pattern/i)).toBeInTheDocument();
+    expect(screen.getByText('IDENTITY CLAIM')).toBeInTheDocument();
+    expect(screen.getByText('OBSERVED PATTERN')).toBeInTheDocument();
   });
 
   it('keeps reflection open and makes the saved prompt ask what the participant notices', () => {

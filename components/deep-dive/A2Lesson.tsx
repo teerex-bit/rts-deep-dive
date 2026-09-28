@@ -52,6 +52,7 @@ function toggle(values: readonly string[], value: string) {
 }
 
 export function A2Lesson({ section, reflection, saveReflection, editReflection, review = false }: { section: A2Section; reflection: string | null; saveReflection: A2ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean }) {
+  const experienceType = section.id === 'scripture' ? 'scripture' : section.id === 'reflection' ? 'preserve' : section.id === 'practice' || section.id === 'carry-forward' ? 'carry-forward' : section.id === 'patterns' || section.id === 'go-deeper' ? 'discover' : 'teach';
   const [saveState, formAction, pending] = useActionState(saveReflection, { saved: false });
   const [editedSinceSave, setEditedSinceSave] = useState(false);
   const [body, setBody] = useState(reflection ?? '');
@@ -75,7 +76,7 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
   }, [pending, saveState.saved]);
 
   return (
-    <article className={`deep-dive-lesson deep-dive-lesson--a2 deep-dive-lesson--${section.id}`}>
+    <article className={`deep-dive-lesson deep-dive-lesson--a2 deep-dive-lesson--${section.id} experience-type--${experienceType}`} data-experience-type={experienceType}>
       <p className="eyebrow deep-dive-section-label">{section.eyebrow}</p>
       <h1>{section.title}</h1>
       {section.id === 'entry' ? (
@@ -148,6 +149,7 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
         <>
           <div className="deep-dive-a2-prompts">{section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
           {review ? <ReviewReflection id="a2-reflection" label={section.prompt ?? 'Your reflection'} reflection={reflection} action={editReflection} /> : <form className="deep-dive-reflection a2-reflection" action={formAction}>
+            <p className="deep-dive-reflection__optional">Optional · for something you want to keep</p>
             <label htmlFor="a2-reflection">{section.prompt}</label>
             <textarea id="a2-reflection" name="body" value={body} placeholder="Write only what you want to keep…" onChange={event => { setBody(event.target.value); setEditedSinceSave(true); }} />
             <div className="deep-dive-reflection__actions">

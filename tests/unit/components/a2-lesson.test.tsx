@@ -69,6 +69,12 @@ describe('A2 participant experience', () => {
     expect(saveReflection).not.toHaveBeenCalled();
   });
 
+  it('marks the pattern map as a discovery moment and preserves temporary working inputs', () => {
+    const { container } = render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'patterns')!} reflection={null} saveReflection={vi.fn()} />);
+    expect(container.querySelector('[data-experience-type="discover"]')).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('These selections are not saved.');
+  });
+
   it('ignores incomplete selections and offers no pattern claim until two moments are complete', () => {
     render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'patterns')!} reflection={null} saveReflection={vi.fn()} />);
 

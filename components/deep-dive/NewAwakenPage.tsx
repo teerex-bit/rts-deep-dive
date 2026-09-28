@@ -68,6 +68,9 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
     <div className="deep-dive-layout">
       <section className="deep-dive-progress" aria-label={`${a3 ? 'A3' : 'A4'} lesson progress`}>
         <div className="deep-dive-progress__identity"><span className="eyebrow">AWAKEN · {a3 ? 'A3' : 'A4'}</span><span aria-hidden="true">/</span><strong>{title}</strong></div>
+        <ol className="awaken-sequence" aria-label="Awaken movements">
+          {([['A1', 'NOTICE'], ['A2', 'RECOGNIZE'], ['A3', 'SEPARATE'], ['A4', 'UNDERSTAND']] as const).map(([id, label]) => <li key={id} aria-current={id === (a3 ? 'A3' : 'A4') ? 'step' : undefined}><span>{id}</span>{label}</li>)}
+        </ol>
         <div className="deep-dive-progress__track"><label htmlFor="new-awaken-progress">Section {index + 1} of {sections.length}</label><progress id="new-awaken-progress" value={index + 1} max={sections.length} /></div>
       </section>
       <div className="deep-dive-content">

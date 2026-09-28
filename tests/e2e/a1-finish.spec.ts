@@ -34,12 +34,30 @@ test('Awaken introduction and A1 complete responsively with confirmed reflection
     await expect(page.getByRole('img', { name: 'Reforming the Soul' })).toHaveAttribute('src', '/assets/logos/rts-tree-wordmark.png');
     await expect(page.getByRole('progressbar', { name: 'Section 1 of 9' })).toHaveJSProperty('value', 1);
     await expect(page.getByRole('region', { name: 'A1 lesson progress' })).toBeVisible();
+    await expect(page.getByRole('list', { name: 'Awaken movements' })).toContainText('NOTICE');
     await expect(page.locator('.deep-dive-lesson-meta')).toHaveCount(0);
+    if (testInfo.project.name === 'mobile-375') {
+      for (const width of [375, 390, 430, 1536]) {
+        await page.setViewportSize({ width, height: width === 1536 ? 960 : 844 });
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
+        expect(overflow, `A1 opening overflows at ${width}px`).toBe(false);
+        await page.screenshot({ path: testInfo.outputPath(`a1-opening-${width}.png`), fullPage: true });
+      }
+      await page.setViewportSize({ width: 375, height: 812 });
+    }
 
     await advance(page, 'NEXT', 2);
     await expect(page).toHaveURL(/section=moment$/);
     await expect(page.getByRole('group', { name: 'A message on your phone' })).toBeVisible();
     await page.screenshot({ path: testInfo.outputPath(`a1-pause-${testInfo.project.name}.png`), fullPage: true });
+    if (testInfo.project.name === 'mobile-375') {
+      for (const width of [375, 390, 430, 1536]) {
+        await page.setViewportSize({ width, height: width === 1536 ? 960 : 844 });
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `A1 noticing overflows at ${width}px`).toBe(true);
+        await page.screenshot({ path: testInfo.outputPath(`a1-notice-${width}.png`), fullPage: true });
+      }
+      await page.setViewportSize({ width: 375, height: 812 });
+    }
     await advance(page, 'NEXT', 3);
     await expect(page.getByRole('group', { name: 'What happened around you' })).toBeVisible();
     await expect(page.getByRole('group', { name: 'What happened inside you' })).toBeVisible();

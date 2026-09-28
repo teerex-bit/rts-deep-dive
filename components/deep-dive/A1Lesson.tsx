@@ -8,6 +8,7 @@ export type A1ReflectionSaveState = Readonly<{ saved: boolean; error?: string }>
 type A1ReflectionAction = (state: A1ReflectionSaveState, formData: FormData) => Promise<A1ReflectionSaveState>;
 
 export function A1Lesson({ section, index, total, reflection, saveReflection, editReflection, review = false }: { section: A1Section; index: number; total: number; reflection: string | null; saveReflection: A1ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean }) {
+  const experienceType = section.id === 'scripture' ? 'scripture' : section.id === 'reflection' ? 'preserve' : section.id === 'practice' || section.id === 'carry-forward' ? 'carry-forward' : section.id === 'moment' || section.id === 'outside-inside' ? 'notice' : 'teach';
   const [open, setOpen] = useState(false);
   const [saveState, formAction, pending] = useActionState(saveReflection, { saved: false });
   const [editedSinceSave, setEditedSinceSave] = useState(false);
@@ -20,7 +21,7 @@ export function A1Lesson({ section, index, total, reflection, saveReflection, ed
   const renderParagraphs = (className?: string) => section.paragraphs.map((paragraph, paragraphIndex) => <p key={paragraphIndex} className={className}>{paragraph}</p>);
 
   return (
-    <article className={`deep-dive-lesson deep-dive-lesson--a1 deep-dive-lesson--${section.id}`}>
+    <article className={`deep-dive-lesson deep-dive-lesson--a1 deep-dive-lesson--${section.id} experience-type--${experienceType}`} data-experience-type={experienceType}>
       <p className="eyebrow deep-dive-section-label">{section.eyebrow}</p>
       {section.id !== 'moment' ? <h1>{section.title}</h1> : null}
       {section.id === 'moment' ? (
@@ -83,6 +84,7 @@ export function A1Lesson({ section, index, total, reflection, saveReflection, ed
         <ReviewReflection id="a1-reflection" label={section.prompt ?? 'Your reflection'} reflection={reflection} action={editReflection} />
       ) : section.id === 'reflection' ? (
         <form className="deep-dive-reflection" action={formAction}>
+          <p className="deep-dive-reflection__optional">Optional · for something you want to keep</p>
           <label htmlFor="a1-reflection">{section.prompt}</label>
           <textarea
             id="a1-reflection"

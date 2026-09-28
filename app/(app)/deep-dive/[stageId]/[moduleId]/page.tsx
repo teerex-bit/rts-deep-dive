@@ -24,8 +24,17 @@ import { completeA1, completeA2, editDeepDiveReflection, getA1, getA2, saveA1Ref
 import { A1_MODULE_ID, A1_REFLECTION_PROMPT_ID, A2_MODULE_ID, A2_REFLECTION_PROMPT_ID } from '../../../../../domain/deep-dive';
 
 function LessonProgress({ module, title, index, total }: { module: 'A1' | 'A2'; title: string; index: number; total: number }) {
+  const movements = [
+    ['A1', 'NOTICE'],
+    ['A2', 'RECOGNIZE'],
+    ['A3', 'SEPARATE'],
+    ['A4', 'UNDERSTAND'],
+  ] as const;
   return <section className="deep-dive-progress" aria-label={`${module} lesson progress`}>
     <div className="deep-dive-progress__identity"><span className="eyebrow">AWAKEN · {module}</span><span aria-hidden="true">/</span><strong>{title}</strong></div>
+    <ol className="awaken-sequence" aria-label="Awaken movements">
+      {movements.map(([id, label]) => <li key={id} aria-current={id === module ? 'step' : undefined}><span>{id}</span>{label}</li>)}
+    </ol>
     <div className="deep-dive-progress__track"><label htmlFor={`${module}-section-progress`}>Section {index + 1} of {total}</label><progress id={`${module}-section-progress`} value={index + 1} max={total} /></div>
   </section>;
 }

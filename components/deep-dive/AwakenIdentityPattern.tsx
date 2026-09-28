@@ -39,8 +39,8 @@ export function AwakenIdentityPattern() {
       <p className="eyebrow">NOTICE THE DIFFERENCE</p>
       <p>What you say about yourself is a conclusion about who you are. What you noticed yourself doing in a particular kind of moment describes a pattern. Those are not necessarily the same thing.</p>
       <div className="awaken-guided__pair">
-        <p><strong>“I am __________.”</strong><span>{answers[2]}</span></p>
-        <p><strong>“I tend to … when …”</strong><span>{composeObservedPattern(answers[0], answers[1])}</span></p>
+        <div className="awaken-guided__identity-claim"><span className="eyebrow">IDENTITY CLAIM</span><p>“I am __________.”</p><blockquote>{answers[2]}</blockquote></div>
+        <div className="awaken-guided__observed-pattern"><span className="eyebrow">OBSERVED PATTERN</span><p>“I tend to … when …”</p><blockquote>{composeObservedPattern(answers[0], answers[1])}</blockquote></div>
       </div>
       <p>A repeated response can be real, and a pattern may need to change. But something formed in you is not automatically who you are. The goal is not positive thinking. The goal is accuracy.</p>
     </section>}

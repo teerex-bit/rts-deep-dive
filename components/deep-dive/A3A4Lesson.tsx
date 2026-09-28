@@ -17,6 +17,7 @@ function Reflection({ section, reflection, saveReflection, editReflection, revie
   const [edited, setEdited] = useState(false);
   if (review) return <ReviewReflection id="new-awaken-reflection" label={section.prompt ?? 'Your reflection'} reflection={reflection} action={editReflection} />;
   return <form className="deep-dive-reflection" action={action}>
+    <p className="deep-dive-reflection__optional">Optional · for something you want to keep</p>
     <label htmlFor="new-awaken-reflection">{section.prompt}</label>
     <textarea id="new-awaken-reflection" name="body" rows={3} value={body} onChange={event => { setBody(event.target.value); setEdited(true); }} />
     <div className="deep-dive-reflection__actions">
@@ -35,7 +36,8 @@ const A4_PRACTICE = [
 ] as const;
 
 function Lesson({ section, reflection, saveReflection, editReflection, review, module }: LessonProps & { module: 'a3' | 'a4' }) {
-  return <article className={`deep-dive-lesson deep-dive-lesson--${module} deep-dive-lesson--${section.id}`}>
+  const experienceType = section.id === 'trace' ? 'discover' : section.id === 'reflection' ? 'preserve' : section.id === 'practice' || section.id === 'carry-forward' ? 'carry-forward' : 'teach';
+  return <article className={`deep-dive-lesson deep-dive-lesson--${module} deep-dive-lesson--${section.id} experience-type--${experienceType}`} data-experience-type={experienceType}>
     <p className="eyebrow deep-dive-section-label">{section.eyebrow}</p><h1>{section.title}</h1>
     {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
     {module === 'a3' && section.id === 'trace' ? <AwakenIdentityPattern /> : null}

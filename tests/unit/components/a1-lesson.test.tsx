@@ -96,6 +96,23 @@ describe('A1 participant experience', () => {
     expect(screen.getByRole('region', { name: 'Carry forward' })).toBeInTheDocument();
   });
 
+  it('identifies teach, notice, scripture, preservation, and carry-forward moments for scoped styling', () => {
+    const types = [
+      ['entry', 'teach'], ['moment', 'notice'], ['scripture', 'scripture'], ['reflection', 'preserve'], ['practice', 'carry-forward'],
+    ] as const;
+    for (const [id, type] of types) {
+      const { container, unmount } = render(<A1Lesson editReflection={vi.fn()} section={section(id)} index={0} total={9} reflection={null} saveReflection={vi.fn()} />);
+      expect(container.querySelector(`[data-experience-type="${type}"]`)).toBeInTheDocument();
+      unmount();
+    }
+  });
+
+  it('makes preserved writing clearly optional', () => {
+    render(<A1Lesson editReflection={vi.fn()} section={section('reflection')} index={5} total={9} reflection={null} saveReflection={vi.fn()} />);
+    expect(screen.getByText('Optional · for something you want to keep')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continue without writing' })).toBeEnabled();
+  });
+
   it('introduces Awaken before A1 as a separate orientation page', async () => {
     const page = await StagePage({ params: Promise.resolve({ stageId: 'awaken' }) });
     render(page);

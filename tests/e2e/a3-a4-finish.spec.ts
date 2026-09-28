@@ -35,6 +35,7 @@ test('A3 and A4 form a concise, persistent Awaken handoff', async ({ page }, tes
       }
       await expect(page.locator('.app-shell-header').getByRole('button', { name: 'Sign out' })).toBeVisible();
       await expect(page.getByRole('region', { name: /A[34] lesson progress/ })).toBeVisible();
+      await expect(page.getByRole('list', { name: 'Awaken movements' })).toContainText(slug === 'formation-is-not-identity' ? 'UNDERSTAND' : 'SEPARATE');
       await page.getByRole('button', { name: 'NEXT' }).click();
       await expect(page).toHaveURL(/section=teaching$/);
       await page.getByRole('link', { name: '← Back' }).click();

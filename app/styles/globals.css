@@ -377,6 +377,79 @@ a { color: var(--color-navy); text-underline-offset: 0.25em; }
 .sc1-saved-moment p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .sc1-practice { max-width: 52rem; margin: 2rem 0; padding: 1.25rem 1.5rem; border-left: 3px solid var(--color-gold); background: var(--color-sage); }
 .sc1-practice p { margin: .5rem 0 0; color: var(--color-navy); font-family: var(--font-display); font-size: 1.3rem; }
+
+/* Awaken visual prototype: shared editorial rhythm, scoped only to A1–A4. */
+.deep-dive-progress:has(.awaken-sequence) { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .8rem 1.5rem; align-items: center; }
+.deep-dive-progress:has(.awaken-sequence) .deep-dive-progress__identity { grid-column: 1; }
+.deep-dive-progress:has(.awaken-sequence) .deep-dive-progress__track { grid-column: 2; grid-row: 1; }
+.awaken-sequence { display: flex; grid-column: 1 / -1; align-items: center; gap: clamp(.45rem, 2vw, 1.5rem); margin: 0; padding: .5rem 0 0; border-top: 1px solid var(--color-line); list-style: none; }
+.awaken-sequence li { display: flex; align-items: baseline; gap: .4rem; color: color-mix(in srgb, var(--color-text) 62%, transparent); font-size: .67rem; font-weight: 700; letter-spacing: .09em; line-height: 1.4; }
+.awaken-sequence li span { color: var(--color-green); font-size: .63rem; }
+.awaken-sequence li[aria-current="step"] { color: var(--color-navy); }
+.awaken-sequence li[aria-current="step"] span { color: var(--color-gold); }
+.deep-dive-content:has(.deep-dive-lesson--a1), .deep-dive-content:has(.deep-dive-lesson--a2), .deep-dive-content:has(.deep-dive-lesson--a3), .deep-dive-content:has(.deep-dive-lesson--a4) { max-width: 67rem; }
+.deep-dive-lesson--a1, .deep-dive-lesson--a2, .deep-dive-lesson--a3, .deep-dive-lesson--a4 { max-width: 100%; }
+.deep-dive-lesson--a1 h1, .deep-dive-lesson--a2 h1, .deep-dive-lesson--a3 h1, .deep-dive-lesson--a4 h1 { max-width: 17ch; margin-bottom: 1.35rem; font-size: clamp(2.45rem, 5vw, 4.15rem); letter-spacing: -.035em; line-height: 1.08; }
+.deep-dive-lesson--a1 > p:not(.eyebrow), .deep-dive-lesson--a2 > p:not(.eyebrow), .deep-dive-lesson--a3 > p:not(.eyebrow), .deep-dive-lesson--a4 > p:not(.eyebrow) { max-width: 65ch; margin-bottom: 1.15rem; line-height: 1.72; }
+.deep-dive-lesson--a1 .a1-teaching { padding-left: 0; border-left: 0; }
+.deep-dive-lesson--a1 .a1-teaching p:last-child { margin-top: 1.75rem; padding-left: 1rem; border-left: 2px solid var(--color-gold); }
+.deep-dive-lesson--a1 .a1-comparison { max-width: 65rem; background: transparent; }
+.deep-dive-lesson--a1 .a1-comparison__side { min-height: auto; padding: clamp(1rem, 2.5vw, 1.75rem); }
+.deep-dive-lesson--a1 .a1-comparison__side--inside { background: transparent; }
+.deep-dive-lesson--a1 .a1-scripture { max-width: 45rem; margin-block: 1.5rem 2rem; padding: 1.35rem 0; }
+.deep-dive-lesson--a1 .a1-scripture::after, .deep-dive-lesson--a2 .a2-mirror::after { display: none; }
+.deep-dive-lesson--a1 .a1-practice { max-width: 48rem; }
+.deep-dive-lesson--a1 .a1-practice__question { font-size: clamp(1.65rem, 3vw, 2.35rem); }
+.deep-dive-lesson--a1 .a1-calm-ending { padding-block: 1.4rem; }
+.deep-dive-lesson--a2 .a2-opening__turn { max-width: 14ch; margin-top: 1.8rem; font-size: clamp(2rem, 4vw, 3.25rem); }
+.deep-dive-lesson--a2 .a2-mirror { max-width: 47rem; padding: 1.35rem 0; background: transparent; }
+.deep-dive-lesson--a2 .a2-pattern-map { max-width: 66rem; margin-top: 2rem; padding-top: 1rem; }
+.deep-dive-lesson--a2 .a2-pattern-map__situations { padding-right: clamp(0rem, 2vw, 1rem); }
+.deep-dive-lesson--a2 .a2-checkline { min-height: 3.35rem; }
+.deep-dive-lesson--a2 .a2-mapped-moment { padding-block: 1rem; }
+.deep-dive-lesson--a2 .a2-mapped-moment h3 { font-size: 1.35rem; }
+.deep-dive-lesson--a2 .a2-pattern-map__reflection { min-height: 0; margin-top: 1.2rem; padding-block: 1rem; }
+.deep-dive-lesson--a2 .a2-pattern-reveal { max-width: 58rem; padding-block: 1.4rem; }
+.deep-dive-lesson--a2 .a2-reflection, .deep-dive-lesson--a1 .deep-dive-reflection, .deep-dive-lesson--a3 .deep-dive-reflection, .deep-dive-lesson--a4 .deep-dive-reflection { max-width: 47rem; padding: 1.25rem 0; border: 0; border-top: 1px solid var(--color-gold); border-radius: 0; background: transparent; }
+.deep-dive-lesson--a1 .deep-dive-reflection label, .deep-dive-lesson--a2 .deep-dive-reflection label, .deep-dive-lesson--a3 .deep-dive-reflection label, .deep-dive-lesson--a4 .deep-dive-reflection label { max-width: 34rem; font-size: 1.28rem; }
+.deep-dive-lesson--a1 .deep-dive-reflection__optional, .deep-dive-lesson--a2 .deep-dive-reflection__optional, .deep-dive-lesson--a3 .deep-dive-reflection__optional, .deep-dive-lesson--a4 .deep-dive-reflection__optional { margin: 0; color: var(--color-green); font-size: .68rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+.deep-dive-lesson--a1 .deep-dive-reflection textarea, .deep-dive-lesson--a2 .deep-dive-reflection textarea, .deep-dive-lesson--a3 .deep-dive-reflection textarea, .deep-dive-lesson--a4 .deep-dive-reflection textarea { min-height: 7rem; background: var(--color-paper); }
+.deep-dive-lesson--a3 > p:first-of-type:not(.eyebrow), .deep-dive-lesson--a4 > p:first-of-type:not(.eyebrow) { max-width: 55ch; color: var(--color-navy); font-family: var(--font-display); font-size: clamp(1.22rem, 1.8vw, 1.48rem); line-height: 1.58; }
+.deep-dive-lesson--a3 .awaken-guided, .deep-dive-lesson--a4 .awaken-guided { max-width: 50rem; margin-block: 1.65rem; padding: 1rem 0 1rem clamp(1rem, 2.5vw, 1.5rem); border-top: 0; border-left: 2px solid var(--color-gold); background: transparent; }
+.deep-dive-lesson--a3 .awaken-guided__step, .deep-dive-lesson--a4 .awaken-guided__step { gap: .7rem; }
+.deep-dive-lesson--a3 .awaken-guided__step > .eyebrow, .deep-dive-lesson--a4 .awaken-guided__step > .eyebrow { margin-bottom: .1rem; }
+.deep-dive-lesson--a3 .awaken-guided__step > label, .deep-dive-lesson--a4 .awaken-guided__step > label { max-width: 40rem; font-size: clamp(1.3rem, 2vw, 1.65rem); line-height: 1.4; }
+.deep-dive-lesson--a3 .awaken-guided__step textarea, .deep-dive-lesson--a4 .awaken-guided__step textarea { min-height: 6rem; background: var(--color-paper); }
+.deep-dive-lesson--a3 .awaken-guided__pair { gap: 0; border-top: 1px solid var(--color-line); border-bottom: 1px solid var(--color-line); }
+.deep-dive-lesson--a3 .awaken-guided__pair > div { min-width: 0; padding: 1rem clamp(.75rem, 2vw, 1.25rem) 1rem 0; }
+.deep-dive-lesson--a3 .awaken-guided__pair > div + div { padding-right: 0; padding-left: clamp(.75rem, 2vw, 1.25rem); border-left: 1px solid var(--color-line); }
+.deep-dive-lesson--a3 .awaken-guided__pair .eyebrow { margin-bottom: .45rem; letter-spacing: .11em; }
+.deep-dive-lesson--a3 .awaken-guided__pair > div > p { margin: 0 0 .7rem; color: var(--color-navy); font-family: var(--font-display); font-size: clamp(1.1rem, 1.8vw, 1.35rem); }
+.deep-dive-lesson--a3 .awaken-guided__pair blockquote { margin: 0; padding: .65rem 0 0; border-top: 2px solid var(--color-gold); color: var(--color-text); font-family: var(--font-body); font-size: 1rem; line-height: 1.6; overflow-wrap: anywhere; }
+.deep-dive-lesson--a4 .awaken-guided__step { position: relative; }
+.deep-dive-lesson--a4 .awaken-guided__step > .eyebrow { color: var(--color-gold); }
+.deep-dive-lesson--a4 .awaken-guided__summary { gap: .65rem; }
+.deep-dive-lesson--a4 .awaken-guided__summary > .eyebrow { color: var(--color-gold); }
+.deep-dive-lesson--a4 .awaken-guided__summary dl > div { padding-block: .6rem; }
+.deep-dive-lesson--a4 .awaken-guided__summary h2 { margin-top: 1.1rem; font-size: clamp(1.45rem, 2.4vw, 1.9rem); }
+.deep-dive-lesson--a3 .a4-carry-practice, .deep-dive-lesson--a4 .a4-carry-practice { max-width: 47rem; grid-template-columns: 1fr; gap: 0; margin-top: 1.75rem; border-top: 1px solid var(--color-line); }
+.deep-dive-lesson--a3 .a4-carry-practice > div, .deep-dive-lesson--a4 .a4-carry-practice > div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: .75rem; padding: .8rem 0; border-top: 0; border-bottom: 1px solid var(--color-line); }
+.deep-dive-lesson--a3 .a4-carry-practice p, .deep-dive-lesson--a4 .a4-carry-practice p { margin: 0; }
+.deep-dive-lesson--a1 .deep-dive-guidance, .deep-dive-lesson--a2 .deep-dive-guidance { max-width: 47rem; padding: 1.25rem 0; border-top: 1px solid var(--color-gold); background: transparent; }
+.deep-dive-lesson--a1 .deep-dive-guidance--carry-forward, .deep-dive-lesson--a2 .deep-dive-guidance--carry-forward { border-bottom: 1px solid var(--color-line); }
+.deep-dive-content:has(.deep-dive-lesson--a1, .deep-dive-lesson--a2, .deep-dive-lesson--a3, .deep-dive-lesson--a4) > .deep-dive-transition { max-width: 50rem; margin-top: 1.65rem; padding-top: 1rem; }
+@media (max-width: 40rem) {
+  .deep-dive-progress:has(.awaken-sequence) { grid-template-columns: 1fr; gap: .65rem; }
+  .deep-dive-progress:has(.awaken-sequence) .deep-dive-progress__track { grid-column: 1; grid-row: auto; }
+  .awaken-sequence { flex-wrap: wrap; column-gap: .75rem; row-gap: .35rem; }
+  .awaken-sequence li { font-size: .61rem; }
+  .deep-dive-lesson--a1 h1, .deep-dive-lesson--a2 h1, .deep-dive-lesson--a3 h1, .deep-dive-lesson--a4 h1 { font-size: clamp(2.15rem, 9vw, 2.9rem); }
+  .deep-dive-lesson--a3 .awaken-guided, .deep-dive-lesson--a4 .awaken-guided { padding-left: .85rem; }
+  .deep-dive-lesson--a3 .awaken-guided__pair { grid-template-columns: 1fr; }
+  .deep-dive-lesson--a3 .awaken-guided__pair > div, .deep-dive-lesson--a3 .awaken-guided__pair > div + div { padding: .85rem 0; border-left: 0; }
+  .deep-dive-lesson--a3 .awaken-guided__pair > div + div { border-top: 1px solid var(--color-line); }
+  .deep-dive-lesson--a3 .a4-carry-practice > div, .deep-dive-lesson--a4 .a4-carry-practice > div { grid-template-columns: 1fr; gap: .25rem; }
+}
 @media (max-width: 58rem) {
   .deep-dive-shell, .deep-dive-home { padding-top: 2.25rem; }
   .deep-dive-layout { width: 100%; min-width: 0; }
