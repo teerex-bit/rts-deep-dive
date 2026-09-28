@@ -48,9 +48,11 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
     await page.goto(appRuntimeUrl(`${base}?section=trace`));
     await expect(page.getByLabel('What was I seeing in this moment?')).toHaveValue('  The room became quiet.  ');
     await page.getByRole('button', { name: 'Continue without saving this trace' }).click();
+    await expect(page).toHaveURL(new RegExp(`${base}\\?section=distinction$`));
     for (const section of SY2_SECTIONS.slice(5)) {
       if (section.id === 'reflection') {
-        await page.getByRole('button', { name: 'NEXT' }).click();
+        await expect(page.locator('.deep-dive-transition form[action^="javascript:throw"]')).toHaveCount(0);
+        await page.locator('.deep-dive-transition').getByRole('button', { name: 'NEXT', exact: true }).click();
         await expect(page).toHaveURL(/section=reflection$/);
         await page.getByLabel('What became clearer when you followed the reaction backward?').fill('  I expected rejection.  ');
         await page.getByRole('button', { name: 'Save & continue' }).click();
@@ -76,8 +78,9 @@ test('SY2 saves a partial participant trace, resumes, and reviews without changi
       values($1,'phase-1-v1','see-clearly.sc1','carry-forward',now()) returning id`, [owner])).rows[0].id;
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await page.getByRole('link', { name: 'Review SY2' }).click();
+    await expect(page).toHaveURL(new RegExp(`${base}\\?section=entry$`));
     for (const section of SY2_SECTIONS.slice(1)) {
-      await page.getByRole('link', { name: 'NEXT', exact: true }).click();
+      await page.locator('.deep-dive-transition').getByRole('link', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
       if (section.id === 'trace') await expect(page.getByLabel('What was I seeing in this moment?')).toHaveValue('  The room became quiet.  ');
     }

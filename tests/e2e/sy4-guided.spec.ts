@@ -58,8 +58,9 @@ test('SY4 guided truth, owned SY3 link, deletion, review, and movement handoff',
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await expect(page.getByText('Up next: SG1 — The God I Learned')).toBeVisible();
     await page.getByRole('link', { name: 'Review SY4' }).click();
+    await expect(page).toHaveURL(new RegExp(`${base}\\?section=entry$`));
     for (const section of SY4_SECTIONS.slice(1)) {
-      await page.getByRole('link', { name: 'NEXT', exact: true }).click();
+      await page.locator('.deep-dive-transition').getByRole('link', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     expect((await pool.query(query, [user.email])).rows).toEqual(before);

@@ -79,7 +79,11 @@ test('SG4 guided trust question, review and independent deletion', async ({ page
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await expect(page.getByText('See Clearly complete · Your story comes together')).toBeVisible();
     await page.getByRole('link', { name: 'Review SG4' }).click();
-    for (const section of SG4_SECTIONS.slice(1)) await page.getByRole('link', { name: 'NEXT', exact: true }).click();
+    await expect(page).toHaveURL(new RegExp(`${base}\\?section=entry$`));
+    for (const section of SG4_SECTIONS.slice(1)) {
+      await page.locator('.deep-dive-transition').getByRole('link', { name: 'NEXT', exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
+    }
     expect((await pool.query(query, [owner])).rows).toEqual(before);
     await page.goto(appRuntimeUrl(`${base}?section=trust-question`));
     await trust.fill('  I may ask for help while I wait.  ');

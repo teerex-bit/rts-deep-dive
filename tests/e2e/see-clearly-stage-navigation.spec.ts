@@ -47,7 +47,7 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     await page.goto(hub);
     await expect(page.getByRole('link', { name: 'BACK TO FORMATION JOURNEY' })).toHaveAttribute('href', '/dashboard');
     await expect(primary).toHaveText('NEXT');
-    await expect(page.getByText('The God I Learned', { exact: true })).toBeVisible();
+    await expect(nextDestination.getByText('The God I Learned', { exact: true })).toBeVisible();
     await primary.click();
     await expect(page).toHaveURL(/\/the-god-i-learned$/);
 
@@ -56,7 +56,7 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     await page.goto(hub);
     await expect(page.getByRole('link', { name: 'BACK TO FORMATION JOURNEY' })).toHaveAttribute('href', '/dashboard');
     await expect(primary).toHaveText('NEXT');
-    await expect(page.getByText('What I Expect From God', { exact: true })).toBeVisible();
+    await expect(nextDestination.getByText('What I Expect From God', { exact: true })).toBeVisible();
     await primary.click();
     await expect(page).toHaveURL(/\/what-i-expect-from-god$/);
     await expect(page.getByRole('heading', { name: 'What did I expect here?' })).toBeVisible();
@@ -65,7 +65,7 @@ test('See Clearly hub routes through the legitimate next lesson and into the rea
     await page.goto(hub);
     await expect(page.getByRole('link', { name: 'BACK TO FORMATION JOURNEY' })).toHaveAttribute('href', '/dashboard');
     await expect(primary).toHaveText('NEXT');
-    await expect(page.getByText('Jesus Shows Us the Father', { exact: true })).toBeVisible();
+    await expect(nextDestination.getByText('Jesus Shows Us the Father', { exact: true })).toBeVisible();
     await primary.click();
     await expect(page).toHaveURL(/\/jesus-shows-us-the-father$/);
     await expect(page.getByRole('heading', { name: 'To see Him is to see the Father' })).toBeVisible();

@@ -52,7 +52,11 @@ test('SG2 guided expectation, review, deletion, and responsive recognition', asy
     expect(before[0].completed_at).toBeTruthy();
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await page.getByRole('link', { name: 'Review SG2' }).click();
-    for (const section of SG2_SECTIONS.slice(1)) await page.getByRole('link', { name: 'NEXT', exact: true }).click();
+    await expect(page).toHaveURL(new RegExp(`${base}\\?section=entry$`));
+    for (const section of SG2_SECTIONS.slice(1)) {
+      await page.locator('.deep-dive-transition').getByRole('link', { name: 'NEXT', exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
+    }
     expect((await pool.query(query, [owner])).rows).toEqual(before);
     await page.goto(appRuntimeUrl(`${base}?section=recognition`));
     await page.getByRole('button', { name: 'Delete saved expectation' }).click();

@@ -58,8 +58,9 @@ test('SG1 guided recognition, exact wording, independent deletion and no-write r
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await expect(page.getByText('Up next: SG2 — What I Expect From God')).toBeVisible();
     await page.getByRole('link', { name: 'Review SG1' }).click();
+    await expect(page).toHaveURL(new RegExp(`${base}\\?section=entry$`));
     for (const section of SG1_SECTIONS.slice(1)) {
-      await page.getByRole('link', { name: 'NEXT', exact: true }).click();
+      await page.locator('.deep-dive-transition').getByRole('link', { name: 'NEXT', exact: true }).click();
       await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
     }
     expect((await pool.query(query, [user.email])).rows).toEqual(before);
@@ -77,6 +78,7 @@ test('SG1 guided recognition, exact wording, independent deletion and no-write r
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await expect(page.getByRole('link', { name: 'Review SG1' })).toBeVisible();
     await page.getByRole('link', { name: 'Review SG1' }).click();
+    await expect(page).toHaveURL(new RegExp(`${base}\\?section=entry$`));
     await page.goto(appRuntimeUrl(`${base}?section=recognition`));
     await expect(page.getByLabel('The God I learned seemed…')).toHaveValue('');
     await page.goto(appRuntimeUrl(`${base}?section=reflection`));

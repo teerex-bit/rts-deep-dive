@@ -75,7 +75,11 @@ test('SG3 guided observation, review and deletion preserve exact participant sta
     expect(before[0].completed_at).toBeTruthy();
     await page.goto(appRuntimeUrl('/deep-dive/see-clearly'));
     await page.getByRole('link', { name: 'Review SG3' }).click();
-    for (const section of SG3_SECTIONS.slice(1)) await page.getByRole('link', { name: 'NEXT', exact: true }).click();
+    await expect(page).toHaveURL(new RegExp(`${base}\\?section=entry$`));
+    for (const section of SG3_SECTIONS.slice(1)) {
+      await page.locator('.deep-dive-transition').getByRole('link', { name: 'NEXT', exact: true }).click();
+      await expect(page).toHaveURL(new RegExp(`section=${section.id}$`));
+    }
     expect((await pool.query(query, [owner])).rows).toEqual(before);
     await page.goto(appRuntimeUrl(`${base}?section=observation`));
     await field.fill('  Jesus restores without denying failure.  ');
