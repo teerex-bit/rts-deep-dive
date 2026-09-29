@@ -1,26 +1,67 @@
 'use client';
 import { useMemo, useState } from 'react';
+
 type Turn={question:string;answer:string};
-function nextQuestion(turns:Turn[]){
- const last=turns.at(-1)?.answer.toLowerCase()??''; const all=turns.map(t=>t.answer.toLowerCase()).join(' ');
- if(/don't know|dont know|not sure|nothing really|nothing/.test(last)) return {q:'Would it help to look at the moment from another angle?',g:'You can name one thing you noticed, or leave the moment here without forcing an answer.'};
- if(/peace|peaceful|calm|relief|joy|grateful/.test(all)) return turns.length<3?{q:'What seemed to make that peace possible to notice?',g:'Stay with what was present rather than looking for a problem.'}:{q:'What did you find yourself wanting to do with that peace?',g:'There may be nothing to fix here. Notice what the moment invited.'};
- if(/weak|stupid|idiot|failure|coward|my fault/.test(last)) return {q:'What made that feel true about you in that moment?',g:'Stay with the meaning of the words you just used about yourself.'};
- if(/angry|mad|furious|rude|unfair|should|shouldn't|shouldnt/.test(all)) return turns.length<3?{q:'What was it about that moment that brought up anger for you?',g:'Describe what bothered you without deciding yet what was underneath it.'}:{q:'What did you want to be different in that moment?',g:'What did you want right then?'};
- if(/afraid|fear|anxious|nervous|stomach|chest|tense/.test(all)) return turns.length<3?{q:'What did it seem like might happen next?',g:'You do not have to decide whether the fear was reasonable.'}:{q:'What did you want to protect or keep from happening?',g:'If nothing comes to mind, that is enough.'};
- if(/disappointed|ignored|care|text|message|rejected|left out/.test(all)) return {q:'What did their response seem to say to you?',g:'About the relationship, the situation, or yourself—only if something actually seemed to be said.'};
- if(/fix|control|take over|solve/.test(all)) return {q:'What felt like it needed to be fixed or controlled?',g:'What did you think might happen if you did not step in?'};
- if(turns.length<3)return {q:'What felt most important about that moment to you?',g:'Follow what actually had weight for you.'};
- if(turns.length<5)return {q:'What did you find yourself wanting to do?',g:'Describe the movement you actually noticed.'};
- return {q:'What happened inside you after you responded?',g:'Did it pass, stay with you, bring relief, or turn into a judgment?'};
-}
+type Prompt={q:string;g:string};
+type GuideResult={kind?:string;action?:string;question?:string;guidance?:string;complete?:boolean};
+type Synthesis={headline?:string;summary?:string;noticing?:string[];carryQuestion?:string};
+
+const FIRST:Prompt={q:'What changed in you when it happened?',g:'An emotion, a thought, something in your body, an urge—or simply a sense that something shifted.'};
+const FALLBACKS=[
+ 'What felt most important about that moment to you?',
+ 'What happened inside you next?',
+ 'What did you find yourself wanting to do?',
+ 'What stayed with you after the moment passed?',
+];
+
 export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:string}){
- const [started,setStarted]=useState(false),[turns,setTurns]=useState<Turn[]>([]),[answer,setAnswer]=useState(''),[complete,setComplete]=useState(false),[alternate,setAlternate]=useState(false);
- const [prompt,setPrompt]=useState({q:'What changed in you when it happened?',g:'An emotion, a thought, something in your body, an urge—or simply a sense that something shifted.'});
- const quotes=useMemo(()=>turns.slice(-4),[turns]);
- function back(){if(!turns.length)return;const previous=turns[turns.length-1];setTurns(current=>current.slice(0,-1));setPrompt({q:previous.question,g:'Return to what you were noticing here. You can change or add to your answer.'});setAnswer(previous.answer);setComplete(false)}
- function submit(){const value=answer.trim();if(!value)return;const next=[...turns,{question:prompt.q,answer:value}];setTurns(next);setAnswer('');const unsure=/don't know|dont know|not sure|nothing really|nothing/i.test(value);if(unsure&&!alternate){setAlternate(true);setPrompt(nextQuestion(next));return}if(next.length>=6||(next.length>=4&&unsure&&alternate)){setComplete(true);return}setPrompt(nextQuestion(next))}
- if(!started)return <section className="awaken-inquiry-bridge"><p className="eyebrow">YOU NOTICED THE REACTION</p><h2>But the reaction was the end of something that happened very quickly.</h2><div className="awaken-inquiry-bridge__turn"><span/><p>Let’s slow the moment down.</p></div><p className="awaken-journey__lead">We are not trying to fill in a model or find something wrong. We are going to follow whatever actually seems important in this particular moment.</p><div className="awaken-inquiry-bridge__invitation"><strong>Start with what you actually remember.</strong><button className="button" onClick={()=>setStarted(true)}>Follow the moment</button></div></section>;
- if(!complete)return <section className="awaken-sim-question"><p className="eyebrow">STAY WITH THE MOMENT</p>{moment?<aside className="awaken-sim-question__moment"><span>THE MOMENT</span><p>{moment}</p>{reaction?<strong>You noticed {reaction.toLowerCase()}.</strong>:null}</aside>:null}<h2>{prompt.q}</h2><p className="awaken-chain__guidance">{prompt.g}</p><textarea value={answer} onChange={e=>setAnswer(e.target.value)} placeholder="Write what you actually notice…"/><div className="awaken-sim-question__actions">{turns.length?<button type="button" className="awaken-quiet-button" onClick={back}>Back</button>:null}<button type="button" className="button" disabled={!answer.trim()} onClick={submit}>Keep following it</button>{alternate?<button type="button" className="awaken-quiet-button" onClick={()=>setComplete(true)}>Leave it here</button>:null}</div></section>;
- return <><section className="awaken-sim-pause"><p className="eyebrow">STAY HERE FOR A MOMENT</p><h2>There may be enough here to see something.</h2><p>You do not need another answer right now.</p><button className="button" onClick={()=>document.getElementById('a1-sim-reveal')?.scrollIntoView({behavior:'smooth',block:'start'})}>See the whole movement</button></section><section className="awaken-sim-reveal" id="a1-sim-reveal"><p className="eyebrow">LOOK AT THE WHOLE MOVEMENT</p><h2>Something became visible because you stayed with the moment.</h2>{moment?<div className="awaken-sim-reveal__event"><span>WHAT HAPPENED</span><p>{moment}</p></div>:null}<div className="awaken-sim-reveal__thread">{quotes.map((t,i)=><div key={i}><span>{i===0?'WHAT GOT YOUR ATTENTION':'THEN YOU NOTICED'}</span><blockquote>“{t.answer}”</blockquote></div>)}</div><div className="awaken-sim-reveal__notice"><span>SOMETHING WORTH NOTICING</span><p>These things appeared in the same ordinary moment. You do not have to decide what they mean yet.</p></div><div className="awaken-sim-reveal__framework"><p className="eyebrow">WHAT YOU JUST FOLLOWED HAS A SHAPE</p><div>{['What I see','What I believe','What I expect','What I desire','What I intend','What I choose','How I live'].map((x,i)=><span key={x}>{x}{i<6?<b>↓</b>:null}</span>)}</div><p>Not every moment reveals every part this clearly. Over time, these movements help us see how formation becomes life.</p></div></section></>;
+ const [started,setStarted]=useState(false),[turns,setTurns]=useState<Turn[]>([]),[answer,setAnswer]=useState(''),[complete,setComplete]=useState(false);
+ const [prompt,setPrompt]=useState<Prompt>(FIRST),[pending,setPending]=useState(false),[synthesis,setSynthesis]=useState<Synthesis|null>(null);
+ const quotes=useMemo(()=>turns.slice(-5),[turns]);
+
+ function back(){
+  if(pending||!turns.length)return;
+  const previous=turns[turns.length-1];
+  setTurns(current=>current.slice(0,-1));
+  setPrompt({q:previous.question,g:'Return to what you were noticing here. You can change or add to your answer.'});
+  setAnswer(previous.answer);setComplete(false);setSynthesis(null);
+ }
+
+ async function finish(next:Turn[]){
+  setComplete(true);
+  try{
+   const r=await fetch('/api/ai/awaken-guide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({moment,reaction:'',turns:next,mode:'synthesis'})});
+   const s=await r.json() as {kind?:string}&Synthesis;
+   if(r.ok&&s.kind==='success')setSynthesis(s);
+  }catch{}
+ }
+
+ async function submit(){
+  const value=answer.trim();if(!value||pending)return;
+  const next=[...turns,{question:prompt.q,answer:value}];
+  setPending(true);
+  try{
+   const r=await fetch('/api/ai/awaken-guide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({moment,reaction:'',turns:next,mode:'next'})});
+   const result=await r.json() as GuideResult;
+   setTurns(next);
+   if(r.ok&&result.kind==='success'&&(result.complete||result.action==='finish')){setAnswer('');await finish(next);return}
+   let q=(r.ok&&result.kind==='success'&&result.question?.trim())||'';
+   let g=(r.ok&&result.kind==='success'&&result.guidance?.trim())||'';
+   if(!q||q.toLowerCase()===prompt.q.trim().toLowerCase()){
+    q=FALLBACKS.find(candidate=>!next.some(t=>t.question.toLowerCase()===candidate.toLowerCase()))??'What else feels important about what happened inside you?';
+    g='Stay with what you actually noticed; you do not need to force an explanation.';
+   }
+   setPrompt({q,g});setAnswer('');
+  }catch{
+   setTurns(next);
+   const q=FALLBACKS.find(candidate=>!next.some(t=>t.question.toLowerCase()===candidate.toLowerCase()))??'What else feels important about what happened inside you?';
+   setPrompt({q,g:'Stay with what you actually noticed; you do not need to force an explanation.'});setAnswer('');
+  }finally{setPending(false)}
+ }
+
+ if(!started)return <section className="awaken-inquiry-bridge"><p className="eyebrow">STAY WITH THE MOMENT</p><h2>Something happened. Now let’s notice what happened in you.</h2><div className="awaken-inquiry-bridge__turn"><span/><p>We’ll follow this moment one question at a time.</p></div><p className="awaken-journey__lead">There is no model to fill in and no answer you are supposed to find. Each question will follow what you actually say.</p><div className="awaken-inquiry-bridge__invitation"><strong>Start with what you actually remember.</strong><button className="button" onClick={()=>setStarted(true)}>Follow the moment</button></div></section>;
+
+ if(!complete)return <section className="awaken-sim-question"><p className="eyebrow">STAY WITH THE MOMENT</p>{moment?<aside className="awaken-sim-question__moment"><span>THE MOMENT</span><p>{moment}</p></aside>:null}<h2>{prompt.q}</h2>{prompt.g?<p className="awaken-chain__guidance">{prompt.g}</p>:null}<textarea value={answer} disabled={pending} onChange={e=>setAnswer(e.target.value)} placeholder="Write what you actually notice…"/><div className="awaken-sim-question__actions">{turns.length?<button type="button" className="awaken-quiet-button" disabled={pending} onClick={back}>Back</button>:null}<button type="button" className="button" disabled={pending||!answer.trim()} onClick={submit}>{pending?'Following the moment…':'Keep following it'}</button></div></section>;
+
+ return <><section className="awaken-sim-pause"><p className="eyebrow">STAY HERE FOR A MOMENT</p><h2>There may be enough here to see something.</h2><p>You do not need another answer right now.</p><button className="button" onClick={()=>document.getElementById('a1-sim-reveal')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})}>See the whole movement</button></section><section className="awaken-sim-reveal" id="a1-sim-reveal"><p className="eyebrow">LOOK AT THE WHOLE MOVEMENT</p><h2>{synthesis?.headline||'Something became visible because you stayed with the moment.'}</h2>{moment?<div className="awaken-sim-reveal__event"><span>WHAT HAPPENED</span><p>{moment}</p></div>:null}{synthesis?.summary?<p className="awaken-sim-reveal__summary">{synthesis.summary}</p>:null}<div className="awaken-sim-reveal__thread">{quotes.map((t,i)=><div key={i}><span>{i===0?'WHAT GOT YOUR ATTENTION':'THEN YOU NOTICED'}</span><blockquote>“{t.answer}”</blockquote></div>)}</div>{synthesis?.noticing?.length?<div className="awaken-sim-reveal__notice"><span>SOMETHING WORTH NOTICING</span>{synthesis.noticing.map(x=><p key={x}>{x}</p>)}</div>:<div className="awaken-sim-reveal__notice"><span>SOMETHING WORTH NOTICING</span><p>These things appeared in the same ordinary moment. You do not have to decide what they mean yet.</p></div>}{synthesis?.carryQuestion?<div className="awaken-sim-reveal__carry"><span>CARRY THIS QUESTION</span><p>{synthesis.carryQuestion}</p></div>:null}</section></>;
 }
