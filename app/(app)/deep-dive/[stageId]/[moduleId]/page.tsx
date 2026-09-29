@@ -88,6 +88,7 @@ async function A2Page({ query }: { query: { section?: string; reviewJump?: strin
         <div className="deep-dive-layout">
           <LessonProgress module="A2" title="Catch Yourself Being You" index={index} total={A2_SECTIONS.length} />
           <div className="deep-dive-content">
+            <JourneyReel sections={A2_SECTIONS} index={index} pathname="/deep-dive/awaken/catch-yourself-being-you" />
             <A2Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={saveReflection} editReflection={editReflection} review={reviewReflection} />
             {(section.id !== 'reflection' || reviewReflection) ? <footer className="deep-dive-transition">
               {next ? (
