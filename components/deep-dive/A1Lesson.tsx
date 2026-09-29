@@ -192,12 +192,12 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
             <textarea aria-label={question} value={chain[key]} onChange={event => updateChain(key, event.target.value)} placeholder="Notice what comes to mind…" />
             <div className="awaken-chain__actions">
               {chainStep > 0 ? <button type="button" className="awaken-quiet-button" onClick={() => setChainStep(value => value - 1)}>Back</button> : <span />}
-              {chainStep < CHAIN.length - 1 ? <button type="button" className="button" onClick={() => setChainStep(value => value + 1)}>Keep following it</button> : null}
+              {chainStep < CHAIN.length - 1 ? <button type="button" className="button" onClick={() => setChainStep(value => value + 1)}>Keep following it</button> : completedChain.length >= 4 ? <button type="button" className="button" onClick={() => document.getElementById('a1-whole-movement')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>See the whole movement</button> : null}
             </div>
           </section>
         </div>
         {chainStep === CHAIN.length - 1 && completedChain.length >= 4 ? (
-          <div className="awaken-chain__reveal">
+          <div className="awaken-chain__reveal" id="a1-whole-movement" tabIndex={-1}>
             <p className="eyebrow">LOOK AT THE WHOLE MOVEMENT</p>
             <h2>You didn’t just react.</h2>
             <p>Something was already operating beneath the reaction.</p>
