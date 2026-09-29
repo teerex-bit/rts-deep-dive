@@ -79,26 +79,31 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
     const turns = [...adaptiveTurns, { question: currentQuestion, answer }];
     setGuidePending(true);
     try {
-      const response = await fetch('/api/ai/awaken-guide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ moment: body, reaction, turns, step: turns.length, mode: 'next' }) });
-      const result = await response.json() as { kind?: string; question?: string; guidance?: string; complete?: boolean; reason?: string };
+      const response = await fetch('/api/ai/awaken-guide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ moment: body, reaction, turns, mode: 'next' }) });
+      const result = await response.json() as { kind?: string; action?: string; question?: string; guidance?: string; complete?: boolean };
+      if (!response.ok || result.kind !== 'success') {
+        setAdaptiveTurns(turns);
+        setAdaptiveQuestion({ question: 'What seems most important to you about what happened inside that moment?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
+        return;
+      }
       setAdaptiveTurns(turns);
-      if (result.complete || turns.length >= 12) {
+      if (result.complete || result.action === 'finish' || turns.length >= 12) {
         setGuideComplete(true);
-        const synthResponse = await fetch('/api/ai/awaken-guide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ moment: body, reaction, turns, step: turns.length, mode: 'synthesis' }) });
-        const synth = await synthResponse.json() as { kind?: string; headline?: string; summary?: string; noticing?: string; carryQuestion?: string };
-        if (synth.kind === 'success') setSynthesis(synth);
+        const synthResponse = await fetch('/api/ai/awaken-guide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ moment: body, reaction, turns, mode: 'synthesis' }) });
+        const synth = await synthResponse.json() as { kind?: string; headline?: string; summary?: string; noticing?: string[]; carryQuestion?: string };
+        if (synth.kind === 'success') setSynthesis({ headline: synth.headline, summary: synth.summary, noticing: synth.noticing?.join(' '), carryQuestion: synth.carryQuestion });
         setChainStep(CHAIN.length - 1);
       } else {
-        setAdaptiveQuestion({ question: result.question || CHAIN[Math.min(chainStep + 1, CHAIN.length - 1)][2], guidance: result.guidance || '' });
-        if (result.reason === 'advance' && chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
+        setAdaptiveQuestion({ question: result.question || 'What else feels important about that moment?', guidance: result.guidance || '' });
+        if (result.action === 'advance' || result.action === 'accept_uncertainty') {
+          if (chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
+        }
       }
     } catch {
       setAdaptiveTurns(turns);
-      if (chainStep < CHAIN.length - 1) { setChainStep(value => value + 1); setAdaptiveQuestion(null); }
-      else setGuideComplete(true);
+      setAdaptiveQuestion({ question: 'What seems most important to you about what happened inside that moment?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
     } finally { setGuidePending(false); }
   }
-
 
   if (section.id === 'entry') return (
     <article className="awaken-journey awaken-journey--entry">
