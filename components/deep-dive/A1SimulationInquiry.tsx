@@ -30,7 +30,7 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
  async function finish(next:Turn[]){
   setComplete(true);
   try{
-   const r=await fetch('/api/ai/awaken-guide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({moment,reaction,turns:next,mode:'synthesis'})});
+   const r=await fetch(new URL('/api/ai/awaken-guide', window.location.origin).toString(),{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'content-type':'application/json'},body:JSON.stringify({moment,reaction,turns:next,mode:'synthesis'})});
    const s=await r.json() as {kind?:string}&Synthesis;
    if(r.ok&&s.kind==='success')setSynthesis(s);
   }catch{}
