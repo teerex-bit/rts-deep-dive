@@ -12,8 +12,15 @@ function cookie(request: NextRequest, value: string) {
   return { value, httpOnly: true, sameSite: 'lax' as const, secure: request.nextUrl.protocol === 'https:', path: '/', maxAge: SESSION_COOKIE_MAX_AGE };
 }
 
+function deploymentOrigin(request: NextRequest) {
+  const forwardedHost = request.headers.get('x-forwarded-host');
+  const host = forwardedHost ?? request.headers.get('host') ?? request.nextUrl.host;
+  const proto = request.headers.get('x-forwarded-proto') ?? request.nextUrl.protocol.replace(':','') ?? 'https';
+  return `${proto}://${host}`;
+}
+
 function redirect(request: NextRequest, session?: string) {
-  const response = NextResponse.redirect(new URL(REVIEW_PATH, request.url));
+  const response = NextResponse.redirect(new URL(REVIEW_PATH + '?reviewDeployment=' + encodeURIComponent(deploymentOrigin(request)), deploymentOrigin(request)));
   if (session) response.cookies.set({ name: AUTH_SESSION_COOKIE, ...cookie(request, session) });
   return response;
 }
@@ -30,7 +37,7 @@ export async function GET(request: NextRequest) {
   const generated = await fetch(`${url}/auth/v1/admin/generate_link`, {
     method: 'POST',
     headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: 'magiclink', email, redirect_to: new URL(REVIEW_PATH, request.url).toString() }),
+    body: JSON.stringify({ type: 'magiclink', email, redirect_to: new URL(REVIEW_PATH, deploymentOrigin(request)).toString() }),
   });
   const generatedBody = await generated.json().catch(() => null) as { action_link?: unknown } | null;
   if (!generated.ok || typeof generatedBody?.action_link !== 'string') return fail('generate_link_failed');
