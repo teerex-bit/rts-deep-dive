@@ -8,9 +8,10 @@ type Synthesis={headline?:string;summary?:string;noticing?:string[];carryQuestio
 
 const FIRST:Prompt={q:'What changed in you when it happened?',g:'Stay with what stood out first and what seemed to bring it up.'};
 const FALLBACKS=[
- 'What did you notice happening inside you?',
- 'Did that feeling or movement stay with you, or did it pass?',
- 'Is there anything else about what happened inside you that seems worth noticing?',
+ 'What did you notice first?',
+ 'What happened in you when that happened?',
+ 'Did that feeling stick around, or did it pass pretty quickly?',
+ 'Was there anything else you noticed about yourself in that moment?',
 ];
 
 export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:string}){
@@ -38,6 +39,7 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
  async function submit(){
   const value=answer.trim();if(!value||pending)return;
   const next=[...turns,{question:prompt.q,answer:value}];
+  if(next.length>=7){setTurns(next);setAnswer('');setPending(true);try{await finish(next)}finally{setPending(false)}return}
   setPending(true);
   try{
    const r=await fetch('/api/ai/awaken-guide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({moment,reaction,turns:next,mode:'next'})});
