@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { AppShell } from '../../../../../components/design-system/AppShell';
 import { A1Lesson, type A1ReflectionSaveState } from '../../../../../components/deep-dive/A1Lesson';
+import { JourneyReel } from '../../../../../components/deep-dive/JourneyReel';
 import { A2Lesson, type A2ReflectionSaveState } from '../../../../../components/deep-dive/A2Lesson';
 import type { ReviewReflectionState } from '../../../../../components/deep-dive/ReviewReflection';
 import { AwakenCompletionNav } from '../../../../../components/deep-dive/AwakenCompletionNav';
@@ -169,6 +170,7 @@ export default async function A1Page({ params, searchParams }: { params: Promise
         <div className="deep-dive-layout">
           <LessonProgress module="A1" title="Pay Attention" index={index} total={A1_SECTIONS.length} />
           <div className="deep-dive-content">
+            <JourneyReel sections={A1_SECTIONS} index={index} pathname="/deep-dive/awaken/pay-attention" />
             <A1Lesson section={section} index={index} total={A1_SECTIONS.length} reflection={progress?.reflection ?? null} saveReflection={saveReflection} editReflection={editReflection} review={reviewReflection} />
             {(section.id !== 'reflection' || reviewReflection) ? <footer className="deep-dive-transition">
               {next ? (
