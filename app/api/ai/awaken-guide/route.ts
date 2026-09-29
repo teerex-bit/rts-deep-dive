@@ -122,7 +122,11 @@ The ending should communicate: You do not have to explain or change this yet. Yo
 export async function POST(request: Request) {
   try {
     await requireActor();
-    if (!isSameOriginRequest(request)) return new Response(JSON.stringify({ kind: 'forbidden' }), { status: 403, headers });
+    if (!isSameOriginRequest(request)) {
+      console.error('[awaken-guide] same-origin check failed', { origin: request.headers.get('origin'), host: request.headers.get('host'), urlHost: new URL(request.url).host });
+      return new Response(JSON.stringify({ kind: 'forbidden', diagnostic: 'same_origin' }), { status: 403, headers });
+    }
+    console.info('[awaken-guide] request reached endpoint', { mode: (await request.clone().json().catch(() => null) as { mode?: string } | null)?.mode ?? 'unknown' });
     const body = await request.json() as RequestBody;
     if (!body || !Array.isArray(body.turns) || body.turns.length > 12 || body.turns.some(t => !t || typeof t.question !== 'string' || typeof t.answer !== 'string')) return new Response(JSON.stringify({ kind: 'invalid_request' }), { status: 400, headers });
     const apiKey = process.env.OPENAI_API_KEY;
