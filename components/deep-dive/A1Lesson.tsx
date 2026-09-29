@@ -30,6 +30,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   const [editedSinceSave, setEditedSinceSave] = useState(false);
   const [body, setBody] = useState(reflection ?? '');
   const [pauseIndex, setPauseIndex] = useState(0);
+  const [pauseStarted, setPauseStarted] = useState(false);
   const [reaction, setReaction] = useState('');
   const [chain, setChain] = useState<ChainState>(EMPTY_CHAIN);
   const [chainStep, setChainStep] = useState(0);
@@ -50,11 +51,11 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   }, [reaction, chain]);
 
   useEffect(() => {
-    if (section.id !== 'moment') return;
+    if (section.id !== 'moment' || !pauseStarted) return;
     setPauseIndex(0);
     const timer = window.setInterval(() => setPauseIndex(value => Math.min(value + 1, PAUSE_WORDS.length - 1)), 2400);
     return () => window.clearInterval(timer);
-  }, [section.id]);
+  }, [section.id, pauseStarted]);
 
   useEffect(() => {
     if (!pending && saveState.saved) setEditedSinceSave(false);
@@ -86,12 +87,19 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
       <p className="eyebrow">START WITH YOUR LIFE</p>
       <h1>Bring one moment to mind.</h1>
       <p className="awaken-journey__lead">Think about something recent when something in you changed. A conversation. A disappointment. A plan that changed. A moment you felt ignored, criticized, embarrassed, anxious, or suddenly needed control.</p>
-      <div className="awaken-pause" aria-live="polite">
-        <span className="awaken-pause__line" key={pauseIndex}>{PAUSE_WORDS[pauseIndex]}</span>
-        <div className={"awaken-pause__choices " + (pauseIndex === PAUSE_WORDS.length - 1 ? 'is-visible' : '')}>
-          {REACTIONS.map(item => <button type="button" className={reaction === item ? 'is-selected' : ''} aria-pressed={reaction === item} onClick={() => setReaction(item)} key={item}>{item}</button>)}
+      {!pauseStarted ? (
+        <div className="awaken-pause-start">
+          <p>Take whatever time you need to find one ordinary moment. Nothing needs to happen until you have it.</p>
+          <button className="button" type="button" onClick={() => setPauseStarted(true)}>I have a moment</button>
         </div>
-      </div>
+      ) : (
+        <div className="awaken-pause" aria-live="polite">
+          <span className="awaken-pause__line" key={pauseIndex}>{PAUSE_WORDS[pauseIndex]}</span>
+          <div className={"awaken-pause__choices " + (pauseIndex === PAUSE_WORDS.length - 1 ? 'is-visible' : '')}>
+            {REACTIONS.map(item => <button type="button" className={reaction === item ? 'is-selected' : ''} aria-pressed={reaction === item} onClick={() => setReaction(item)} key={item}>{item}</button>)}
+          </div>
+        </div>
+      )}
       {reaction ? <p className="awaken-journey__quiet-confirmation">Hold onto that moment. We are not going to explain it yet.</p> : null}
     </article>
   );
@@ -165,6 +173,15 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
         <p className="eyebrow">FOLLOW WHAT WAS UNDERNEATH IT</p>
         <h1>Now trace the moment backward.</h1>
         <p className="awaken-journey__lead">You are not trying to get the “right” answer. Notice what seems true about the moment you brought with you.</p>
+        <section className="awaken-chain__orientation">
+          <p className="eyebrow">WHAT YOU ARE ABOUT TO FOLLOW</p>
+          <h2>There was more happening in that moment than your reaction.</h2>
+          <p>What you did was connected to what you wanted, expected, believed, and thought you were seeing. We are going to follow that movement backward—not to judge it, but to see what was already happening beneath the surface.</p>
+        </section>
+        {(body.trim() || reaction) ? <aside className="awaken-moment-thread" aria-label="The moment you brought with you">
+          {body.trim() ? <div><span>THE MOMENT YOU BROUGHT WITH YOU</span><p>{body}</p></div> : null}
+          {reaction ? <div><span>YOU NOTICED</span><p>{reaction}</p></div> : null}
+        </aside> : null}
         <div className="awaken-chain">
           <nav aria-label="Formation chain">
             {CHAIN.map(([itemKey, itemLabel], index) => <button type="button" key={itemKey} className={index === chainStep ? 'is-active' : chain[itemKey] ? 'is-complete' : ''} onClick={() => setChainStep(index)}><span>{String(index + 1).padStart(2, '0')}</span>{itemLabel}</button>)}
