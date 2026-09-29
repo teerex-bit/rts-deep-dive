@@ -143,12 +143,9 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
       ) : (
         <div className="awaken-pause" aria-live="polite">
           <span className="awaken-pause__line" key={pauseIndex}>{PAUSE_WORDS[pauseIndex]}</span>
-          <div className={"awaken-pause__choices " + (pauseIndex === PAUSE_WORDS.length - 1 ? 'is-visible' : '')}>
-            {REACTIONS.map(item => <button type="button" className={reaction === item ? 'is-selected' : ''} aria-pressed={reaction === item} onClick={() => setReaction(item)} key={item}>{item}</button>)}
-          </div>
+          {pauseIndex === PAUSE_WORDS.length - 1 ? <p className="awaken-journey__quiet-confirmation">Hold onto the moment itself. We will discover what changed in you rather than naming it in advance.</p> : null}
         </div>
       )}
-      {reaction ? <p className="awaken-journey__quiet-confirmation">Hold onto that moment. We are not going to explain it yet.</p> : null}
     </article>
   );
 
@@ -198,7 +195,6 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
       <p className="eyebrow">YOUR MOMENT</p>
       <h1>Stay with what actually happened.</h1>
       <p className="awaken-journey__lead">Describe the moment simply. Do not make a case for yourself or against someone else. We are trying to see what happened in you.</p>
-      {reaction ? <p className="awaken-reflection__thread"><span>YOU NOTICED</span>{reaction}</p> : null}
       {review ? <ReviewReflection id="a1-reflection" label="What happened, and what did you feel or want to do immediately?" reflection={reflection} action={editReflection} /> : (
         <form className="awaken-reflection" action={formAction}>
           <label htmlFor="a1-reflection">What happened, and what did you feel or want to do immediately?</label>
@@ -216,7 +212,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
 
   if (section.id === 'go-deeper') return (
     <article className="awaken-journey awaken-sim-inquiry">
-      <A1SimulationInquiry moment={body} reaction={reaction} />
+      <A1SimulationInquiry moment={body} reaction="" />
     </article>
   );
 
