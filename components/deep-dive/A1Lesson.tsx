@@ -190,7 +190,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
 
   if (section.id === 'scripture') return (
     <article className="awaken-journey awaken-journey--scripture">
-      <div className="awaken-scripture__reference"><span>LUKE</span><strong>6:45</strong></div>
+      <div className="awaken-scripture__reference"><span>LUKE</span><strong>6:45</strong><span className="awaken-scripture__mobile-reference">LUKE 6:45</span></div>
       <div className="awaken-scripture__body">
         <p className="eyebrow">SCRIPTURE</p>
         <blockquote>“Out of the abundance of the heart, his mouth speaks.”</blockquote>
