@@ -4,6 +4,7 @@ import { useActionState, useEffect, useMemo, useState } from 'react';
 import type { A1Section } from '../../content/deep-dive/v1/awaken/pay-attention';
 import { LessonActionError } from './LessonTransitionForm';
 import { ReviewReflection, type ReviewReflectionAction } from './ReviewReflection';
+import { A1SimulationInquiry } from './A1SimulationInquiry';
 
 export type A1ReflectionSaveState = Readonly<{ saved: boolean; error?: string }>;
 type A1ReflectionAction = (state: A1ReflectionSaveState, formData: FormData) => Promise<A1ReflectionSaveState>;
@@ -213,75 +214,11 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
     </article>
   );
 
-  if (section.id === 'go-deeper') {
-    const [key, label] = CHAIN[chainStep];
-    return (
-      <article className="awaken-journey awaken-journey--chain">
-        <p className="eyebrow">FOLLOW WHAT WAS UNDERNEATH IT</p>
-        <h1>Now trace the moment backward.</h1>
-        <p className="awaken-journey__lead">You are not trying to get the “right” answer. Notice what seems true about the moment you brought with you.</p>
-        {!inquiryStarted ? (
-          <section className="awaken-inquiry-bridge">
-            <p className="eyebrow">YOU NOTICED THE REACTION</p>
-            <h2>But the reaction was the end of something that happened very quickly.</h2>
-            <div className="awaken-inquiry-bridge__turn">
-              <span aria-hidden="true" />
-              <p>Let’s slow the moment down.</p>
-            </div>
-            <div className="awaken-inquiry-bridge__questions" aria-label="What we are going to notice">
-              <p>What did you think was happening?</p>
-              <p>What did it seem to say about you?</p>
-              <p>What did you expect?</p>
-              <p>What did you want?</p>
-              <p>What were you trying to protect?</p>
-            </div>
-            <div className="awaken-inquiry-bridge__invitation">
-              <p>You do not need to have every answer. We are not deciding whether your response was right or wrong, and we are not trying to diagnose you.</p>
-              <strong>Start with what you actually remember.</strong>
-              <button type="button" className="button" onClick={() => setInquiryStarted(true)}>Slow the moment down</button>
-            </div>
-          </section>
-        ) : (
-          <>
-            <section className="awaken-chain__orientation">
-              <p className="eyebrow">FOLLOW THE MOVEMENT</p>
-              <h2>Now stay with what happened between the event and what you did.</h2>
-              <p>Take one question at a time. If you do not know an answer, leave it unfinished. The point is to notice what was actually present.</p>
-            </section>
-            {(body.trim() || reaction) ? <aside className="awaken-moment-thread" aria-label="The moment you brought with you">
-              {body.trim() ? <div><span>THE MOMENT YOU BROUGHT WITH YOU</span><p>{body}</p></div> : null}
-              {reaction ? <div><span>YOU NOTICED</span><p>{reaction}</p></div> : null}
-            </aside> : null}
-          </>
-        )}
-        {inquiryStarted ? <div className="awaken-chain">
-          <nav aria-label="Formation chain">
-            {CHAIN.map(([itemKey, itemLabel], index) => <button type="button" key={itemKey} className={index === chainStep ? 'is-active' : chain[itemKey] ? 'is-complete' : ''} onClick={() => setChainStep(index)}><span>{String(index + 1).padStart(2, '0')}</span>{itemLabel}</button>)}
-          </nav>
-          <section className="awaken-chain__prompt">
-            <span>{String(chainStep + 1).padStart(2, '0')} / 07</span>
-            <h2>{currentQuestion}</h2>
-            <p className="awaken-chain__guidance">{currentGuidance}</p>
-            <textarea aria-label={currentQuestion} value={adaptiveQuestion ? adaptiveAnswer : chain[key]} onChange={event => adaptiveQuestion ? setAdaptiveAnswer(event.target.value) : updateChain(key, event.target.value)} placeholder="Write what was actually happening for you…" />
-            <div className="awaken-chain__actions">
-              {chainStep > 0 ? <button type="button" className="awaken-quiet-button" onClick={() => setChainStep(value => value - 1)}>Back</button> : <span />}
-              {!guideComplete ? <button type="button" className="button" disabled={guidePending || !(adaptiveQuestion ? adaptiveAnswer : chain[key]).trim()} onClick={advanceAdaptiveInquiry}>{guidePending ? 'Following the moment…' : 'Keep following it'}</button> : completedChain.length >= 4 ? <button type="button" className="button" onClick={() => document.getElementById('a1-whole-movement')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>See the whole movement</button> : null}
-            </div>
-          </section>
-        </div> : null}
-        {inquiryStarted && guideComplete && completedChain.length >= 4 ? (
-          <div className="awaken-chain__reveal" id="a1-whole-movement" tabIndex={-1}>
-            <p className="eyebrow">LOOK AT THE WHOLE MOVEMENT</p>
-            <h2>You didn’t just react.</h2>
-            <p>Your outward response was only the last part of the movement. Look at what happened inside you before the behavior.</p>
-            {synthesis ? <section className="awaken-ai-synthesis"><p className="eyebrow">WHAT BECAME VISIBLE</p>{synthesis.headline ? <h3>{synthesis.headline}</h3> : null}{synthesis.summary ? <p>{synthesis.summary}</p> : null}{synthesis.noticing ? <p className="awaken-ai-synthesis__notice">{synthesis.noticing}</p> : null}{synthesis.carryQuestion ? <blockquote>{synthesis.carryQuestion}</blockquote> : null}</section> : null}
-            <div className="awaken-chain__summary">{CHAIN.map(([itemKey, itemLabel]) => chain[itemKey] ? <div key={itemKey}><span>{itemLabel}</span><p>{chain[itemKey]}</p></div> : null)}</div>
-            <div className="awaken-chain__meaning"><span>WHAT AWAKEN WANTS YOU TO NOTICE</span><p>The behavior may have been completely ordinary. Formation becomes visible in the meaning, expectation, desire, and protective movement that arose before it.</p><small>One moment is something to notice, not a verdict about who you are.</small></div>
-          </div>
-        ) : null}
-      </article>
-    );
-  }
+  if (section.id === 'go-deeper') return (
+    <article className="awaken-journey awaken-sim-inquiry">
+      <A1SimulationInquiry moment={body} reaction={reaction} />
+    </article>
+  );
 
   if (section.id === 'practice') return (
     <article className="awaken-journey awaken-journey--carry">
