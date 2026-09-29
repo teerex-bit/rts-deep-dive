@@ -39,6 +39,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   const [adaptiveTurns, setAdaptiveTurns] = useState<Array<{ question: string; answer: string }>>([]);
   const [guidePending, setGuidePending] = useState(false);
   const [guideComplete, setGuideComplete] = useState(false);
+  const [adaptiveAnswer, setAdaptiveAnswer] = useState('');
   const [synthesis, setSynthesis] = useState<{ headline?: string; summary?: string; noticing?: string; carryQuestion?: string } | null>(null);
 
   useEffect(() => {
@@ -74,7 +75,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
 
   async function advanceAdaptiveInquiry() {
     const [key] = CHAIN[chainStep];
-    const answer = chain[key].trim();
+    const answer = (adaptiveQuestion ? adaptiveAnswer : chain[key]).trim();
     if (!answer || guidePending) return;
     const turns = [...adaptiveTurns, { question: currentQuestion, answer }];
     setGuidePending(true);
@@ -88,6 +89,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
         return;
       }
       setAdaptiveTurns(turns);
+      setAdaptiveAnswer('');
       if (result.complete || result.action === 'finish' || turns.length >= 12) {
         setGuideComplete(true);
         const synthResponse = await fetch('/api/ai/awaken-guide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ moment: body, reaction, turns, mode: 'synthesis' }) });
@@ -258,10 +260,10 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
             <span>{String(chainStep + 1).padStart(2, '0')} / 07</span>
             <h2>{currentQuestion}</h2>
             <p className="awaken-chain__guidance">{currentGuidance}</p>
-            <textarea aria-label={currentQuestion} value={chain[key]} onChange={event => updateChain(key, event.target.value)} placeholder="Write what was actually happening for you…" />
+            <textarea aria-label={currentQuestion} value={adaptiveQuestion ? adaptiveAnswer : chain[key]} onChange={event => adaptiveQuestion ? setAdaptiveAnswer(event.target.value) : updateChain(key, event.target.value)} placeholder="Write what was actually happening for you…" />
             <div className="awaken-chain__actions">
               {chainStep > 0 ? <button type="button" className="awaken-quiet-button" onClick={() => setChainStep(value => value - 1)}>Back</button> : <span />}
-              {!guideComplete ? <button type="button" className="button" disabled={guidePending || !chain[key].trim()} onClick={advanceAdaptiveInquiry}>{guidePending ? 'Following the moment…' : 'Keep following it'}</button> : completedChain.length >= 4 ? <button type="button" className="button" onClick={() => document.getElementById('a1-whole-movement')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>See the whole movement</button> : null}
+              {!guideComplete ? <button type="button" className="button" disabled={guidePending || !(adaptiveQuestion ? adaptiveAnswer : chain[key]).trim()} onClick={advanceAdaptiveInquiry}>{guidePending ? 'Following the moment…' : 'Keep following it'}</button> : completedChain.length >= 4 ? <button type="button" className="button" onClick={() => document.getElementById('a1-whole-movement')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>See the whole movement</button> : null}
             </div>
           </section>
         </div> : null}
