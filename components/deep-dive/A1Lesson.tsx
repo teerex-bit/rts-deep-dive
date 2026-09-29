@@ -11,13 +11,13 @@ type A1ReflectionAction = (state: A1ReflectionSaveState, formData: FormData) => 
 const REACTIONS = ['Anger', 'Fear', 'Embarrassment', 'Control', 'Withdrawal', 'Defensiveness', 'Urgency', 'Something else'] as const;
 const PAUSE_WORDS = ['DON’T EXPLAIN IT.', 'DON’T FIX IT.', 'JUST NOTICE.', 'WHAT HAPPENED IN YOU?'] as const;
 const CHAIN = [
-  ['saw', 'WHAT I SAW', 'What did the moment seem to mean?'],
-  ['believed', 'WHAT I BELIEVED', 'What did you believe was true in that moment?'],
-  ['expected', 'WHAT I EXPECTED', 'What did you expect should happen?'],
-  ['desired', 'WHAT I DESIRED', 'What did you want?'],
-  ['intended', 'WHAT I INTENDED', 'What were you trying to make happen or prevent?'],
-  ['chose', 'WHAT I CHOSE', 'What did you choose to do?'],
-  ['lived', 'HOW I LIVED', 'What did that choice look like on the outside?'],
+  ['saw', 'WHAT I SAW', 'What did you think was happening?', 'In that instant, what did you assume other people were thinking, doing, or noticing?'],
+  ['believed', 'WHAT I BELIEVED', 'What did that seem to say about you?', 'Finish the thought: “If this is what is happening, then I am…”'],
+  ['expected', 'WHAT I EXPECTED', 'What were you bracing for?', 'What did you think would happen next? What were you expecting other people to do?'],
+  ['desired', 'WHAT I DESIRED', 'What did you most want in that moment?', 'If you could have changed one thing immediately, what would you have wanted?'],
+  ['intended', 'WHAT I WAS PROTECTING', 'What were you trying to protect or control?', 'What were you trying to keep from happening—or keep other people from seeing?'],
+  ['chose', 'WHAT I DID', 'What did you actually do?', 'Describe the concrete response: what you said, did, avoided, changed, or held back.'],
+  ['lived', 'WHAT IT DID FOR ME', 'What did that response accomplish?', 'What did it protect you from or help you get through? Did it move you toward what you wanted?'],
 ] as const;
 
 type ChainKey = typeof CHAIN[number][0];
@@ -167,7 +167,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   );
 
   if (section.id === 'go-deeper') {
-    const [key, label, question] = CHAIN[chainStep];
+    const [key, label, question, guidance] = CHAIN[chainStep];
     return (
       <article className="awaken-journey awaken-journey--chain">
         <p className="eyebrow">FOLLOW WHAT WAS UNDERNEATH IT</p>
@@ -189,7 +189,8 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
           <section className="awaken-chain__prompt">
             <span>{String(chainStep + 1).padStart(2, '0')} / 07</span>
             <h2>{question}</h2>
-            <textarea aria-label={question} value={chain[key]} onChange={event => updateChain(key, event.target.value)} placeholder="Notice what comes to mind…" />
+            <p className="awaken-chain__guidance">{guidance}</p>
+            <textarea aria-label={question} value={chain[key]} onChange={event => updateChain(key, event.target.value)} placeholder="Write what was actually happening for you…" />
             <div className="awaken-chain__actions">
               {chainStep > 0 ? <button type="button" className="awaken-quiet-button" onClick={() => setChainStep(value => value - 1)}>Back</button> : <span />}
               {chainStep < CHAIN.length - 1 ? <button type="button" className="button" onClick={() => setChainStep(value => value + 1)}>Keep following it</button> : completedChain.length >= 4 ? <button type="button" className="button" onClick={() => document.getElementById('a1-whole-movement')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>See the whole movement</button> : null}
@@ -200,9 +201,9 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
           <div className="awaken-chain__reveal" id="a1-whole-movement" tabIndex={-1}>
             <p className="eyebrow">LOOK AT THE WHOLE MOVEMENT</p>
             <h2>You didn’t just react.</h2>
-            <p>Something was already operating beneath the reaction.</p>
+            <p>Your outward response was only the last part of the movement. Look at what happened inside you before the behavior.</p>
             <div className="awaken-chain__summary">{CHAIN.map(([itemKey, itemLabel]) => chain[itemKey] ? <div key={itemKey}><span>{itemLabel}</span><p>{chain[itemKey]}</p></div> : null)}</div>
-            <strong>This is formation.</strong>
+            <div className="awaken-chain__meaning"><span>WHAT AWAKEN WANTS YOU TO NOTICE</span><p>The behavior may have been completely ordinary. Formation becomes visible in the meaning, expectation, desire, and protective movement that arose before it.</p><small>One moment is something to notice, not a verdict about who you are.</small></div>
           </div>
         ) : null}
       </article>
