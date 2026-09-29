@@ -132,6 +132,10 @@ export default async function A1Page({ params, searchParams }: { params: Promise
   const progress = await getA1();
   const state = lessonState({ sections: A1_SECTIONS, pathname: '/deep-dive/awaken/pay-attention', groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { index, section, next } = state;
+  async function navigateA1Section(sectionId: string) {
+    'use server';
+    return attemptLessonTransition(() => advanceLessonSection(A1_SECTIONS, '/deep-dive/awaken/pay-attention', sectionId, saveA1Section, async () => { const progress = await getA1(); return { completed: Boolean(progress?.completedAt), lastSectionId: progress?.lastSectionId }; }));
+  }
   async function saveSection(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> { 'use server'; const result = await attemptLessonTransition(() => advanceLessonSection(A1_SECTIONS, '/deep-dive/awaken/pay-attention', String(formData.get('section')), saveA1Section, async () => { const progress = await getA1(); return { completed: Boolean(progress?.completedAt), lastSectionId: progress?.lastSectionId }; })); if (result.destination) redirect(result.destination); return result; }
   async function saveReflection(_: A1ReflectionSaveState, formData: FormData): Promise<A1ReflectionSaveState> {
     'use server';
@@ -170,7 +174,7 @@ export default async function A1Page({ params, searchParams }: { params: Promise
         <div className="deep-dive-layout">
           <LessonProgress module="A1" title="Pay Attention" index={index} total={A1_SECTIONS.length} />
           <div className="deep-dive-content">
-            <JourneyReel sections={A1_SECTIONS} index={index} pathname="/deep-dive/awaken/pay-attention" />
+            <JourneyReel sections={A1_SECTIONS} currentSectionId={section.id} navigateSection={navigateA1Section} />
             <A1Lesson section={section} index={index} total={A1_SECTIONS.length} reflection={progress?.reflection ?? null} saveReflection={saveReflection} editReflection={editReflection} review={reviewReflection} />
             {(section.id !== 'reflection' || reviewReflection) ? <footer className="deep-dive-transition">
               {next ? (
