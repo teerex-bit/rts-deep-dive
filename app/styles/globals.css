@@ -725,3 +725,5 @@ a { color: var(--color-navy); text-underline-offset: 0.25em; }
 .awaken-lived-shell .journey-reel{width:min(100%,72rem);margin-left:auto;margin-right:auto}
 .awaken-lived-shell .journey-reel__window{width:100%;margin-inline:auto}
 .awaken-lived-shell .journey-reel__progress{width:100%;margin-inline:auto}
+
+.awaken-lived-shell .journey-reel__track{left:50%;transform:translateX(calc(-5.75rem - (var(--journey-index) * 11.5rem)))}
