@@ -33,6 +33,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   const [pauseIndex, setPauseIndex] = useState(0);
   const [pauseStarted, setPauseStarted] = useState(false);
   const [reaction, setReaction] = useState('');
+  const [customReaction, setCustomReaction] = useState('');
   const [chain, setChain] = useState<ChainState>(EMPTY_CHAIN);
   const [chainStep, setChainStep] = useState(0);
   const [inquiryStarted, setInquiryStarted] = useState(false);
@@ -143,7 +144,16 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
       ) : (
         <div className="awaken-pause" aria-live="polite">
           <span className="awaken-pause__line" key={pauseIndex}>{PAUSE_WORDS[pauseIndex]}</span>
-          {pauseIndex === PAUSE_WORDS.length - 1 ? <p className="awaken-journey__quiet-confirmation">Hold onto the moment itself. We will discover what changed in you rather than naming it in advance.</p> : null}
+          {pauseIndex === PAUSE_WORDS.length - 1 ? (
+            <div className="awaken-initial-notice">
+              <p>What stood out first?</p>
+              <div className="awaken-pause__choices is-visible">
+                {REACTIONS.map(item => <button type="button" className={reaction === item ? 'is-selected' : ''} aria-pressed={reaction === item} onClick={() => { setReaction(item); if (item !== 'Something else') setCustomReaction(''); }} key={item}>{item}</button>)}
+              </div>
+              {reaction === 'Something else' ? <label className="awaken-initial-notice__other"><span>What would you call it?</span><input value={customReaction} onChange={event => setCustomReaction(event.target.value)} placeholder="Use your own words…" /></label> : null}
+              {(reaction && reaction !== 'Something else') || customReaction.trim() ? <p className="awaken-journey__quiet-confirmation">Hold onto that. It gives us a place to begin paying attention.</p> : null}
+            </div>
+          ) : null}
         </div>
       )}
     </article>
@@ -212,7 +222,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
 
   if (section.id === 'go-deeper') return (
     <article className="awaken-journey awaken-sim-inquiry">
-      <A1SimulationInquiry moment={body} reaction="" />
+      <A1SimulationInquiry moment={body} reaction={reaction === 'Something else' ? customReaction.trim() : reaction} />
     </article>
   );
 
