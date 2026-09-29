@@ -34,6 +34,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   const [reaction, setReaction] = useState('');
   const [chain, setChain] = useState<ChainState>(EMPTY_CHAIN);
   const [chainStep, setChainStep] = useState(0);
+  const [inquiryStarted, setInquiryStarted] = useState(false);
 
   useEffect(() => {
     try {
@@ -173,16 +174,41 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
         <p className="eyebrow">FOLLOW WHAT WAS UNDERNEATH IT</p>
         <h1>Now trace the moment backward.</h1>
         <p className="awaken-journey__lead">You are not trying to get the “right” answer. Notice what seems true about the moment you brought with you.</p>
-        <section className="awaken-chain__orientation">
-          <p className="eyebrow">WHAT YOU ARE ABOUT TO FOLLOW</p>
-          <h2>There was more happening in that moment than your reaction.</h2>
-          <p>What you did was connected to what you wanted, expected, believed, and thought you were seeing. We are going to follow that movement backward—not to judge it, but to see what was already happening beneath the surface.</p>
-        </section>
-        {(body.trim() || reaction) ? <aside className="awaken-moment-thread" aria-label="The moment you brought with you">
-          {body.trim() ? <div><span>THE MOMENT YOU BROUGHT WITH YOU</span><p>{body}</p></div> : null}
-          {reaction ? <div><span>YOU NOTICED</span><p>{reaction}</p></div> : null}
-        </aside> : null}
-        <div className="awaken-chain">
+        {!inquiryStarted ? (
+          <section className="awaken-inquiry-bridge">
+            <p className="eyebrow">YOU NOTICED THE REACTION</p>
+            <h2>But the reaction was the end of something that happened very quickly.</h2>
+            <div className="awaken-inquiry-bridge__turn">
+              <span aria-hidden="true" />
+              <p>Let’s slow the moment down.</p>
+            </div>
+            <div className="awaken-inquiry-bridge__questions" aria-label="What we are going to notice">
+              <p>What did you think was happening?</p>
+              <p>What did it seem to say about you?</p>
+              <p>What did you expect?</p>
+              <p>What did you want?</p>
+              <p>What were you trying to protect?</p>
+            </div>
+            <div className="awaken-inquiry-bridge__invitation">
+              <p>You do not need to have every answer. We are not deciding whether your response was right or wrong, and we are not trying to diagnose you.</p>
+              <strong>Start with what you actually remember.</strong>
+              <button type="button" className="button" onClick={() => setInquiryStarted(true)}>Slow the moment down</button>
+            </div>
+          </section>
+        ) : (
+          <>
+            <section className="awaken-chain__orientation">
+              <p className="eyebrow">FOLLOW THE MOVEMENT</p>
+              <h2>Now stay with what happened between the event and what you did.</h2>
+              <p>Take one question at a time. If you do not know an answer, leave it unfinished. The point is to notice what was actually present.</p>
+            </section>
+            {(body.trim() || reaction) ? <aside className="awaken-moment-thread" aria-label="The moment you brought with you">
+              {body.trim() ? <div><span>THE MOMENT YOU BROUGHT WITH YOU</span><p>{body}</p></div> : null}
+              {reaction ? <div><span>YOU NOTICED</span><p>{reaction}</p></div> : null}
+            </aside> : null}
+          </>
+        )}
+        {inquiryStarted ? <div className="awaken-chain">
           <nav aria-label="Formation chain">
             {CHAIN.map(([itemKey, itemLabel], index) => <button type="button" key={itemKey} className={index === chainStep ? 'is-active' : chain[itemKey] ? 'is-complete' : ''} onClick={() => setChainStep(index)}><span>{String(index + 1).padStart(2, '0')}</span>{itemLabel}</button>)}
           </nav>
@@ -196,8 +222,8 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
               {chainStep < CHAIN.length - 1 ? <button type="button" className="button" onClick={() => setChainStep(value => value + 1)}>Keep following it</button> : completedChain.length >= 4 ? <button type="button" className="button" onClick={() => document.getElementById('a1-whole-movement')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>See the whole movement</button> : null}
             </div>
           </section>
-        </div>
-        {chainStep === CHAIN.length - 1 && completedChain.length >= 4 ? (
+        </div> : null}
+        {inquiryStarted && chainStep === CHAIN.length - 1 && completedChain.length >= 4 ? (
           <div className="awaken-chain__reveal" id="a1-whole-movement" tabIndex={-1}>
             <p className="eyebrow">LOOK AT THE WHOLE MOVEMENT</p>
             <h2>You didn’t just react.</h2>
