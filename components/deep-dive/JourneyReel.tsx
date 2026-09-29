@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { CSSProperties } from 'react';
 
 type ReelSection = Readonly<{ id: string; title: string }>;
 
@@ -7,7 +8,7 @@ export function JourneyReel({ sections, index, pathname }: { sections: readonly 
   return (
     <nav className="journey-reel" aria-label="Awaken journey sections">
       <div className="journey-reel__window">
-        <div className="journey-reel__track" style={{ transform: `translateX(calc(50% - ${index * 11.5}rem - 5.75rem))` }}>
+        <div className="journey-reel__track" style={{ '--journey-index': index } as CSSProperties}>
           {sections.map((item, itemIndex) => {
             const distance = Math.abs(itemIndex - index);
             return (
