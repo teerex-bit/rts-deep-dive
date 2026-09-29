@@ -24,14 +24,10 @@ import { A2_SECTIONS } from '../../../../../content/deep-dive/v1/awaken/catch-yo
 import { completeA1, completeA2, editDeepDiveReflection, getA1, getA2, saveA1Reflection, saveA1Section, saveA2Reflection, saveA2Section } from '../../../../../server/services/deep-dive-service';
 import { A1_MODULE_ID, A1_REFLECTION_PROMPT_ID, A2_MODULE_ID, A2_REFLECTION_PROMPT_ID } from '../../../../../domain/deep-dive';
 
-function a1TransitionLabel(sectionId: string) {
-  return ({ entry: 'Bring a moment to mind', moment: 'Notice what happened', 'outside-inside': 'Stay with the moment', teaching: 'Let Scripture speak', scripture: 'Bring in your moment', reflection: 'Follow what was underneath it', 'go-deeper': 'Carry this into your day', practice: 'Keep noticing' } as Record<string, string>)[sectionId] ?? 'Continue';
-}
-
-function LessonProgress({ module, title, index, total }: { module: 'A1' | 'A2'; title: string; index: number; total: number }) {
-  return <section className="deep-dive-progress" aria-label={`${module} lesson progress`}>
+function LessonProgress({ module, title, index, total, showSectionProgress = true }: { module: 'A1' | 'A2'; title: string; index: number; total: number; showSectionProgress?: boolean }) {
+  return <section className="deep-dive-progress" aria-label={showSectionProgress ? `${module} lesson progress` : `${module} lesson title`}>
     <div className="deep-dive-progress__identity"><span className="eyebrow">AWAKEN · {module}</span><span aria-hidden="true">/</span><strong>{title}</strong></div>
-    <div className="deep-dive-progress__track"><label htmlFor={`${module}-section-progress`}>Section {index + 1} of {total}</label><progress id={`${module}-section-progress`} value={index + 1} max={total} /></div>
+    {showSectionProgress ? <div className="deep-dive-progress__track"><label htmlFor={`${module}-section-progress`}>Section {index + 1} of {total}</label><progress id={`${module}-section-progress`} value={index + 1} max={total} /></div> : null}
   </section>;
 }
 
@@ -136,7 +132,6 @@ export default async function A1Page({ params, searchParams }: { params: Promise
     'use server';
     return attemptLessonTransition(() => advanceLessonSection(A1_SECTIONS, '/deep-dive/awaken/pay-attention', sectionId, saveA1Section, async () => { const progress = await getA1(); return { completed: Boolean(progress?.completedAt), lastSectionId: progress?.lastSectionId }; }));
   }
-  async function saveSection(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> { 'use server'; const result = await attemptLessonTransition(() => advanceLessonSection(A1_SECTIONS, '/deep-dive/awaken/pay-attention', String(formData.get('section')), saveA1Section, async () => { const progress = await getA1(); return { completed: Boolean(progress?.completedAt), lastSectionId: progress?.lastSectionId }; })); if (result.destination) redirect(result.destination); return result; }
   async function saveReflection(_: A1ReflectionSaveState, formData: FormData): Promise<A1ReflectionSaveState> {
     'use server';
     if (formData.get('skip') === 'true') {
@@ -172,22 +167,13 @@ export default async function A1Page({ params, searchParams }: { params: Promise
           <span>Formation Journey <span aria-hidden="true">/</span> A1</span>
         </div>
         <div className="deep-dive-layout">
-          <LessonProgress module="A1" title="Pay Attention" index={index} total={A1_SECTIONS.length} />
+          <LessonProgress module="A1" title="Pay Attention" index={index} total={A1_SECTIONS.length} showSectionProgress={false} />
           <div className="deep-dive-content">
             <JourneyReel sections={A1_SECTIONS} currentSectionId={section.id} navigateSection={navigateA1Section} />
             <A1Lesson section={section} index={index} total={A1_SECTIONS.length} reflection={progress?.reflection ?? null} saveReflection={saveReflection} editReflection={editReflection} review={reviewReflection} />
-            {(section.id !== 'reflection' || reviewReflection) ? <footer className="deep-dive-transition">
-              {next ? (
-                <>
-                  <div><p className="eyebrow">CONTINUE</p><p className="deep-dive-transition__title">{next.title}</p></div>
-                  {progress?.completedAt ? <Link className="button" href={`/deep-dive/awaken/pay-attention?section=${next.id}`}>{a1TransitionLabel(section.id)}</Link> : <LessonTransitionForm action={saveSection} section={next.id} label={a1TransitionLabel(section.id)} />}
-                </>
-              ) : (
-                <>
-                  <p className="deep-dive-transition__title">You have reached the end of Pay Attention.</p>
-                  {progress?.completedAt ? <AwakenCompletionNav module="a1" /> : <LessonTransitionForm action={finish} label="Complete lesson" />}
-                </>
-              )}
+            {!next ? <footer className="deep-dive-transition">
+              <p className="deep-dive-transition__title">You have reached the end of Pay Attention.</p>
+              {progress?.completedAt ? <AwakenCompletionNav module="a1" /> : <LessonTransitionForm action={finish} label="Complete lesson" />}
             </footer> : null}
           </div>
         </div>
