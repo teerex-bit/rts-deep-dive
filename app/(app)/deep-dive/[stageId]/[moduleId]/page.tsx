@@ -176,7 +176,7 @@ export default async function A1Page({ params, searchParams }: { params: Promise
           <div className="deep-dive-content">
             <JourneyReel sections={A1_SECTIONS} currentSectionId={section.id} navigateSection={navigateA1Section} />
             <A1Lesson section={section} index={index} total={A1_SECTIONS.length} reflection={progress?.reflection ?? null} saveReflection={saveReflection} editReflection={editReflection} review={reviewReflection} />
-            {(section.id !== 'reflection' || reviewReflection) ? <footer className="deep-dive-transition">
+            {(section.id !== 'reflection' && section.id !== 'go-deeper' || reviewReflection) ? <footer className="deep-dive-transition">
               {next ? (
                 <>
                   <div><p className="eyebrow">CONTINUE</p><p className="deep-dive-transition__title">{next.title}</p></div>
