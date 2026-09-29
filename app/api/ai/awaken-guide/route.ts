@@ -50,7 +50,16 @@ async function askOpenAI(apiKey: string, instructions: string, context: unknown,
       text: { format: { type: 'json_schema', name, strict: true, schema } },
     }),
   });
-  if (!response.ok) throw new Error(`provider_${response.status}`);
+  if (!response.ok) {
+    const providerBody = await response.text();
+    let providerMessage = '';
+    try {
+      const parsed = JSON.parse(providerBody) as { error?: { message?: string; code?: string; type?: string } };
+      providerMessage = [parsed.error?.type, parsed.error?.code, parsed.error?.message].filter(Boolean).join(' | ').slice(0, 500);
+    } catch { providerMessage = providerBody.slice(0, 300); }
+    console.error('[awaken-guide] OpenAI rejected request', { status: response.status, detail: providerMessage || 'no safe detail' });
+    throw new Error(`provider_${response.status}`);
+  }
   const data = await response.json() as Record<string, unknown>;
   const text = outputText(data);
   if (!text) throw new Error('provider_no_output');
@@ -117,13 +126,21 @@ export async function POST(request: Request) {
     const body = await request.json() as RequestBody;
     if (!body || !Array.isArray(body.turns) || body.turns.length > 12 || body.turns.some(t => !t || typeof t.question !== 'string' || typeof t.answer !== 'string')) return new Response(JSON.stringify({ kind: 'invalid_request' }), { status: 400, headers });
     const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) return NextResponse.json({ kind: 'unavailable' }, { status: 503, headers });
+    if (!apiKey) {
+      console.error('[awaken-guide] OPENAI_API_KEY is not configured');
+      return NextResponse.json({ kind: 'unavailable', diagnostic: 'missing_api_key' }, { status: 503, headers });
+    }
     const context = { moment: String(body.moment ?? '').slice(0,4000), reaction: String(body.reaction ?? '').slice(0,500), turns: body.turns.map(t => ({ question: t.question.slice(0,500), answer: t.answer.slice(0,4000) })) };
     if (body.mode === 'synthesis') return NextResponse.json({ kind: 'success', ...(await askOpenAI(apiKey, SYNTHESIS, context, SYNTH_SCHEMA, 'rts_awaken_synthesis')) }, { headers });
     if (body.turns.length >= 7) return NextResponse.json({ kind: 'success', action: 'finish', question: '', guidance: '', relevance: 'Hard inquiry limit reached.', observations: [], complete: true }, { headers });
     return NextResponse.json({ kind: 'success', ...(await askOpenAI(apiKey, INQUIRY, context, NEXT_SCHEMA, 'rts_awaken_next_question')) }, { headers });
   } catch (error) {
-    if (error instanceof AuthenticationRequiredError) return new Response(JSON.stringify({ kind: 'unauthorized' }), { status: 401, headers });
-    return NextResponse.json({ kind: 'unavailable' }, { status: 503, headers });
+    if (error instanceof AuthenticationRequiredError) {
+      console.error('[awaken-guide] review request was not authenticated');
+      return new Response(JSON.stringify({ kind: 'unauthorized', diagnostic: 'auth' }), { status: 401, headers });
+    }
+    const diagnostic = error instanceof Error ? error.message.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 80) : 'unknown';
+    console.error('[awaken-guide] request failed', { diagnostic });
+    return NextResponse.json({ kind: 'unavailable', diagnostic }, { status: 503, headers });
   }
 }
