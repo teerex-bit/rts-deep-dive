@@ -24,7 +24,7 @@ type ChainKey = typeof CHAIN[number][0];
 type ChainState = Record<ChainKey, string>;
 const EMPTY_CHAIN: ChainState = { saw: '', believed: '', expected: '', desired: '', intended: '', chose: '', lived: '' };
 
-export function A1Lesson({ section, reflection, saveReflection, editReflection, review = false }: { section: A1Section; index: number; total: number; reflection: string | null; saveReflection: A1ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean }) {
+export function A1Lesson({ section, reflection, saveReflection, editReflection, review = false, onInquiryStateChange }: { section: A1Section; index: number; total: number; reflection: string | null; saveReflection: A1ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean; onInquiryStateChange?: (active: boolean) => void }) {
   const [open, setOpen] = useState(false);
   const [saveState, formAction, pending] = useActionState(saveReflection, { saved: false });
   const [editedSinceSave, setEditedSinceSave] = useState(false);
@@ -83,7 +83,8 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
       const result = await response.json() as { kind?: string; action?: string; question?: string; guidance?: string; complete?: boolean };
       if (!response.ok || result.kind !== 'success') {
         setAdaptiveTurns(turns);
-        setAdaptiveQuestion({ question: 'What seems most important to you about what happened inside that moment?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
+        if (chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
+        setAdaptiveQuestion({ question: 'What happened inside you next?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
         return;
       }
       setAdaptiveTurns(turns);
@@ -101,7 +102,8 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
       }
     } catch {
       setAdaptiveTurns(turns);
-      setAdaptiveQuestion({ question: 'What seems most important to you about what happened inside that moment?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
+      if (chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
+      setAdaptiveQuestion({ question: 'What happened inside you next?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
     } finally { setGuidePending(false); }
   }
 
