@@ -91,7 +91,7 @@ Hard boundaries:
 - Do not prescribe behavior in A1.
 - Do not force the participant to name the internal movement.
 - If their initial feeling/word is enough to establish recognition, ask only what is necessary to connect it to the lived moment.
-- Target about 3-6 questions after the initial noticing choice; hard maximum 8. Finish sooner when recognition is already present.
+- Target 3-5 questions after the initial noticing choice. A sixth question is allowed only when one brief clarification is genuinely needed. Seven is the absolute hard stop. Once the participant has demonstrated awareness of an internal reaction or movement, strongly prefer FINISH over asking for deeper explanation.
 - question must be empty when action=finish.
 - guidance is at most one short sentence.
 - relevance is internal audit text and is not shown to the participant.
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
     if (!apiKey) return NextResponse.json({ kind: 'unavailable' }, { status: 503, headers });
     const context = { moment: String(body.moment ?? '').slice(0,4000), reaction: String(body.reaction ?? '').slice(0,500), turns: body.turns.map(t => ({ question: t.question.slice(0,500), answer: t.answer.slice(0,4000) })) };
     if (body.mode === 'synthesis') return NextResponse.json({ kind: 'success', ...(await askOpenAI(apiKey, SYNTHESIS, context, SYNTH_SCHEMA, 'rts_awaken_synthesis')) }, { headers });
-    if (body.turns.length >= 8) return NextResponse.json({ kind: 'success', action: 'finish', question: '', guidance: '', relevance: 'Hard inquiry limit reached.', observations: [], complete: true }, { headers });
+    if (body.turns.length >= 7) return NextResponse.json({ kind: 'success', action: 'finish', question: '', guidance: '', relevance: 'Hard inquiry limit reached.', observations: [], complete: true }, { headers });
     return NextResponse.json({ kind: 'success', ...(await askOpenAI(apiKey, INQUIRY, context, NEXT_SCHEMA, 'rts_awaken_next_question')) }, { headers });
   } catch (error) {
     if (error instanceof AuthenticationRequiredError) return new Response(JSON.stringify({ kind: 'unauthorized' }), { status: 401, headers });
