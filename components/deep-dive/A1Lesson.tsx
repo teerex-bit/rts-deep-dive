@@ -84,6 +84,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
       const result = await response.json() as { kind?: string; action?: string; question?: string; guidance?: string; complete?: boolean };
       if (!response.ok || result.kind !== 'success') {
         setAdaptiveTurns(turns);
+        setAdaptiveAnswer('');
         if (chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
         setAdaptiveQuestion({ question: 'What happened inside you next?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
         return;
@@ -104,6 +105,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
       }
     } catch {
       setAdaptiveTurns(turns);
+      setAdaptiveAnswer('');
       if (chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
       setAdaptiveQuestion({ question: 'What happened inside you next?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
     } finally { setGuidePending(false); }
