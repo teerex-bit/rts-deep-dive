@@ -719,3 +719,9 @@ a { color: var(--color-navy); text-underline-offset: 0.25em; }
 .journey-reel__progress{height:1px;background:color-mix(in srgb,var(--color-gold) 22%,transparent)}.journey-reel__progress span{display:block;height:2px;background:var(--color-gold);transition:width .5s ease}
 @media(max-width:48rem){.awaken-moment-thread{grid-template-columns:1fr;gap:.8rem}.journey-reel{margin-bottom:2rem}.journey-reel__window{mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}}
 @media(prefers-reduced-motion:reduce){.journey-reel__track,.journey-reel__item,.journey-reel__progress span{transition:none}}
+
+
+/* Journey Reel centering correction */
+.awaken-lived-shell .journey-reel{width:min(100%,72rem);margin-left:auto;margin-right:auto}
+.awaken-lived-shell .journey-reel__window{width:100%;margin-inline:auto}
+.awaken-lived-shell .journey-reel__progress{width:100%;margin-inline:auto}
