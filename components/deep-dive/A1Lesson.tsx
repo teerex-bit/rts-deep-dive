@@ -35,6 +35,11 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   const [chain, setChain] = useState<ChainState>(EMPTY_CHAIN);
   const [chainStep, setChainStep] = useState(0);
   const [inquiryStarted, setInquiryStarted] = useState(false);
+  const [adaptiveQuestion, setAdaptiveQuestion] = useState<{ question: string; guidance: string } | null>(null);
+  const [adaptiveTurns, setAdaptiveTurns] = useState<Array<{ question: string; answer: string }>>([]);
+  const [guidePending, setGuidePending] = useState(false);
+  const [guideComplete, setGuideComplete] = useState(false);
+  const [synthesis, setSynthesis] = useState<{ headline?: string; summary?: string; noticing?: string; carryQuestion?: string } | null>(null);
 
   useEffect(() => {
     try {
@@ -64,6 +69,36 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
 
   const completedChain = useMemo(() => CHAIN.filter(([key]) => chain[key].trim()), [chain]);
   const updateChain = (key: ChainKey, value: string) => setChain(current => ({ ...current, [key]: value }));
+  const currentQuestion = adaptiveQuestion?.question ?? CHAIN[chainStep][2];
+  const currentGuidance = adaptiveQuestion?.guidance ?? CHAIN[chainStep][3];
+
+  async function advanceAdaptiveInquiry() {
+    const [key] = CHAIN[chainStep];
+    const answer = chain[key].trim();
+    if (!answer || guidePending) return;
+    const turns = [...adaptiveTurns, { question: currentQuestion, answer }];
+    setGuidePending(true);
+    try {
+      const response = await fetch('/api/ai/awaken-guide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ moment: body, reaction, turns, step: turns.length, mode: 'next' }) });
+      const result = await response.json() as { kind?: string; question?: string; guidance?: string; complete?: boolean; reason?: string };
+      setAdaptiveTurns(turns);
+      if (result.complete || turns.length >= 12) {
+        setGuideComplete(true);
+        const synthResponse = await fetch('/api/ai/awaken-guide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ moment: body, reaction, turns, step: turns.length, mode: 'synthesis' }) });
+        const synth = await synthResponse.json() as { kind?: string; headline?: string; summary?: string; noticing?: string; carryQuestion?: string };
+        if (synth.kind === 'success') setSynthesis(synth);
+        setChainStep(CHAIN.length - 1);
+      } else {
+        setAdaptiveQuestion({ question: result.question || CHAIN[Math.min(chainStep + 1, CHAIN.length - 1)][2], guidance: result.guidance || '' });
+        if (result.reason === 'advance' && chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
+      }
+    } catch {
+      setAdaptiveTurns(turns);
+      if (chainStep < CHAIN.length - 1) { setChainStep(value => value + 1); setAdaptiveQuestion(null); }
+      else setGuideComplete(true);
+    } finally { setGuidePending(false); }
+  }
+
 
   if (section.id === 'entry') return (
     <article className="awaken-journey awaken-journey--entry">
@@ -168,7 +203,7 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   );
 
   if (section.id === 'go-deeper') {
-    const [key, label, question, guidance] = CHAIN[chainStep];
+    const [key, label] = CHAIN[chainStep];
     return (
       <article className="awaken-journey awaken-journey--chain">
         <p className="eyebrow">FOLLOW WHAT WAS UNDERNEATH IT</p>
@@ -214,20 +249,21 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
           </nav>
           <section className="awaken-chain__prompt">
             <span>{String(chainStep + 1).padStart(2, '0')} / 07</span>
-            <h2>{question}</h2>
-            <p className="awaken-chain__guidance">{guidance}</p>
-            <textarea aria-label={question} value={chain[key]} onChange={event => updateChain(key, event.target.value)} placeholder="Write what was actually happening for you…" />
+            <h2>{currentQuestion}</h2>
+            <p className="awaken-chain__guidance">{currentGuidance}</p>
+            <textarea aria-label={currentQuestion} value={chain[key]} onChange={event => updateChain(key, event.target.value)} placeholder="Write what was actually happening for you…" />
             <div className="awaken-chain__actions">
               {chainStep > 0 ? <button type="button" className="awaken-quiet-button" onClick={() => setChainStep(value => value - 1)}>Back</button> : <span />}
-              {chainStep < CHAIN.length - 1 ? <button type="button" className="button" onClick={() => setChainStep(value => value + 1)}>Keep following it</button> : completedChain.length >= 4 ? <button type="button" className="button" onClick={() => document.getElementById('a1-whole-movement')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>See the whole movement</button> : null}
+              {!guideComplete ? <button type="button" className="button" disabled={guidePending || !chain[key].trim()} onClick={advanceAdaptiveInquiry}>{guidePending ? 'Following the moment…' : 'Keep following it'}</button> : completedChain.length >= 4 ? <button type="button" className="button" onClick={() => document.getElementById('a1-whole-movement')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })}>See the whole movement</button> : null}
             </div>
           </section>
         </div> : null}
-        {inquiryStarted && chainStep === CHAIN.length - 1 && completedChain.length >= 4 ? (
+        {inquiryStarted && guideComplete && completedChain.length >= 4 ? (
           <div className="awaken-chain__reveal" id="a1-whole-movement" tabIndex={-1}>
             <p className="eyebrow">LOOK AT THE WHOLE MOVEMENT</p>
             <h2>You didn’t just react.</h2>
             <p>Your outward response was only the last part of the movement. Look at what happened inside you before the behavior.</p>
+            {synthesis ? <section className="awaken-ai-synthesis"><p className="eyebrow">WHAT BECAME VISIBLE</p>{synthesis.headline ? <h3>{synthesis.headline}</h3> : null}{synthesis.summary ? <p>{synthesis.summary}</p> : null}{synthesis.noticing ? <p className="awaken-ai-synthesis__notice">{synthesis.noticing}</p> : null}{synthesis.carryQuestion ? <blockquote>{synthesis.carryQuestion}</blockquote> : null}</section> : null}
             <div className="awaken-chain__summary">{CHAIN.map(([itemKey, itemLabel]) => chain[itemKey] ? <div key={itemKey}><span>{itemLabel}</span><p>{chain[itemKey]}</p></div> : null)}</div>
             <div className="awaken-chain__meaning"><span>WHAT AWAKEN WANTS YOU TO NOTICE</span><p>The behavior may have been completely ordinary. Formation becomes visible in the meaning, expectation, desire, and protective movement that arose before it.</p><small>One moment is something to notice, not a verdict about who you are.</small></div>
           </div>
