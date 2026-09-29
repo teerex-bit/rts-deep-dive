@@ -722,3 +722,11 @@ a { color: var(--color-navy); text-underline-offset: 0.25em; }
 .journey-reel__status{min-height:0;margin:0;color:var(--color-text);font-size:.8rem;line-height:1.4}.journey-reel__status:empty{display:none}.journey-reel[aria-busy="true"] .journey-reel__window{cursor:progress}
 @media(max-width:48rem){.awaken-moment-thread{grid-template-columns:1fr;gap:.8rem}.journey-reel{margin-bottom:2rem}.journey-reel__window{height:4.2rem;mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}.journey-reel__item{flex-basis:11rem;min-height:3.3rem;font-size:.76rem}.journey-reel__item[data-active="true"]{font-size:.93rem}}
 @media(prefers-reduced-motion:reduce){.journey-reel__track,.journey-reel__item,.journey-reel__progress span{transition:none!important}}
+
+
+/* Guided formation inquiry */
+.awaken-chain__guidance{max-width:38rem;margin:-.25rem 0 1.1rem;color:color-mix(in srgb,var(--color-text) 72%,transparent);font-size:.98rem;line-height:1.6}
+.awaken-chain__meaning{max-width:54rem;margin-top:2.5rem;padding:1.5rem 0;border-top:1px solid var(--color-gold)}
+.awaken-chain__meaning span{color:var(--color-green);font-size:.68rem;font-weight:700;letter-spacing:.15em}
+.awaken-chain__meaning p{margin:.65rem 0;color:var(--color-navy);font-family:var(--font-display);font-size:clamp(1.35rem,2.4vw,2rem);line-height:1.35}
+.awaken-chain__meaning small{display:block;max-width:42rem;margin-top:1rem;color:color-mix(in srgb,var(--color-text) 72%,transparent);font-size:.92rem}
