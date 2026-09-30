@@ -1,65 +1,12 @@
 export type A2SectionId = 'entry' | 'patterns' | 'scripture' | 'reflection' | 'go-deeper' | 'practice' | 'carry-forward';
-
-export type A2Section = Readonly<{
-  id: A2SectionId;
-  eyebrow: string;
-  title: string;
-  paragraphs: readonly string[];
-  prompt?: string;
-}>;
+export type A2Section = Readonly<{id:A2SectionId;eyebrow:string;title:string;paragraphs:readonly string[];prompt?:string}>;
 
 export const A2_SECTIONS: readonly A2Section[] = [
-  {
-    id: 'entry', eyebrow: 'AWAKEN · A2', title: 'Catch Yourself Being You',
-    paragraphs: [
-      'Someone misunderstands you.',
-      'Plans suddenly change.',
-      'Conflict begins.',
-      'Someone seems disappointed in you.',
-      'You feel overlooked.',
-      'Different situations. Same you.',
-    ],
-  },
-  {
-    id: 'patterns', eyebrow: 'NOTICE WHAT REPEATS', title: 'Different moments, familiar moves',
-    paragraphs: [
-      'Choose moments you recognize. For each one, name only the first movement you actually noticed, then the response that followed. You may leave either blank. This map stays on this page and is not saved.',
-    ],
-  },
-  {
-    id: 'scripture', eyebrow: 'A MOMENT TO CONSIDER', title: 'Seeing clearly',
-    paragraphs: [
-      'For if anyone is a hearer of the word and not a doer, he is like a man looking at his natural face in a mirror. For he sees himself, and goes away, and immediately forgets what kind of man he was.',
-      'James uses a mirror to describe the value of seeing honestly. Seeing a repeated response is not condemnation. Give yourself truthful attention without turning it into self-criticism.',
-      'A repeated response may connect with what you believe, expect, or feel is at stake. We will explore those connections later. For now, simply notice what repeats.',
-    ],
-  },
-  {
-    id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'What are you beginning to recognize?',
-    paragraphs: [
-      'Which response do you notice most often? What kinds of situations tend to bring it out?',
-      'You might notice yourself moving toward control, withdrawal, fixing, pleasing, proving, or escape. These are ways of responding, not labels for who you are. You can also describe something else in your own words.',
-    ],
-    prompt: 'Which response do you notice most often, and what kinds of situations bring it out? Write only what you want to keep; your saved reflection belongs to your account.',
-  },
-  {
-    id: 'go-deeper', eyebrow: 'A SMALL PRACTICE', title: 'Notice, name, ask, receive',
-    paragraphs: [
-      'Begin with what you can notice and name what is happening. Ask God what He wants you to see, then stay with what becomes clear. The question can remain open; you do not need to manufacture an answer.',
-    ],
-  },
-  {
-    id: 'practice', eyebrow: 'IN YOUR DAY', title: 'Catch yourself being you',
-    paragraphs: [
-      'Over the next few days, notice when a familiar response appears. Catch it as close to the moment as possible and name what is happening. Ask God what He wants you to notice, and stay with what becomes clear without forcing an answer.',
-      'You are not trying to fix the pattern yet. Collect observations. One sentence is enough: “I noticed I became defensive when I felt misunderstood.” You can stop at noticing or naming without forcing an explanation.',
-    ],
-  },
-  {
-    id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'A pattern is something you can notice',
-    paragraphs: [
-      'The way you respond in a moment may reveal a pattern, but it does not automatically define who you are. As you keep noticing, pay attention to the language you use about yourself.',
-      'For now, carry forward what you observed. These patterns will prepare you for a later lesson; you do not need to explain or change them today.',
-    ],
-  },
+ {id:'entry',eyebrow:'AWAKEN · 02',title:'Catch Yourself Being You',paragraphs:['A moment can feel instantaneous: something happens, and then you respond.','But when you slow it down, the response often has a before. You noticed something. It meant something to you. Something mattered. An impulse formed. Then you acted.','You do not need to find every step. Today we are looking for one more.']},
+ {id:'patterns',eyebrow:'SLOW THE MOMENT DOWN',title:'What happened just before what you did?',paragraphs:['Stay with one situation rather than collecting examples from your life. Name only what you can honestly observe. If a step is unclear, leave it unclear.','The framework is backstage support, not a conclusion about you. Hardwired and held loosely.']},
+ {id:'scripture',eyebrow:'A MOMENT TO CONSIDER',title:'Seeing creates possibility.',paragraphs:['For if anyone is a hearer of the word and not a doer, he is like a man looking at his natural face in a mirror. For he sees himself, and goes away, and immediately forgets what kind of man he was.','James uses a mirror to describe honest seeing. Awareness is not condemnation. It gives you the possibility of remaining present to something that previously passed unnoticed.']},
+ {id:'reflection',eyebrow:'YOUR MOMENT',title:'What came before the response?',paragraphs:['Look only at the moment you are carrying. Perhaps you noticed a thought, expectation, body sensation, desire, fear, or impulse before you acted. Perhaps you only know that something changed.','Do not turn one observation into a pattern. One moment can simply be one moment.'],prompt:'What is one thing you can see now that happened before your response?'},
+ {id:'go-deeper',eyebrow:'A SMALL PRACTICE',title:'Notice. Name. Stay.',paragraphs:['Notice that something changed. Name only what you can actually see. Stay with it long enough to let the moment become clearer.','You may ask God what He wants you to see and leave the question open. You do not need to manufacture an answer.']},
+ {id:'practice',eyebrow:'IN YOUR DAY',title:'Find the before.',paragraphs:['When you catch a response in real time, see whether you can notice what happened immediately before it. One step is enough.','As this becomes familiar, you may sometimes notice several steps at once. Do not try to process all of them. Take one thing through the whole process.']},
+ {id:'carry-forward',eyebrow:'CARRY FORWARD',title:'Automatic is becoming visible.',paragraphs:['The response may still happen quickly, but it no longer has to be a blank space. You have begun to see that something was happening before it.','Next, we will separate what you noticed yourself doing from what you may be tempted to conclude about who you are.']},
 ] as const;
