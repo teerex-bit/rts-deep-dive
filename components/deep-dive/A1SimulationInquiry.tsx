@@ -48,7 +48,15 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
   // Do not spend an API call or advance the framework when the participant's
   // answer is too ambiguous to know what they meant. Clarify the reference first.
   if(ambiguous(value)){
-    setTurns(next);setPrompt({q:'What do you mean by that?',g:'You can answer in a few words. I just want to make sure we stay with what you meant.'});setAnswer('');return;
+    const concreteMoment=moment.trim().replace(/[.!?]+$/,'');
+    setPrompt({
+      q: concreteMoment
+        ? `When ${concreteMoment.charAt(0).toLowerCase()+concreteMoment.slice(1)}, what did you notice happening in you before you responded?`
+        : 'In that moment, what did you notice happening in you before you responded?',
+      g:'Start anywhere you remember—a thought, feeling, body sensation, or urge to do something.'
+    });
+    setAnswer('');
+    return;
   }
   if(answeredNumber>=7){
    setTurns(next);setAnswer('');setComplete(true);setPending(true);
