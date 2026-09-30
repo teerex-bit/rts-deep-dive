@@ -1,0 +1,14 @@
+{
+  "study": "RTS Awaken Inquiry Evaluation",
+  "protocol_version": "0.1.0",
+  "created": "2026-09-29",
+  "sources": [
+    {"name":"GoEmotions","provenance":"real-human-language","size_reported":58009,"use":"primary language realism and emotion/neutral sampling","status":"approved-for-ingestion-after-license-manifest-verification"},
+    {"name":"EmpatheticDialogues","provenance":"real-human-dialogue","size_reported":25000,"use":"research validation and emotional-situation realism","status":"research-validation-license-review"},
+    {"name":"DailyDialog","provenance":"real-human-dialogue","use":"ordinary-life and non-pathological comparison","status":"research-validation-license-review"},
+    {"name":"ESConv","provenance":"real-human-dialogue","use":"research comparison for multi-turn support progression","status":"research-validation-license-review"}
+  ],
+  "provenance_classes":["REAL","SYNTHETIC","MODEL-CONNECTED","EVALUATOR-INFERRED"],
+  "primary_acceptance_test":"The next question should make sense because of what the participant just said.",
+  "diagnostic_intent":false
+}
