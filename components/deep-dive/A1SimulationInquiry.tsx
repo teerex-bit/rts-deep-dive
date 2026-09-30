@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 type Turn={question:string;answer:string};
 type Prompt={q:string;g:string};
-type GuideResult={kind?:string;action?:string;question?:string;guidance?:string;complete?:boolean};
+type GuideResult={kind?:string;action?:string;question?:string;guidance?:string;complete?:boolean;observations?:Array<{area?:string;evidence?:string}>};
 type Synthesis={headline?:string;summary?:string;noticing?:string[];carryQuestion?:string};
 
 const FIRST:Prompt={q:'What changed in you when it happened?',g:'Stay with what stood out first and what seemed to bring it up.'};
@@ -19,6 +19,27 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
  const [started,setStarted]=useState(false),[turns,setTurns]=useState<Turn[]>([]),[answer,setAnswer]=useState(''),[complete,setComplete]=useState(false);
  const [prompt,setPrompt]=useState<Prompt>(reaction?{q:`What was it about that moment that brought up ${reaction.toLowerCase()} for you?`,g:'Stay with this as a starting point, not a conclusion.'}:FIRST),[pending,setPending]=useState(false),[synthesis,setSynthesis]=useState<Synthesis|null>(null),[guideStatus,setGuideStatus]=useState<'untested'|'ai'|'fallback'>('untested');
  const quotes=useMemo(()=>turns.slice(-5),[turns]);
+ const established=useMemo(()=>[
+  ...(reaction?[{kind:'starting_reaction',value:reaction}]:[]),
+  ...turns.slice(-4).map((t,i)=>({kind:`participant_observation_${i+1}`,value:t.answer}))
+ ],[reaction,turns]);
+ const activeThread=useMemo(()=>{
+  const last=turns[turns.length-1];
+  return last?{question:last.question,answer:last.answer}:null;
+ },[turns]);
+ const guidePayload=(next:Turn[],mode:'next'|'synthesis')=>({
+  mode,moment,reaction,
+  supported:[
+   ...(reaction?[{kind:'starting_reaction',value:reaction}]:[]),
+   ...next.slice(-4).map((t,i)=>({kind:`established_${i+1}`,value:t.answer}))
+  ],
+  activeThread:next.length?[next[next.length-1]]:[],
+  turns:next.slice(-2),
+  doNotRepeat:[
+   ...(reaction?[`The participant already identified ${reaction} as the starting reaction.`]:[]),
+   ...next.slice(-3).map(t=>`Already answered: ${t.question} — ${t.answer}`)
+  ]
+ });
  const STORAGE_KEY='rts-awaken-a1-active-inquiry';
  useEffect(()=>{
   try{
@@ -50,7 +71,7 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
  async function finish(next:Turn[]){
   setComplete(true);
   try{
-   const r=await fetch(new URL('/api/ai/awaken-guide', window.location.origin).toString(),{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'content-type':'application/json'},body:JSON.stringify({moment,reaction,turns:next,mode:'synthesis'})});
+   const r=await fetch(new URL('/api/ai/awaken-guide', window.location.origin).toString(),{method:'POST',credentials:'same-origin',cache:'no-store',headers:{'content-type':'application/json'},body:JSON.stringify(guidePayload(next,'synthesis'))});
    const s=await r.json() as {kind?:string}&Synthesis;
    if(r.ok&&s.kind==='success')setSynthesis(s);
   }catch{}
@@ -76,7 +97,7 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
   if(answeredNumber>=7){
    setTurns(next);setAnswer('');setComplete(true);setPending(true);
    try{
-    const r=await fetch('/api/ai/awaken-guide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({moment,reaction,turns:next,mode:'synthesis'})});
+    const r=await fetch('/api/ai/awaken-guide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(guidePayload(next,'synthesis'))});
     const s=await r.json() as {kind?:string}&Synthesis;
     if(r.ok&&s.kind==='success')setSynthesis(s);
    }catch{}finally{setPending(false)}
@@ -84,7 +105,7 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
   }
   setPending(true);
   try{
-   const r=await fetch('/api/ai/awaken-guide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({moment,reaction,turns:next,mode:'next'})});
+   const r=await fetch('/api/ai/awaken-guide',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(guidePayload(next,'next'))});
    const result=await r.json() as GuideResult;
    setTurns(next);
    if(r.ok&&result.kind==='success'){setGuideStatus('ai')}else{setGuideStatus('fallback')}
