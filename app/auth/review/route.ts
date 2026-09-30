@@ -35,6 +35,7 @@ export async function GET(request: NextRequest) {
   if (!serviceKey) return fail('server_secret_missing');
   if (!url) return fail('supabase_url_missing');
 
+  try {
   const generated = await fetch(`${url}/auth/v1/admin/generate_link`, {
     method: 'POST',
     headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, 'Content-Type': 'application/json' },
@@ -59,4 +60,8 @@ export async function GET(request: NextRequest) {
   if (typeof user?.id !== 'string' || user.email !== email) return fail('user_mismatch');
   const session = serializeSession({ access_token: accessToken, refresh_token: refreshToken, expires_in: expiresIn, user: { id: user.id, email } });
   return redirect(request, session);
+  } catch (error) {
+    console.error('[auth/review] unexpected', error instanceof Error ? error.message : 'unknown');
+    return fail('token_exchange_failed');
+  }
 }
