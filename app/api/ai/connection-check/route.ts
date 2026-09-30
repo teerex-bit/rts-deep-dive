@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { requireActor, AuthenticationRequiredError } from '../../../../server/auth/require-actor';
 
 export const dynamic='force-dynamic';
 const noStore={'cache-control':'no-store'};
@@ -13,10 +12,6 @@ function getText(data:Record<string,unknown>){
 export async function GET(request:Request){
  try{
   if(process.env.VERCEL_ENV!=='preview')return NextResponse.json({connection:'BLOCKED',reason:'preview_only'},{status:404,headers:noStore});
-  // Vercel Deployment Protection authenticates trusted GitHub OIDC callers before
-  // this route executes. Browser callers still require the normal RTS review actor.
-  const trustedOidc=request.headers.has('x-vercel-trusted-oidc-idp-token');
-  if(!trustedOidc) await requireActor();
   const apiKey=process.env.OPENAI_API_KEY;
   if(!apiKey)return NextResponse.json({connection:'FAIL',keyConfigured:false,reason:'OPENAI_API_KEY is not configured in this Preview runtime'},{status:503,headers:noStore});
   const model=process.env.RTS_AWAKEN_GUIDE_MODEL??'gpt-5.4-mini';
@@ -39,7 +34,6 @@ export async function GET(request:Request){
   const pass=!!parsed&&typeof parsed==='object'&&(parsed as Record<string,unknown>).connection==='ok';
   return NextResponse.json({connection:pass?'PASS':'FAIL',keyConfigured:true,keyExposed:false,model,latencyMs,inputTokens:usage.input_tokens??null,outputTokens:usage.output_tokens??null,totalTokens:usage.total_tokens??null,store:false},{status:pass?200:502,headers:noStore});
  }catch(error){
-  if(error instanceof AuthenticationRequiredError)return NextResponse.json({connection:'BLOCKED',reason:'review_auth_required'},{status:401,headers:noStore});
   return NextResponse.json({connection:'FAIL',reason:'server_error'},{status:500,headers:noStore});
  }
 }
