@@ -1,20 +1,45 @@
+'use client';
+
 import Link from 'next/link';
 
 const handoffs = {
-  a1: { title: 'Catch yourself being you', href: '/deep-dive/awaken/catch-yourself-being-you' },
-  a2: { title: 'Separate · A3: Is This Who I Am?', href: '/deep-dive/awaken/your-reactions-have-a-history' },
-  a3: { title: 'Understand · A4: What Is Driving This Response?', href: '/deep-dive/awaken/formation-is-not-identity' },
-  a4: { title: 'See Clearly', href: '/deep-dive/see-clearly' },
+ a1:{title:'Catch Yourself Being You',href:'/deep-dive/awaken/catch-yourself-being-you'},
+ a2:{title:'A Response Is Not an Identity',href:'/deep-dive/awaken/your-reactions-have-a-history'},
+ a3:{title:'See the Moment in Slow Motion',href:'/deep-dive/awaken/formation-is-not-identity'},
 } as const;
 
-export function AwakenCompletionNav({ module }: { module: keyof typeof handoffs }) {
-  const next = handoffs[module];
-  if (module === 'a1') return <nav className="deep-dive-completion-actions deep-dive-completion-actions--pause" aria-label="Continue your journey">
-    <Link className="button button--secondary" href="/deep-dive/awaken">Back to Awaken</Link>
-    <div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p><Link className="button" href={next.href}>NEXT</Link></div>
+function clearActiveMoment(){
+ try{
+  localStorage.removeItem('rts-awaken-lived-moment');
+  localStorage.removeItem('rts-awaken-active-cycle');
+  sessionStorage.removeItem('rts-awaken-active-cycle');
+ }catch{}
+}
+
+export function AwakenCompletionNav({module}:{module:'a1'|'a2'|'a3'|'a4'}){
+ if(module!=='a4'){
+  const next=handoffs[module];
+  return <nav className="deep-dive-completion-actions" aria-label="Continue Awaken">
+   <div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p><Link className="button" href={next.href}>NEXT</Link></div>
+   <Link className="deep-dive-completion-actions__back" href="/deep-dive/awaken">Back to Awaken</Link>
   </nav>;
-  return <nav className="deep-dive-completion-actions" aria-label="Continue your journey">
-    <div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p><Link className="button" href={next.href}>NEXT</Link></div>
-    <Link className="deep-dive-completion-actions__back" href="/deep-dive/awaken">Back to Awaken</Link>
-  </nav>;
+ }
+ return <section className="awaken-finale">
+  <div className="awaken-finale__statement">
+   <p className="eyebrow">AWAKEN · COMPLETE</p>
+   <h2>Your response had a before.</h2>
+   <p>You saw something that used to happen without your awareness.</p>
+   <strong>That creates possibility.</strong>
+  </div>
+  <div className="awaken-finale__actions">
+   <Link className="button" href="/deep-dive/see-clearly">Continue to See Clearly</Link>
+   <Link className="button button--secondary" href="/deep-dive/awaken/pay-attention" onClick={clearActiveMoment}>Try another moment</Link>
+   <button className="awaken-finale__quiet" type="button" onClick={()=>document.getElementById('awaken-deeper')?.scrollIntoView({behavior:'smooth'})}>Go deeper with this moment</button>
+  </div>
+  <div id="awaken-deeper" className="awaken-finale__deeper">
+   <p className="eyebrow">IF YOU WANT TO STAY HERE</p>
+   <h3>You do not have to be finished with the moment because the cycle is complete.</h3>
+   <p>Return to what became visible and stay with one thing. You do not need to repeat every step or search for a larger explanation.</p>
+  </div>
+ </section>;
 }
