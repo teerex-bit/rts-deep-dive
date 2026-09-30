@@ -5,6 +5,7 @@ import type { A2Section } from '../../content/deep-dive/v1/awaken/catch-yourself
 import { LessonActionError } from './LessonTransitionForm';
 import { ReviewReflection, type ReviewReflectionAction } from './ReviewReflection';
 import { getA2PatternBridgeFeedback } from './A2_PATTERN_BRIDGE';
+import { AwakenFreshMoment } from './AwakenFreshMoment';
 
 export type A2ReflectionSaveState = Readonly<{ saved: boolean; error?: string }>;
 type A2ReflectionAction = (state: A2ReflectionSaveState, formData: FormData) => Promise<A2ReflectionSaveState>;
@@ -95,6 +96,8 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
         </>
       ) : section.id === 'patterns' ? (
         <>
+          <AwakenFreshMoment lesson="a2" />
+          <div hidden>
           {section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
           <div className="a2-pattern-map">
             <div className="a2-pattern-map__situations">
@@ -143,6 +146,7 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
             {examplesOpen ? <div className="a2-response-examples">{RESPONSE_EXAMPLES.map(example => <p key={example}>{example}</p>)}</div> : null}
           </div>
           <section className="a2-pattern-reveal"><h2>A pattern is not a label for who you are.</h2><p>It is something you have begun to notice yourself doing. One moment may seem random. Repeated moments begin to reveal a pattern. You can recognize it without explaining where it came from or trying to fix it today.</p></section>
+          </div>
         </>
       ) : section.id === 'reflection' ? (
         <>
