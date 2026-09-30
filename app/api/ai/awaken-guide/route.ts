@@ -94,7 +94,10 @@ Do not:
 - force See/Believe/Expect/Desire/Intend/Choose/Live categories;
 - ask "what is most important?", "what is underneath that?", or similarly heavy questions;
 - manufacture depth;
-- explain why the question is being asked.
+- explain why the question is being asked;
+- ask about the participant's moment, reaction, feeling, urge, thought, or what changed inside them;
+- NEVER ask about the question itself, whether a question felt weird, confusing, uncomfortable, or strange;
+- NEVER use wording such as "that question", "this question", "my question", "the question", or "what felt weird about it".
 
 FINISH as soon as the participant has shown awareness that something was happening internally. Uncertainty is acceptable. "I don't know" can still be a successful A1 ending.
 
@@ -132,7 +135,22 @@ export async function POST(request: Request) {
     const context = { moment: String(body.moment ?? '').slice(0,4000), reaction: String(body.reaction ?? '').slice(0,500), turns: body.turns.map(t => ({ question: t.question.slice(0,500), answer: t.answer.slice(0,4000) })) };
     if (body.mode === 'synthesis') return NextResponse.json({ kind: 'success', ...(await askOpenAI(apiKey, SYNTHESIS, context, SYNTH_SCHEMA, 'rts_awaken_synthesis')) }, { headers });
     if (body.turns.length >= 4) return NextResponse.json({ kind: 'success', action: 'finish', question: '', guidance: '', relevance: 'Hard inquiry limit reached.', observations: [], complete: true }, { headers });
-    return NextResponse.json({ kind: 'success', ...(await askOpenAI(apiKey, INQUIRY, context, NEXT_SCHEMA, 'rts_awaken_next_question')) }, { headers });
+    const result = await askOpenAI(apiKey, INQUIRY, context, NEXT_SCHEMA, 'rts_awaken_next_question');
+    const question = typeof result.question === 'string' ? result.question.trim() : '';
+    const metaQuestion = /\b(that|this|the|my) question\b|what felt weird|what felt strange|did that feel/i.test(question);
+    if (metaQuestion) {
+      const repaired = await askOpenAI(
+        apiKey,
+        INQUIRY + '\\n\\nREPAIR REQUIRED: The previous draft asked about the question itself. Do not do that. Ask instead about what the participant noticed in the actual moment.',
+        context,
+        NEXT_SCHEMA,
+        'rts_awaken_next_question_repair'
+      );
+      repaired.guidance = '';
+      return NextResponse.json({ kind: 'success', ...repaired }, { headers });
+    }
+    result.guidance = '';
+    return NextResponse.json({ kind: 'success', ...result }, { headers });
   } catch (error) {
     if (error instanceof AuthenticationRequiredError) {
       console.error('[awaken-guide] review request was not authenticated');
