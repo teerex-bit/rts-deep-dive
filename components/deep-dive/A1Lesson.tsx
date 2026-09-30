@@ -42,10 +42,18 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   const [guidePending, setGuidePending] = useState(false);
   const [guideComplete, setGuideComplete] = useState(false);
   const [adaptiveAnswer, setAdaptiveAnswer] = useState('');
+  const [cycleResetNotice, setCycleResetNotice] = useState(false);
   const [synthesis, setSynthesis] = useState<{ headline?: string; summary?: string; noticing?: string; carryQuestion?: string } | null>(null);
 
   useEffect(() => {
     try {
+      const reset = window.sessionStorage.getItem('rts-awaken-reset-requested');
+      if (reset === '1') {
+        window.localStorage.removeItem('rts-awaken-lived-moment');
+        window.sessionStorage.removeItem('rts-awaken-reset-requested');
+        setReaction(''); setChain(EMPTY_CHAIN); setCycleResetNotice(true);
+        return;
+      }
       const raw = window.localStorage.getItem('rts-awaken-lived-moment');
       if (raw) {
         const saved = JSON.parse(raw) as { reaction?: string; chain?: Partial<ChainState> };
