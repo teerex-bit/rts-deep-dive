@@ -7,7 +7,7 @@ const MODEL = process.env.RTS_AWAKEN_GUIDE_MODEL ?? 'gpt-5.4-mini';
 
 type Turn = { question: string; answer: string };
 type Observation = { kind?: string; value?: unknown };
-type RequestBody = { moment?: string; reaction?: string; turns?: Turn[]; supported?: Observation[]; activeThread?: Turn[]; mode?: 'next' | 'synthesis' };
+type RequestBody = { moment?: string; reaction?: string; turns?: Turn[]; supported?: Observation[]; activeThread?: Turn[]; doNotRepeat?: unknown[]; mode?: 'next' | 'synthesis' };
 
 const NEXT_SCHEMA = {
   type: 'object', additionalProperties: false,
@@ -75,6 +75,8 @@ SUCCESS = the participant can recognize "there was something happening in me wor
 
 Follow THIS lived moment. Ask one natural question at a time based specifically on what the participant just said. The RTS formation model may organize your private thinking, but it must never become a checklist.
 
+CONVERSATION STATE: supported observations are facts already established in the participant's own words. activeThread is the thing currently being followed. doNotRepeat identifies questions/facts that are already settled. Do not ask the participant to establish them again.
+
 RELEVANCE TEST: before asking a question, be able to state why it follows from the participant's actual words. If the reason is only that another formation category has not been explored, do not ask it.
 
 Prefer ordinary questions such as:
@@ -140,10 +142,13 @@ export async function POST(request: Request) {
       kind: String(item?.kind ?? '').slice(0,40),
       value: String(item?.value ?? '').slice(0,700),
     })).filter(item => item.value) : [];
+    const doNotRepeat = Array.isArray(body.doNotRepeat) ? body.doNotRepeat.slice(0,4).map(value => String(value).slice(0,500)) : [];
     const context = {
       moment: String(body.moment ?? '').slice(0,900),
       reaction: String(body.reaction ?? '').slice(0,180),
       supported,
+      activeThread: Array.isArray(body.activeThread) ? body.activeThread.slice(-1).map(t => ({ question: String(t?.question ?? '').slice(0,240), answer: String(t?.answer ?? '').slice(0,700) })) : [],
+      doNotRepeat,
       // Only the most recent relevant exchanges are sent. Older turns are represented
       // by supported observations rather than replaying the full transcript.
       turns: turns.slice(-2).map(t => ({ question: t.question.slice(0,240), answer: t.answer.slice(0,700) })),
