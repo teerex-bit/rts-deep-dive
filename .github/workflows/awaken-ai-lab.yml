@@ -1,0 +1,65 @@
+name: Awaken AI Lab
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Lab action"
+        required: true
+        default: "real-world-probe"
+        type: choice
+        options:
+          - connection-check
+          - a1-smoke-test
+          - real-world-probe
+      lab_url:
+        description: "Stable Vercel lab origin (no trailing slash)"
+        required: true
+        default: "https://rts-app-review-git-prototype-awaken-ai-lab-teerex1066-7016.vercel.app"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  run-lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Require automation bypass
+        env:
+          BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: |
+          test -n "$BYPASS" || { echo "Missing repository secret VERCEL_AUTOMATION_BYPASS_SECRET"; exit 1; }
+
+      - name: Call protected Vercel lab
+        env:
+          BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          LAB_URL: ${{ inputs.lab_url }}
+          TARGET: ${{ inputs.target }}
+        run: |
+          set -euo pipefail
+          case "$TARGET" in
+            connection-check) PATHNAME="/api/ai/connection-check" ;;
+            a1-smoke-test) PATHNAME="/api/ai/a1-smoke-test" ;;
+            real-world-probe) PATHNAME="/api/ai/real-world-probe" ;;
+            *) echo "Unsupported target"; exit 2 ;;
+          esac
+          HTTP_CODE=$(curl --silent --show-error --location             --connect-timeout 20 --max-time 600             -H "x-vercel-protection-bypass: $BYPASS"             -H "x-vercel-set-bypass-cookie: true"             -o lab-result.json -w "%{http_code}"             "$LAB_URL$PATHNAME")
+          echo "HTTP $HTTP_CODE"
+          test "$HTTP_CODE" -ge 200 -a "$HTTP_CODE" -lt 300 || { cat lab-result.json; exit 1; }
+          python -m json.tool lab-result.json > /dev/null
+          python - <<'PY'
+          import json
+          d=json.load(open("lab-result.json"))
+          safe={k:d.get(k) for k in ("kind","connection","test","count","totalTokens","summary","provenance") if k in d}
+          print(json.dumps(safe,indent=2))
+          PY
+
+      - name: Upload sanitized lab result
+        uses: actions/upload-artifact@v4
+        with:
+          name: awaken-ai-lab-${{ inputs.target }}-${{ github.run_id }}
+          path: lab-result.json
+          if-no-files-found: error
+          retention-days: 30
