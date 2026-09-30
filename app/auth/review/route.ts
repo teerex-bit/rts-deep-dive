@@ -26,7 +26,8 @@ function redirect(request: NextRequest, session?: string) {
 }
 
 export async function GET(request: NextRequest) {
-  if (process.env.REVIEW_TEST_ACCESS !== 'true') return fail('flag_missing');
+  const isPrototypePreview = process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_GIT_COMMIT_REF === 'prototype/awaken-module-rebuild';
+  if (process.env.REVIEW_TEST_ACCESS !== 'true' && !isPrototypePreview) return fail('flag_missing');
   const email = process.env.REVIEW_TEST_USER_EMAIL;
   const serviceKey = process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
   const url = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL)?.replace(/\/$/, '');
