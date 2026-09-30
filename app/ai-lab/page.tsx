@@ -3,7 +3,7 @@ import {useState} from 'react';
 
 export default function AwakenAILab(){
  const [status,setStatus]=useState('READY');
- const [result,setResult]=useState<any>(null);
+ const [result,setResult]=useState<unknown>(null);
  async function run(path:string){
   setStatus('RUNNING');setResult(null);
   try{const r=await fetch(path,{cache:'no-store'});const j=await r.json();setResult(j);setStatus(r.ok?'COMPLETE':'FAILED')}catch(e){setStatus('FAILED');setResult({error:String(e)})}
