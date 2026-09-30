@@ -55,9 +55,9 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
  useEffect(()=>{
   try{localStorage.setItem(STORAGE_KEY,JSON.stringify({moment,reaction,started,turns,answer,prompt}));}catch{}
  },[moment,reaction,started,turns,answer,prompt]);
- const ambiguous=(value:string)=>{
+ const clarificationRequest=(value:string)=>{
   const v=value.trim().toLowerCase();
-  return v.length<18 || /^(about what\??|what\??|why\??|how\??|not sure|i don't know|idk|maybe|something)$/i.test(v);
+  return /^(about what\??|what do you mean\??|what\??|which part\??|can you explain\??|i don't understand\.?|huh\??)$/i.test(v);
  };
 
  function back(){
@@ -83,7 +83,7 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
   const answeredNumber=next.length;
   // Do not spend an API call or advance the framework when the participant's
   // answer is too ambiguous to know what they meant. Clarify the reference first.
-  if(ambiguous(value)){
+  if(clarificationRequest(value)){
     const concreteMoment=moment.trim().replace(/[.!?]+$/,'');
     setPrompt({
       q: concreteMoment
@@ -91,7 +91,7 @@ export function A1SimulationInquiry({moment,reaction}:{moment:string;reaction:st
         : 'In that moment, what did you notice happening in you before you responded?',
       g:'Start anywhere you remember—a thought, feeling, body sensation, or urge to do something.'
     });
-    setAnswer(value);
+    setAnswer('');
     return;
   }
   if(answeredNumber>=7){
