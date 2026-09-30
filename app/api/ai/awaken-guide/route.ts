@@ -6,7 +6,8 @@ const headers = { 'cache-control': 'no-store', 'content-type': 'application/json
 const MODEL = process.env.RTS_AWAKEN_GUIDE_MODEL ?? 'gpt-5.4-mini';
 
 type Turn = { question: string; answer: string };
-type RequestBody = { moment?: string; reaction?: string; turns: Turn[]; mode?: 'next' | 'synthesis' };
+type Observation = { kind?: string; value?: unknown };
+type RequestBody = { moment?: string; reaction?: string; turns?: Turn[]; supported?: Observation[]; activeThread?: Turn[]; mode?: 'next' | 'synthesis' };
 
 const NEXT_SCHEMA = {
   type: 'object', additionalProperties: false,
@@ -66,9 +67,9 @@ async function askOpenAI(apiKey: string, instructions: string, context: unknown,
   return JSON.parse(text) as Record<string, unknown>;
 }
 
-const INQUIRY = `You are the invisible inquiry engine inside Reforming the Soul (RTS), Awaken. The participant never chats with you and never sees your analysis. Your output selects the next RTS page question.
+const INQUIRY = `You are the invisible adaptive inquiry engine inside Reforming the Soul (RTS), Awaken. The app has already handled routine framework steps deterministically; you are called only because the participant's own language may change the smallest useful next move. The participant never chats with you and never sees your analysis. Your output selects the next RTS page question.
 
-A1 PURPOSE: awaken attention. Help the participant recognize that something was happening inside them alongside their outward reaction. Identifying exactly what it was, explaining why it exists, correcting it, or resolving it is NOT required.
+AWAKEN PURPOSE: awaken attention and possibility. Help the participant recognize that something was happening inside them alongside their outward reaction. Identifying exactly what it was, explaining why it exists, correcting it, or resolving it is NOT required.
 
 SUCCESS = the participant can recognize "there was something happening in me worth noticing," even if they cannot name or explain it. Once that recognition is reasonably present, FINISH. Do not keep digging merely to fill categories or produce a deeper insight.
 
@@ -95,9 +96,9 @@ Hard boundaries:
 - Never assume a negative pattern exists.
 - Never tell the participant what they really feel or mean.
 - "I don't know", "nothing really", and uncertainty are valid.
-- Do not pursue causes or origins in A1.
-- Do not correct beliefs in A1.
-- Do not prescribe behavior in A1.
+- Do not pursue causes or origins merely to create depth.
+- Do not correct beliefs during Awaken.
+- Do not prescribe behavior during Awaken.
 - Do not force the participant to name the internal movement.
 - If their initial feeling/word is enough to establish recognition, ask only what is necessary to connect it to the lived moment.
 - Target 3-5 questions after the initial noticing choice. A sixth question is allowed only when one brief clarification is genuinely needed. Seven is the absolute hard stop. Once the participant has demonstrated awareness of an internal reaction or movement, strongly prefer FINISH over asking for deeper explanation.
@@ -117,7 +118,7 @@ summary: 45-90 words. Briefly connect the event, the participant's initial notic
 noticing: one or two neutral observations grounded in their words.
 carryQuestion: orient toward future noticing, not deeper analysis. Prefer a form of "See if you notice that same movement again" when appropriate.
 
-The ending should communicate: You do not have to explain or change this yet. You noticed that something was happening. That is enough for A1.`;
+The ending should communicate: You do not have to explain or change this yet. You saw something that had previously been happening without your awareness. Even one more noticed step creates possibility.`;
 
 export async function POST(request: Request) {
   try {
@@ -128,15 +129,27 @@ export async function POST(request: Request) {
     }
     console.info('[awaken-guide] request reached endpoint', { mode: (await request.clone().json().catch(() => null) as { mode?: string } | null)?.mode ?? 'unknown' });
     const body = await request.json() as RequestBody;
-    if (!body || !Array.isArray(body.turns) || body.turns.length > 12 || body.turns.some(t => !t || typeof t.question !== 'string' || typeof t.answer !== 'string')) return new Response(JSON.stringify({ kind: 'invalid_request' }), { status: 400, headers });
+    const turns = Array.isArray(body?.turns) ? body.turns : [];
+    if (!body || turns.length > 7 || turns.some(t => !t || typeof t.question !== 'string' || typeof t.answer !== 'string')) return new Response(JSON.stringify({ kind: 'invalid_request' }), { status: 400, headers });
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       console.error('[awaken-guide] OPENAI_API_KEY is not configured');
       return NextResponse.json({ kind: 'unavailable', diagnostic: 'missing_api_key' }, { status: 503, headers });
     }
-    const context = { moment: String(body.moment ?? '').slice(0,4000), reaction: String(body.reaction ?? '').slice(0,500), turns: body.turns.map(t => ({ question: t.question.slice(0,500), answer: t.answer.slice(0,4000) })) };
+    const supported = Array.isArray(body.supported) ? body.supported.slice(0,6).map(item => ({
+      kind: String(item?.kind ?? '').slice(0,40),
+      value: String(item?.value ?? '').slice(0,700),
+    })).filter(item => item.value) : [];
+    const context = {
+      moment: String(body.moment ?? '').slice(0,900),
+      reaction: String(body.reaction ?? '').slice(0,180),
+      supported,
+      // Only the most recent relevant exchanges are sent. Older turns are represented
+      // by supported observations rather than replaying the full transcript.
+      turns: turns.slice(-2).map(t => ({ question: t.question.slice(0,240), answer: t.answer.slice(0,700) })),
+    };
     if (body.mode === 'synthesis') return NextResponse.json({ kind: 'success', ...(await askOpenAI(apiKey, SYNTHESIS, context, SYNTH_SCHEMA, 'rts_awaken_synthesis')) }, { headers });
-    if (body.turns.length >= 7) return NextResponse.json({ kind: 'success', action: 'finish', question: '', guidance: '', relevance: 'Hard inquiry limit reached.', observations: [], complete: true }, { headers });
+    if (turns.length >= 7) return NextResponse.json({ kind: 'success', action: 'finish', question: '', guidance: '', relevance: 'Hard inquiry limit reached.', observations: [], complete: true }, { headers });
     return NextResponse.json({ kind: 'success', ...(await askOpenAI(apiKey, INQUIRY, context, NEXT_SCHEMA, 'rts_awaken_next_question')) }, { headers });
   } catch (error) {
     if (error instanceof AuthenticationRequiredError) {
