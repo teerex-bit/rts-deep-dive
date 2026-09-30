@@ -3,7 +3,6 @@ import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { AppShell } from '../../../../../components/design-system/AppShell';
 import { A1Lesson, type A1ReflectionSaveState } from '../../../../../components/deep-dive/A1Lesson';
-import { JourneyReel } from '../../../../../components/deep-dive/JourneyReel';
 import { A2Lesson, type A2ReflectionSaveState } from '../../../../../components/deep-dive/A2Lesson';
 import type { ReviewReflectionState } from '../../../../../components/deep-dive/ReviewReflection';
 import { AwakenCompletionNav } from '../../../../../components/deep-dive/AwakenCompletionNav';
@@ -132,10 +131,6 @@ export default async function A1Page({ params, searchParams }: { params: Promise
   const progress = await getA1();
   const state = lessonState({ sections: A1_SECTIONS, pathname: '/deep-dive/awaken/pay-attention', groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { index, section, next } = state;
-  async function navigateA1Section(sectionId: string) {
-    'use server';
-    return attemptLessonTransition(() => advanceLessonSection(A1_SECTIONS, '/deep-dive/awaken/pay-attention', sectionId, saveA1Section, async () => { const progress = await getA1(); return { completed: Boolean(progress?.completedAt), lastSectionId: progress?.lastSectionId }; }));
-  }
   async function saveSection(_: LessonTransitionState, formData: FormData): Promise<LessonTransitionState> { 'use server'; const result = await attemptLessonTransition(() => advanceLessonSection(A1_SECTIONS, '/deep-dive/awaken/pay-attention', String(formData.get('section')), saveA1Section, async () => { const progress = await getA1(); return { completed: Boolean(progress?.completedAt), lastSectionId: progress?.lastSectionId }; })); if (result.destination) redirect(result.destination); return result; }
   async function saveReflection(_: A1ReflectionSaveState, formData: FormData): Promise<A1ReflectionSaveState> {
     'use server';
@@ -174,14 +169,10 @@ export default async function A1Page({ params, searchParams }: { params: Promise
         <div className="deep-dive-layout">
           <LessonProgress module="A1" title="Pay Attention" index={index} total={A1_SECTIONS.length} />
           <div className="deep-dive-content">
-            <JourneyReel sections={A1_SECTIONS} currentSectionId={section.id} navigateSection={navigateA1Section} />
             <A1Lesson section={section} index={index} total={A1_SECTIONS.length} reflection={progress?.reflection ?? null} saveReflection={saveReflection} editReflection={editReflection} review={reviewReflection} />
             {(section.id !== 'reflection' && section.id !== 'go-deeper' || reviewReflection) ? <footer className="deep-dive-transition">
               {next ? (
-                <>
-                  <div><p className="eyebrow">CONTINUE</p><p className="deep-dive-transition__title">{next.title}</p></div>
-                  {progress?.completedAt ? <Link className="button" href={`/deep-dive/awaken/pay-attention?section=${next.id}`}>{a1TransitionLabel(section.id)}</Link> : <LessonTransitionForm action={saveSection} section={next.id} label={a1TransitionLabel(section.id)} />}
-                </>
+                progress?.completedAt ? <Link className="button" href={`/deep-dive/awaken/pay-attention?section=${next.id}`}>{a1TransitionLabel(section.id)}</Link> : <LessonTransitionForm action={saveSection} section={next.id} label={a1TransitionLabel(section.id)} />
               ) : (
                 <>
                   <p className="deep-dive-transition__title">You have reached the end of Pay Attention.</p>
