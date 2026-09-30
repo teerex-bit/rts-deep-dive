@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useEffect, useMemo, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import type { A1Section } from '../../content/deep-dive/v1/awaken/pay-attention';
 import { LessonActionError } from './LessonTransitionForm';
 import { ReviewReflection, type ReviewReflectionAction } from './ReviewReflection';
@@ -11,20 +11,6 @@ type A1ReflectionAction = (state: A1ReflectionSaveState, formData: FormData) => 
 
 const REACTIONS = ['Anger', 'Fear', 'Embarrassment', 'Control', 'Withdrawal', 'Defensiveness', 'Urgency', 'Something else'] as const;
 const PAUSE_WORDS = ['DON’T EXPLAIN IT.', 'DON’T FIX IT.', 'JUST NOTICE.', 'WHAT HAPPENED IN YOU?'] as const;
-const CHAIN = [
-  ['saw', 'WHAT I SAW', 'What did you think was happening?', 'In that instant, what did you assume other people were thinking, doing, or noticing?'],
-  ['believed', 'WHAT I BELIEVED', 'What did that seem to say about you?', 'Finish the thought: “If this is what is happening, then I am…”'],
-  ['expected', 'WHAT I EXPECTED', 'What were you bracing for?', 'What did you think would happen next? What were you expecting other people to do?'],
-  ['desired', 'WHAT I DESIRED', 'What did you most want in that moment?', 'If you could have changed one thing immediately, what would you have wanted?'],
-  ['intended', 'WHAT I WAS PROTECTING', 'What were you trying to protect or control?', 'What were you trying to keep from happening—or keep other people from seeing?'],
-  ['chose', 'WHAT I DID', 'What did you actually do?', 'Describe the concrete response: what you said, did, avoided, changed, or held back.'],
-  ['lived', 'WHAT IT DID FOR ME', 'What did that response accomplish?', 'What did it protect you from or help you get through? Did it move you toward what you wanted?'],
-] as const;
-
-type ChainKey = typeof CHAIN[number][0];
-type ChainState = Record<ChainKey, string>;
-const EMPTY_CHAIN: ChainState = { saw: '', believed: '', expected: '', desired: '', intended: '', chose: '', lived: '' };
-
 export function A1Lesson({ section, reflection, saveReflection, editReflection, review = false, onInquiryStateChange }: { section: A1Section; index: number; total: number; reflection: string | null; saveReflection: A1ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean; onInquiryStateChange?: (active: boolean) => void }) {
   const [open, setOpen] = useState(false);
   const [saveState, formAction, pending] = useActionState(saveReflection, { saved: false });
@@ -34,30 +20,6 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   const [pauseStarted, setPauseStarted] = useState(false);
   const [reaction, setReaction] = useState('');
   const [customReaction, setCustomReaction] = useState('');
-  const [chain, setChain] = useState<ChainState>(EMPTY_CHAIN);
-  const [chainStep, setChainStep] = useState(0);
-  const [inquiryStarted, setInquiryStarted] = useState(false);
-  const [adaptiveQuestion, setAdaptiveQuestion] = useState<{ question: string; guidance: string } | null>(null);
-  const [adaptiveTurns, setAdaptiveTurns] = useState<Array<{ question: string; answer: string }>>([]);
-  const [guidePending, setGuidePending] = useState(false);
-  const [guideComplete, setGuideComplete] = useState(false);
-  const [adaptiveAnswer, setAdaptiveAnswer] = useState('');
-  const [synthesis, setSynthesis] = useState<{ headline?: string; summary?: string; noticing?: string; carryQuestion?: string } | null>(null);
-
-  useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem('rts-awaken-lived-moment');
-      if (raw) {
-        const saved = JSON.parse(raw) as { reaction?: string; chain?: Partial<ChainState> };
-        if (saved.reaction) setReaction(saved.reaction);
-        if (saved.chain) setChain(current => ({ ...current, ...saved.chain }));
-      }
-    } catch {}
-  }, []);
-
-  useEffect(() => {
-    try { window.localStorage.setItem('rts-awaken-lived-moment', JSON.stringify({ reaction, chain })); } catch {}
-  }, [reaction, chain]);
 
   useEffect(() => {
     if (section.id !== 'moment' || !pauseStarted) return;
@@ -69,49 +31,6 @@ export function A1Lesson({ section, reflection, saveReflection, editReflection, 
   useEffect(() => {
     if (!pending && saveState.saved) setEditedSinceSave(false);
   }, [pending, saveState.saved]);
-
-  const completedChain = useMemo(() => CHAIN.filter(([key]) => chain[key].trim()), [chain]);
-  const updateChain = (key: ChainKey, value: string) => setChain(current => ({ ...current, [key]: value }));
-  const currentQuestion = adaptiveQuestion?.question ?? CHAIN[chainStep][2];
-  const currentGuidance = adaptiveQuestion?.guidance ?? CHAIN[chainStep][3];
-
-  async function advanceAdaptiveInquiry() {
-    const [key] = CHAIN[chainStep];
-    const answer = (adaptiveQuestion ? adaptiveAnswer : chain[key]).trim();
-    if (!answer || guidePending) return;
-    const turns = [...adaptiveTurns, { question: currentQuestion, answer }];
-    setGuidePending(true);
-    try {
-      const response = await fetch('/api/ai/awaken-guide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ moment: body, reaction, turns, mode: 'next' }) });
-      const result = await response.json() as { kind?: string; action?: string; question?: string; guidance?: string; complete?: boolean };
-      if (!response.ok || result.kind !== 'success') {
-        setAdaptiveTurns(turns);
-        setAdaptiveAnswer('');
-        if (chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
-        setAdaptiveQuestion({ question: 'What happened inside you next?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
-        return;
-      }
-      setAdaptiveTurns(turns);
-      setAdaptiveAnswer('');
-      if (result.complete || result.action === 'finish' || turns.length >= 12) {
-        setGuideComplete(true);
-        const synthResponse = await fetch('/api/ai/awaken-guide', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ moment: body, reaction, turns, mode: 'synthesis' }) });
-        const synth = await synthResponse.json() as { kind?: string; headline?: string; summary?: string; noticing?: string[]; carryQuestion?: string };
-        if (synth.kind === 'success') setSynthesis({ headline: synth.headline, summary: synth.summary, noticing: synth.noticing?.join(' '), carryQuestion: synth.carryQuestion });
-        setChainStep(CHAIN.length - 1);
-      } else {
-        setAdaptiveQuestion({ question: result.question || 'What else feels important about that moment?', guidance: result.guidance || '' });
-        if (result.action === 'advance' || result.action === 'accept_uncertainty') {
-          if (chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
-        }
-      }
-    } catch {
-      setAdaptiveTurns(turns);
-      setAdaptiveAnswer('');
-      if (chainStep < CHAIN.length - 1) setChainStep(value => value + 1);
-      setAdaptiveQuestion({ question: 'What happened inside you next?', guidance: 'Stay with what you actually noticed; you do not need to force an explanation.' });
-    } finally { setGuidePending(false); }
-  }
 
   if (section.id === 'entry') return (
     <article className="awaken-journey awaken-journey--entry">
