@@ -13,6 +13,7 @@ function clearActiveMoment(){
   localStorage.removeItem('rts-awaken-lived-moment');
   localStorage.removeItem('rts-awaken-active-cycle');
   sessionStorage.removeItem('rts-awaken-active-cycle');
+  sessionStorage.setItem('rts-awaken-reset-requested','1');
  }catch{}
 }
 
