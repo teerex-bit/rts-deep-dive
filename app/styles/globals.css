@@ -797,3 +797,11 @@ a { color: var(--color-navy); text-underline-offset: 0.25em; }
  .awaken-scripture__body>p:not(.eyebrow):not(.awaken-scripture__question){max-width:32rem;font-size:1.05rem;line-height:1.65}
  .awaken-scripture__question{margin-top:1.35rem;font-size:1.05rem;line-height:1.45}
 }
+
+
+/* Awaken recognition gate: notice, confirm, release the moment. */
+.awaken-recognition-check,.awaken-release-moment{max-width:62rem;margin-top:clamp(2rem,5vw,4rem);padding:clamp(2rem,5vw,4rem) 0;border-top:1px solid var(--color-gold)}
+.awaken-recognition-check h2,.awaken-release-moment h2{max-width:19ch;margin:.6rem 0 2rem;font-size:clamp(2rem,4vw,3.8rem)}
+.awaken-recognition-check__choices{display:flex;flex-wrap:wrap;align-items:center;gap:1rem}
+.awaken-release-moment>p{max-width:46rem;font-size:1.05rem;line-height:1.7}.awaken-release-moment__glimpse{max-width:48rem;margin:2rem 0;padding:1.2rem 0;border-block:1px solid var(--color-line)}.awaken-release-moment__glimpse span{color:var(--color-green);font-size:.68rem;font-weight:700;letter-spacing:.14em}.awaken-release-moment__glimpse blockquote{margin:.6rem 0;color:var(--color-navy);font-family:var(--font-display);font-size:clamp(1.35rem,2.6vw,2rem)}.awaken-release-moment__carry{margin-top:2rem!important;color:var(--color-green);font-family:var(--font-display);font-size:clamp(1.25rem,2.3vw,1.7rem)!important}
+@media(max-width:48rem){.awaken-recognition-check__choices{display:grid;justify-items:start}}
