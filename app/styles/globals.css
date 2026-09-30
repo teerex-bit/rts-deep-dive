@@ -797,3 +797,27 @@ a { color: var(--color-navy); text-underline-offset: 0.25em; }
  .awaken-scripture__body>p:not(.eyebrow):not(.awaken-scripture__question){max-width:32rem;font-size:1.05rem;line-height:1.65}
  .awaken-scripture__question{margin-top:1.35rem;font-size:1.05rem;line-height:1.45}
 }
+
+
+/* Awaken module rebuild — Overview-inspired editorial rhythm, not a repeated template. */
+.deep-dive-shell:has(.deep-dive-lesson--a3),.deep-dive-shell:has(.deep-dive-lesson--a4){--awaken-rule:color-mix(in srgb,var(--color-gold) 58%,transparent)}
+.deep-dive-lesson--a3,.deep-dive-lesson--a4{max-width:70rem;padding:clamp(1rem,3vw,2rem) 0 clamp(3rem,7vw,6rem)}
+.deep-dive-lesson--a3>h1,.deep-dive-lesson--a4>h1{max-width:15ch;margin:.35rem 0 clamp(1.5rem,4vw,3rem);font-size:clamp(2.7rem,6vw,6rem);font-weight:400;line-height:.98;letter-spacing:-.035em}
+.deep-dive-lesson--a3>p:not(.eyebrow),.deep-dive-lesson--a4>p:not(.eyebrow){max-width:48rem;font-size:clamp(1.02rem,1.5vw,1.2rem);line-height:1.75}
+.deep-dive-lesson--a3>p:nth-of-type(2),.deep-dive-lesson--a4>p:nth-of-type(2){color:var(--color-navy);font-family:var(--font-display);font-size:clamp(1.35rem,2.6vw,2.1rem);line-height:1.4}
+.deep-dive-lesson--a3:after,.deep-dive-lesson--a4:after{content:"";display:block;width:min(8rem,28vw);height:1px;margin-top:clamp(2.5rem,6vw,5rem);background:var(--awaken-rule)}
+.awaken-guided--moment,.awaken-guided--adaptive{max-width:62rem;margin-top:clamp(2.5rem,6vw,5rem);padding:clamp(2rem,5vw,4rem) 0;border-top:1px solid var(--awaken-rule)}
+.awaken-guided__step label,.awaken-guided--adaptive h2{display:block;max-width:18ch;margin:.45rem 0 1.3rem;color:var(--color-navy);font-family:var(--font-display);font-size:clamp(2rem,4.5vw,4rem);font-weight:400;line-height:1.08}
+.awaken-guided__step textarea,.awaken-guided--adaptive textarea{width:100%;min-height:8rem;padding:1rem .2rem;border:0;border-bottom:2px solid color-mix(in srgb,var(--color-gold) 52%,transparent);background:transparent;color:var(--color-navy);font:inherit;resize:vertical}
+.awaken-guided__step textarea:focus,.awaken-guided--adaptive textarea:focus{outline:0;border-bottom-color:var(--color-gold)}
+.awaken-guided__step small{display:block;max-width:42rem;margin:.8rem 0 0;line-height:1.6}
+.awaken-cycle-complete{max-width:62rem;margin:clamp(3rem,7vw,6rem) 0;padding:clamp(2rem,5vw,4rem) 0;border-block:1px solid var(--awaken-rule)}
+.awaken-cycle-complete h2{max-width:15ch;margin:.5rem 0 1.2rem;font-size:clamp(2.6rem,5.5vw,5rem);line-height:1}
+.awaken-cycle-complete__noticing{display:grid;gap:.7rem;max-width:48rem;margin:2rem 0}.awaken-cycle-complete__noticing span{padding:.8rem 0;border-bottom:1px solid var(--color-line);font-family:var(--font-display);font-size:1.25rem}
+.awaken-cycle-complete__possibility{max-width:32rem;margin:3rem 0 0!important;color:var(--color-green)!important;font-family:var(--font-display)!important;font-size:clamp(1.5rem,3vw,2.5rem)!important;line-height:1.25!important}
+.awaken-finale{max-width:70rem;margin:clamp(2rem,5vw,4rem) 0;padding:clamp(3rem,8vw,7rem) 0;border-top:1px solid var(--awaken-rule)}
+.awaken-finale__statement h2{max-width:13ch;margin:.4rem 0 1.2rem;font-size:clamp(3rem,7vw,6.5rem);font-weight:400;line-height:.95;letter-spacing:-.04em}
+.awaken-finale__statement>p:not(.eyebrow){font-size:clamp(1.15rem,2vw,1.5rem)}.awaken-finale__statement strong{display:block;max-width:16ch;margin:2rem 0;color:var(--color-green);font-family:var(--font-display);font-size:clamp(2rem,4vw,3.8rem);font-weight:400;line-height:1.05}
+.awaken-finale__actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:3rem}.awaken-finale__quiet{border:0;background:transparent;color:var(--color-green);font:inherit;text-decoration:underline;text-underline-offset:.3rem;cursor:pointer}
+.awaken-finale__deeper{max-width:48rem;margin-top:clamp(5rem,10vw,9rem);padding-top:2rem;border-top:1px solid var(--color-line)}.awaken-finale__deeper h3{max-width:22ch;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:400;line-height:1.15}
+@media(max-width:48rem){.deep-dive-lesson--a3>h1,.deep-dive-lesson--a4>h1{font-size:clamp(2.6rem,13vw,4.4rem)}.awaken-finale__actions{display:grid}.awaken-finale__actions .button{width:100%;text-align:center}.awaken-guided__actions{display:grid;align-items:stretch}}
