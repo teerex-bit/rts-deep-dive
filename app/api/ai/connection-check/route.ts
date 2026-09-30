@@ -10,10 +10,13 @@ function getText(data:Record<string,unknown>){
  return texts?.length===1?String(texts[0].text):null;
 }
 
-export async function GET(){
+export async function GET(request:Request){
  try{
-  await requireActor();
   if(process.env.VERCEL_ENV!=='preview')return NextResponse.json({connection:'BLOCKED',reason:'preview_only'},{status:404,headers:noStore});
+  // Vercel Deployment Protection authenticates trusted GitHub OIDC callers before
+  // this route executes. Browser callers still require the normal RTS review actor.
+  const trustedOidc=request.headers.has('x-vercel-trusted-oidc-idp-token');
+  if(!trustedOidc) await requireActor();
   const apiKey=process.env.OPENAI_API_KEY;
   if(!apiKey)return NextResponse.json({connection:'FAIL',keyConfigured:false,reason:'OPENAI_API_KEY is not configured in this Preview runtime'},{status:503,headers:noStore});
   const model=process.env.RTS_AWAKEN_GUIDE_MODEL??'gpt-5.4-mini';
