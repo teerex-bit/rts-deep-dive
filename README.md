@@ -28,3 +28,5 @@ The harness is intentionally separate from feature implementation:
 - `npm run test:all` is the complete CI gate.
 
 Copy `.env.test.example` to the ignored `.env.test`, start local Supabase with Docker available using `npx supabase start`, obtain the local anon key from `npx supabase status`, and install Chromium with `npx playwright install chromium`. The environment verifier rejects hosted Supabase/PostgreSQL targets and any live OpenAI key. Never run destructive tests against shared or production infrastructure.
+
+<!-- Preview environment refresh: Awaken module rebuild -->
