@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { requireActor } from '../../../../server/auth/require-actor';
+import { requireActor } from '../../../../../server/auth/require-actor';
 
 const TABLES = [
   'ai_artifact_sources','ai_artifacts','ai_context_grants','ai_threads',
