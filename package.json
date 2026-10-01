@@ -14,6 +14,7 @@
         "dev": "vinext dev",
         "test": "node --test scripts/preview.test.mjs",
         "test:harness": "node --test tests/harness/*.test.mjs",
+        "reset:prototype:awaken": "node --env-file-if-exists=.env.prototype-reset scripts/reset-prototype-awaken.mjs",
         "typecheck": "tsc --noEmit -p tsconfig.tests.json",
         "test:unit": "vitest run --config vitest.config.ts",
         "test:integration": "node --env-file-if-exists=.env.test scripts/verify-test-environment.mjs && vitest run --config vitest.integration.config.ts",
@@ -32,6 +33,7 @@
         "@axe-core/playwright": "^4.13.0",
         "@cloudflare/vite-plugin": "1.37.1",
         "@cloudflare/workers-types": "4.20260515.1",
+        "@electric-sql/pglite": "0.5.8",
         "@openai/sites-vite-plugin": "^0.1.0 || ^0.2.0",
         "@playwright/test": "^1.63.0",
         "@tailwindcss/postcss": "4.2.1",
@@ -58,4 +60,3 @@
     },
     "type": "module"
 }
-
