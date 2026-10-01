@@ -17,13 +17,15 @@ export const A2_SECTIONS: readonly A2Section[] = [
       'Conflict begins.',
       'Someone seems disappointed in you.',
       'You feel overlooked.',
-      'Different situations. Same you.',
+      'Something goes well and you immediately want to make sure it stays that way.',
+      'You have a quiet moment and notice yourself pulling away even though nothing is wrong.',
+      'Different situations. Something about your response may still be familiar.',
     ],
   },
   {
     id: 'patterns', eyebrow: 'NOTICE WHAT REPEATS', title: 'Different moments, familiar moves',
     paragraphs: [
-      'Choose moments you recognize. For each one, name only the first movement you actually noticed, then the response that followed. You may leave either blank. This map stays on this page and is not saved.',
+      'Some moments feel completely different on the surface. What we are looking for is not a particular kind of problem, but a response that shows up more than once. Compare a few moments and see whether anything about the way you respond looks familiar. You may find a pattern, or you may not. Either is useful.',
     ],
   },
   {
