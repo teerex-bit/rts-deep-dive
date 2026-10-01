@@ -22,9 +22,9 @@ export async function POST() {
   if (!serviceKey || !url) return NextResponse.json({ kind: 'configuration_error' }, { status: 500 });
 
   for (const table of TABLES) {
-    const response = await fetch(\`\${url}/rest/v1/\${table}?user_id=eq.\${encodeURIComponent(actor.id)}\`, {
+    const response = await fetch(`${url}/rest/v1/${table}?user_id=eq.${encodeURIComponent(actor.id)}`, {
       method: 'DELETE',
-      headers: { apikey: serviceKey, Authorization: \`Bearer \${serviceKey}\`, Prefer: 'return=minimal' },
+      headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, Prefer: 'return=minimal' },
     });
     if (!response.ok) {
       console.error('[review/reset] delete failed', { table, status: response.status });
