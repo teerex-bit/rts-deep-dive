@@ -96,7 +96,7 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
         </>
       ) : section.id === 'patterns' ? (
         <>
-          <AwakenFreshMoment lesson="a2" />
+          <section className="a2-pattern-discovery"><p className="eyebrow">LOOK ACROSS DIFFERENT MOMENTS</p><h2>Does anything about your response repeat?</h2><p>Bring two different situations to mind. They do not need to have anything else in common. We are simply comparing what you did in each.</p><div className="a2-pattern-discovery__moments"><label><span>MOMENT ONE</span><textarea placeholder="A short description…" /></label><label><span>MOMENT TWO</span><textarea placeholder="A different kind of moment…" /></label></div><p className="a2-pattern-discovery__examples"><strong>Different kinds of moments might look like:</strong> being misunderstood, a plan changing, receiving criticism, something going unexpectedly well, or sitting quietly and suddenly wanting to withdraw.</p><button type="button" className="button">Compare what you noticed</button></section>
           <div hidden>
           {section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
           <div className="a2-pattern-map">
