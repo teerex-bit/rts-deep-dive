@@ -9,7 +9,7 @@ import { A1SimulationInquiry } from './A1SimulationInquiry';
 export type A1ReflectionSaveState = Readonly<{ saved: boolean; error?: string }>;
 type A1ReflectionAction = (state: A1ReflectionSaveState, formData: FormData) => Promise<A1ReflectionSaveState>;
 
-const REACTIONS = ['Anger', 'Fear', 'Embarrassment', 'Control', 'Withdrawal', 'Defensiveness', 'Urgency', 'Something else'] as const;
+const REACTIONS = ['Anger', 'Fear', 'Embarrassment', 'Control', 'Withdrawal', 'Defensiveness', 'Urgency', 'Sadness', 'Relief', 'Something else'] as const;
 const PAUSE_WORDS = ['DON’T EXPLAIN IT.', 'DON’T FIX IT.', 'JUST NOTICE.', 'WHAT HAPPENED IN YOU?'] as const;
 export function A1Lesson({ section, reflection, saveReflection, editReflection, review = false, onInquiryStateChange }: { section: A1Section; index: number; total: number; reflection: string | null; saveReflection: A1ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean; onInquiryStateChange?: (active: boolean) => void }) {
   const [open, setOpen] = useState(false);
