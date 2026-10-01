@@ -2,8 +2,8 @@ export type NewAwakenSectionId = 'entry' | 'teaching' | 'trace' | 'reframe' | 'r
 export type NewAwakenSection = Readonly<{ id: NewAwakenSectionId; eyebrow: string; title: string; paragraphs: readonly string[]; prompt?: string }>;
 
 export const A3_SECTIONS: readonly NewAwakenSection[] = [
-  { id: 'entry', eyebrow: 'AWAKEN · A3 · SEPARATE', title: 'Is This Who I Am?', paragraphs: [
-    'You may already recognize a pattern you have been noticing. Or you may only have a few reactions that seem familiar. You do not need to have it figured out. A2 helped you begin to recognize what you tend to do; this lesson gives you room to consider what that says about you—and what it does not.',
+  { id: 'entry', eyebrow: 'AWAKEN · SEPARATE', title: 'Is This Who I Am?', paragraphs: [
+    'You may already recognize a pattern you have been noticing. Or you may only have a few reactions that seem familiar. You do not need to have it figured out. You have begun to recognize what you tend to do. Now there is room to consider what that says about you—and what it does not.',
     'A repeated response can be real, and a pattern may need to change. But something that has been formed in you is not automatically who you are. We will begin with what you have noticed, then compare the behavior itself with the conclusion you may draw about yourself.',
   ] },
   { id: 'teaching', eyebrow: 'A PATTERN IS NOT IDENTITY', title: 'What Was Formed Is Not All You Are', paragraphs: [
@@ -26,7 +26,7 @@ export const A3_SECTIONS: readonly NewAwakenSection[] = [
 ];
 
 export const A4_SECTIONS: readonly NewAwakenSection[] = [
-  { id: 'entry', eyebrow: 'AWAKEN · A4 · UNDERSTAND', title: 'What Is Driving This Response?', paragraphs: [
+  { id: 'entry', eyebrow: 'AWAKEN · UNDERSTAND', title: 'What Is Driving This Response?', paragraphs: [
     'You have begun to notice an internal response, recognize something that may repeat, and separate a learned pattern from your identity. Now you can become curious about a particular moment: what were you expecting, wanting, or afraid might happen? What felt important or threatened?',
     'These questions are not a search for one hidden cause. They help you slow down enough to notice what was going on inside. You may find one thing, several things, or no clear answer yet.',
   ] },

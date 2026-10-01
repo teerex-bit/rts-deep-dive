@@ -10,7 +10,7 @@ export type A2Section = Readonly<{
 
 export const A2_SECTIONS: readonly A2Section[] = [
   {
-    id: 'entry', eyebrow: 'AWAKEN · A2', title: 'Catch Yourself Being You',
+    id: 'entry', eyebrow: 'AWAKEN · RECOGNIZE', title: 'Catch Yourself Being You',
     paragraphs: [
       'Someone misunderstands you.',
       'Plans suddenly change.',

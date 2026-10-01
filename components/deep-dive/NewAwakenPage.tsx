@@ -15,7 +15,7 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
   const a3 = module === 'a3';
   const sections = a3 ? A3_SECTIONS : A4_SECTIONS;
   const slug = a3 ? 'your-reactions-have-a-history' : 'formation-is-not-identity';
-  const title = a3 ? 'Separate · A3' : 'Understand · A4';
+  const title = a3 ? 'Separate' : 'Understand';
   const prefix = `/deep-dive/awaken/${slug}`;
   const reviewerJump = await reviewJumpFor(query, prefix);
   const progress = a3 ? await getA3() : await getA4();
@@ -64,10 +64,10 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
   const review = state.completed;
   const reviewReflection = state.reviewReflection;
   return <AppShell stage="Awaken"><section className="deep-dive-shell">
-    <div className="deep-dive-topline"><Link href={state.backHref}>← Back</Link><span>Formation Journey <span aria-hidden="true">/</span> {a3 ? 'A3' : 'A4'}</span></div>
+    <div className="deep-dive-topline"><Link href={state.backHref}>← Back</Link><span>Formation Journey <span aria-hidden="true">/</span> {title}</span></div>
     <div className="deep-dive-layout">
-      <section className="deep-dive-progress" aria-label={`${a3 ? 'A3' : 'A4'} lesson progress`}>
-        <div className="deep-dive-progress__identity"><span className="eyebrow">AWAKEN · {a3 ? 'A3' : 'A4'}</span><span aria-hidden="true">/</span><strong>{title}</strong></div>
+      <section className="deep-dive-progress" aria-label={`${title} lesson progress`}>
+        <div className="deep-dive-progress__identity"><span className="eyebrow">AWAKEN</span><span aria-hidden="true">/</span><strong>{title}</strong></div>
         <div className="deep-dive-progress__track"><label htmlFor="new-awaken-progress">Section {index + 1} of {sections.length}</label><progress id="new-awaken-progress" value={index + 1} max={sections.length} /></div>
       </section>
       <div className="deep-dive-content">
