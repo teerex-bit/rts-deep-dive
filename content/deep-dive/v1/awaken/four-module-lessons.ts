@@ -26,7 +26,7 @@ export const A3_SECTIONS: readonly NewAwakenSection[] = [
 ];
 
 export const A4_SECTIONS: readonly NewAwakenSection[] = [
-  { id: 'entry', eyebrow: 'AWAKEN · A4 · UNDERSTAND', title: 'What Is Driving This Response?', paragraphs: [
+  { id: 'entry', eyebrow: 'AWAKEN · A4 · UNDERSTAND', title: 'What Is Shaping This Response?', paragraphs: [
     'You have begun to notice an internal response, recognize something that may repeat, and separate a learned pattern from your identity. Now you can become curious about a particular moment: what were you expecting, wanting, or afraid might happen? What felt important or threatened?',
     'These questions are not a search for one hidden cause. They help you slow down enough to notice what was going on inside. You may find one thing, several things, or no clear answer yet.',
   ] },
@@ -35,8 +35,8 @@ export const A4_SECTIONS: readonly NewAwakenSection[] = [
     'Desire also shapes a response. We may want respect, acceptance, peace, certainty, to be right, to be needed, to avoid embarrassment, or for someone else to change. Desire is not automatically wrong. It becomes useful to examine when it grows so important that it begins governing our response. Wanting peace may lead someone to avoid a needed conversation; wanting to be understood may lead to defensiveness; wanting order may lead to control. These are examples, not interpretations of your choices.',
     'Fear may be present too, though it is not always easy to name. You might wonder what could happen if you did not get what you wanted, or if your expectation failed. “I’m not sure” is a valid answer. You do not have to diagnose yourself or explain where a fear came from.',
   ] },
-  { id: 'trace', eyebrow: 'ONE REAL MOMENT', title: 'Stay with a Moment', paragraphs: [
-    'Choose one recent moment when you noticed a response in yourself. We will take it one question at a time: what happened, what you expected, what you wanted, what you feared might happen, and what felt important. You do not need to tell the whole story or make every answer clear.',
+  { id: 'trace', eyebrow: 'LOOK AT WHAT SHAPED THE RESPONSE', title: 'What was going on around your response?', paragraphs: [
+    'Choose one recent response you want to understand a little better. Instead of staying with the story itself, we will look at four things that can shape a response: what you expected, what you wanted, what you feared might happen, and what felt important. You do not need to find a single cause.',
   ] },
   { id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'Keep What You Noticed', paragraphs: [
     'There may or may not be something from this moment you want to remember. If something meaningful emerged, you can save it here in your own words. You do not need a complete explanation, and you can continue without writing.',
