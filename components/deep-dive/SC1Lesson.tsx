@@ -32,23 +32,30 @@ function Moment({ record, sources, completed, saveResponse }: Pick<Props, 'recor
   const [state, action, pending] = useActionState(saveResponse, {});
   const [facts, setFacts] = useState(record?.eventFacts ?? '');
   const [meaning, setMeaning] = useState(record?.automaticInterpretation ?? '');
+  const [step, setStep] = useState<'moment' | 'meaning'>('moment');
   return <form className="sc1-moment" action={action}>
-    {sources.length ? <label className="sc1-moment__source" htmlFor="sc1-source">Connect an earlier Awaken moment (optional)
+    <div className="sc1-discovery-intro">
+      <p className="eyebrow">START WITH WHAT YOU KNOW</p>
+      <h2>Separate the moment from the meaning.</h2>
+      <p>The event is what another person could have seen or heard. The meaning is what your mind added to it. The meaning may be accurate, partly accurate, or wrong. We are not deciding that yet.</p>
+    </div>
+    {sources.length ? <label className="sc1-moment__source" htmlFor="sc1-source">Use an earlier Awaken moment, or start fresh
       <select id="sc1-source" name="source_entry_id" defaultValue={record?.sourceEntryId ?? ''}>
-        <option value="">Use a new moment</option>
-        {sources.map(source => <option key={source.id} value={source.id}>{source.body.slice(0, 90)}{source.body.length > 90 ? '…' : ''}</option>)}
+        <option value="">Start with a new moment</option>
+        {sources.map(source => <option key={source.id} value={source.body}>{source.body.slice(0, 90)}{source.body.length > 90 ? '…' : ''}</option>)}
       </select>
     </label> : null}
-    <div className="sc1-moment__fields">
-      <label htmlFor="sc1-facts">What could a careful witness observe?<span>Describe what happened without guessing why.</span>
-        <textarea id="sc1-facts" name="event_facts" rows={3} required value={facts} onChange={event => setFacts(event.target.value)} />
-      </label>
-      <label htmlFor="sc1-meaning">What did you immediately make it mean?<span>Name the meaning that came to mind, even if you are unsure.</span>
-        <textarea id="sc1-meaning" name="automatic_interpretation" rows={3} required value={meaning} onChange={event => setMeaning(event.target.value)} />
-      </label>
-    </div>
-    <p className="sc1-moment__bridge">What happened <span aria-hidden="true">→</span> what I believed it meant</p>
-    <button className="button" type="submit" disabled={pending || !facts.trim() || !meaning.trim()}>{pending ? 'Saving…' : completed ? 'Save changes' : 'Save & continue'}</button>
+    {step === 'moment' ? <div className="sc1-discovery-step">
+      <label htmlFor="sc1-facts">First, what actually happened?<span>Write only what a camera, microphone, or careful witness could have known.</span></label>
+      <textarea id="sc1-facts" name="event_facts" rows={5} required value={facts} onChange={event => setFacts(event.target.value)} placeholder="What did you see or hear?" />
+      <button className="button" type="button" disabled={!facts.trim()} onClick={() => setStep('meaning')}>Now look at what it meant to me</button>
+    </div> : <div className="sc1-discovery-step">
+      <div className="sc1-discovery-memory"><span>WHAT HAPPENED</span><p>{facts}</p></div>
+      <label htmlFor="sc1-meaning">Then, what meaning arrived?<span>Write the thought or conclusion that came to mind, even if you are unsure it was true.</span></label>
+      <textarea id="sc1-meaning" name="automatic_interpretation" rows={5} required value={meaning} onChange={event => setMeaning(event.target.value)} placeholder="What did you immediately make it mean?" />
+      <p className="sc1-moment__bridge">What happened <span aria-hidden="true">→</span> what I believed it meant</p>
+      <div className="deep-dive-reflection__actions"><button className="button" type="submit" disabled={pending || !facts.trim() || !meaning.trim()}>{pending ? 'Saving…' : completed ? 'Save changes' : 'Save & continue'}</button><button className="button button--secondary" type="button" onClick={() => setStep('moment')}>Back</button></div>
+    </div>}
     <LessonActionError error={state.error} />
   </form>;
 }
