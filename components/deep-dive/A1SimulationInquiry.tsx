@@ -125,14 +125,14 @@ export function A1SimulationInquiry({ moment, reaction }: { moment: string; reac
       <section className="awaken-release-moment">
         <p className="eyebrow">THAT IS ENOUGH FOR NOW</p>
         <h2>{recognition === 'yes' ? 'You saw it.' : 'You are beginning to notice it.'}</h2>
-        <p>You do not have to understand what it was or why it was there. The point was simply to notice that the moment involved more than the outward response.</p>
+        <p>You do not have to explain what you noticed or decide what it means. The important thing is that you can now see something you did not see at first.</p>
         {turns.length ? (
           <div className="awaken-release-moment__glimpse">
             <span>ONE THING YOU NOTICED</span>
             <blockquote>“{turns[turns.length - 1].answer}”</blockquote>
           </div>
         ) : null}
-        <p className="awaken-release-moment__carry">Let this moment go. See if you notice something happening inside you in another ordinary moment.</p>
+        <p className="awaken-release-moment__carry">Let this moment go. See if you notice something in another ordinary moment.</p>
       </section>
     );
   }
