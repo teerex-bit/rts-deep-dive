@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 const UNKNOWN = 'I’m not sure';
+const OPENING = 'You already know what happened. Now we will look at four different things that can shape a response. They are four places to look, not four answers you are supposed to find.';
 const MOMENT_STEPS = [
   { label: 'What happened?', hint: 'Choose one recent moment when you noticed a response in yourself.' },
   { label: 'What were you expecting to happen?', hint: 'Expectations can be quiet: people should understand me; I should not fail; conflict will end badly; people may leave when disappointed; uncertainty may become danger; without control, something important may fall apart. For now, just notice what you expected.' },
@@ -21,9 +22,9 @@ export function A4MomentInquiry() {
     setStep(previous => Math.min(previous + 1, MOMENT_STEPS.length));
   }
 
-  return <section className="awaken-guided awaken-guided--moment" aria-label="Understand a response">
+  return <section className="awaken-guided awaken-guided--moment" aria-label="Understand what shaped a response"><div className="a4-inquiry-intro"><p>{OPENING}</p><div className="a4-inquiry-intro__four"><span>WHAT I EXPECTED</span><span>WHAT I WANTED</span><span>WHAT I FEARED</span><span>WHAT MATTERED</span></div></div>
     {step < MOMENT_STEPS.length ? <div className="awaken-guided__step" aria-live="polite">
-      <p className="eyebrow">STEP {step + 1} OF {MOMENT_STEPS.length}</p>
+      <p className="eyebrow">{current.label}</p>
       {step === 2 ? <p>A desire is not automatically wrong. It becomes important to notice when it starts governing how we respond.</p> : null}
       <label htmlFor={`a4-moment-${step}`}>{current.label}</label>
       <textarea id={`a4-moment-${step}`} rows={3} value={answers[step]} onChange={event => setAnswers(previous => previous.map((answer, index) => index === step ? event.target.value : answer))} aria-describedby={`a4-moment-hint-${step}`} />
@@ -33,10 +34,10 @@ export function A4MomentInquiry() {
         <button className="button button--secondary" type="button" onClick={() => continueWith(UNKNOWN)}>{UNKNOWN}</button>
       </div>
     </div> : <section className="awaken-guided__summary" role="region" aria-label="Looking across this moment" aria-live="polite">
-      <p className="eyebrow">LOOK BACK FOR A MOMENT</p>
+      <p className="eyebrow">PUT THE FOUR TOGETHER</p>
       <dl>{MOMENT_STEPS.map((item, index) => <div key={item.label}><dt>{item.label}</dt><dd>{answers[index]}</dd></div>)}</dl>
-      <h2>What do you notice underneath your response?</h2>
-      <p>You do not have to find one hidden cause or settle on a neat conclusion. Looking across what you expected, wanted, feared, and considered important may help you notice what was moving in that moment. You can leave the question open.</p>
+      <h2>Looking across these four things, what do you see?</h2>
+      <p>You do not have to find one hidden cause or settle on a neat conclusion. These four answers are simply different pieces of the same response. Look at them together and describe whatever connection, tension, or difference you see. If you do not see one yet, that is okay.</p>
     </section>}
   </section>;
 }
