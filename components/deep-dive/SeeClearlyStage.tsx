@@ -32,46 +32,33 @@ export function seeClearlyStageAction(statuses: readonly LessonStatus[]) {
 export function SeeClearlyStage({ status, sy2Status, sy3Status, sy4Status, sg1Status, sg2Status, sg3Status, sg4Status }: { status: 'begin' | 'resume' | 'review'; sy2Status?: 'begin' | 'resume' | 'review'; sy3Status?: 'begin' | 'resume' | 'review'; sy4Status?: 'begin' | 'resume' | 'review'; sg1Status?: 'begin' | 'resume' | 'review'; sg2Status?: 'begin' | 'resume' | 'review'; sg3Status?: 'begin' | 'resume' | 'review'; sg4Status?: 'begin' | 'resume' | 'review' }) {
   const href = `/deep-dive/see-clearly/facts-and-interpretation${status === 'review' ? '?section=entry' : ''}`;
   const action = seeClearlyStageAction([status, sy2Status ?? 'begin', sy3Status ?? 'begin', sy4Status ?? 'begin', sg1Status ?? 'begin', sg2Status ?? 'begin', sg3Status ?? 'begin', sg4Status ?? 'begin']);
+  const firstArrival = status === 'begin' && [sy2Status, sy3Status, sy4Status, sg1Status, sg2Status, sg3Status, sg4Status].every(item => !item || item === 'begin');
+  if (firstArrival) return <section className="deep-dive-home deep-dive-home--see-clearly">
+    <p className="eyebrow">THE FORMATION JOURNEY</p>
+    <h1>See Clearly</h1>
+    <div className="see-clearly-welcome">
+      <p className="see-clearly-welcome__lead">You have started to notice what happens within you. Now we can begin to look at the lens through which you understand what happens.</p>
+      <p>Sometimes what happened and what we believe it means become so closely connected that we cannot tell where one ends and the other begins. Seeing clearly starts by slowing that down.</p>
+      <p>We will begin with something simple: <strong>what actually happened, and what meaning did you give it?</strong></p>
+    </div>
+    <div className="see-clearly-welcome__first">
+      <span className="eyebrow">YOUR FIRST STEP</span>
+      <h2>Facts and Interpretation</h2>
+      <p>Bring one ordinary moment. We will look at it together without deciding yet whether your first interpretation was right or wrong.</p>
+      <Link className="button deep-dive-stage-actions__primary" href={href}>BEGIN SEE CLEARLY</Link>
+    </div>
+    <Link className="deep-dive-stage-actions__back" href="/dashboard">BACK TO FORMATION JOURNEY</Link>
+  </section>;
   return <section className="deep-dive-home deep-dive-home--see-clearly">
     <p className="eyebrow">THE FORMATION JOURNEY · SEE CLEARLY</p>
     <h1>See Clearly</h1>
     <p className="deep-dive-introduction">We often respond to the meaning we give a moment before we have had time to examine it. See Clearly makes room to look at the lens through which you understand yourself and then the picture of God you actually expect and live from.</p>
-    <div className="see-clearly-movements">
-      <section className="see-clearly-movement" aria-labelledby="see-yourself-heading">
-        <p className="eyebrow">PART I</p>
-        <h2 id="see-yourself-heading">See Yourself Clearly</h2>
-        <p>First examine the lens through which you understand yourself and your experiences.</p>
-        <ol className="see-clearly-movement__lessons" aria-label="See Yourself Clearly modules">
-          {selfLessons.map((title, index) => <li key={title} id={`see-yourself-${index === 0 ? 'sc1' : `sy${index + 1}`}`}>
-            <span className="see-clearly-movement__number">SY{index + 1}</span>
-            <span>{title}</span>
-            {index === 3 && sy3Status === 'review' ? <Link className="button button--secondary" href={`/deep-dive/see-clearly/what-is-actually-true-about-me${sy4Status === 'review' ? '?section=entry' : ''}`}>{sy4Status === 'review' ? 'Review' : sy4Status === 'resume' ? 'Resume' : 'Begin'} SY4</Link> : null}
-            {index === 2 && sy2Status === 'review' ? <Link className="button button--secondary" href={`/deep-dive/see-clearly/the-learned-self-story${sy3Status === 'review' ? '?section=entry' : ''}`}>{sy3Status === 'review' ? 'Review' : sy3Status === 'resume' ? 'Resume' : 'Begin'} SY3</Link> : null}
-            {index === 1 && status === 'review' ? <Link className="button button--secondary" href={`/deep-dive/see-clearly/follow-the-formation-chain${sy2Status === 'review' ? '?section=entry' : ''}`}>{sy2Status === 'review' ? 'Review' : sy2Status === 'resume' ? 'Resume' : 'Begin'} SY2</Link> : null}
-            {index === 0 ? <Link className="button button--secondary" href={href}>{status === 'review' ? 'Review' : status === 'resume' ? 'Resume' : 'Begin'} SY1</Link> : null}
-          </li>)}
-        </ol>
-      </section>
-      <section className="see-clearly-movement" aria-labelledby="see-god-heading">
-        <p className="eyebrow">PART II</p>
-        <h2 id="see-god-heading">See God Clearly</h2>
-        {sy4Status === 'review' && sg2Status !== 'review' ? <p className="see-clearly-movement__next">Up next: {sg1Status === 'review' ? 'SG2 — What I Expect From God' : 'SG1 — The God I Learned'}</p> : null}
-        {sg2Status === 'review' && sg4Status !== 'review' ? <p className="see-clearly-movement__next">Up next: {sg3Status === 'review' ? 'SG4 — Can I Trust God Here?' : 'SG3 — Jesus Shows Us the Father'}</p> : null}
-        {sg4Status === 'review' ? <p className="see-clearly-movement__next">See Clearly complete · Your story comes together</p> : null}
-        <p>Then examine the picture of God you actually expect and live from.</p>
-        <ol className="see-clearly-movement__lessons" aria-label="See God Clearly modules">
-          {godLessons.map((title, index) => <li key={title} id={`see-god-sg${index + 1}`}><span className="see-clearly-movement__number">SG{index + 1}</span><span>{title}</span>
-            {index === 0 && sy4Status === 'review' ? <Link className="button button--secondary" href={`/deep-dive/see-clearly/the-god-i-learned${sg1Status === 'review' ? '?section=entry' : ''}`}>{sg1Status === 'review' ? 'Review' : sg1Status === 'resume' ? 'Resume' : 'Begin'} SG1</Link> : null}
-            {index === 1 && sg1Status === 'review' ? <Link className="button button--secondary" href={`/deep-dive/see-clearly/what-i-expect-from-god${sg2Status === 'review' ? '?section=entry' : ''}`}>{sg2Status === 'review' ? 'Review' : sg2Status === 'resume' ? 'Resume' : 'Begin'} SG2</Link> : null}
-            {index === 2 && sg2Status === 'review' ? <Link className="button button--secondary" href={`/deep-dive/see-clearly/jesus-shows-us-the-father${sg3Status === 'review' ? '?section=entry' : ''}`}>{sg3Status === 'review' ? 'Review' : sg3Status === 'resume' ? 'Resume' : 'Begin'} SG3</Link> : null}
-            {index === 3 && sg3Status === 'review' ? <Link className="button button--secondary" href={`/deep-dive/see-clearly/can-i-trust-god-here${sg4Status === 'review' ? '?section=entry' : ''}`}>{sg4Status === 'review' ? 'Review' : sg4Status === 'resume' ? 'Resume' : 'Begin'} SG4</Link> : null}</li>)}
-        </ol>
-      </section>
-    </div>
-    <nav className="deep-dive-stage-actions" aria-label="Continue your journey">
-      <div><p className="eyebrow">{action.label}</p><p className="deep-dive-transition__title">{action.title}</p></div>
+    <div className="see-clearly-next">
+      <p className="eyebrow">{action.label}</p>
+      <h2>{action.title}</h2>
+      <p>Continue from where you are. You do not need to hold the whole journey in view.</p>
       <Link className="button deep-dive-stage-actions__primary" href={action.href}>{action.label}</Link>
-      <Link className="deep-dive-stage-actions__back" href="/dashboard">BACK TO FORMATION JOURNEY</Link>
-    </nav>
+    </div>
+    <Link className="deep-dive-stage-actions__back" href="/dashboard">BACK TO FORMATION JOURNEY</Link>
   </section>;
 }
