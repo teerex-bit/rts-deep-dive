@@ -39,6 +39,7 @@ function Lesson({ section, reflection, saveReflection, editReflection, review, m
   return <article className={`deep-dive-lesson deep-dive-lesson--${module} deep-dive-lesson--${section.id}`}>
     <p className="eyebrow deep-dive-section-label">{section.eyebrow}</p><h1>{section.title}</h1>
     {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+    {module === 'a3' && section.id === 'trace' ? <section className="a3-identity-bridge" aria-label="Behavior and identity"><div><span>I AM…</span><p>“I am a controlling person.”</p></div><div><span>I TEND TO… WHEN…</span><p>“I tend to take control when I feel uncertain.”</p></div><p>Both statements may describe something real. The first turns a response into a definition of you. The second keeps the observation connected to a situation.</p></section> : null}
     {module === 'a3' && section.id === 'trace' ? <AwakenFreshMoment lesson="a3" /> : null}
     {module === 'a4' && section.id === 'trace' ? <AwakenFreshMoment lesson="a4" /> : null}
     {module === 'a4' && section.id === 'carry-forward' ? <section className="a4-carry-practice" aria-label="Daily questions">
