@@ -33,7 +33,7 @@ export function A4MomentInquiry() {
         <button className="button button--secondary" type="button" onClick={() => continueWith(UNKNOWN)}>{UNKNOWN}</button>
       </div>
     </div> : <section className="awaken-guided__summary" role="region" aria-label="Looking across this moment" aria-live="polite">
-      <p className="eyebrow">LOOKING ACROSS THIS MOMENT</p>
+      <p className="eyebrow">LOOK BACK FOR A MOMENT</p>
       <dl>{MOMENT_STEPS.map((item, index) => <div key={item.label}><dt>{item.label}</dt><dd>{answers[index]}</dd></div>)}</dl>
       <h2>What do you notice underneath your response?</h2>
       <p>You do not have to find one hidden cause or settle on a neat conclusion. Looking across what you expected, wanted, feared, and considered important may help you notice what was moving in that moment. You can leave the question open.</p>
