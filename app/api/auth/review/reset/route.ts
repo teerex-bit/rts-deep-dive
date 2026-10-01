@@ -11,6 +11,13 @@ const TABLES = [
   'user_curriculum_state','audit_events',
 ] as const;
 
+export async function GET() {
+  const actor = await requireActor();
+  const reviewEmail = process.env.REVIEW_TEST_USER_EMAIL;
+  if (process.env.REVIEW_TEST_ACCESS !== 'true' || !reviewEmail || actor.email !== reviewEmail) return new NextResponse('Not found', { status: 404 });
+  return new NextResponse('<!doctype html><html><body style="font-family:system-ui;padding:40px"><h1>Reset review participant</h1><p>This clears the review participant data and progress. It does not delete the account or curriculum.</p><form method="post"><button style="padding:12px 18px;font-size:16px">Reset participant data</button></form></body></html>', { headers: { 'content-type': 'text/html; charset=utf-8' } });
+}
+
 export async function POST() {
   const actor = await requireActor();
   const reviewEmail = process.env.REVIEW_TEST_USER_EMAIL;
