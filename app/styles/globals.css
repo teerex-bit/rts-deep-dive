@@ -980,3 +980,5 @@ a { color: var(--color-navy); text-underline-offset: 0.25em; }
     order: 2;
   }
 }
+
+.awaken-recognition-check__context{max-width:48rem;margin:0 0 2rem;color:var(--color-text);font-size:1.05rem;line-height:1.75}
