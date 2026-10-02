@@ -5,7 +5,6 @@ import type { A2Section } from '../../content/deep-dive/v1/awaken/catch-yourself
 import { LessonActionError } from './LessonTransitionForm';
 import { ReviewReflection, type ReviewReflectionAction } from './ReviewReflection';
 import { AwakenGuidedInquiry } from './AwakenGuidedInquiry';
-import { A2TwoSituationInquiry } from './A2TwoSituationInquiry';
 import type { AwakenTurn } from '../../domain/awaken-guidance';
 
 export type A2ReflectionSaveState = Readonly<{ saved: boolean; error?: string }>;
@@ -62,7 +61,7 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
           {section.paragraphs.slice(1).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </>
       ) : section.id === 'patterns' ? (
-        <A2TwoSituationInquiry onConversation={setConversation} onKeep={keepObservation} />
+        <AwakenGuidedInquiry lesson="a2" initialQuestion="What happened in one recent moment?" onConversation={setConversation} onKeep={keepObservation} />
       ) : section.id === 'reflection' ? (
         <>
           <p>Look back at what you shared. You can explore what stands out, then keep only what fits in your own words.</p>
