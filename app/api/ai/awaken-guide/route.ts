@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof AuthenticationRequiredError) return NextResponse.json({ kind: 'unauthorized' }, { status: 401, headers });
     // Never log participant words, provider payloads, or credentials.
-    console.error('[awaken-guide] guidance unavailable');
+    console.error('[awaken-guide] guidance unavailable', { cause: error instanceof Error ? error.message : 'unknown' });
     return NextResponse.json({ kind: 'unavailable' }, { status: 503, headers });
   }
 }
