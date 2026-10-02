@@ -9,7 +9,7 @@ import type { NewAwakenSection } from '../../content/deep-dive/v1/awaken/four-mo
 
 export type NewReflectionSaveState = Readonly<{ saved: boolean; error?: string }>;
 type ReflectionAction = (state: NewReflectionSaveState, formData: FormData) => Promise<NewReflectionSaveState>;
-type LessonProps = { section: NewAwakenSection; reflection: string | null; saveReflection: ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean };
+type LessonProps = { section: NewAwakenSection; reflection: string | null; priorReflection?: string | null; saveReflection: ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean };
 
 function Reflection({ section, reflection, saveReflection, editReflection, review }: LessonProps) {
   const [state, action, pending] = useActionState(saveReflection, { saved: false });
@@ -34,12 +34,12 @@ const A4_PRACTICE = [
   ['RECEIVE', 'Stay with what becomes clear without forcing an answer.'],
 ] as const;
 
-function Lesson({ section, reflection, saveReflection, editReflection, review, module }: LessonProps & { module: 'a3' | 'a4' }) {
+function Lesson({ section, reflection, priorReflection = null, saveReflection, editReflection, review, module }: LessonProps & { module: 'a3' | 'a4' }) {
   return <article className={`deep-dive-lesson deep-dive-lesson--${module} deep-dive-lesson--${section.id}`}>
     <p className="eyebrow deep-dive-section-label">{section.eyebrow}</p><h1>{section.title}</h1>
     {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
-    {module === 'a3' && section.id === 'trace' ? <AwakenIdentityPattern /> : null}
-    {module === 'a4' && section.id === 'trace' ? <A4MomentInquiry /> : null}
+    {module === 'a3' && section.id === 'trace' ? <div className="awaken-prior-handoff"><p>You have already seen some of the ways you respond. Choose one that feels worth looking at more closely. We are not asking for another situation.</p>{priorReflection ? <blockquote>{priorReflection}</blockquote> : null}<AwakenIdentityPattern context={priorReflection ?? ''} /></div> : null}
+    {module === 'a4' && section.id === 'trace' ? <div className="awaken-prior-handoff"><p>You have already named something about how you respond. Now we can look at what may have been shaping that response without starting the story over.</p>{priorReflection ? <blockquote>{priorReflection}</blockquote> : null}<A4MomentInquiry context={priorReflection ?? ''} /></div> : null}
     {module === 'a4' && section.id === 'carry-forward' ? <section className="a4-carry-practice" aria-label="Daily questions">
       {A4_PRACTICE.map(([name, description]) => <div key={name}><strong>{name}</strong><p>{description}</p></div>)}
     </section> : null}
