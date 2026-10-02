@@ -29,7 +29,7 @@ const PRACTICE_STEPS = [
   },
 ] as const;
 
-export function A2Lesson({ section, reflection, a1Reflection = null, saveReflection, editReflection, review = false }: { section: A2Section; reflection: string | null; a1Reflection?: string | null; saveReflection: A2ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean }) {
+export function A2Lesson({ section, reflection, saveReflection, editReflection, review = false }: { section: A2Section; reflection: string | null; saveReflection: A2ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean }) {
   const [saveState, formAction, pending] = useActionState(saveReflection, { saved: false });
   const [editedSinceSave, setEditedSinceSave] = useState(false);
   const [body, setBody] = useState(reflection ?? '');
@@ -61,7 +61,7 @@ export function A2Lesson({ section, reflection, a1Reflection = null, saveReflect
           {section.paragraphs.slice(1).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </>
       ) : section.id === 'patterns' ? (
-        <div className="a2-handoff"><p>In A1, you stayed with one real experience and looked more closely at what happened in you. Now we are going to change the circumstances on purpose. Choose a recent situation that was different from that first experience—different people, a different setting, or a different kind of pressure. We are not looking for the same reaction. Later, you will simply look across the situations and see what you recognize.</p>{a1Reflection ? <blockquote>{a1Reflection}</blockquote> : null}<AwakenGuidedInquiry lesson="a2" context={a1Reflection ? [{ question: 'What did I notice in the first experience?', answer: a1Reflection }] : []} initialQuestion="What happened in a recent situation that was different from the first one?" onConversation={setConversation} onKeep={keepObservation} /></div>
+        <div className="a2-handoff"><p>We respond to different kinds of pressure all day long. Someone challenges us. A plan changes. We feel ignored. Something important is uncertain. We succeed and suddenly feel pressure to hold onto it.</p><p>In this section, we are going to look at a few <strong>different kinds of pressure</strong> and what comes out of you in each. The responses do not need to match. The point is to gather enough real material that you can step back and recognize something for yourself.</p><AwakenGuidedInquiry lesson="a2" initialQuestion="Think of a time someone challenged, criticized, or misunderstood you. What happened?" onConversation={setConversation} onKeep={keepObservation} /></div>
       ) : section.id === 'reflection' ? (
         <>
           <p>Look across the different situations you shared. You are not looking for matching behaviors. Step back and see what, if anything, you recognize about the way you respond.</p>
