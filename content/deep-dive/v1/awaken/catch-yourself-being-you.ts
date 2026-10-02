@@ -18,7 +18,6 @@ export const A2_SECTIONS: readonly A2Section[] = [
       'Someone seems disappointed in you.',
       'You feel overlooked.',
       'Something goes well and you immediately want to make sure it stays that way.',
-      'You have a quiet moment and notice yourself pulling away even though nothing is wrong.',
       'Different situations. Something about your response may still be familiar.',
     ],
   },
@@ -42,7 +41,7 @@ export const A2_SECTIONS: readonly A2Section[] = [
       'Which response do you notice most often? What kinds of situations tend to bring it out?',
       'You might notice yourself moving toward control, withdrawal, fixing, pleasing, proving, or escape. These are ways of responding, not labels for who you are. You can also describe something else in your own words.',
     ],
-    prompt: 'Which response do you notice most often, and what kinds of situations bring it out? Write only what you want to keep; your saved reflection belongs to your account.',
+    prompt: 'What would you like to keep in your own words?',
   },
   {
     id: 'go-deeper', eyebrow: 'A SMALL PRACTICE', title: 'Notice, name, ask, receive',

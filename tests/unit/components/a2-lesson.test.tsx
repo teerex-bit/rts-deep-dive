@@ -9,7 +9,7 @@ vi.mock('../../../server/services/deep-dive-service', () => ({
   getA3: vi.fn(async () => null), getA4: vi.fn(async () => null),
 }));
 
-afterEach(cleanup);
+afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
 describe('A2 participant experience', () => {
   it('teaches the pattern and preserves the passage attribution', () => {
@@ -28,9 +28,9 @@ describe('A2 participant experience', () => {
     }));
     render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'reflection')!} reflection="Saved thought" saveReflection={saveReflection} />);
 
-    expect(screen.getByLabelText(/which response do you notice most often/i)).toHaveValue('Saved thought');
+    expect(screen.getByLabelText('What would you like to keep in your own words?')).toHaveValue('Saved thought');
     expect(screen.getByRole('button', { name: 'Save & continue' })).toBeEnabled();
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'A thought worth keeping' } });
+    fireEvent.change(screen.getByLabelText('What would you like to keep in your own words?'), { target: { value: 'A thought worth keeping' } });
     fireEvent.click(screen.getByRole('button', { name: 'Save & continue' }));
     await waitFor(() => expect(saveReflection).toHaveBeenCalledOnce());
     expect(screen.getByRole('status')).toBeEmptyDOMElement();
@@ -41,7 +41,7 @@ describe('A2 participant experience', () => {
   it('keeps whitespace-only text unsavable and permits continuing without writing', async () => {
     const saveReflection = vi.fn(async () => ({ saved: false }));
     render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'reflection')!} reflection={null} saveReflection={saveReflection} />);
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: '   ' } });
+    fireEvent.change(screen.getByLabelText('What would you like to keep in your own words?'), { target: { value: '   ' } });
     expect(screen.getByRole('button', { name: 'Save & continue' })).toBeDisabled();
     fireEvent.click(screen.getByRole('button', { name: 'Continue without writing' }));
     await waitFor(() => expect(saveReflection).toHaveBeenCalledOnce());
@@ -54,57 +54,26 @@ describe('A2 participant experience', () => {
     expect(screen.getByRole('region', { name: 'Practice for the next few days' })).toHaveTextContent(/collect observations/i);
   });
 
-  it('lets the participant connect situations to recurring responses without saving those choices', () => {
-    const saveReflection = vi.fn();
-    render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'patterns')!} reflection={null} saveReflection={saveReflection} />);
 
-    fireEvent.click(screen.getByRole('checkbox', { name: 'A plan changes unexpectedly' }));
-    fireEvent.click(screen.getByRole('checkbox', { name: 'I feel overlooked' }));
-    fireEvent.change(screen.getByLabelText('First internal move for A plan changes unexpectedly'), { target: { value: 'Urgency' } });
-    fireEvent.change(screen.getByLabelText('Typical response for A plan changes unexpectedly'), { target: { value: 'Control' } });
-    fireEvent.change(screen.getByLabelText('First internal move for I feel overlooked'), { target: { value: 'Insecurity' } });
-    fireEvent.change(screen.getByLabelText('Typical response for I feel overlooked'), { target: { value: 'Control' } });
-    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('Different things were happening inside');
-    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('both moments moved toward control');
-    expect(saveReflection).not.toHaveBeenCalled();
-  });
 
-  it('ignores incomplete selections and offers no pattern claim until two moments are complete', () => {
-    render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'patterns')!} reflection={null} saveReflection={vi.fn()} />);
 
-    fireEvent.click(screen.getByRole('checkbox', { name: 'A plan changes unexpectedly' }));
-    fireEvent.click(screen.getByRole('checkbox', { name: 'I feel overlooked' }));
-    fireEvent.change(screen.getByLabelText('First internal move for A plan changes unexpectedly'), { target: { value: 'Urgency' } });
-    fireEvent.change(screen.getByLabelText('Typical response for A plan changes unexpectedly'), { target: { value: 'Control' } });
-    fireEvent.change(screen.getByLabelText('First internal move for I feel overlooked'), { target: { value: 'Insecurity' } });
-
-    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).toHaveTextContent('You have noticed one moment.');
-    expect(screen.getByRole('region', { name: 'WHAT MAY BE REPEATING' })).not.toHaveTextContent('Control');
-  });
 
   it('opens with ordinary situations before teaching the idea of patterns', () => {
     render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS[0]} reflection={null} saveReflection={vi.fn()} />);
     expect(screen.getByText('Someone misunderstands you.')).toBeInTheDocument();
     expect(screen.getByText('Plans suddenly change.')).toBeInTheDocument();
-    expect(screen.getByText(/Different situations\. Same you\./)).toBeInTheDocument();
+    expect(screen.getByText(/Different situations\. Something about your response may still be familiar\./)).toBeInTheDocument();
   });
 
-  it('explains response families through an accessible disclosure without assigning identities', () => {
-    render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'patterns')!} reflection={null} saveReflection={vi.fn()} />);
-    const button = screen.getByRole('button', { name: /what can these responses look like/i });
-    expect(button).toHaveAttribute('aria-expanded', 'false');
-    fireEvent.click(button);
-    expect(button).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByText(/moving toward control may look like taking over/i)).toBeInTheDocument();
-  });
+
 
   it('retains private wording and a retry action after a failed reflection save', async () => {
     const saveReflection = vi.fn(async () => ({ saved: false, error: 'Could not save your reflection. Please try again.' }));
     render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'reflection')!} reflection={null} saveReflection={saveReflection} />);
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'My own words' } });
+    fireEvent.change(screen.getByLabelText('What would you like to keep in your own words?'), { target: { value: 'My own words' } });
     fireEvent.click(screen.getByRole('button', { name: 'Save & continue' }));
     expect(await screen.findByRole('alert')).toHaveTextContent('Could not save');
-    expect(screen.getByRole('textbox')).toHaveValue('My own words');
+    expect(screen.getByLabelText('What would you like to keep in your own words?')).toHaveValue('My own words');
     expect(screen.getByRole('button', { name: 'Save & continue' })).toBeEnabled();
   });
 
@@ -120,7 +89,7 @@ describe('A2 participant experience', () => {
 
   it('allows completed reflection revision', () => {
     render(<A2Lesson editReflection={vi.fn()} section={A2_SECTIONS.find(item => item.id === 'reflection')!} reflection="Saved thought" saveReflection={vi.fn()} review />);
-    expect(screen.getByRole('textbox')).toHaveValue('Saved thought');
+    expect(screen.getByLabelText('What would you like to keep in your own words?')).toHaveValue('Saved thought');
     expect(screen.getByRole('button', { name: 'Save reflection' })).toBeDisabled();
   });
 
@@ -130,4 +99,26 @@ describe('A2 participant experience', () => {
     expect(screen.getByRole('link', { name: 'Begin Pay Attention · A1' })).toHaveAttribute('href', '/deep-dive/awaken/pay-attention');
     expect(screen.getByRole('link', { name: 'Begin Catch Yourself Being You · A2' })).toHaveAttribute('href', '/deep-dive/awaken/catch-yourself-being-you');
   });
+  it('carries the participant conversation into guided reflection without saving AI words automatically', async () => {
+    const requests: any[] = [];
+    vi.stubGlobal('fetch', async (_url: string, options: RequestInit) => {
+      requests.push(JSON.parse(String(options.body)));
+      return Response.json({ kind: 'success', question: '', guidance: '', observation: 'You may notice yourself going quiet.', complete: true });
+    });
+    const props = { editReflection: vi.fn(), reflection: null, saveReflection: vi.fn() };
+    const view = render(<A2Lesson {...props} section={A2_SECTIONS.find(s => s.id === 'patterns')!} />);
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'I went quiet when my plan changed' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    await screen.findByText('You may notice yourself going quiet.');
+    expect(props.saveReflection).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: 'That fits' }));
+    view.rerender(<A2Lesson {...props} section={A2_SECTIONS.find(s => s.id === 'reflection')!} />);
+    expect(screen.getByLabelText('What would you like to keep in your own words?')).toHaveValue('You may notice yourself going quiet.');
+    fireEvent.change(screen.getByLabelText('Looking back, what stands out to you?'), { target: { value: 'The quiet response' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    await screen.findByText('You may notice yourself going quiet.');
+    expect(requests[1]).toMatchObject({ lesson: 'a2', phase: 'reflection', context: [{ question: 'What happened in one recent moment?', answer: 'I went quiet when my plan changed' }] });
+    expect(props.saveReflection).not.toHaveBeenCalled();
+  });
+
 });

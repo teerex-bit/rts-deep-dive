@@ -4,30 +4,11 @@ import { useActionState, useEffect, useState } from 'react';
 import type { A2Section } from '../../content/deep-dive/v1/awaken/catch-yourself-being-you';
 import { LessonActionError } from './LessonTransitionForm';
 import { ReviewReflection, type ReviewReflectionAction } from './ReviewReflection';
-import { getA2PatternBridgeFeedback } from './A2_PATTERN_BRIDGE';
-import { AwakenFreshMoment } from './AwakenFreshMoment';
+import { AwakenGuidedInquiry } from './AwakenGuidedInquiry';
+import type { AwakenTurn } from '../../domain/awaken-guidance';
 
 export type A2ReflectionSaveState = Readonly<{ saved: boolean; error?: string }>;
 type A2ReflectionAction = (state: A2ReflectionSaveState, formData: FormData) => Promise<A2ReflectionSaveState>;
-
-const SITUATIONS = [
-  'Someone misunderstands me',
-  'A plan changes unexpectedly',
-  'Tension rises in a conversation',
-  'Someone seems disappointed in me',
-  'I feel overlooked',
-] as const;
-
-const FIRST_MOVES = ['Tension', 'Urgency', 'Discomfort', 'Fear', 'Anxiety', 'Insecurity', 'Uncertainty', 'Something else'] as const;
-const RESPONSES = ['Control', 'Withdrawal', 'Fixing', 'Pleasing', 'Proving', 'Escaping', 'Something else'] as const;
-const RESPONSE_EXAMPLES = [
-  'Moving toward control may look like taking over, monitoring, insisting, or correcting.',
-  'Moving toward withdrawal may look like going quiet, distancing, or disengaging.',
-  'Moving toward fixing may look like solving immediately or managing someone else’s reaction.',
-  'Moving toward pleasing may look like agreeing quickly or avoiding a needed no.',
-  'Moving toward proving may look like defending, explaining harder, or working more.',
-  'Moving toward escape may look like distracting yourself, leaving, or avoiding the moment.',
-] as const;
 
 const PRACTICE_STEPS = [
   {
@@ -48,28 +29,13 @@ const PRACTICE_STEPS = [
   },
 ] as const;
 
-function toggle(values: readonly string[], value: string) {
-  return values.includes(value) ? values.filter(item => item !== value) : [...values, value];
-}
-
 export function A2Lesson({ section, reflection, saveReflection, editReflection, review = false }: { section: A2Section; reflection: string | null; saveReflection: A2ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean }) {
   const [saveState, formAction, pending] = useActionState(saveReflection, { saved: false });
   const [editedSinceSave, setEditedSinceSave] = useState(false);
   const [body, setBody] = useState(reflection ?? '');
-  const [situations, setSituations] = useState<string[]>([]);
-  const [moves, setMoves] = useState<Record<string, { internal: string; response: string }>>({});
   const [activePracticeStep, setActivePracticeStep] = useState(0);
-  const [examplesOpen, setExamplesOpen] = useState(false); const [momentOne, setMomentOne] = useState(''); const [momentTwo, setMomentTwo] = useState(''); const [compareStarted, setCompareStarted] = useState(false); const [moveOne, setMoveOne] = useState(''); const [moveTwo, setMoveTwo] = useState('');
-
-  const completedMoments = situations.flatMap(situation => {
-    const internal = moves[situation]?.internal;
-    const response = moves[situation]?.response;
-    return internal && response ? [{ internal, response }] : [];
-  });
-  const patternFeedback = getA2PatternBridgeFeedback(completedMoments);
-  const updateMove = (situation: string, field: 'internal' | 'response', value: string) => {
-    setMoves(current => ({ ...current, [situation]: { internal: current[situation]?.internal ?? '', response: current[situation]?.response ?? '', [field]: value } }));
-  };
+  const [conversation, setConversation] = useState<AwakenTurn[]>([]);
+  function keepObservation(text: string) { setBody(text); setEditedSinceSave(true); }
 
   useEffect(() => {
     if (!pending && saveState.saved) setEditedSinceSave(false);
@@ -95,62 +61,11 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
           {section.paragraphs.slice(1).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </>
       ) : section.id === 'patterns' ? (
-        <>
-          <section className="a2-pattern-discovery"><p className="eyebrow">LOOK ACROSS DIFFERENT MOMENTS</p><h2>Does anything about your response repeat?</h2><p>Bring two different situations to mind. They do not need to have anything else in common. We are simply comparing what you did in each.</p><div className="a2-pattern-discovery__moments"><label><span>MOMENT ONE</span><textarea value={momentOne} onChange={e=>setMomentOne(e.target.value)} placeholder="A short description…" /></label><label><span>MOMENT TWO</span><textarea value={momentTwo} onChange={e=>setMomentTwo(e.target.value)} placeholder="A different kind of moment…" /></label></div><p className="a2-pattern-discovery__examples"><strong>Different kinds of moments might look like:</strong> being misunderstood, a plan changing, receiving criticism, something going unexpectedly well, or sitting quietly and suddenly wanting to withdraw.</p>{!compareStarted?<button type="button" className="button" disabled={!momentOne.trim()||!momentTwo.trim()} onClick={()=>setCompareStarted(true)}>Now look at what you did</button>:<div className="a2-pattern-discovery__compare"><div><span>MOMENT ONE</span><p>“{momentOne}”</p><label>What did you notice yourself doing?<textarea value={moveOne} onChange={e=>setMoveOne(e.target.value)} /></label></div><div><span>MOMENT TWO</span><p>“{momentTwo}”</p><label>What did you notice yourself doing?<textarea value={moveTwo} onChange={e=>setMoveTwo(e.target.value)} /></label></div><p className="a2-pattern-discovery__question">Looking at both, does anything about your response feel familiar? It is okay if nothing does.</p></div>}</section>
-          <div hidden>
-          {section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-          <div className="a2-pattern-map">
-            <div className="a2-pattern-map__situations">
-              <fieldset>
-                <legend><span className="a2-pattern-map__step">01</span> Situations you recognize</legend>
-                <p className="a2-pattern-map__hint">Select the moments you want to compare.</p>
-                {SITUATIONS.map((situation, index) => (
-                  <label className="a2-checkline" key={situation}>
-                    <input type="checkbox" checked={situations.includes(situation)} onChange={() => setSituations(current => toggle(current, situation))} />
-                    <span><span className="a2-checkline__number" aria-hidden="true">0{index + 1}</span>{situation}</span>
-                  </label>
-                ))}
-              </fieldset>
-            </div>
-            <div className="a2-pattern-map__responses">
-              <h2><span className="a2-pattern-map__step">02</span> What happened in each moment?</h2>
-              <p className="a2-pattern-map__hint">You choose what you noticed. Leaving a field blank is fine.</p>
-              {situations.length ? situations.map(situation => (
-                <div className="a2-mapped-moment" key={situation}>
-                  <h3>{situation}</h3>
-                  <div className="a2-mapped-moment__choices">
-                    <label>First internal move for {situation}
-                      <select aria-label={`First internal move for ${situation}`} value={moves[situation]?.internal ?? ''} onChange={event => updateMove(situation, 'internal', event.target.value)}>
-                        <option value="">Choose only if noticed</option>
-                        {FIRST_MOVES.map(move => <option key={move}>{move}</option>)}
-                      </select>
-                    </label>
-                    <label>Typical response for {situation}
-                      <select aria-label={`Typical response for ${situation}`} value={moves[situation]?.response ?? ''} onChange={event => updateMove(situation, 'response', event.target.value)}>
-                        <option value="">Choose only if noticed</option>
-                        {RESPONSES.map(response => <option key={response}>{response}</option>)}
-                      </select>
-                    </label>
-                  </div>
-                </div>
-              )) : <p className="a2-map-empty">Select a situation to begin connecting what happened inside with how you responded.</p>}
-            </div>
-            <section className="a2-pattern-map__reflection" role="region" aria-label="WHAT MAY BE REPEATING" aria-live="polite">
-              <span className="eyebrow">WHAT MAY BE REPEATING</span>
-              <p>{patternFeedback}</p>
-              <small>This working map is only for noticing. These selections are not saved.</small>
-            </section>
-          </div>
-          <div className="deep-dive-reveal a2-response-disclosure">
-            <button type="button" aria-expanded={examplesOpen} onClick={() => setExamplesOpen(value => !value)}><span>What can these responses look like?</span><span className="deep-dive-reveal__icon" aria-hidden="true">⌄</span></button>
-            {examplesOpen ? <div className="a2-response-examples">{RESPONSE_EXAMPLES.map(example => <p key={example}>{example}</p>)}</div> : null}
-          </div>
-          <section className="a2-pattern-reveal"><h2>A pattern is not a label for who you are.</h2><p>It is something you have begun to notice yourself doing. One moment may seem random. Repeated moments begin to reveal a pattern. You can recognize it without explaining where it came from or trying to fix it today.</p></section>
-          </div>
-        </>
+        <AwakenGuidedInquiry lesson="a2" initialQuestion="What happened in one recent moment?" onConversation={setConversation} onKeep={keepObservation} />
       ) : section.id === 'reflection' ? (
         <>
-          <div className="deep-dive-a2-prompts">{section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
+          <p>Look back at what you shared. You can explore what stands out, then keep only what fits in your own words.</p>
+          <AwakenGuidedInquiry key="a2-reflection-guide" lesson="a2" phase="reflection" context={conversation} initialQuestion="Looking back, what stands out to you?" onKeep={keepObservation} />
           {review ? <ReviewReflection id="a2-reflection" label={section.prompt ?? 'Your reflection'} reflection={reflection} action={editReflection} /> : <form className="deep-dive-reflection a2-reflection" action={formAction}>
             <label htmlFor="a2-reflection">{section.prompt}</label>
             <textarea id="a2-reflection" name="body" value={body} placeholder="Write only what you want to keep…" onChange={event => { setBody(event.target.value); setEditedSinceSave(true); }} />

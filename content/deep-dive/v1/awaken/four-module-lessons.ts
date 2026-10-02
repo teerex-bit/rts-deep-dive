@@ -3,7 +3,7 @@ export type NewAwakenSection = Readonly<{ id: NewAwakenSectionId; eyebrow: strin
 
 export const A3_SECTIONS: readonly NewAwakenSection[] = [
   { id: 'entry', eyebrow: 'AWAKEN · A3 · SEPARATE', title: 'Is This Who I Am?', paragraphs: [
-    'You may already recognize a pattern you have been noticing. Or you may only have a few reactions that seem familiar. You do not need to have it figured out. A2 helped you begin to recognize what you tend to do; this lesson gives you room to consider what that says about you—and what it does not.',
+    'You may already recognize a pattern you have been noticing. Or you may only have a few reactions that seem familiar. You do not need to have it figured out. Here, you’ll look at what you noticed and consider what it says about you—and what it does not.',
     'A repeated response can be real, and a pattern may need to change. But something that has been formed in you is not automatically who you are. We will begin with what you have noticed, then compare the behavior itself with the conclusion you may draw about yourself.',
   ] },
   { id: 'teaching', eyebrow: 'A PATTERN IS NOT IDENTITY', title: 'What Was Formed Is Not All You Are', paragraphs: [
@@ -27,7 +27,7 @@ export const A3_SECTIONS: readonly NewAwakenSection[] = [
 
 export const A4_SECTIONS: readonly NewAwakenSection[] = [
   { id: 'entry', eyebrow: 'AWAKEN · A4 · UNDERSTAND', title: 'What Is Shaping This Response?', paragraphs: [
-    'You have begun to notice an internal response, recognize something that may repeat, and separate a learned pattern from your identity. Now you can become curious about a particular moment: what were you expecting, wanting, or afraid might happen? What felt important or threatened?',
+    'You do not need to have found a pattern or reached a conclusion about yourself. Here, you can become curious about a particular moment: what were you expecting, wanting, or afraid might happen? What felt important or threatened?',
     'These questions are not a search for one hidden cause. They help you slow down enough to notice what was going on inside. You may find one thing, several things, or no clear answer yet.',
   ] },
   { id: 'teaching', eyebrow: 'LOOK BENEATH THE FIRST RESPONSE', title: 'Expectations, Desires, and Fears', paragraphs: [
@@ -36,7 +36,7 @@ export const A4_SECTIONS: readonly NewAwakenSection[] = [
     'Fear may be present too, though it is not always easy to name. You might wonder what could happen if you did not get what you wanted, or if your expectation failed. “I’m not sure” is a valid answer. You do not have to diagnose yourself or explain where a fear came from.',
   ] },
   { id: 'trace', eyebrow: 'LOOK AT WHAT SHAPED THE RESPONSE', title: 'What was going on around your response?', paragraphs: [
-    'Choose one recent response you want to understand a little better. Instead of staying with the story itself, we will look at four things that can shape a response: what you expected, what you wanted, what you feared might happen, and what felt important. You do not need to find a single cause.',
+    'Choose one recent response you want to understand a little better. Begin with what happened and how you responded. Then explore whichever expectations, desires, fears, or concerns help you understand that moment. You do not need to answer every question or find a single cause.',
   ] },
   { id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'Keep What You Noticed', paragraphs: [
     'There may or may not be something from this moment you want to remember. If something meaningful emerged, you can save it here in your own words. You do not need a complete explanation, and you can continue without writing.',
