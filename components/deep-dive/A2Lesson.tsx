@@ -5,6 +5,7 @@ import type { A2Section } from '../../content/deep-dive/v1/awaken/catch-yourself
 import { LessonActionError } from './LessonTransitionForm';
 import { ReviewReflection, type ReviewReflectionAction } from './ReviewReflection';
 import { AwakenGuidedInquiry } from './AwakenGuidedInquiry';
+import { A2ExperienceInquiry } from './A2ExperienceInquiry';
 import type { AwakenTurn } from '../../domain/awaken-guidance';
 
 export type A2ReflectionSaveState = Readonly<{ saved: boolean; error?: string }>;
@@ -61,7 +62,7 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
           {section.paragraphs.slice(1).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </>
       ) : section.id === 'patterns' ? (
-        <div className="a2-handoff"><p>We respond to different kinds of pressure all day long. Someone challenges us. A plan changes. We feel ignored. Something important is uncertain. We succeed and suddenly feel pressure to hold onto it.</p><p>In this section, we are going to look at a few <strong>different kinds of pressure</strong> and what comes out of you in each. The responses do not need to match. The point is to gather enough real material that you can step back and recognize something for yourself.</p><AwakenGuidedInquiry lesson="a2" initialQuestion="Think of a time someone challenged, criticized, or misunderstood you. What happened?" onConversation={setConversation} onKeep={keepObservation} /></div>
+        <A2ExperienceInquiry onConversation={setConversation} onKeep={keepObservation} />
       ) : section.id === 'reflection' ? (
         <>
           <p>Look across the different situations you shared. You are not looking for matching behaviors. Step back and see what, if anything, you recognize about the way you respond.</p>
