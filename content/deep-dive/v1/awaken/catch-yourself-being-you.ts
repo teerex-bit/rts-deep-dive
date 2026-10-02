@@ -22,9 +22,9 @@ export const A2_SECTIONS: readonly A2Section[] = [
     ],
   },
   {
-    id: 'patterns', eyebrow: 'LOOK AT ANOTHER SITUATION', title: 'Try a different kind of moment',
+    id: 'patterns', eyebrow: 'CATCH YOURSELF BEING YOU', title: 'Look across a few different situations',
     paragraphs: [
-      'Start with one ordinary situation and what you actually did. Then look at a different kind of situation. Only after both are clear will you compare them and decide whether anything about your responses seems familiar.',
+      'You do not need to respond the same way every time. We are going to look at a few different situations and how you responded in each. Then you can step back and decide what, if anything, you recognize about yourself.',
     ],
   },
   {
@@ -36,10 +36,10 @@ export const A2_SECTIONS: readonly A2Section[] = [
     ],
   },
   {
-    id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'What are you beginning to recognize?',
+    id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'What do you recognize about yourself?',
     paragraphs: [
-      'Which response do you notice most often? What kinds of situations tend to bring it out?',
-      'You might notice yourself moving toward control, withdrawal, fixing, pleasing, proving, or escape. These are ways of responding, not labels for who you are. You can also describe something else in your own words.',
+      'Look across the different situations you explored. You may recognize a familiar way you move when something presses on you, or you may see that you respond differently in different situations.',
+      'Do not force a pattern. Keep only what you can honestly see in your own responses.',
     ],
     prompt: 'What would you like to keep in your own words?',
   },
