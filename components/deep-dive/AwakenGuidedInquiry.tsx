@@ -58,7 +58,7 @@ export function AwakenGuidedInquiry({ lesson, initialQuestion, moment = '', reac
   </section>;
   return <section className="awaken-guided" aria-label="Guided reflection" aria-busy={pending}>
     {moment ? <aside><span>THE MOMENT</span><p>{moment}</p>{reaction ? <p>You first noticed: {reaction}</p> : null}</aside> : null}
-    {turns.length ? <details><summary>What you have shared</summary>{turns.map((turn, index) => <div key={index}><p>{turn.question}</p><blockquote>{turn.answer}</blockquote></div>)}</details> : null}
+    {turns.length ? <details open={lesson === 'a2'}><summary>What you have shared</summary>{turns.map((turn, index) => <div key={index}><p>{turn.question}</p><blockquote>{turn.answer}</blockquote></div>)}</details> : null}
     {guidance ? <p aria-live="polite">{guidance}</p> : null}
     <label htmlFor={`${lesson}-${phase}-answer`}>{question}</label>
     <textarea id={`${lesson}-${phase}-answer`} rows={3} value={answer} maxLength={4000} disabled={pending} onChange={event => setAnswer(event.target.value)} placeholder="Use your own words…" />
