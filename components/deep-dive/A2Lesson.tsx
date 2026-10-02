@@ -61,11 +61,11 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
           {section.paragraphs.slice(1).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </>
       ) : section.id === 'patterns' ? (
-        <AwakenGuidedInquiry lesson="a2" initialQuestion="What happened in one recent moment?" onConversation={setConversation} onKeep={keepObservation} />
+        <AwakenGuidedInquiry lesson="a2" initialQuestion="Think of one ordinary situation. What happened?" onConversation={setConversation} onKeep={keepObservation} />
       ) : section.id === 'reflection' ? (
         <>
-          <p>Look back at what you shared. You can explore what stands out, then keep only what fits in your own words.</p>
-          <AwakenGuidedInquiry key="a2-reflection-guide" lesson="a2" phase="reflection" context={conversation} initialQuestion="Looking back, what stands out to you?" onKeep={keepObservation} />
+          <p>Look across the different situations you shared. You are not looking for matching behaviors. Step back and see what, if anything, you recognize about the way you respond.</p>
+          <AwakenGuidedInquiry key="a2-reflection-guide" lesson="a2" phase="reflection" context={conversation} initialQuestion="When you look across these situations, what do you recognize about yourself?" onKeep={keepObservation} />
           {review ? <ReviewReflection id="a2-reflection" label={section.prompt ?? 'Your reflection'} reflection={reflection} action={editReflection} /> : <form className="deep-dive-reflection a2-reflection" action={formAction}>
             <label htmlFor="a2-reflection">{section.prompt}</label>
             <textarea id="a2-reflection" name="body" value={body} placeholder="Write only what you want to keep…" onChange={event => { setBody(event.target.value); setEditedSinceSave(true); }} />
