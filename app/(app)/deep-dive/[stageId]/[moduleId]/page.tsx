@@ -33,6 +33,7 @@ function LessonProgress({ module, title, index, total }: { module: 'A1' | 'A2'; 
 async function A2Page({ query }: { query: { section?: string; reviewJump?: string } }) {
   const reviewerJump = await reviewJumpFor(query, '/deep-dive/awaken/catch-yourself-being-you');
   const progress = await getA2();
+  const a1Progress = await getA1();
   const state = lessonState({ sections: A2_SECTIONS, pathname: '/deep-dive/awaken/catch-yourself-being-you', groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { index, section, next } = state;
 
@@ -87,7 +88,7 @@ async function A2Page({ query }: { query: { section?: string; reviewJump?: strin
         <div className="deep-dive-layout">
           <LessonProgress module="A2" title="Catch Yourself Being You" index={index} total={A2_SECTIONS.length} />
           <div className="deep-dive-content">
-            <A2Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={saveReflection} editReflection={editReflection} review={reviewReflection} />
+            <A2Lesson section={section} reflection={progress?.reflection ?? null} a1Reflection={a1Progress?.reflection ?? null} saveReflection={saveReflection} editReflection={editReflection} review={reviewReflection} />
             {(section.id !== 'reflection' || reviewReflection) ? <footer className="deep-dive-transition">
               {next ? (
                 <>
