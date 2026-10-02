@@ -31,7 +31,7 @@ export function AwakenGuidedInquiry({ lesson, initialQuestion, moment = '', reac
       if (result.complete || next.length >= 8) {
         setObservation(result.observation.trim());
         if (result.observation.trim()) setView('confirm'); else finish();
-      } else { setQuestion(result.question); if (next.length === 3) setView('check'); }
+      } else { setQuestion(result.question); if (next.length === 3 && lesson !== 'a2') setView('check'); }
     } catch { setError(true); }
     finally { setPending(false); }
   }
@@ -66,8 +66,8 @@ export function AwakenGuidedInquiry({ lesson, initialQuestion, moment = '', reac
     <div className="awaken-guided__actions">
       <button type="button" className="button" disabled={pending || !answer.trim()} onClick={() => submit()}>{pending ? 'Thinking…' : error ? 'Try again' : 'Continue'}</button>
       <button type="button" className="button button--secondary" disabled={pending} onClick={() => submit('I’m not sure')}>I’m not sure</button>
-      {turns.length >= 3 ? <button type="button" className="awaken-quiet-button" disabled={pending} onClick={() => { if (answer.trim()) { const next = [...turns, { question, answer: answer.trim() }]; setTurns(next); onConversation?.(next); } finish(); }}>I’m ready to move on</button> : null}
+      {turns.length >= (lesson === 'a2' ? 5 : 3) ? <button type="button" className="awaken-quiet-button" disabled={pending} onClick={() => { if (answer.trim()) { const next = [...turns, { question, answer: answer.trim() }]; setTurns(next); onConversation?.(next); } finish(); }}>I’m ready to move on</button> : null}
     </div>
-    {turns.length >= 3 ? <p>You can keep looking, or move on if you have enough.</p> : null}
+    {turns.length >= (lesson === 'a2' ? 5 : 3) ? <p>You can keep looking, or move on if you have enough.</p> : null}
   </section>;
 }
