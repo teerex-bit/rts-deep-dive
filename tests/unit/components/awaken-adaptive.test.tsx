@@ -65,6 +65,7 @@ it('ends at eight answers even if the provider keeps asking, without claiming an
   for (let index = 0; index < 8; index++) {
     fireEvent.change(screen.getByRole('textbox'), { target: { value: `Answer ${index}` } });
     fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    if (index === 2) { await screen.findByRole('heading', { name: 'Do you have enough to move on?' }); fireEvent.click(screen.getByRole('button', { name: 'Keep looking' })); }
     if (index < 7) await screen.findByLabelText(`Question ${index + 1}?`);
   }
   expect(await screen.findByText('You can leave this open.')).toBeInTheDocument();
@@ -78,4 +79,19 @@ it('allows tapping out before any AI request', () => {
   fireEvent.click(screen.getByRole('button', { name: 'I’m ready to move on' }));
   expect(screen.getByText('You can leave this open.')).toBeInTheDocument();
   expect(called).toBe(false);
+});
+
+it('checks readiness after three answers without requiring a discovery', async () => {
+  let count = 0;
+  vi.stubGlobal('fetch', async () => Response.json({ kind: 'success', question: `Follow-up ${++count}?`, guidance: '', observation: '', complete: false }));
+  render(<A4MomentInquiry />);
+  for (let index = 0; index < 3; index++) {
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Still looking' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+    if (index < 2) await screen.findByLabelText(`Follow-up ${index + 1}?`);
+  }
+  expect(await screen.findByRole('heading', { name: 'Do you have enough to move on?' })).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'I’m ready to move on' }));
+  expect(screen.getByText('You can leave this open.')).toBeInTheDocument();
+  expect(count).toBe(3);
 });

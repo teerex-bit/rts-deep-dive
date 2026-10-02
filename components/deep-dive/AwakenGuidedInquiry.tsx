@@ -11,7 +11,7 @@ export function AwakenGuidedInquiry({ lesson, initialQuestion, moment = '', reac
   const [observation, setObservation] = useState('');
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(false);
-  const [view, setView] = useState<'ask' | 'confirm' | 'done'>('ask');
+  const [view, setView] = useState<'ask' | 'confirm' | 'check' | 'done'>('ask');
   const [kept, setKept] = useState('');
 
   function finish(text = '') {
@@ -31,7 +31,7 @@ export function AwakenGuidedInquiry({ lesson, initialQuestion, moment = '', reac
       if (result.complete || next.length >= 8) {
         setObservation(result.observation.trim());
         if (result.observation.trim()) setView('confirm'); else finish();
-      } else setQuestion(result.question);
+      } else { setQuestion(result.question); if (next.length === 3) setView('check'); }
     } catch { setError(true); }
     finally { setPending(false); }
   }
@@ -39,6 +39,14 @@ export function AwakenGuidedInquiry({ lesson, initialQuestion, moment = '', reac
     <h2>{kept ? 'Keep what fits.' : 'You can leave this open.'}</h2>
     {kept ? <blockquote>{kept}</blockquote> : <p>You do not have to find a connection or settle on an explanation.</p>}
     <p>You can move on when you are ready.</p>
+  </section>;
+  if (view === 'check') return <section className="awaken-guided" aria-live="polite">
+    <h2>Do you have enough to move on?</h2>
+    <p>You can keep looking if it helps. Nothing clear yet is also an honest place to stop.</p>
+    <div className="awaken-guided__actions">
+      <button type="button" className="button" onClick={() => finish()}>I’m ready to move on</button>
+      <button type="button" className="button button--secondary" onClick={() => setView('ask')}>Keep looking</button>
+    </div>
   </section>;
   if (view === 'confirm') return <section className="awaken-guided" aria-live="polite">
     <p className="eyebrow">A POSSIBLE OBSERVATION</p><blockquote>{observation}</blockquote><h2>Does that fit what you noticed?</h2>
