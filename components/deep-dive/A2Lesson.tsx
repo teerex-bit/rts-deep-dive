@@ -64,22 +64,15 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
       ) : section.id === 'patterns' ? (
         <A2ExperienceInquiry onConversation={setConversation} onKeep={keepObservation} />
       ) : section.id === 'reflection' ? (
-        <>
-          <p>Look across the different situations you shared. You are not looking for matching behaviors. Step back and see what, if anything, you recognize about the way you respond.</p>
-          <AwakenGuidedInquiry key="a2-reflection-guide" lesson="a2" phase="reflection" context={conversation} initialQuestion="When you look across these situations, what do you recognize about yourself?" onKeep={keepObservation} />
-          {review ? <ReviewReflection id="a2-reflection" label={section.prompt ?? 'Your reflection'} reflection={reflection} action={editReflection} /> : <form className="deep-dive-reflection a2-reflection" action={formAction}>
-            <label htmlFor="a2-reflection">{section.prompt}</label>
-            <textarea id="a2-reflection" name="body" value={body} placeholder="Write only what you want to keep…" onChange={event => { setBody(event.target.value); setEditedSinceSave(true); }} />
-            <div className="deep-dive-reflection__actions">
-              <button className="button" type="submit" disabled={pending || !body.trim()}>{pending ? 'Saving…' : 'Save & continue'}</button>
-              <button className="button button--secondary" type="submit" name="skip" value="true" disabled={pending}>Continue without writing</button>
-            </div>
-            <p className="status-message status-message--saved" role="status" aria-live="polite" aria-atomic="true">
-              {saveState.saved && !editedSinceSave ? 'Reflection saved.' : ''}
-            </p>
-            <LessonActionError error={saveState.error} />
-          </form>}
-        </>
+        review ? <ReviewReflection id="a2-reflection" label={section.prompt ?? 'Your reflection'} reflection={reflection} action={editReflection} /> : <section className="a2-pause" aria-label="Pause with what you recognized">
+          <p className="eyebrow">PAUSE HERE</p>
+          <h2>Let what you saw settle.</h2>
+          <p className="a2-pause__lead">You have looked across several different experiences and named something you can see about the way you respond. You do not need another question right now.</p>
+          {body.trim() ? <blockquote className="a2-pause__recognition"><span>WHAT I RECOGNIZED</span>{body}</blockquote> : null}
+          <div className="a2-pause__movement"><span>NOTICE</span><i aria-hidden="true">→</i><span>NAME</span><i aria-hidden="true">→</i><strong>LET IT BE SEEN</strong></div>
+          <p>You are not explaining where it came from, deciding what it means about you, or trying to change it. For now, seeing it is enough.</p>
+          <form action={formAction} className="a2-pause__continue"><input type="hidden" name="body" value={body} /><button className="button" type="submit" name={body.trim() ? undefined : 'skip'} value={body.trim() ? undefined : 'true'} disabled={pending}>{pending ? 'Continuing…' : 'Continue'}</button><LessonActionError error={saveState.error} /></form>
+        </section>
       ) : section.id === 'go-deeper' ? (
         <section className="a2-pause" aria-label="Pause with what you noticed">
           <p className="eyebrow">PAUSE HERE</p>
