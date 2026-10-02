@@ -81,25 +81,14 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
           </form>}
         </>
       ) : section.id === 'go-deeper' ? (
-        <>
-          {section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-          <section className="a2-practice" aria-label="NOTICE to RECEIVE practice">
-            <ol className="a2-practice__steps">
-              {PRACTICE_STEPS.map((step, index) => (
-                <li key={step.name}>
-                  <button type="button" aria-label={step.name} aria-pressed={activePracticeStep === index} aria-controls="a2-practice-panel" onClick={() => setActivePracticeStep(index)}>
-                    <span className="a2-practice__number">0{index + 1}</span>
-                    <span>{step.name}</span>
-                  </button>
-                </li>
-              ))}
-            </ol>
-            <div className="a2-practice__panel" id="a2-practice-panel" role="region" aria-label={PRACTICE_STEPS[activePracticeStep].name}>
-              <p className="eyebrow">{PRACTICE_STEPS[activePracticeStep].name}</p>
-              <p>{PRACTICE_STEPS[activePracticeStep].text}</p>
-            </div>
-          </section>
-        </>
+        <section className="a2-pause" aria-label="Pause with what you noticed">
+          <p className="eyebrow">PAUSE HERE</p>
+          <h2>You do not need to do anything with this yet.</h2>
+          <p className="a2-pause__lead">You have just looked across several different experiences and named something you can see about yourself. Before adding anything else, let that be enough for a moment.</p>
+          {body.trim() ? <blockquote className="a2-pause__recognition"><span>WHAT I RECOGNIZED</span>{body}</blockquote> : null}
+          <div className="a2-pause__movement"><span>NOTICE</span><i aria-hidden="true">→</i><span>NAME</span><i aria-hidden="true">→</i><strong>LET IT BE SEEN</strong></div>
+          <p>You are not fixing it, explaining it, or deciding what it says about who you are. You are learning to recognize yourself while you are living.</p>
+        </section>
       ) : section.id === 'practice' ? (
         <section className="deep-dive-guidance deep-dive-guidance--practice a2-practice-intro" aria-label="Practice for the next few days">
           <p className="deep-dive-guidance__label">For the next few days</p>
