@@ -36,7 +36,7 @@ export const A2_SECTIONS: readonly A2Section[] = [
     ],
   },
   {
-    id: 'reflection', eyebrow: 'YOUR REFLECTION', title: 'What do you recognize about yourself?',
+    id: 'reflection', eyebrow: 'A2 · PAUSE', title: 'Let what you saw settle',
     paragraphs: [
       'Look across the different situations you explored. You may recognize a familiar way you move when something presses on you, or you may see that you respond differently in different situations.',
       'Do not force a pattern. Keep only what you can honestly see in your own responses.',
@@ -44,7 +44,7 @@ export const A2_SECTIONS: readonly A2Section[] = [
     prompt: 'What would you like to keep in your own words?',
   },
   {
-    id: 'go-deeper', eyebrow: 'A2 · PAUSE', title: 'Let what you saw settle',
+    id: 'go-deeper', eyebrow: 'A SMALL PRACTICE', title: 'Notice what is happening',
     paragraphs: [
       'You have done enough looking for now. This is a pause between recognizing something and trying to explain it.'
     ],
