@@ -105,8 +105,8 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
           <p className="deep-dive-guidance__label">For the next few days</p>
           {section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </section>
-      ) : section.id === 'carry-forward' ? (
-        <div className="a2-carry-forward">{section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
+       ) : section.id === 'carry-forward' ? (
+        <div className="a2-completion"><div className="a2-completion__lesson">{section.paragraphs.slice(0,3).map((paragraph,index)=><p key={index}>{paragraph}</p>)}</div>{reflection ? <div className="a2-completion__yours"><p className="eyebrow">WHAT YOU CHOSE TO KEEP</p><blockquote>{reflection}</blockquote></div> : null}<div className="a2-completion__forward"><p>{section.paragraphs[3]}</p></div></div>
       ) : section.paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
     </article>
   );
