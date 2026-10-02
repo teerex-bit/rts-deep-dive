@@ -44,9 +44,9 @@ export const A2_SECTIONS: readonly A2Section[] = [
     prompt: 'What would you like to keep in your own words?',
   },
   {
-    id: 'go-deeper', eyebrow: 'A SMALL PRACTICE', title: 'Notice, name, ask, receive',
+    id: 'go-deeper', eyebrow: 'A2 · PAUSE', title: 'Let what you saw settle',
     paragraphs: [
-      'Begin with what you can notice and name what is happening. Ask God what He wants you to see, then stay with what becomes clear. The question can remain open; you do not need to manufacture an answer.',
+      'You have done enough looking for now. This is a pause between recognizing something and trying to explain it.'
     ],
   },
   {
