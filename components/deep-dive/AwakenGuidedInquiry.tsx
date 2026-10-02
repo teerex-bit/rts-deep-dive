@@ -30,7 +30,7 @@ export function AwakenGuidedInquiry({ lesson, initialQuestion, moment = '', reac
       setTurns(next); onConversation?.(next); setAnswer(''); setGuidance(result.guidance);
       if (result.complete || next.length >= 8) {
         setObservation(result.observation.trim());
-        if (result.observation.trim()) setView('confirm'); else finish();
+        if (lesson === 'a2') finish(result.observation.trim()); else if (result.observation.trim()) setView('confirm'); else finish();
       } else { setQuestion(result.question); if (next.length === 3 && lesson !== 'a2') setView('check'); }
     } catch { setError(true); }
     finally { setPending(false); }
