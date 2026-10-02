@@ -49,10 +49,10 @@ export function AwakenGuidedInquiry({ lesson, initialQuestion, moment = '', reac
     </div>
   </section>;
   if (view === 'confirm') return <section className="awaken-guided" aria-live="polite">
-    <p className="eyebrow">A POSSIBLE OBSERVATION</p><blockquote>{observation}</blockquote><h2>Does that fit what you noticed?</h2>
+    <p className="eyebrow">LOOKING ACROSS WHAT YOU SHARED</p><blockquote>{observation}</blockquote><h2>Does that fit what you see?</h2>
     <div className="awaken-guided__actions">
       <button type="button" className="button" onClick={() => finish(observation)}>That fits</button>
-      <button type="button" className="button button--secondary" onClick={() => { setQuestion(`What would you change about this observation: “${observation}”?`); setGuidance('Use your own words.'); setView('ask'); }}>Not quite</button>
+      <button type="button" className="button button--secondary" onClick={() => { setQuestion(lesson === 'a2' ? 'What do you see differently when you look across them?' : `What would you change about this observation: “${observation}”?`); setGuidance('Use your own words.'); setView('ask'); }}>Not quite</button>
       <button type="button" className="awaken-quiet-button" onClick={() => finish()}>I’m not sure</button>
     </div>
   </section>;
