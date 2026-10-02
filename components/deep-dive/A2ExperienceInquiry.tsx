@@ -1,0 +1,20 @@
+'use client';
+import { useState } from 'react';
+import { AwakenGuidedInquiry } from './AwakenGuidedInquiry';
+import type { AwakenTurn } from '../../domain/awaken-guidance';
+const EXPERIENCES=[
+{id:'challenged',title:'Someone questioned you',text:'You were criticized, challenged, corrected, or misunderstood.'},
+{id:'changed',title:'Something changed unexpectedly',text:'Plans shifted, you were interrupted, delayed, or could not control what happened.'},
+{id:'relational',title:'Something felt off with someone',text:'You felt ignored, left out, disappointed, responsible, or unsure where you stood.'},
+{id:'positive',title:'Something went well',text:'You succeeded, were praised, received an opportunity, or suddenly had something you wanted to protect.'}
+] as const;
+type Sample={id:string;title:string;turns:AwakenTurn[];summary:string};
+type Props={onConversation?:(turns:AwakenTurn[])=>void;onKeep?:(text:string)=>void};
+export function A2ExperienceInquiry({onConversation,onKeep}:Props){
+const [samples,setSamples]=useState<Sample[]>([]),[selected,setSelected]=useState<(typeof EXPERIENCES)[number]|null>(null),[current,setCurrent]=useState<AwakenTurn[]>([]),[comparison,setComparison]=useState('');
+const available=EXPERIENCES.filter(x=>!samples.some(s=>s.id===x.id));
+function keep(value:string){if(!selected)return;const summary=value||current.map(t=>t.answer).filter(Boolean).join(' — ');const next=[...samples,{id:selected.id,title:selected.title,turns:current,summary}];setSamples(next);setSelected(null);setCurrent([]);onConversation?.(next.flatMap(s=>s.turns));}
+if(samples.length>=3&&!selected)return <section className="a2-experience-compare"><p className="eyebrow">STEP BACK AND LOOK</p><h2>What do you recognize?</h2><p>These situations were different. Your responses do not have to match. Look at what came out of you in each and see what, if anything, becomes familiar.</p><div className="a2-experience-compare__list">{samples.map(s=><div key={s.id}><span>{s.title}</span><p>{s.summary}</p></div>)}</div><label>What do you recognize about the way you respond?<textarea value={comparison} onChange={e=>setComparison(e.target.value)} placeholder="Keep it in your own words…" /></label><div className="awaken-guided__actions"><button className="button" type="button" disabled={!comparison.trim()} onClick={()=>onKeep?.(comparison.trim())}>Keep what I see</button><button className="button button--secondary" type="button" onClick={()=>onKeep?.('')}>Nothing clear yet</button></div></section>;
+if(selected)return <section className="a2-experience-thread"><button type="button" className="awaken-quiet-button" onClick={()=>{setSelected(null);setCurrent([])}}>← Choose a different experience</button><div className="a2-experience-thread__choice"><span>{selected.title}</span><p>{selected.text}</p></div><AwakenGuidedInquiry lesson="a2" initialQuestion="What happened?" context={[{question:'The kind of experience selected',answer:selected.text},{question:'Other experiences already explored',answer:samples.map(s=>s.title).join(', ')||'None yet'}]} onConversation={setCurrent} onKeep={keep}/></section>;
+return <section className="a2-experience-picker"><p className="eyebrow">{samples.length?('EXPERIENCE '+(samples.length+1)+' OF 3'):'START HERE'}</p><h2>{samples.length?'Choose a different kind of experience.':'Which of these feels familiar?'}</h2><p>{samples.length?'Pick something unlike what you just explored.':'Choose one you have actually experienced. You do not need the perfect example.'}</p>{samples.length?<div className="a2-experience-picker__kept">{samples.map(s=><div key={s.id}><span>{s.title}</span><p>{s.summary}</p></div>)}</div>:null}<div className="a2-experience-picker__choices">{available.map(x=><button type="button" key={x.id} onClick={()=>setSelected(x)}><strong>{x.title}</strong><span>{x.text}</span></button>)}</div></section>;
+}
