@@ -44,3 +44,10 @@ Live preview verification:
 - These live checks exposed over-questioning; final instructions explicitly accept no second example, accept concrete behavior without re-asking, and stop A4 once a shaping factor is honestly named. The UI now explicitly checks readiness after three answered questions.
 - Scoped authenticated reset removed four Awaken progress rows and one reflection; its transaction verified all four modules blank. A later authenticated dry run confirmed zero progress and zero reflections after disposable live testing.
 - Temporary reset endpoint/service/test removed from the final source.
+
+Final preview checks after stopping refinements:
+- A2: a first response explicitly saying no second example/no pattern completed immediately without a pattern claim.
+- A3: behavior plus self-label moved directly to their difference; a participant explanation of that difference completed with a tentative observation requiring confirmation.
+- A4: event plus braking/anger and fear of collision completed immediately with a grounded safety observation requiring confirmation.
+- Reset endpoint returned 404 after cleanup.
+- Final full unit suite: 289 passed, 19 baseline failures; final harness: 35 passed after removing the temporary reset tests.
