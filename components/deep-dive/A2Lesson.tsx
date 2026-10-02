@@ -29,7 +29,7 @@ const PRACTICE_STEPS = [
   },
 ] as const;
 
-export function A2Lesson({ section, reflection, saveReflection, editReflection, review = false }: { section: A2Section; reflection: string | null; saveReflection: A2ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean }) {
+export function A2Lesson({ section, reflection, a1Reflection = null, saveReflection, editReflection, review = false }: { section: A2Section; reflection: string | null; a1Reflection?: string | null; saveReflection: A2ReflectionAction; editReflection: ReviewReflectionAction; review?: boolean }) {
   const [saveState, formAction, pending] = useActionState(saveReflection, { saved: false });
   const [editedSinceSave, setEditedSinceSave] = useState(false);
   const [body, setBody] = useState(reflection ?? '');
@@ -61,7 +61,7 @@ export function A2Lesson({ section, reflection, saveReflection, editReflection, 
           {section.paragraphs.slice(1).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </>
       ) : section.id === 'patterns' ? (
-        <AwakenGuidedInquiry lesson="a2" initialQuestion="Think of one ordinary situation. What happened?" onConversation={setConversation} onKeep={keepObservation} />
+        <div className="a2-handoff"><p>You already brought one real experience into Awaken. We are not starting over. Now we are widening the view to see how you show up when the situation changes.</p>{a1Reflection ? <blockquote>{a1Reflection}</blockquote> : null}<AwakenGuidedInquiry lesson="a2" context={a1Reflection ? [{ question: 'What did I notice in the first experience?', answer: a1Reflection }] : []} initialQuestion="What is a very different situation you have faced recently?" onConversation={setConversation} onKeep={keepObservation} /></div>
       ) : section.id === 'reflection' ? (
         <>
           <p>Look across the different situations you shared. You are not looking for matching behaviors. Step back and see what, if anything, you recognize about the way you respond.</p>
