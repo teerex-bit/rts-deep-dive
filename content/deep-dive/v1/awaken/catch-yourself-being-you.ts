@@ -22,9 +22,9 @@ export const A2_SECTIONS: readonly A2Section[] = [
     ],
   },
   {
-    id: 'patterns', eyebrow: 'NOTICE WHAT REPEATS', title: 'Different moments, familiar moves',
+    id: 'patterns', eyebrow: 'LOOK AT TWO DIFFERENT SITUATIONS', title: 'See how you responded',
     paragraphs: [
-      'Some moments feel completely different on the surface. What we are looking for is not a particular kind of problem, but a response that shows up more than once. Compare a few moments and see whether anything about the way you respond looks familiar. You may find a pattern, or you may not. Either is useful.',
+      'We are going to look at two different situations separately. First describe what happened, then how you responded. After you have done that twice, you can compare the responses and decide whether anything about them seems familiar.',
     ],
   },
   {
