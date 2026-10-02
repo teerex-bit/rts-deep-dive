@@ -8,7 +8,7 @@ import { LessonTransitionForm, type LessonTransitionState } from './LessonTransi
 import { A3Lesson, A4Lesson, type NewReflectionSaveState } from './A3A4Lesson';
 import type { ReviewReflectionState } from './ReviewReflection';
 import { A3_SECTIONS, A4_SECTIONS } from '../../content/deep-dive/v1/awaken/four-module-lessons';
-import { editDeepDiveReflection, getA3, getA4, saveA3Section, saveA4Section, saveA3Reflection, saveA4Reflection, completeA3, completeA4 } from '../../server/services/deep-dive-service';
+import { editDeepDiveReflection, getA2, getA3, getA4, saveA3Section, saveA4Section, saveA3Reflection, saveA4Reflection, completeA3, completeA4 } from '../../server/services/deep-dive-service';
 import { A3_MODULE_ID, A3_REFLECTION_PROMPT_ID, A4_MODULE_ID, A4_REFLECTION_PROMPT_ID } from '../../domain/deep-dive';
 
 export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; query: { section?: string; reviewJump?: string } }) {
@@ -19,6 +19,7 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
   const prefix = `/deep-dive/awaken/${slug}`;
   const reviewerJump = await reviewJumpFor(query, prefix);
   const progress = a3 ? await getA3() : await getA4();
+  const priorProgress = a3 ? await getA2() : await getA3();
   const state = lessonState({ sections, pathname: prefix, groupHref: '/deep-dive/awaken', requestedSection: query.section, lastSectionId: progress?.lastSectionId, completedAt: progress?.completedAt, reflectionSection: 'reflection', reviewerJump });
   const { index, section, next } = state;
 
@@ -71,7 +72,7 @@ export async function NewAwakenPage({ module, query }: { module: 'a3' | 'a4'; qu
         <div className="deep-dive-progress__track"><label htmlFor="new-awaken-progress">Section {index + 1} of {sections.length}</label><progress id="new-awaken-progress" value={index + 1} max={sections.length} /></div>
       </section>
       <div className="deep-dive-content">
-        {a3 ? <A3Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} /> : <A4Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} />}
+        {a3 ? <A3Lesson section={section} reflection={progress?.reflection ?? null} priorReflection={priorProgress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} /> : <A4Lesson section={section} reflection={progress?.reflection ?? null} saveReflection={reflection} editReflection={editReflection} review={reviewReflection} />}
         {(section.id !== 'reflection' || reviewReflection) ? <footer className="deep-dive-transition">
           {next ? <><div><p className="eyebrow">NEXT</p><p className="deep-dive-transition__title">{next.title}</p></div>
             {review ? <Link className="button" href={`${prefix}?section=${next.id}`}>Continue to next section</Link> : <LessonTransitionForm action={advance} section={next.id} label="Continue to next section" />}
