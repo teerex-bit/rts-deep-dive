@@ -57,10 +57,12 @@ export const A2_SECTIONS: readonly A2Section[] = [
     ],
   },
   {
-    id: 'carry-forward', eyebrow: 'CARRY FORWARD', title: 'A pattern is something you can notice',
+    id: 'carry-forward', eyebrow: 'A2 · WHAT HAS BECOME CLEAR', title: 'You are beginning to recognize how you respond',
     paragraphs: [
-      'The way you respond in a moment may reveal a pattern, but it does not automatically define who you are. As you keep noticing, pay attention to the language you use about yourself.',
-      'For now, carry forward what you observed. These patterns will prepare you for a later lesson; you do not need to explain or change them today.',
+      'You looked at yourself across different kinds of experience instead of judging yourself from a single moment. That matters. One reaction can be situational; when something recognizable appears across different situations, you have better evidence that you may be seeing a familiar way you respond.',
+      'What you found is an observation, not a diagnosis and not an identity. You do not yet need to know why the response is there, where it came from, whether every example fits, or how to change it.',
+      'The important thing is simpler: some of your responses can become familiar enough that you begin to catch them while they are happening. Once you can recognize a response, you no longer have to confuse it with the whole of who you are.',
+      'Carry that distinction forward. A3 will begin with what you have recognized and ask a different question: a response may be familiar—but does that make it who you are?',
     ],
   },
 ] as const;
