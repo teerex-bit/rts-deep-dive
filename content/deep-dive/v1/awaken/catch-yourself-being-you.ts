@@ -22,9 +22,9 @@ export const A2_SECTIONS: readonly A2Section[] = [
     ],
   },
   {
-    id: 'patterns', eyebrow: 'LOOK AT TWO DIFFERENT SITUATIONS', title: 'See how you responded',
+    id: 'patterns', eyebrow: 'LOOK AT ANOTHER SITUATION', title: 'Try a different kind of moment',
     paragraphs: [
-      'We are going to look at two different situations separately. First describe what happened, then how you responded. After you have done that twice, you can compare the responses and decide whether anything about them seems familiar.',
+      'Start with one ordinary situation and what you actually did. Then look at a different kind of situation. Only after both are clear will you compare them and decide whether anything about your responses seems familiar.',
     ],
   },
   {
