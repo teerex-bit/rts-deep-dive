@@ -1,0 +1,106 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+const chapters = [
+  { eyebrow: 'THE BEGINNING', title: "The Person We've Become", paragraphs: [
+    'Most of us begin the journey of spiritual formation already deeply formed. Long before we intentionally thought about who we were becoming, life was shaping us. Our families shaped us. Relationships shaped us. Success and failure shaped us. Pain, disappointment, fear, culture, church, and our experiences with other people all contributed to the people we became.',
+    'Much of that formation happened without our awareness.',
+    'We learned how to protect ourselves before we knew we were protecting ourselves. We developed ways of responding to conflict, disappointment, rejection, and uncertainty. We formed expectations about what other people would do and what we needed to do in response. We learned what made us feel safe and what made us feel threatened. We discovered ways to gain approval, avoid pain, maintain control, or keep people at a comfortable distance.',
+    'Eventually, these responses became so familiar that they simply felt like us.',
+    'Then we came to God carrying all of it.',
+    'We may have learned what Christians believe and how Christians are supposed to behave. We may have learned Scripture, attended church, prayed, served, worshiped, and genuinely desired to follow Jesus. Yet underneath all of that, the person who had been formed through years of living was still there.',
+    'That is where Reforming the Soul begins.',
+    'It does not begin by asking us to try harder to behave like better Christians. It begins by helping us recognize the person from whom our behavior is already coming.'
+  ]},
+  { eyebrow: '01 / AWAKEN', title: 'We Begin by Waking Up', paragraphs: [
+    'The first movement is Awaken, because we cannot intentionally surrender something we cannot see.',
+    'Imagine someone says something that makes you feel dismissed. Before you have had time to think about it, something happens inside you. Maybe you become defensive. Maybe you withdraw. Maybe you feel an immediate need to explain yourself. Perhaps you become angry or spend the rest of the day replaying the conversation.',
+    'Normally, we focus on the other person.',
+    "They shouldn't have said that.",
+    'Awaken asks us to notice something else.',
+    'What just happened in me?',
+    'That is a very different question.',
+    'We are not immediately deciding whether our response was right or wrong. We are not condemning ourselves for having it. We are simply learning to pay attention.',
+    'Why did that bother me so much? Why did I feel threatened? Why was it so important that I be understood? Why do I respond this way whenever someone questions me? Why does this particular situation keep producing the same reaction?',
+    'At first, we may recognize these things long after they happen. Then we begin catching them sooner. Eventually, we sometimes recognize them while they are happening.',
+    'That growing awareness is important because we are beginning to see the person beneath the behavior.',
+    'We are learning to catch ourselves being ourselves.',
+    'And eventually we can say, “Something is happening in me, and I can see it.”',
+    'That is awakening.',
+    'But seeing what is happening does not necessarily tell us why it is happening. For that, we have to look deeper.'
+  ]}
+];
+const options = [
+  'Someone questioned a decision I made.',
+  'I felt overlooked or dismissed.',
+  'Something changed unexpectedly.',
+  'Something went really well.'
+];
+const storageKey = 'rts-narrative-prototype-v1';
+export default function NarrativeJourney() {
+  const [page,setPage] = useState(0);
+  const [selected,setSelected] = useState('');
+  const [response,setResponse] = useState('');
+  const [reveal,setReveal] = useState(false);
+  const [ready,setReady] = useState(false);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(3,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setResponse(saved.response||'');setReveal(!!saved.reveal);}catch{}setReady(true)},[]);
+  useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,response,reveal}))},[page,selected,response,reveal,ready]);
+  const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
+  const reading = page===0 || page===2;
+  const chapter=chapters[page===0?0:1];
+  return <main className="rts-root">
+    <style>{`
+      .rts-root{min-height:100dvh;background:#f8f5ef;color:#263a4a;font-family:Georgia,'Times New Roman',serif}
+      .rts-shell{max-width:620px;margin:auto;padding:20px 22px 100px}
+      .rts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font:600 11px/1.4 Arial,sans-serif;letter-spacing:.13em;color:#9b773b}
+      .rts-mark{width:29px;height:29px;border:1.5px solid #b18a45;border-radius:50%;display:grid;place-items:center;font-size:17px}
+      .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:30px}
+      .rts-progress span{height:4px;border-radius:4px;background:#ded7ca}.rts-progress span.active{background:#b18a45}
+      .rts-kicker{font:600 11px Arial,sans-serif;letter-spacing:.14em;color:#9b773b;margin:0 0 14px}
+      .rts-root h1{font-size:clamp(31px,8vw,45px);line-height:1.15;letter-spacing:-.025em;font-weight:normal;margin:0 0 28px}
+      .rts-prose p{font-size:18px;line-height:1.73;margin:0 0 23px}
+      .rts-prose p:nth-child(2),.rts-prose p:nth-child(4){color:#53616a}
+      .rts-divider{height:1px;background:#ddd7cc;margin:30px 0 22px}
+      .rts-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:25px}
+      .rts-button{border:0;border-radius:12px;padding:15px 22px;background:#263a4a;color:white;font:600 15px Arial,sans-serif;min-height:50px;cursor:pointer}
+      .rts-button:disabled{opacity:.45;cursor:not-allowed}.rts-back{background:transparent;color:#53616a;padding-left:0}
+      .rts-option{display:block;width:100%;text-align:left;background:#fffdfa;border:1px solid #d9d1c5;border-radius:12px;padding:17px 16px;margin:10px 0;color:#263a4a;font:16px/1.4 Arial,sans-serif;min-height:55px;cursor:pointer}
+      .rts-option[aria-pressed=true]{border-color:#a47c36;background:#f2e9d9;box-shadow:inset 0 0 0 1px #a47c36}
+      .rts-hint{font:15px/1.6 Arial,sans-serif;color:#53616a}
+      .rts-field{width:100%;box-sizing:border-box;border:1px solid #cfc6b9;border-radius:12px;padding:16px;background:#fffdfa;color:#263a4a;font:16px/1.5 Arial,sans-serif;min-height:125px;resize:vertical}
+      .rts-panel{background:#eee8dc;border-radius:14px;padding:20px;margin-top:20px}.rts-panel p{font-size:17px;line-height:1.6;margin:0 0 12px}
+      .rts-small{font:12px/1.5 Arial,sans-serif;color:#6e7980}
+      @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:19px}}
+      @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:17px}}
+    `}</style>
+    <div className="rts-shell">
+      <header className="rts-header"><span>REFORMING THE SOUL</span><span className="rts-mark" aria-hidden="true">✦</span></header>
+      <nav aria-label="Journey progress" className="rts-progress">{[0,1,2,3].map(i=><span key={i} className={i<=page?'active':''}/>)}</nav>
+      {reading ? <>
+        <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
+        <article className="rts-prose">{chapter.paragraphs.map((p,i)=><p key={i}>{p}</p>)}</article>
+        <div className="rts-divider"/>
+        <div className="rts-actions">
+          {page>0?<button className="rts-button rts-back" onClick={()=>advance(1)}>← Back</button>:<span className="rts-small">Opening · Read at your pace</span>}
+          <button className="rts-button" onClick={()=>advance(page===0?1:3)}>{page===0?'Pause and notice →':'Continue →'}</button>
+        </div>
+      </> : page===1 ? <>
+        <p className="rts-kicker">A MOMENT TO NOTICE</p><h1>What has shaped you?</h1>
+        <p className="rts-hint">Much of our formation happened without our awareness. Which experience has been especially significant for you? There is no right answer.</p>
+        {['Family and upbringing','Relationships','Success or failure','Pain or disappointment','Expectations of others','Something else'].map(v=><button key={v} className="rts-option" aria-pressed={selected===v} onClick={()=>setSelected(v)}>{v}</button>)}
+        <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(0)}>← Back</button><button className="rts-button" onClick={()=>advance(2)}>Continue →</button></div>
+        <p className="rts-small">You may continue without choosing.</p>
+      </> : <>
+        <p className="rts-kicker">AWAKEN · A MOMENT OF DISCOVERY</p><h1>Catch yourself being you.</h1>
+        <p className="rts-hint">Think about a recent experience. Which of these feels most familiar?</p>
+        {options.map(v=><button key={v} className="rts-option" aria-pressed={selected===v} onClick={()=>{setSelected(v);setReveal(false)}}>{v}</button>)}
+        <p className="rts-hint">What happened, and what came out of you?</p>
+        <textarea className="rts-field" aria-label="Your reflection" placeholder="Write a few words, if you'd like…" value={response} onChange={e=>{setResponse(e.target.value);setReveal(false)}}/>
+        {reveal&&<section className="rts-panel"><p>Notice what you actually experienced before trying to explain it. You don't have to decide whether your response was right or wrong.</p><p>Awakening begins when you can say, “Something is happening in me, and I can see it.”</p><p className="rts-small">This prototype does not use AI or send your response to a server. Your progress is stored only in this browser.</p></section>}
+        <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(2)}>← Back</button><button className="rts-button" onClick={()=>setReveal(true)}>{reveal?'Reflect again':'Reflect →'}</button></div>
+        <p className="rts-small">Optional reflection · Your words stay in this browser in this prototype.</p>
+      </>}
+    </div>
+  </main>;
+}
