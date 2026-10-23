@@ -50,7 +50,7 @@ export default function NarrativeJourney() {
   const [reflectionStep,setReflectionStep] = useState(0);
   const [followup,setFollowup] = useState('');
   const [ready,setReady] = useState(false);
-  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(11,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(17,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
   useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,clearResponse,reveal,reflectionStep,followup}))},[page,selected,influence,response,clearResponse,reveal,reflectionStep,followup,ready]);
   const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
   const reading = page===0 || page===2;
@@ -109,10 +109,10 @@ export default function NarrativeJourney() {
       .rts-scene>p:not(.rts-kicker){max-width:56ch}
       .rts-scene--5 .rts-chapter-art{height:156px}
       .rts-scene--5 blockquote{background:#e9eee9;border-left-color:#58736e}
-      .rts-scene--6 .rts-chain{position:relative;gap:0;margin:28px 0 30px}
-      .rts-scene--6 .rts-chain span{background:#f0ece4;border:1px solid #d9d0c0;border-left:4px solid #b18a45;border-radius:0;margin-bottom:-1px;padding:14px 17px}
-      .rts-scene--6 .rts-chain span:first-child{border-radius:12px 12px 0 0;background:#e1e8e5}
-      .rts-scene--6 .rts-chain span:last-child{border-radius:0 0 12px 12px;background:#263a4a;color:#fff}
+      .rts-scene--6 .rts-chain{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:28px 0 30px}
+      .rts-scene--6 .rts-chain span{position:relative;background:#f0ece4;border:1px solid #d9d0c0;border-top:4px solid #b18a45;border-left:0;border-radius:10px;margin:0;padding:18px 12px;text-align:center;font-size:14px}
+      .rts-scene--6 .rts-chain span:first-child{background:#e1e8e5}
+      .rts-scene--6 .rts-chain span:last-child{background:#263a4a;color:#fff;grid-column:1/-1;border-top-color:#263a4a}
       .rts-scene--7 .rts-prompt{padding:20px;border-radius:12px;background:#e8ece8;border-left:4px solid #54746d;font:normal 22px/1.4 Georgia,serif}
       .rts-scene--8 .rts-question-study{border-top:1px solid #cdbb9d;border-bottom:1px solid #cdbb9d;padding:17px 0 0;margin:26px 0;background:linear-gradient(90deg,#f0e8d9,transparent)}
       .rts-scene--8 .rts-question-study p{padding:0 18px}
@@ -124,12 +124,23 @@ export default function NarrativeJourney() {
       .rts-scene--11 .rts-turning-point{background:#e6ece9;border-radius:14px;padding:22px 20px 1px;margin:24px 0;border-left:4px solid #648078}
       .rts-scene--11 .rts-finish{background:#263a4a;color:#fff}
       .rts-scene--11 .rts-finish h2,.rts-scene--11 .rts-finish p{color:#fff}
+      .rts-become-hero{border-radius:16px;background:linear-gradient(120deg,#233a49,#496b6b 65%,#b79a63);padding:30px 24px;color:white;margin-bottom:30px}
+      .rts-become-hero span{font:700 23px/1.2 Arial,sans-serif;letter-spacing:.16em}
+      .rts-become-steps{display:grid;gap:12px;margin:28px 0}
+      .rts-become-step{padding:20px;border-radius:12px;background:#e8ece8;border-left:4px solid #648078}
+      .rts-become-step strong{display:block;font:700 17px/1.3 Arial,sans-serif;color:#263a4a;margin-bottom:8px}
+      .rts-become-step p{margin:0!important}
+      .rts-become-focus{background:#263a4a;color:white;border-radius:14px;padding:24px;margin:28px 0}
+      .rts-become-focus p{color:white!important;margin:0!important}
+      .rts-become-note{border-top:2px solid #b18a45;border-bottom:2px solid #b18a45;padding:22px 4px;margin:25px 0}
+      .rts-become-contrast{padding:20px;background:#eee8dc;border-radius:14px;margin:25px 0}
+      .rts-become-contrast p{margin:0!important}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
     <div className="rts-shell">
       <header className="rts-header"><span>REFORMING THE SOUL</span><button type="button" className="rts-restart" onClick={()=>{setReflectionStep(0);advance(0)}}>← Back to beginning</button><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
-      <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=5?1:0)?"active":""} title={label}/>)}</nav>
+      <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=12?2:page>=5?1:0)?"active":""} title={label}/>)}</nav>
       {reading ? <section className="rts-see rts-reading-chapter">
         <div className={`rts-chapter-art ${page===0?'rts-chapter-art--opening':'rts-chapter-art--awaken'}`} aria-hidden="true"><span>{page===0?<>THE<br/>BEGINNING</>:<>AWAKEN</>}</span><div className="rts-chapter-line"/></div>
         <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
@@ -147,7 +158,7 @@ export default function NarrativeJourney() {
         <p>Once we can see what is happening within us, we can begin exploring what is underneath it.</p>
         <button className="rts-button" onClick={()=>advance(5)}>Continue to See Clearly →</button>
         <button className="rts-button rts-back" onClick={()=>advance(3)}>← Revisit your reflection</button>
-      </section> : page>=5 ? <section className={`rts-see rts-scene rts-scene--${page}`}>
+      </section> : page>=5 && page<=11 ? <section className={`rts-see rts-scene rts-scene--${page}`}>
         {page===5 ? <>
           <div className="rts-chapter-art" aria-hidden="true"><span>SEE<br/>CLEARLY</span><div className="rts-chapter-line"/></div>
           <p className="rts-kicker">02 / SEE CLEARLY</p><h1>Then We Learn to See Clearly</h1>
@@ -201,9 +212,66 @@ export default function NarrativeJourney() {
           <div className="rts-turning-point"><p>Then tomorrow something happens that I cannot control. What happens next?</p></div>
           <p>That moment is where spiritual formation moves from an idea into an actual life. Seeing truth is different from becoming the kind of person who naturally lives from it.</p>
           <p>This is where Become begins: learning to live with God in the ordinary moments that reveal the person we are becoming.</p>
-          <div className="rts-finish"><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p><button className="rts-button" onClick={()=>advance(10)}>← Revisit the teaching</button></div>
+          <div className="rts-finish"><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p><button className="rts-button rts-wide" onClick={()=>advance(12)}>Begin Become →</button><button className="rts-button rts-back" onClick={()=>advance(10)}>← Revisit the teaching</button></div>
         </>}
         {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
+      </section> : page>=12 ? <section className={`rts-see rts-scene rts-become rts-scene--${page}`}>
+        {page===12 ? <>
+          <div className="rts-become-hero"><span>03 / BECOME</span></div>
+          <p className="rts-kicker">BECOME · TRUTH BECOMES LIFE</p><h1>Truth Has to Become a Way of Living</h1>
+          <p>This is where Become begins.</p>
+          <p>Suppose I recognize that my need to control a situation comes from fear. I understand the fear. I recognize the false belief beneath it. I genuinely believe God can be trusted.</p>
+          <div className="rts-become-focus"><p>Then tomorrow something happens that I cannot control. What happens next?</p></div>
+          <p>That moment is where spiritual formation moves from an idea into an actual life.</p>
+          <p>Reforming the Soul teaches a simple pattern for these moments:</p>
+          <div className="rts-become-steps"><div className="rts-become-step"><strong>01 · Release control</strong></div><div className="rts-become-step"><strong>02 · Receive the moment</strong></div><div className="rts-become-step"><strong>03 · Take the next right step</strong></div><div className="rts-become-step"><strong>04 · Repeat</strong></div></div>
+          <button className="rts-button rts-wide" onClick={()=>advance(13)}>Live the pattern →</button>
+        </> : page===13 ? <>
+          <p className="rts-kicker">BECOME · RELEASE AND RECEIVE</p><h1>Release Control. Receive the Moment.</h1>
+          <div className="rts-become-step"><strong>Release control</strong><p>I release my demand that this situation must turn out the way I want before I can be okay.</p></div>
+          <p>Then I receive the moment.</p>
+          <p>Receiving the moment does not mean pretending that everything happening to us is good. It does not mean becoming passive or refusing to change something that should be changed. It means acknowledging that this is the moment in which I am presently living with God.</p>
+          <div className="rts-become-note"><p>If God has allowed this moment to reach me, then this moment cannot prevent Him from forming me through it.</p></div>
+          <p>That changes the question.</p>
+          <div className="rts-become-contrast"><p>Instead of asking only, How do I get out of this? I can begin asking, What does faithfulness look like here?</p></div>
+          <button className="rts-button rts-wide" onClick={()=>advance(14)}>Take the next right step →</button>
+        </> : page===14 ? <>
+          <p className="rts-kicker">BECOME · FAITHFULNESS IN THE PRESENT</p><h1>Take the Next Right Step. Repeat.</h1>
+          <p>Then I take the next right step.</p>
+          <div className="rts-become-focus"><p>Not the next twenty steps. Not the step that guarantees the outcome I want. Not the step that removes every uncertainty.</p></div>
+          <p>Just the next faithful step available to me.</p>
+          <p>And then I repeat the process.</p>
+          <p>That last part matters.</p>
+          <p>We repeat because formation happens through living. Tomorrow will bring another person, another inconvenience, another disappointment, another opportunity, another fear, another decision, or another ordinary moment in which the person we have become will show up.</p>
+          <p>And when that happens, we practice again.</p>
+          <div className="rts-become-steps">{['Release control.','Receive the moment.','Take the next right step.','Repeat.'].map((step,i)=><div className="rts-become-step" key={step}><strong>{String(i+1).padStart(2,'0')} · {step}</strong></div>)}</div>
+          <button className="rts-button rts-wide" onClick={()=>advance(15)}>Notice what changes →</button>
+        </> : page===15 ? <>
+          <p className="rts-kicker">BECOME · THE SLOW WORK OF FORMATION</p><h1>Slowly, Something Begins to Happen</h1>
+          <p>What once required enormous effort becomes a little more natural. Situations that once controlled us begin losing some of their power. We notice ourselves sooner. We surrender more readily. We recover from our reactions faster. We become less dependent on circumstances being arranged exactly as we want them.</p>
+          <div className="rts-become-contrast"><p>Our relationships begin changing because we are changing.</p></div>
+          <p>Our bodies learn different responses. Our wills become stronger in different directions. Our desires begin changing. The various parts of our lives become increasingly integrated around the life we are actually living with God.</p>
+          <p>And eventually something appears that cannot be manufactured for very long.</p>
+          <div className="rts-become-focus"><p>Fruit.</p></div>
+          <button className="rts-button rts-wide" onClick={()=>advance(16)}>Recognize the fruit →</button>
+        </> : page===16 ? <>
+          <p className="rts-kicker">BECOME · THE FRUIT OF A RESTORED LIFE</p><h1>What Grows from Living With God</h1>
+          <p>Love becomes more natural. Peace becomes less dependent upon circumstances. Patience begins replacing the need to control. Grace begins replacing defensiveness. We become more capable of listening because we do not constantly have to protect ourselves. We become more capable of serving because we need less recognition in return.</p>
+          <div className="rts-become-steps">{['Love','Peace','Patience','Grace','Listening','Serving'].map(item=><div className="rts-become-step" key={item}><strong>{item}</strong></div>)}</div>
+          <p>This is what it means to Become.</p>
+          <div className="rts-become-note"><p>It is not pretending to be the person we think a Christian should be.</p><p>It is increasingly becoming that person.</p></div>
+          <button className="rts-button rts-wide" onClick={()=>advance(17)}>Complete Become →</button>
+        </> : <>
+          <p className="rts-kicker">BECOME · SECTION COMPLETE</p><h1>Formation Produces Participation</h1>
+          <p>And then something important changes.</p>
+          <p>If Reforming the Soul ended there, it would still be incomplete.</p>
+          <p>God is not restoring our souls simply so that we can become healthier versions of ourselves.</p>
+          <div className="rts-become-focus"><p>A restored soul becomes available.</p></div>
+          <p>This is Join.</p>
+          <p>As we become less preoccupied with protecting ourselves, proving ourselves, controlling outcomes, and arranging life around our own needs, we become increasingly free to participate in what God is doing around us.</p>
+          <div className="rts-finish"><h2>Become complete</h2><p>The next movement is Join.</p></div>
+        </>}
+        {page>12&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : <>
         <p className="rts-kicker">AWAKEN · NOTICE YOURSELF</p>
         {reflectionStep===0 ? <>
