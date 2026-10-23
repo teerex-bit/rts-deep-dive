@@ -109,10 +109,13 @@ export default function NarrativeJourney() {
       .rts-scene>p:not(.rts-kicker){max-width:56ch}
       .rts-scene--5 .rts-chapter-art{height:156px}
       .rts-scene--5 blockquote{background:#e9eee9;border-left-color:#58736e}
-      .rts-scene--6 .rts-chain{display:flex;flex-direction:column;gap:0;margin:28px auto 30px;max-width:430px;align-items:stretch}
-      .rts-scene--6 .rts-chain span{position:relative;display:block;background:#f0ece4;border:1px solid #d9d0c0;border-left:4px solid #b18a45;border-radius:12px;margin:0;padding:18px 16px;text-align:center;font-size:15px;min-width:0;box-sizing:border-box;width:100%}.rts-scene--6 .rts-chain span:not(:last-child){margin-bottom:28px}.rts-scene--6 .rts-chain span:not(:last-child)::after{content:"↓";position:absolute;top:100%;left:50%;transform:translateX(-50%);height:28px;line-height:28px;font:700 22px/28px Arial,sans-serif;color:#b18a45}
-      .rts-scene--6 .rts-chain span:first-child{background:#e1e8e5}
-      .rts-scene--6 .rts-chain span:last-child{background:#263a4a;color:#fff;border-color:#b18a45}
+      .rts-scene--6 .rts-chain{display:flex;flex-direction:column;gap:0;margin:28px auto 30px;max-width:500px}
+      .rts-scene--6 .rts-chain-step{position:relative;box-sizing:border-box;width:100%;background:#e7ebe8;border:1px solid #c7d1cc;border-left:4px solid #658176;border-radius:12px;padding:18px 20px}
+      .rts-scene--6 .rts-chain-step:not(:last-child){margin-bottom:36px}
+      .rts-scene--6 .rts-chain-step:not(:last-child)::before{content:"";position:absolute;left:50%;top:100%;height:36px;width:2px;background:#658176;transform:translateX(-50%)}
+      .rts-scene--6 .rts-chain-step:not(:last-child)::after{content:"";position:absolute;left:50%;bottom:-35px;width:10px;height:10px;border-right:2px solid #658176;border-bottom:2px solid #658176;transform:translateX(-50%) rotate(45deg)}
+      .rts-scene--6 .rts-chain-step strong{display:block;font:700 17px/1.35 Arial,sans-serif;color:#263a4a;margin-bottom:8px}
+      .rts-scene--6 .rts-chain-step p{font:16px/1.55 Georgia,serif;color:#334451;margin:0}
       .rts-scene--7 .rts-prompt{padding:20px;border-radius:12px;background:#e8ece8;border-left:4px solid #54746d;font:normal 22px/1.4 Georgia,serif}
       .rts-scene--8 .rts-question-study{border-top:1px solid #cdbb9d;border-bottom:1px solid #cdbb9d;padding:17px 0 0;margin:26px 0;background:linear-gradient(90deg,#f0e8d9,transparent)}
       .rts-scene--8 .rts-question-study p{padding:0 18px}
@@ -170,7 +173,7 @@ export default function NarrativeJourney() {
         </> : page===6 ? <>
           <p className="rts-kicker">SEE CLEARLY · THE INNER PATH</p><h1>What We See Shapes What We Become</h1>
           <p>What we see shapes what we believe. What we believe shapes what we expect. What we expect influences what we desire. What we desire influences what we intend.</p>
-          <div className="rts-chain" aria-label="From perception to a way of life"><span>What I see</span><span>What I believe</span><span>What I expect</span><span>What I desire</span><span>What I intend</span><span>What I choose</span><span>How I live</span></div>
+          <div className="rts-chain" aria-label="From perception to a way of life"><div className="rts-chain-step"><strong>What I see</strong><p>An event happens, but I do not encounter it without interpretation. I notice certain details and give them meaning.</p></div><div className="rts-chain-step"><strong>What I believe</strong><p>The meaning I give that event reinforces something I hold to be true about myself, others, or God.</p></div><div className="rts-chain-step"><strong>What I expect</strong><p>What I believe shapes what I anticipate will happen next. I begin preparing for that expected outcome.</p></div><div className="rts-chain-step"><strong>What I desire</strong><p>My expectations awaken a desire: to feel safe, be accepted, stay in control, or receive something I think I need.</p></div><div className="rts-chain-step"><strong>What I intend</strong><p>That desire gives direction to my will. I begin forming a plan to secure what I want or avoid what I fear.</p></div><div className="rts-chain-step"><strong>What I choose</strong><p>My intention becomes visible in a decision: what I say, what I withhold, how I respond, or what I do.</p></div><div className="rts-chain-step"><strong>How I live</strong><p>As choices are repeated, they become familiar patterns. What began as a way of seeing becomes a way of living.</p></div></div>
           <p>Our intentions shape our choices, and our repeated choices eventually become the way we live. So Reforming the Soul begins looking underneath behavior, rather than merely trying to correct it.</p>
           <p>Maybe what appears to be anger is actually self-protection. Perhaps what looks like ambition is being fueled by a need for approval. What looks like independence may actually reveal how difficult it is for us to trust someone else.</p>
           <p>Changing an action is not always the same as changing the person from whom the action comes. We can restrain a response while continuing to hold the belief that produced it.</p>
