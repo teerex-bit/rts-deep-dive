@@ -79,13 +79,21 @@ export default function NarrativeJourney() {
       .rts-panel{background:#eee8dc;border-radius:14px;padding:20px;margin-top:20px}.rts-panel p{font-size:17px;line-height:1.6;margin:0 0 12px}
       .rts-small{font:12px/1.5 Arial,sans-serif;color:#6e7980}
       .rts-selected{padding:16px;background:#eee8dc;border-left:3px solid #b18a45;border-radius:9px;margin:18px 0;font:16px/1.6 Georgia,serif;white-space:pre-wrap}.rts-see{padding-top:8px}.rts-chapter-prose{padding-top:2px}.rts-awaken-chapter .rts-prose p{font-size:16px;line-height:1.65;color:#334451;margin:0 0 18px}.rts-awaken-chapter .rts-hero{height:118px;border-radius:14px;margin-bottom:22px}.rts-awaken-next{margin-top:24px}.rts-awaken-next .rts-back{display:block;margin-top:2px}.rts-see p{font-size:16px;line-height:1.65;color:#334451;margin:0 0 18px}.rts-see blockquote{margin:24px 0;padding:15px 18px;border-left:3px solid #b18a45;background:#f0e8da;font:italic 20px/1.45 Georgia,serif}.rts-chapter-art{height:118px;border-radius:14px;background:linear-gradient(110deg,#263a4a,#4c6570 62%,#bd9c60);display:flex;align-items:center;justify-content:space-between;padding:18px 24px;margin:0 0 22px;color:#f8f5ef}.rts-chapter-art span{font:600 19px/1.12 Arial,sans-serif;letter-spacing:.16em}.rts-chapter-line{height:64px;width:64px;border:2px solid #e6c990;border-radius:50%;box-shadow:0 0 0 10px #ffffff15}.rts-chain{display:grid;gap:7px;margin:22px 0}.rts-chain span{padding:11px 15px;background:#eee8dc;border-left:3px solid #b18a45;border-radius:6px;font:600 15px Arial,sans-serif}.rts-prompt{font-weight:bold}.rts-wide{width:100%;margin:14px 0 22px}.rts-finish{padding:22px 18px;background:#eee8dc;border-radius:14px;margin:24px 0}.rts-finish h2{font:normal 25px/1.25 Georgia,serif;margin:0 0 14px}.rts-completion{padding:24px 0}.rts-completion p{font-size:17px;line-height:1.6;margin:0 0 20px}.rts-completion .rts-button{display:block;margin:15px 0}.rts-complete{display:block;width:100%;margin-top:20px}.rts-stage-label{font:600 11px/1.5 Arial,sans-serif;color:#967640;letter-spacing:.1em;margin:0 0 8px}
+      /* Keep Introduction and Awaken reading chapters in the same typographic
+         system as the See Clearly chapters. */
+      .rts-reading-chapter{padding-top:8px}
+      .rts-reading-chapter .rts-prose p{font-size:16px;line-height:1.65;color:#334451;margin:0 0 18px}
+      .rts-reading-chapter .rts-hero{height:118px;border-radius:14px;margin-bottom:22px;object-fit:cover}
+      .rts-reading-chapter .rts-kicker{margin-bottom:9px}
+      .rts-reading-chapter .rts-divider{margin:24px 0 18px}
+      .rts-reading-chapter .rts-actions{margin-top:24px}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
     <div className="rts-shell">
       <header className="rts-header"><span>REFORMING THE SOUL</span><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
       <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=5?1:0)?"active":""} title={label}/>)}</nav>
-      {reading ? <section className={page===2?"rts-see rts-awaken-chapter":""}>
+      {reading ? <section className="rts-see rts-reading-chapter">
         {page===2&&<img className="rts-hero" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=85" alt="An organized clothing space with accumulated items" />}
         {page===0&&<img className="rts-hero" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/formation-intro-hero.webp" alt="Reforming the Soul formation journey" />}
         <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
