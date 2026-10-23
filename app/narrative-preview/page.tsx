@@ -50,7 +50,7 @@ export default function NarrativeJourney() {
   const [reflectionStep,setReflectionStep] = useState(0);
   const [followup,setFollowup] = useState('');
   const [ready,setReady] = useState(false);
-  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(17,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(22,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
   useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,clearResponse,reveal,reflectionStep,followup}))},[page,selected,influence,response,clearResponse,reveal,reflectionStep,followup,ready]);
   const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
   const reading = page===0 || page===2;
@@ -143,7 +143,7 @@ export default function NarrativeJourney() {
     `}</style>
     <div className="rts-shell">
       <header className="rts-header"><span>REFORMING THE SOUL</span><button type="button" className="rts-restart" onClick={()=>{setReflectionStep(0);advance(0)}}>← Back to beginning</button><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
-      <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=12?2:page>=5?1:0)?"active":""} title={label}/>)}</nav>
+      <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=18?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=18?3:page>=12?2:page>=5?1:0)?"active":""} title={label}/>)}</nav>
       {reading ? <section className="rts-see rts-reading-chapter">
         <div className={`rts-chapter-art ${page===0?'rts-chapter-art--opening':'rts-chapter-art--awaken'}`} aria-hidden="true"><span>{page===0?<>THE<br/>BEGINNING</>:<>AWAKEN</>}</span><div className="rts-chapter-line"/></div>
         <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
@@ -218,7 +218,7 @@ export default function NarrativeJourney() {
           <div className="rts-finish"><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p><button className="rts-button rts-wide" onClick={()=>advance(12)}>Begin Become →</button><button className="rts-button rts-back" onClick={()=>advance(10)}>← Revisit the teaching</button></div>
         </>}
         {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
-      </section> : page>=12 ? <section className={`rts-see rts-scene rts-become rts-scene--${page}`}>
+      </section> : page>=12 && page<=17 ? <section className={`rts-see rts-scene rts-become rts-scene--${page}`}>
         {page===12 ? <>
           <div className="rts-become-hero"><span>03 / BECOME</span></div>
           <p className="rts-kicker">BECOME · TRUTH BECOMES LIFE</p><h1>Truth Has to Become a Way of Living</h1>
@@ -261,7 +261,7 @@ export default function NarrativeJourney() {
           <p>What once required enormous effort becomes a little more natural. Situations that once controlled us begin losing some of their power. We notice ourselves sooner. We surrender more readily. We recover from our reactions faster. We become less dependent on circumstances being arranged exactly as we want them.</p>
           <div className="rts-become-contrast"><p>Our relationships begin changing because we are changing.</p></div>
           <p>Our bodies learn different responses. Our wills become stronger in different directions. Our desires begin changing. The various parts of our lives become increasingly integrated around the life we are actually living with God.</p>
-          <p>And eventually something appears that cannot be manufactured for very long.</p>
+          <p>And eventually something appears that cannot be manufactured for very long: fruit.</p>
           
           <button className="rts-button rts-wide" onClick={()=>advance(16)}>Recognize the fruit →</button>
         </> : page===16 ? <>
@@ -279,7 +279,7 @@ export default function NarrativeJourney() {
           <div className="rts-become-focus"><p>A restored soul becomes available.</p></div>
           <p>This is Join.</p>
           <p>As we become less preoccupied with protecting ourselves, proving ourselves, controlling outcomes, and arranging life around our own needs, we become increasingly free to participate in what God is doing around us.</p>
-          <div className="rts-finish"><h2>Become complete</h2><p>The next movement is Join.</p></div>
+          <div className="rts-finish"><h2>Become complete</h2><p>The next movement is Join.</p><button className="rts-button" onClick={()=>advance(18)}>Begin Join →</button></div>
         </>}
         {page>12&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : <>
