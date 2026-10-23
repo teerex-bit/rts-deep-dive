@@ -86,7 +86,7 @@ export default function NarrativeJourney() {
       <header className="rts-header"><span>REFORMING THE SOUL</span><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
       <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=5?1:0)?"active":""} title={label}/>)}</nav>
       {reading ? <>
-        {page===2&&<div className="rts-chapter-art" aria-hidden="true"><span>AWAKEN</span><div className="rts-chapter-line"/></div>}
+        {page===2&&<img className="rts-hero" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=85" alt="An organized clothing space with accumulated items" />}
         {page===0&&<img className="rts-hero" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/formation-intro-hero.webp" alt="Reforming the Soul formation journey" />}
         <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
         <article className="rts-prose rts-chapter-prose">{chapter.paragraphs.map((p,i)=><p key={i}>{p}</p>)}</article>
