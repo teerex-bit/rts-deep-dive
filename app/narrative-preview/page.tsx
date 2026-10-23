@@ -41,28 +41,29 @@ const storageKey = 'rts-narrative-prototype-v1';
 export default function NarrativeJourney() {
   const [page,setPage] = useState(0);
   const [selected,setSelected] = useState('');
+  const [influence,setInfluence] = useState('');
   const [response,setResponse] = useState('');
   const [reveal,setReveal] = useState(false);
   const [ready,setReady] = useState(false);
-  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(3,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setResponse(saved.response||'');setReveal(!!saved.reveal);}catch{}setReady(true)},[]);
-  useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,response,reveal}))},[page,selected,response,reveal,ready]);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(3,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setReveal(!!saved.reveal);}catch{}setReady(true)},[]);
+  useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,reveal}))},[page,selected,response,reveal,ready]);
   const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
   const reading = page===0 || page===2;
   const chapter=chapters[page===0?0:1];
   return <main className="rts-root">
     <style>{`
       .rts-root{min-height:100dvh;background:#f8f5ef;color:#263a4a;font-family:Georgia,'Times New Roman',serif}
-      .rts-shell{max-width:620px;margin:auto;padding:20px 22px 100px}
-      .rts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font:600 11px/1.4 Arial,sans-serif;letter-spacing:.13em;color:#9b773b}
+      .rts-shell{max-width:600px;margin:auto;padding:16px 20px 80px}
+      .rts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font:600 11px/1.4 Arial,sans-serif;letter-spacing:.13em;color:#9b773b}
       .rts-mark{width:29px;height:29px;border:1.5px solid #b18a45;border-radius:50%;display:grid;place-items:center;font-size:17px}
-      .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:30px}
+      .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:19px}
       .rts-progress span{height:4px;border-radius:4px;background:#ded7ca}.rts-progress span.active{background:#b18a45}
-      .rts-hero{width:100%;height:auto;display:block;border-radius:14px;margin:0 0 25px;overflow:hidden}
-      .rts-kicker{font:600 11px Arial,sans-serif;letter-spacing:.14em;color:#9b773b;margin:0 0 14px}
-      .rts-root h1{font-size:clamp(31px,8vw,45px);line-height:1.15;letter-spacing:-.025em;font-weight:normal;margin:0 0 28px}
-      .rts-prose p{font-size:18px;line-height:1.73;margin:0 0 23px}
-      .rts-prose p:nth-child(2),.rts-prose p:nth-child(4){color:#53616a}
-      .rts-divider{height:1px;background:#ddd7cc;margin:30px 0 22px}
+      .rts-hero{width:100%;height:auto;display:block;border-radius:12px;margin:0 0 19px;overflow:hidden}
+      .rts-kicker{font:600 11px Arial,sans-serif;letter-spacing:.14em;color:#9b773b;margin:0 0 9px}
+      .rts-root h1{font-size:clamp(29px,7vw,39px);line-height:1.16;letter-spacing:-.025em;font-weight:normal;margin:0 0 20px}
+      .rts-prose p{font-size:17px;line-height:1.58;margin:0 0 17px}
+      .rts-prose p{color:#334451}
+      .rts-divider{height:1px;background:#ddd7cc;margin:23px 0 18px}
       .rts-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:25px}
       .rts-button{border:0;border-radius:12px;padding:15px 22px;background:#263a4a;color:white;font:600 15px Arial,sans-serif;min-height:50px;cursor:pointer}
       .rts-button:disabled{opacity:.45;cursor:not-allowed}.rts-back{background:transparent;color:#53616a;padding-left:0}
@@ -72,12 +73,13 @@ export default function NarrativeJourney() {
       .rts-field{width:100%;box-sizing:border-box;border:1px solid #cfc6b9;border-radius:12px;padding:16px;background:#fffdfa;color:#263a4a;font:16px/1.5 Arial,sans-serif;min-height:125px;resize:vertical}
       .rts-panel{background:#eee8dc;border-radius:14px;padding:20px;margin-top:20px}.rts-panel p{font-size:17px;line-height:1.6;margin:0 0 12px}
       .rts-small{font:12px/1.5 Arial,sans-serif;color:#6e7980}
-      @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:19px}}
-      @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:17px}}
+      .rts-stage-label{font:600 11px/1.5 Arial,sans-serif;color:#967640;letter-spacing:.1em;margin:0 0 8px}
+      @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
+      @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16.5px}}
     `}</style>
     <div className="rts-shell">
       <header className="rts-header"><span>REFORMING THE SOUL</span><span className="rts-mark" aria-hidden="true">✦</span></header>
-      <nav aria-label="Journey progress" className="rts-progress">{[0,1,2,3].map(i=><span key={i} className={i<=page?'active':''}/>)}</nav>
+      <p className="rts-stage-label">{page<2?"YOUR JOURNEY · INTRODUCTION":"YOUR JOURNEY · AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{[0,1,2,3].map(i=><span key={i} className={i<=page?"active":""}/>)}</nav>
       {reading ? <>
         {page===0&&<svg className="rts-hero" viewBox="0 0 640 320" role="img" aria-label="Golden morning sunlight through a window onto a quiet room">
           <defs><linearGradient id="room" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#e6d4b3"/><stop offset="1" stopColor="#a89b86"/></linearGradient><linearGradient id="light" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff4d6" stopOpacity=".9"/><stop offset="1" stopColor="#e5b56b" stopOpacity=".05"/></linearGradient></defs>
@@ -93,7 +95,7 @@ export default function NarrativeJourney() {
       </> : page===1 ? <>
         <p className="rts-kicker">A MOMENT TO NOTICE</p><h1>What has shaped you?</h1>
         <p className="rts-hint">Much of our formation happened without our awareness. Which experience has been especially significant for you? There is no right answer.</p>
-        {['Family and upbringing','Relationships','Success or failure','Pain or disappointment','Expectations of others','Something else'].map(v=><button key={v} className="rts-option" aria-pressed={selected===v} onClick={()=>setSelected(v)}>{v}</button>)}
+        {['Family and upbringing','Relationships','Success or failure','Pain or disappointment','Expectations of others','Something else'].map(v=><button key={v} className="rts-option" aria-pressed={influence===v} onClick={()=>setInfluence(v)}>{v}</button>)}
         <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(0)}>← Back</button><button className="rts-button" onClick={()=>advance(2)}>Continue →</button></div>
         <p className="rts-small">You may continue without choosing.</p>
       </> : <>
