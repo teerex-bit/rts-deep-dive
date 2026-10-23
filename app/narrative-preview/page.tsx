@@ -61,7 +61,7 @@ export default function NarrativeJourney() {
       .rts-shell{max-width:600px;margin:auto;padding:12px 20px 70px}
       .rts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font:600 11px/1.4 Arial,sans-serif;letter-spacing:.13em;color:#9b773b}
       .rts-tree-logo{display:block;width:118px;max-height:48px;object-fit:contain;object-position:right center}
-      .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:13px}
+      .rts-restart{border:1px solid #d9d1c5;background:#fffdfa;color:#263a4a;border-radius:8px;padding:7px 10px;font:600 12px Arial,sans-serif;cursor:pointer}\n      .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:13px}
       .rts-progress span{height:4px;border-radius:4px;background:#ded7ca}.rts-progress span.active{background:#b18a45}
       .rts-hero{width:100%;height:auto;display:block;border-radius:12px;margin:0 0 15px;height:145px;object-fit:cover;overflow:hidden}
       .rts-kicker{font:600 11px Arial,sans-serif;letter-spacing:.14em;color:#9b773b;margin:0 0 9px}
@@ -91,7 +91,7 @@ export default function NarrativeJourney() {
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
     <div className="rts-shell">
-      <header className="rts-header"><span>REFORMING THE SOUL</span><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
+      <header className="rts-header"><span>REFORMING THE SOUL</span><button type="button" className="rts-restart" onClick={()=>{setReflectionStep(0);advance(0)}}>← Back to beginning</button><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
       <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=5?1:0)?"active":""} title={label}/>)}</nav>
       {reading ? <section className="rts-see rts-reading-chapter">
         {page===2&&<img className="rts-hero" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=85" alt="An organized clothing space with accumulated items" />}
