@@ -160,6 +160,18 @@ export default function NarrativeJourney() {
       .rts-root button:focus-visible{outline:3px solid #b18a45;outline-offset:3px}
       @media(min-width:520px){.rts-header{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"brand restart logo";margin-bottom:24px}.rts-restart{justify-self:end}}
       @media(max-width:380px){.rts-header>span{font-size:10px;letter-spacing:.07em}.rts-tree-logo{width:100px}.rts-breadcrumbs{font-size:10px}}
+      .rts-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+      .rts-header .rts-tree-logo{order:2;width:120px;max-height:50px}
+      .rts-header .rts-restart{order:1;background:transparent;border:0;padding:9px 0;color:#52636d;font:600 12px/1.4 Arial,sans-serif;text-align:left}
+      .rts-chapter-art,.rts-reading-chapter .rts-chapter-art,.rts-scene--5 .rts-chapter-art,.rts-become-hero{box-sizing:border-box;height:145px;border-radius:14px;background:linear-gradient(110deg,#263a4a,#526f70 62%,#bd9c60);padding:24px;margin:0 0 26px;display:flex;align-items:center;justify-content:space-between}
+      .rts-chapter-art span,.rts-become-hero span{font:700 19px/1.15 Arial,sans-serif;letter-spacing:.15em;color:#f8f5ef}
+      .rts-root .rts-back{display:inline-block;width:auto;background:transparent!important;border:0!important;color:#52636d!important;text-align:left;font:600 14px/1.5 Arial,sans-serif;min-height:40px;padding:9px 0!important;box-shadow:none}
+      .rts-teaching-emphasis{background:#e7ebe8;border-left:4px solid #658176;border-radius:12px;padding:18px 20px;margin:26px 0}
+      .rts-teaching-emphasis p{color:#334451!important;margin:0!important}
+      .rts-transition-summary{border-top:2px solid #b18a45;border-bottom:1px solid #d9d1c5;padding:20px 0;margin:25px 0}
+      .rts-transition-summary h2{font:normal 25px/1.3 Georgia,serif;color:#263a4a;margin:0 0 12px}
+      .rts-transition-summary p{margin:0!important}
+      @media(max-width:380px){.rts-header .rts-tree-logo{width:105px}.rts-header .rts-restart{font-size:11px}}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
