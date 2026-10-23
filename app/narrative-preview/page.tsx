@@ -232,7 +232,7 @@ export default function NarrativeJourney() {
         </> : page===13 ? <>
           <p className="rts-kicker">BECOME · RELEASE AND RECEIVE</p><h1>Release Control. Receive the Moment.</h1>
           <div className="rts-become-step"><strong>Release control</strong><p>I release my demand that this situation must turn out the way I want before I can be okay.</p></div>
-          <p>Then I receive the moment.</p>
+          <p>Recognizing our need for control is not the same as surrendering it. We can understand the fear beneath our reactions and still demand that events unfold according to our expectations. Releasing control means giving up the claim that our preferred outcome must happen before we can trust God.</p><p>We can still name what we want, make responsible decisions, and act with courage. Surrender is not abandoning our will. It is choosing to bring our will into relationship with God's will, without insisting that we already know the best outcome.</p><p>Then I receive the moment.</p>
           <p>Receiving the moment does not mean pretending that everything happening to us is good. It does not mean becoming passive or refusing to change something that should be changed. It means acknowledging that this is the moment in which I am presently living with God.</p>
           <div className="rts-become-note"><p>If God has allowed this moment to reach me, then this moment cannot prevent Him from forming me through it.</p></div>
           <p>That changes the question.</p>
