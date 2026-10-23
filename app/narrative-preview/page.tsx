@@ -78,7 +78,7 @@ export default function NarrativeJourney() {
       .rts-field{width:100%;box-sizing:border-box;border:1px solid #cfc6b9;border-radius:12px;padding:16px;background:#fffdfa;color:#263a4a;font:16px/1.5 Arial,sans-serif;min-height:125px;resize:vertical}
       .rts-panel{background:#eee8dc;border-radius:14px;padding:20px;margin-top:20px}.rts-panel p{font-size:17px;line-height:1.6;margin:0 0 12px}
       .rts-small{font:12px/1.5 Arial,sans-serif;color:#6e7980}
-      .rts-see{padding-top:8px}.rts-see p{font-size:16px;line-height:1.65;color:#334451;margin:0 0 18px}.rts-see blockquote{margin:24px 0;padding:15px 18px;border-left:3px solid #b18a45;background:#f0e8da;font:italic 20px/1.45 Georgia,serif}.rts-chapter-art{height:118px;border-radius:14px;background:linear-gradient(110deg,#263a4a,#4c6570 62%,#bd9c60);display:flex;align-items:center;justify-content:space-between;padding:18px 24px;margin:0 0 22px;color:#f8f5ef}.rts-chapter-art span{font:600 19px/1.12 Arial,sans-serif;letter-spacing:.16em}.rts-chapter-line{height:64px;width:64px;border:2px solid #e6c990;border-radius:50%;box-shadow:0 0 0 10px #ffffff15}.rts-chain{display:grid;gap:7px;margin:22px 0}.rts-chain span{padding:11px 15px;background:#eee8dc;border-left:3px solid #b18a45;border-radius:6px;font:600 15px Arial,sans-serif}.rts-prompt{font-weight:bold}.rts-wide{width:100%;margin:14px 0 22px}.rts-finish{padding:22px 18px;background:#eee8dc;border-radius:14px;margin:24px 0}.rts-finish h2{font:normal 25px/1.25 Georgia,serif;margin:0 0 14px}.rts-completion{padding:24px 0}.rts-completion p{font-size:17px;line-height:1.6;margin:0 0 20px}.rts-completion .rts-button{display:block;margin:15px 0}.rts-complete{display:block;width:100%;margin-top:20px}.rts-stage-label{font:600 11px/1.5 Arial,sans-serif;color:#967640;letter-spacing:.1em;margin:0 0 8px}
+      .rts-selected{padding:16px;background:#eee8dc;border-left:3px solid #b18a45;border-radius:9px;margin:18px 0;font:16px/1.6 Georgia,serif;white-space:pre-wrap}.rts-see{padding-top:8px}.rts-see p{font-size:16px;line-height:1.65;color:#334451;margin:0 0 18px}.rts-see blockquote{margin:24px 0;padding:15px 18px;border-left:3px solid #b18a45;background:#f0e8da;font:italic 20px/1.45 Georgia,serif}.rts-chapter-art{height:118px;border-radius:14px;background:linear-gradient(110deg,#263a4a,#4c6570 62%,#bd9c60);display:flex;align-items:center;justify-content:space-between;padding:18px 24px;margin:0 0 22px;color:#f8f5ef}.rts-chapter-art span{font:600 19px/1.12 Arial,sans-serif;letter-spacing:.16em}.rts-chapter-line{height:64px;width:64px;border:2px solid #e6c990;border-radius:50%;box-shadow:0 0 0 10px #ffffff15}.rts-chain{display:grid;gap:7px;margin:22px 0}.rts-chain span{padding:11px 15px;background:#eee8dc;border-left:3px solid #b18a45;border-radius:6px;font:600 15px Arial,sans-serif}.rts-prompt{font-weight:bold}.rts-wide{width:100%;margin:14px 0 22px}.rts-finish{padding:22px 18px;background:#eee8dc;border-radius:14px;margin:24px 0}.rts-finish h2{font:normal 25px/1.25 Georgia,serif;margin:0 0 14px}.rts-completion{padding:24px 0}.rts-completion p{font-size:17px;line-height:1.6;margin:0 0 20px}.rts-completion .rts-button{display:block;margin:15px 0}.rts-complete{display:block;width:100%;margin-top:20px}.rts-stage-label{font:600 11px/1.5 Arial,sans-serif;color:#967640;letter-spacing:.1em;margin:0 0 8px}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
@@ -140,19 +140,28 @@ export default function NarrativeJourney() {
         </>}
         {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : <>
-        <p className="rts-kicker">AWAKEN · A MOMENT OF DISCOVERY</p><h1>Catch yourself being you.</h1>
-        <p className="rts-hint">Think about a recent experience. Which of these feels most familiar?</p>
-        {options.map(v=><button key={v} className="rts-option" aria-pressed={selected===v} onClick={()=>{setSelected(v);setReveal(false)}}>{v}</button>)}
-        <p className="rts-hint">What happened, and what came out of you?</p>
-        <textarea className="rts-field" aria-label="Your reflection" placeholder="Write a few words, if you'd like…" value={response} onChange={e=>{setResponse(e.target.value);setReveal(false)}}/>
-        {reveal&&<section className="rts-panel">
-          <p>{selected===options[0]?'When your decision was questioned, what did you feel you needed to protect or establish?':selected===options[1]?'When you felt overlooked, what did you notice yourself wanting from the other person?':selected===options[2]?'When something changed, what expectation was hardest to release?':selected===options[3]?'Even good moments can reveal our desires. What did you most want to hold onto?':'What did you notice happening in you before trying to explain it?'}</p>
-          {response.trim()&&<p>You wrote: “{response.trim()}”</p>}
-          <p>There is no need to judge the reaction or force an explanation. For now, simply notice it.</p>
-        </section>}
-        <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(2)}>← Back</button><button className="rts-button" onClick={()=>setReveal(true)}>{reveal?'Reflect again':'Reflect →'}</button></div>
-        <button className="rts-button rts-complete" onClick={()=>advance(4)}>Complete Awaken →</button>
-        <p className="rts-small">You may continue without writing a response.</p>
+        <p className="rts-kicker">AWAKEN · NOTICE YOURSELF</p>
+        {reflectionStep===0 ? <>
+          <h1>Which of these feels familiar?</h1>
+          <p className="rts-hint">Think about everyday experiences. Choose one that brings a real situation to mind.</p>
+          {options.map(v=><button key={v} className="rts-option" aria-pressed={selected===v} onClick={()=>{setSelected(v);setResponse('');setFollowup('')}}>{v}</button>)}
+          <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(2)}>← Back</button><button className="rts-button" disabled={!selected} onClick={()=>setReflectionStep(1)}>Continue →</button></div>
+        </> : reflectionStep===1 ? <>
+          <h1>Bring that moment to mind.</h1>
+          <div className="rts-selected">{selected}</div>
+          <p className="rts-hint">What happened, and what did you notice happening within you?</p>
+          <textarea className="rts-field" aria-label="Your experience" placeholder="Describe what you remember…" value={response} onChange={e=>setResponse(e.target.value)}/>
+          <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>setReflectionStep(0)}>← Back</button><button className="rts-button" disabled={!response.trim()} onClick={()=>setReflectionStep(2)}>Continue →</button></div>
+        </> : <>
+          <h1>Look a little closer.</h1>
+          <p className="rts-hint">Read your own words before trying to explain what they mean.</p>
+          <div className="rts-selected">{response}</div>
+          <p className="rts-hint">What stands out most to you now—a thought, a feeling, an impulse, or something that stayed with you afterward?</p>
+          <textarea className="rts-field" aria-label="What stands out" placeholder="What do you notice now?" value={followup} onChange={e=>setFollowup(e.target.value)}/>
+          <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>setReflectionStep(1)}>← Back</button><button className="rts-button" onClick={()=>advance(4)}>Complete Awaken →</button></div>
+          <p className="rts-small">You can continue without writing more. No interpretation is imposed on your experience.</p>
+        </>}
+
       </>}
     </div>
   </main>;
