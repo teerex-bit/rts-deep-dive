@@ -170,7 +170,7 @@ export default function NarrativeJourney() {
       <div className="rts-screen-location"><span>{page<2?"INTRODUCTION":page>=18?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</span><span>{page<2? `${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<18?`${page-11} / 6`:`${page-17} / 5`}</span></div>
       {reading ? <section className="rts-see rts-reading-chapter">
         <div className={`rts-chapter-art ${page===0?'rts-chapter-art--opening':'rts-chapter-art--awaken'}`} aria-hidden="true"><span>{page===0?<>THE<br/>BEGINNING</>:<>AWAKEN</>}</span><div className="rts-chapter-line"/></div>
-        <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
+        <h1>{chapter.title}</h1>
         <article className="rts-prose rts-chapter-prose">{chapter.paragraphs.map((p,i)=>page===2 && (i===3||i===5||i===7||i===11)?<blockquote key={i}>{p}</blockquote>:<p key={i}>{p}</p>)}</article>
         {page===2 ? <div className="rts-awaken-next"><button className="rts-button rts-wide" onClick={()=>advance(3)}>Pause and notice →</button><button className="rts-button rts-back" onClick={()=>advance(1)}>← Previous</button></div> : <><div className="rts-divider"/><div className="rts-actions"><span className="rts-small">Opening · Read at your pace</span><button className="rts-button" onClick={()=>advance(1)}>Pause and notice →</button></div></>}
       </section> : page===1 ? <>
@@ -195,7 +195,7 @@ export default function NarrativeJourney() {
           <p>Awaken taught us to notice what is happening. See Clearly begins examining what is happening underneath—and what we actually believe to be true.</p>
           <button className="rts-button rts-wide" onClick={()=>advance(6)}>Look beneath the response →</button>
         </> : page===6 ? <>
-          <p className="rts-kicker">SEE CLEARLY · THE INNER PATH</p><h1>What We See Shapes What We Become</h1>
+          <p className="rts-kicker">THE INNER PATH</p><h1>What We See Shapes What We Become</h1>
           <p>What we see shapes what we believe. What we believe shapes what we expect. What we expect influences what we desire. What we desire influences what we intend.</p>
           <div className="rts-chain" aria-label="From perception to a way of life"><div className="rts-chain-step"><strong>What I see</strong><p>An event happens, but I do not encounter it without interpretation. I notice certain details and give them meaning.</p></div><div className="rts-chain-step"><strong>What I believe</strong><p>The meaning I give that event reinforces something I hold to be true about myself, others, or God.</p></div><div className="rts-chain-step"><strong>What I expect</strong><p>What I believe shapes what I anticipate will happen next. I begin preparing for that expected outcome.</p></div><div className="rts-chain-step"><strong>What I desire</strong><p>My expectations awaken a desire: to feel safe, be accepted, stay in control, or receive something I think I need.</p></div><div className="rts-chain-step"><strong>What I intend</strong><p>That desire gives direction to my will. I begin forming a plan to secure what I want or avoid what I fear.</p></div><div className="rts-chain-step"><strong>What I choose</strong><p>My intention becomes visible in a decision: what I say, what I withhold, how I respond, or what I do.</p></div><div className="rts-chain-step"><strong>How I live</strong><p>As choices are repeated, they become familiar patterns. What began as a way of seeing becomes a way of living.</p></div></div>
           <p>Our intentions shape our choices, and our repeated choices eventually become the way we live. So Reforming the Soul begins looking underneath behavior, rather than merely trying to correct it.</p>
@@ -309,7 +309,7 @@ export default function NarrativeJourney() {
       </section> : page>=18 ? <section className={`rts-see rts-scene rts-become rts-join rts-scene--${page}`}>
         {page===18 ? <>
           <div className="rts-become-hero"><span>04 / JOIN</span></div>
-          <p className="rts-kicker">JOIN · NOTICE WHERE GOD IS WORKING</p><h1>A Restored Soul Becomes Available</h1>
+          <p className="rts-kicker">NOTICE WHERE GOD IS WORKING</p><h1>A Restored Soul Becomes Available</h1>
           <p>God is not restoring our souls simply so that we can become healthier versions of ourselves. The freedom we discover as we release control and learn to live with Him makes us increasingly available to others.</p>
           <p>We do not have to invent a grand assignment or prove that our lives are useful. We can begin by noticing the people, needs, and opportunities already present. An interruption may become an invitation to listen. A difficult relationship may become an opportunity to love without controlling the outcome.</p>
           <div className="rts-become-note"><p>We do not have to create God's work. We can become available to participate in it.</p></div>
