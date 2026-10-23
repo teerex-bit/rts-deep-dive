@@ -47,9 +47,11 @@ export default function NarrativeJourney() {
   const [response,setResponse] = useState('');
   const [clearResponse,setClearResponse] = useState('');
   const [reveal,setReveal] = useState(false);
+  const [reflectionStep,setReflectionStep] = useState(0);
+  const [followup,setFollowup] = useState('');
   const [ready,setReady] = useState(false);
-  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(8,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);}catch{}setReady(true)},[]);
-  useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,clearResponse,reveal}))},[page,selected,influence,response,clearResponse,reveal,ready]);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(8,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
+  useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,clearResponse,reveal,reflectionStep,followup}))},[page,selected,influence,response,clearResponse,reveal,reflectionStep,followup,ready]);
   const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
   const reading = page===0 || page===2;
   const chapter=chapters[page===0?0:1];
