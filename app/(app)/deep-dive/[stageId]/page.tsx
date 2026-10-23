@@ -39,7 +39,7 @@ export default async function StagePage({ params }: { params: Promise<{ stageId:
     awakenModuleNavigation('formation-is-not-identity', 'Understand · A4', a4),
   ];
 
-  const nextLesson = lessons.find(lesson => lesson.status !== 'review') ?? lessons[lessons.length - 1];
+  const nextLesson = lessons.find(lesson => !lesson.label.startsWith('Review ')) ?? lessons[lessons.length - 1];
   const firstArrival = !a1 && !a2 && !a3 && !a4;
   return (
     <AppShell stage="Awaken">
@@ -63,7 +63,7 @@ export default async function StagePage({ params }: { params: Promise<{ stageId:
             <p className="deep-dive-introduction">{AWAKEN_INTRODUCTION}</p>
             <div className="see-clearly-next">
               <p className="eyebrow">NEXT</p>
-              <h2>{nextLesson.label}</h2>
+              <h2>{nextLesson.label.replace(/^(Begin|Resume|Review) /, '')}</h2>
               <p>Continue from where you are. You do not need to hold the whole journey in view.</p>
               <Link className="button deep-dive-stage-actions__primary" href={nextLesson.href}>CONTINUE</Link>
             </div>
