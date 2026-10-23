@@ -50,7 +50,7 @@ export default function NarrativeJourney() {
   const [reflectionStep,setReflectionStep] = useState(0);
   const [followup,setFollowup] = useState('');
   const [ready,setReady] = useState(false);
-  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(8,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(11,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
   useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,clearResponse,reveal,reflectionStep,followup}))},[page,selected,influence,response,clearResponse,reveal,reflectionStep,followup,ready]);
   const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
   const reading = page===0 || page===2;
@@ -128,34 +128,58 @@ export default function NarrativeJourney() {
       </section> : page>=5 ? <section className="rts-see">
         {page===5 ? <>
           <div className="rts-chapter-art" aria-hidden="true"><span>SEE<br/>CLEARLY</span><div className="rts-chapter-line"/></div>
-          <p className="rts-kicker">02 / SEE CLEARLY</p><h1>Looking Beneath the Reaction</h1>
-          <p>Awaken helps us notice what happens within us. See Clearly begins to uncover what lies beneath those reactions.</p>
-          <p>Our beliefs shape our expectations. Our expectations influence our desires. And our desires often determine how we respond before we have considered why.</p>
-          <blockquote>Clarity precedes obedience.</blockquote>
-          <p>We are not simply trying to understand ourselves better. We are learning to see ourselves, our circumstances, and God more clearly—with Jesus as our clearest revelation of the Father.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(6)}>Explore what is beneath →</button>
+          <p className="rts-kicker">02 / SEE CLEARLY</p><h1>Then We Learn to See Clearly</h1>
+          <p>Our behavior does not come from nowhere. Beneath our reactions are beliefs, expectations, desires, fears, assumptions, and intentions. We do what we do because, at some level, our response makes sense to the person we have become.</p>
+          <p>This is why simply telling ourselves to behave differently often produces disappointing results. We may know that we should not be anxious and still experience anxiety. We may know that we should forgive and still carry resentment. We may know that God can be trusted while desperately trying to control an outcome.</p>
+          <blockquote>The problem is not necessarily that we do not know the correct answer. Something deeper may be happening.</blockquote>
+          <p>Awaken taught us to notice what is happening. See Clearly begins examining what is happening underneath—and what we actually believe to be true.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(6)}>Look beneath the response →</button>
         </> : page===6 ? <>
           <p className="rts-kicker">SEE CLEARLY · THE INNER PATH</p><h1>What We See Shapes What We Become</h1>
-          <p>Our responses rarely begin at the moment we act. Something is already happening beneath the surface: the way we interpret what happened, what we believe it means, what we expect will happen next, and what we want to secure or avoid.</p>
-          <div className="rts-chain"><span>What I see</span><span>What I believe</span><span>What I expect</span><span>What I desire</span><span>What I intend</span></div>
-          <p>Seeing this movement helps us recognize that changing an action is not always the same as changing the person from whom the action comes. We can restrain a response while continuing to hold the belief that produced it.</p>
-          <p>God's invitation is deeper than behavior management. He invites us to bring what is hidden into the light, where it can be examined in His presence.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(7)}>Pause and look within →</button>
+          <p>What we see shapes what we believe. What we believe shapes what we expect. What we expect influences what we desire. What we desire influences what we intend.</p>
+          <div className="rts-chain"><span>What I see</span><span>What I believe</span><span>What I expect</span><span>What I desire</span><span>What I intend</span><span>What I choose</span><span>How I live</span></div>
+          <p>Our intentions shape our choices, and our repeated choices eventually become the way we live. So Reforming the Soul begins looking underneath behavior, rather than merely trying to correct it.</p>
+          <p>Maybe what appears to be anger is actually self-protection. Perhaps what looks like ambition is being fueled by a need for approval. What looks like independence may actually reveal how difficult it is for us to trust someone else.</p>
+          <p>Changing an action is not always the same as changing the person from whom the action comes. We can restrain a response while continuing to hold the belief that produced it.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(7)}>Look at a real experience →</button>
         </> : page===7 ? <>
           <p className="rts-kicker">SEE CLEARLY · A MOMENT TO NOTICE</p><h1>Look Beneath Your Response</h1>
-          <p>Return to the experience you noticed in Awaken. Instead of deciding whether your response was good or bad, consider what you were expecting or hoping would happen.</p>
+          <p>Return to the experience you noticed in Awaken. Instead of deciding whether your response was good or bad, look beneath it. What did you believe was happening? What did you expect? What did you want to secure or avoid?</p>
           <p className="rts-prompt">What did that moment seem to say about you, the other person, or God?</p>
           <textarea className="rts-field" aria-label="See Clearly reflection" placeholder="Notice a belief or expectation, without forcing an answer…" value={clearResponse} onChange={e=>setClearResponse(e.target.value)}/>
           <p className="rts-small">You may leave this blank and continue. Your answer is not analyzed or interpreted automatically.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(8)}>Continue →</button>
-        </> : <>
-          <p className="rts-kicker">SEE CLEARLY · GOD AS HE IS</p><h1>Jesus Changes What We See</h1>
-          <p>We may know what we have been taught about God and still respond to Him through expectations shaped by disappointment, fear, or our experience with other people.</p>
-          <p>That is why seeing clearly is not only about understanding ourselves. It is also about allowing Jesus to correct the picture of God we carry. We do not have to guess what the Father is like when we can look at the Son.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(8)}>Continue to what you believe about God →</button>
+        </> : page===8 ? <>
+          <p className="rts-kicker">SEE CLEARLY · THE PICTURE OF GOD WE CARRY</p><h1>What Do I Actually Believe About God?</h1>
+          <p>Eventually, looking beneath our responses brings us to an even deeper question: What do I actually believe about God? Not simply what have I been taught about God, but what do I expect from Him when life is not going the way I want?</p>
+          <p>What do I expect from Him when I am disappointed? Do I believe He is good when He allows something I desperately wanted to avoid? Do I experience Him as a Father who wants me, or as someone constantly evaluating my performance?</p>
+          <p>Do I believe His acceptance must somehow be maintained through my behavior? Can I trust Him when I cannot understand what He is doing?</p>
+          <blockquote>Knowing what Christians say about God is not necessarily the same as living from what we believe about Him.</blockquote>
+          <p>These are not questions for judging ourselves. They help us recognize the expectations we actually bring into our relationship with God.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(9)}>See the Father through Jesus →</button>
+        </> : page===9 ? <>
+          <p className="rts-kicker">SEE CLEARLY · JESUS AS OUR LENS</p><h1>Learning to See God as He Is</h1>
+          <p>This is the work of See Clearly. We begin examining what we believe about ourselves and what we believe about God. Jesus becomes the lens through which we learn to see the Father.</p>
+          <p>We may have learned to approach God as distant, disappointed, controlling, unpredictable, or merely tolerating us. Those expectations can shape how we pray, how we respond to difficulty, and whether we trust Him with what matters most.</p>
+          <p>Jesus does not simply give us another set of instructions. He reveals the Father's character. We can bring our inherited assumptions into the light of His life, His words, and the way He receives people.</p>
           <blockquote>Jesus is not the exception to what God is like. He is the revelation of what God is like.</blockquote>
-          <p>As our understanding of God becomes clearer, our relationship with Him can change. Trust no longer has to be a demand we place on ourselves; it can grow as we come to know the One we are trusting.</p>
-          <p>Seeing clearly is not the end of formation. It prepares us to live differently with God in the ordinary moments of our lives.</p>
-          <div className="rts-finish"><p className="rts-kicker">SEE CLEARLY · SECTION COMPLETE</p><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p><button className="rts-button" onClick={()=>advance(7)}>← Revisit reflection</button></div>
+          <p>Grace begins replacing our need to earn. Dependence begins replacing independence. Surrender begins challenging self-protection. We begin learning to trust the One we are actually coming to know.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(10)}>From understanding to trust →</button>
+        </> : page===10 ? <>
+          <p className="rts-kicker">SEE CLEARLY · WHAT IS ACTUALLY TRUE</p><h1>Understanding Where It Came From</h1>
+          <p>Awaken made it possible to say, “I know what I did.” See Clearly invites us to go further: “I am starting to understand where that came from, and I am learning what is actually true.”</p>
+          <p>We may recognize that an angry response came from fear, that our need to control came from an expectation of abandonment, or that our desire for approval has shaped the way we relate to others. That recognition matters, but the goal is not to become experts at explaining ourselves.</p>
+          <p>We are learning to see ourselves and God truthfully, so that our relationship with Him can be lived from trust rather than fear, performance, or self-protection.</p>
+          <blockquote>Clarity precedes obedience.</blockquote>
+          <p>But even clear understanding is not the same as becoming the kind of person who naturally lives from what is true.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(11)}>Complete See Clearly →</button>
+        </> : <>
+          <p className="rts-kicker">SEE CLEARLY · SECTION COMPLETE</p><h1>Truth Has to Become a Way of Living</h1>
+          <p>Suppose I recognize that my need to control a situation comes from fear. I understand the fear. I recognize the false belief beneath it. I genuinely believe God can be trusted.</p>
+          <p>Then tomorrow something happens that I cannot control. What happens next?</p>
+          <p>That moment is where spiritual formation moves from an idea into an actual life. Seeing truth is different from becoming the kind of person who naturally lives from it.</p>
+          <p>This is where Become begins: learning to live with God in the ordinary moments that reveal the person we are becoming.</p>
+          <div className="rts-finish"><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p><button className="rts-button" onClick={()=>advance(10)}>← Revisit the teaching</button></div>
         </>}
         {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : <>
