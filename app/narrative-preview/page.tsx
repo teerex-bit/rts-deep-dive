@@ -32,10 +32,12 @@ const chapters = [
   ]}
 ];
 const options = [
-  'Someone questioned a decision I made.',
-  'I felt overlooked or dismissed.',
-  'Something changed unexpectedly.',
-  'Something went really well.'
+  'Someone questioned something I said or did.',
+  'I felt overlooked or misunderstood.',
+  "Something didn't happen the way I expected.",
+  'Someone disappointed me.',
+  'Something went particularly well.',
+  'I had to make a difficult decision.'
 ];
 const storageKey = 'rts-narrative-prototype-v1';
 export default function NarrativeJourney() {
