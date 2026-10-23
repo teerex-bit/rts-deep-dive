@@ -82,6 +82,21 @@ export default function NarrativeJourney() {
       /* Keep Introduction and Awaken reading chapters in the same typographic
          system as the See Clearly chapters. */
       .rts-reading-chapter{padding-top:8px}
+      .rts-chapter-art--opening{background:linear-gradient(110deg,#263a4a,#526f70 62%,#bd9c60)}
+      .rts-chapter-art--awaken{background:linear-gradient(110deg,#263a4a,#526b61 62%,#bd9c60)}
+      .rts-reading-chapter .rts-chapter-art{height:145px;margin-bottom:26px}
+      .rts-reading-chapter h1{font-size:clamp(32px,7vw,44px);line-height:1.12;margin-bottom:26px}
+      .rts-reading-chapter .rts-prose p{font-size:clamp(17px,4.2vw,19px);line-height:1.68;margin-bottom:24px}
+      .rts-reading-chapter .rts-prose p:nth-child(2),
+      .rts-reading-chapter .rts-prose p:nth-child(5){margin-bottom:28px}
+      .rts-reading-chapter .rts-actions{align-items:stretch}
+      .rts-reading-chapter .rts-actions .rts-button{flex:1}
+      .rts-reading-chapter .rts-stage-callout{margin:24px 0;padding:18px 20px;border-left:4px solid #b18a45;background:#eee8dc;font:italic 20px/1.5 Georgia,serif}
+      .rts-reading-chapter .rts-chapter-section{margin:0 0 26px}
+      .rts-reading-chapter .rts-chapter-section p{margin-bottom:24px}
+      .rts-reading-chapter .rts-chapter-section--opening{padding-bottom:10px}
+      .rts-reading-chapter blockquote{margin:24px 0;padding:15px 18px;border-left:3px solid #b18a45;background:#f0e8da;font:italic 20px/1.45 Georgia,serif}
+      
       .rts-reading-chapter .rts-prose p{font-size:16px;line-height:1.65;color:#334451;margin:0 0 18px}
       .rts-reading-chapter .rts-hero{height:118px;border-radius:14px;margin-bottom:22px;object-fit:cover}
       .rts-reading-chapter .rts-kicker{margin-bottom:9px}
@@ -94,10 +109,9 @@ export default function NarrativeJourney() {
       <header className="rts-header"><span>REFORMING THE SOUL</span><button type="button" className="rts-restart" onClick={()=>{setReflectionStep(0);advance(0)}}>← Back to beginning</button><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
       <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=5?1:0)?"active":""} title={label}/>)}</nav>
       {reading ? <section className="rts-see rts-reading-chapter">
-        {page===2&&<img className="rts-hero" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=85" alt="An organized clothing space with accumulated items" />}
-        {page===0&&<img className="rts-hero" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/formation-intro-hero.webp" alt="Reforming the Soul formation journey" />}
+        <div className={`rts-chapter-art ${page===0?'rts-chapter-art--opening':'rts-chapter-art--awaken'}`} aria-hidden="true"><span>{page===0?<>THE<br/>BEGINNING</>:<>AWAKEN</>}</span><div className="rts-chapter-line"/></div>
         <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
-        <article className="rts-prose rts-chapter-prose">{chapter.paragraphs.map((p,i)=><p key={i}>{p}</p>)}</article>
+        <article className="rts-prose rts-chapter-prose">{chapter.paragraphs.map((p,i)=>page===2 && (i===3||i===5||i===7||i===11)?<blockquote key={i}>{p}</blockquote>:<p key={i}>{p}</p>)}</article>
         {page===2 ? <div className="rts-awaken-next"><button className="rts-button rts-wide" onClick={()=>advance(3)}>Pause and notice →</button><button className="rts-button rts-back" onClick={()=>advance(1)}>← Previous</button></div> : <><div className="rts-divider"/><div className="rts-actions"><span className="rts-small">Opening · Read at your pace</span><button className="rts-button" onClick={()=>advance(1)}>Pause and notice →</button></div></>}
       </section> : page===1 ? <>
         <p className="rts-kicker">A MOMENT TO NOTICE</p><h1>What has shaped you?</h1>
