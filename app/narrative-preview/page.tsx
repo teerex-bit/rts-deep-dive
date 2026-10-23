@@ -43,10 +43,11 @@ export default function NarrativeJourney() {
   const [selected,setSelected] = useState('');
   const [influence,setInfluence] = useState('');
   const [response,setResponse] = useState('');
+  const [clearResponse,setClearResponse] = useState('');
   const [reveal,setReveal] = useState(false);
   const [ready,setReady] = useState(false);
-  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(5,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setReveal(!!saved.reveal);}catch{}setReady(true)},[]);
-  useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,reveal}))},[page,selected,influence,response,reveal,ready]);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(8,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);}catch{}setReady(true)},[]);
+  useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,clearResponse,reveal}))},[page,selected,influence,response,clearResponse,reveal,ready]);
   const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
   const reading = page===0 || page===2;
   const chapter=chapters[page===0?0:1];
@@ -55,7 +56,7 @@ export default function NarrativeJourney() {
       .rts-root{min-height:100dvh;background:#f8f5ef;color:#263a4a;font-family:Georgia,'Times New Roman',serif}
       .rts-shell{max-width:600px;margin:auto;padding:12px 20px 70px}
       .rts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font:600 11px/1.4 Arial,sans-serif;letter-spacing:.13em;color:#9b773b}
-      .rts-mark{width:29px;height:29px;border:1.5px solid #b18a45;border-radius:50%;display:grid;place-items:center;font-size:17px}
+      .rts-header-name{font:600 10px/1.4 Arial,sans-serif;letter-spacing:.1em;color:#9b773b}
       .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:13px}
       .rts-progress span{height:4px;border-radius:4px;background:#ded7ca}.rts-progress span.active{background:#b18a45}
       .rts-hero{width:100%;height:auto;display:block;border-radius:12px;margin:0 0 15px;max-height:145px;object-fit:cover;overflow:hidden}
@@ -73,13 +74,13 @@ export default function NarrativeJourney() {
       .rts-field{width:100%;box-sizing:border-box;border:1px solid #cfc6b9;border-radius:12px;padding:16px;background:#fffdfa;color:#263a4a;font:16px/1.5 Arial,sans-serif;min-height:125px;resize:vertical}
       .rts-panel{background:#eee8dc;border-radius:14px;padding:20px;margin-top:20px}.rts-panel p{font-size:17px;line-height:1.6;margin:0 0 12px}
       .rts-small{font:12px/1.5 Arial,sans-serif;color:#6e7980}
-      .rts-completion{padding:24px 0}.rts-completion p{font-size:17px;line-height:1.6;margin:0 0 20px}.rts-completion .rts-button{display:block;margin:15px 0}.rts-complete{display:block;width:100%;margin-top:20px}.rts-stage-label{font:600 11px/1.5 Arial,sans-serif;color:#967640;letter-spacing:.1em;margin:0 0 8px}
+      .rts-see{padding-top:8px}.rts-see p{font-size:16px;line-height:1.65;color:#334451;margin:0 0 18px}.rts-see blockquote{margin:24px 0;padding:15px 18px;border-left:3px solid #b18a45;background:#f0e8da;font:italic 20px/1.45 Georgia,serif}.rts-chapter-art{height:118px;border-radius:14px;background:linear-gradient(110deg,#263a4a,#4c6570 62%,#bd9c60);display:flex;align-items:center;justify-content:space-between;padding:18px 24px;margin:0 0 22px;color:#f8f5ef}.rts-chapter-art span{font:600 19px/1.12 Arial,sans-serif;letter-spacing:.16em}.rts-chapter-line{height:64px;width:64px;border:2px solid #e6c990;border-radius:50%;box-shadow:0 0 0 10px #ffffff15}.rts-chain{display:grid;gap:7px;margin:22px 0}.rts-chain span{padding:11px 15px;background:#eee8dc;border-left:3px solid #b18a45;border-radius:6px;font:600 15px Arial,sans-serif}.rts-prompt{font-weight:bold}.rts-wide{width:100%;margin:14px 0 22px}.rts-finish{padding:22px 18px;background:#eee8dc;border-radius:14px;margin:24px 0}.rts-finish h2{font:normal 25px/1.25 Georgia,serif;margin:0 0 14px}.rts-completion{padding:24px 0}.rts-completion p{font-size:17px;line-height:1.6;margin:0 0 20px}.rts-completion .rts-button{display:block;margin:15px 0}.rts-complete{display:block;width:100%;margin-top:20px}.rts-stage-label{font:600 11px/1.5 Arial,sans-serif;color:#967640;letter-spacing:.1em;margin:0 0 8px}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
     <div className="rts-shell">
-      <header className="rts-header"><span>REFORMING THE SOUL</span><span className="rts-mark" aria-hidden="true">✦</span></header>
-      <p className="rts-stage-label">{page<2?"YOUR JOURNEY · INTRODUCTION":page===5?"YOUR JOURNEY · SEE CLEARLY":"YOUR JOURNEY · AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{[0,1,2,3,4,5].map(i=><span key={i} className={i<=page?"active":""}/>)}</nav>
+      <header className="rts-header"><span>REFORMING THE SOUL</span><span className="rts-header-name">TREE OF LIFE</span></header>
+      <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=5?1:0)?"active":""} title={label}/>)}</nav>
       {reading ? <>
         {page===0&&<div className="rts-hero" role="img" aria-label="Warm morning light falling across a quiet interior" style={{height:145,backgroundImage:"linear-gradient(90deg, rgba(30,35,34,.16), rgba(250,228,179,.07)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=85')",backgroundSize:"cover",backgroundPosition:"center 52%"}}/>}
         <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
@@ -101,12 +102,39 @@ export default function NarrativeJourney() {
         <p>Once we can see what is happening within us, we can begin exploring what is underneath it.</p>
         <button className="rts-button" onClick={()=>advance(5)}>Continue to See Clearly →</button>
         <button className="rts-button rts-back" onClick={()=>advance(3)}>← Revisit your reflection</button>
-      </section> : page===5 ? <section className="rts-completion">
-        <p className="rts-kicker">02 / SEE CLEARLY</p><h1>Looking Beneath the Reaction</h1>
-        <p>Awaken helps us notice what happens within us. See Clearly invites us to consider the beliefs, expectations, desires, and fears that may shape those reactions.</p>
-        <p>We do not need to rush toward an explanation. Clarity begins with honest attention, and Jesus gives us the clearest picture of the Father we are learning to trust.</p>
-        <p className="rts-small">The full See Clearly chapter is not yet built.</p>
-        <button className="rts-button" onClick={()=>advance(4)}>← Return to Awaken</button>
+      </section> : page>=5 ? <section className="rts-see">
+        {page===5 ? <>
+          <div className="rts-chapter-art" aria-hidden="true"><span>SEE<br/>CLEARLY</span><div className="rts-chapter-line"/></div>
+          <p className="rts-kicker">02 / SEE CLEARLY</p><h1>Looking Beneath the Reaction</h1>
+          <p>Awaken helps us notice what happens within us. See Clearly begins to uncover what lies beneath those reactions.</p>
+          <p>Our beliefs shape our expectations. Our expectations influence our desires. And our desires often determine how we respond before we have considered why.</p>
+          <blockquote>Clarity precedes obedience.</blockquote>
+          <p>We are not simply trying to understand ourselves better. We are learning to see ourselves, our circumstances, and God more clearly—with Jesus as our clearest revelation of the Father.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(6)}>Explore what is beneath →</button>
+        </> : page===6 ? <>
+          <p className="rts-kicker">SEE CLEARLY · THE INNER PATH</p><h1>What We See Shapes What We Become</h1>
+          <p>Our responses rarely begin at the moment we act. Something is already happening beneath the surface: the way we interpret what happened, what we believe it means, what we expect will happen next, and what we want to secure or avoid.</p>
+          <div className="rts-chain"><span>What I see</span><span>What I believe</span><span>What I expect</span><span>What I desire</span><span>What I intend</span></div>
+          <p>Seeing this movement helps us recognize that changing an action is not always the same as changing the person from whom the action comes. We can restrain a response while continuing to hold the belief that produced it.</p>
+          <p>God's invitation is deeper than behavior management. He invites us to bring what is hidden into the light, where it can be examined in His presence.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(7)}>Pause and look within →</button>
+        </> : page===7 ? <>
+          <p className="rts-kicker">SEE CLEARLY · A MOMENT TO NOTICE</p><h1>Look Beneath Your Response</h1>
+          <p>Return to the experience you noticed in Awaken. Instead of deciding whether your response was good or bad, consider what you were expecting or hoping would happen.</p>
+          <p className="rts-prompt">What did that moment seem to say about you, the other person, or God?</p>
+          <textarea className="rts-field" aria-label="See Clearly reflection" placeholder="Notice a belief or expectation, without forcing an answer…" value={clearResponse} onChange={e=>setClearResponse(e.target.value)}/>
+          <p className="rts-small">You may leave this blank and continue. Your answer is not analyzed or interpreted automatically.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(8)}>Continue →</button>
+        </> : <>
+          <p className="rts-kicker">SEE CLEARLY · GOD AS HE IS</p><h1>Jesus Changes What We See</h1>
+          <p>We may know what we have been taught about God and still respond to Him through expectations shaped by disappointment, fear, or our experience with other people.</p>
+          <p>That is why seeing clearly is not only about understanding ourselves. It is also about allowing Jesus to correct the picture of God we carry. We do not have to guess what the Father is like when we can look at the Son.</p>
+          <blockquote>Jesus is not the exception to what God is like. He is the revelation of what God is like.</blockquote>
+          <p>As our understanding of God becomes clearer, our relationship with Him can change. Trust no longer has to be a demand we place on ourselves; it can grow as we come to know the One we are trusting.</p>
+          <p>Seeing clearly is not the end of formation. It prepares us to live differently with God in the ordinary moments of our lives.</p>
+          <div className="rts-finish"><p className="rts-kicker">SEE CLEARLY · SECTION COMPLETE</p><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p><button className="rts-button" onClick={()=>advance(7)}>← Revisit reflection</button></div>
+        </>}
+        {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : <>
         <p className="rts-kicker">AWAKEN · A MOMENT OF DISCOVERY</p><h1>Catch yourself being you.</h1>
         <p className="rts-hint">Think about a recent experience. Which of these feels most familiar?</p>
