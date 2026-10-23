@@ -138,12 +138,36 @@ export default function NarrativeJourney() {
       .rts-become-note{border-top:2px solid #b18a45;border-bottom:2px solid #b18a45;padding:22px 4px;margin:25px 0}
       .rts-become-contrast{padding:20px;background:#eee8dc;border-radius:14px;margin:25px 0}
       .rts-become-contrast p{margin:0!important}
+      /* Consistent journey chrome, rhythm and responsive alignment across all stages. */
+      .rts-shell{padding-top:max(18px,env(safe-area-inset-top));padding-bottom:max(76px,env(safe-area-inset-bottom))}
+      .rts-header{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand logo" "restart restart";align-items:center;column-gap:12px;row-gap:10px;margin-bottom:22px}
+      .rts-header>span{grid-area:brand;min-width:0}
+      .rts-tree-logo{grid-area:logo;max-width:100%;width:112px;height:auto}
+      .rts-restart{grid-area:restart;justify-self:start;min-height:38px}
+      .rts-breadcrumbs{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin:0 0 12px;font:600 11px/1.5 Arial,sans-serif;letter-spacing:.11em;color:#977744}
+      .rts-breadcrumbs strong{color:#263a4a;font-weight:700;letter-spacing:.04em}
+      .rts-progress{margin:0 0 15px}
+      .rts-screen-location{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 25px;font:700 11px/1.4 Arial,sans-serif;letter-spacing:.12em;color:#8c744f}
+      .rts-screen-location span:last-child{letter-spacing:.05em;font-variant-numeric:tabular-nums}
+      .rts-reading-chapter,.rts-scene,.rts-completion{padding-top:0}
+      .rts-root h1{margin-top:0;margin-bottom:25px}
+      .rts-kicker{margin:0 0 15px;line-height:1.5}
+      .rts-reading-chapter .rts-prose p{font-size:16px;line-height:1.65;margin-bottom:20px}
+      .rts-reading-chapter .rts-chapter-art,.rts-scene .rts-chapter-art,.rts-become-hero{margin-top:0}
+      .rts-see>.rts-button.rts-wide,.rts-awaken-next .rts-wide{display:block;margin-top:32px}
+      .rts-scene>.rts-back,.rts-join>.rts-back{display:block;margin-top:4px;margin-bottom:15px}
+      .rts-finish .rts-button{margin-top:10px}
+      .rts-root button:focus-visible{outline:3px solid #b18a45;outline-offset:3px}
+      @media(min-width:520px){.rts-header{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"brand restart logo";margin-bottom:24px}.rts-restart{justify-self:end}}
+      @media(max-width:380px){.rts-header>span{font-size:10px;letter-spacing:.07em}.rts-tree-logo{width:100px}.rts-breadcrumbs{font-size:10px}}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
     <div className="rts-shell">
       <header className="rts-header"><span>REFORMING THE SOUL</span><button type="button" className="rts-restart" onClick={()=>{setReflectionStep(0);advance(0)}}>← Back to beginning</button><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
-      <p className="rts-stage-label">{page<2?"INTRODUCTION":page>=18?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=18?3:page>=12?2:page>=5?1:0)?"active":""} title={label}/>)}</nav>
+      <nav className="rts-breadcrumbs" aria-label="Journey location"><span>FORMATION JOURNEY</span><span aria-hidden="true">/</span><strong>{page<2?"Introduction":page>=18?"Join":page>=12?"Become":page>=5?"See Clearly":"Awaken"}</strong></nav>
+      <nav aria-label="Journey stages" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=18?3:page>=12?2:page>=5?1:0)?"active":""} aria-label={label+(i===(page>=18?3:page>=12?2:page>=5?1:0)?" current stage":"")} aria-current={i===(page>=18?3:page>=12?2:page>=5?1:0)?"step":undefined} title={label}/>)}</nav>
+      <div className="rts-screen-location"><span>{page<2?"INTRODUCTION":page>=18?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</span><span>{page<2? `${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<18?`${page-11} / 6`:`${page-17} / 5`}</span></div>
       {reading ? <section className="rts-see rts-reading-chapter">
         <div className={`rts-chapter-art ${page===0?'rts-chapter-art--opening':'rts-chapter-art--awaken'}`} aria-hidden="true"><span>{page===0?<>THE<br/>BEGINNING</>:<>AWAKEN</>}</span><div className="rts-chapter-line"/></div>
         <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
