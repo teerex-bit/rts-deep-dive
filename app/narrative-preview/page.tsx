@@ -61,7 +61,8 @@ export default function NarrativeJourney() {
       .rts-shell{max-width:600px;margin:auto;padding:12px 20px 70px}
       .rts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font:600 11px/1.4 Arial,sans-serif;letter-spacing:.13em;color:#9b773b}
       .rts-tree-logo{display:block;width:118px;max-height:48px;object-fit:contain;object-position:right center}
-      .rts-restart{border:1px solid #d9d1c5;background:#fffdfa;color:#263a4a;border-radius:8px;padding:7px 10px;font:600 12px Arial,sans-serif;cursor:pointer}\n      .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:13px}
+      .rts-restart{border:1px solid #d9d1c5;background:#fffdfa;color:#263a4a;border-radius:8px;padding:7px 10px;font:600 12px Arial,sans-serif;cursor:pointer}
+      .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:13px}
       .rts-progress span{height:4px;border-radius:4px;background:#ded7ca}.rts-progress span.active{background:#b18a45}
       .rts-hero{width:100%;height:auto;display:block;border-radius:12px;margin:0 0 15px;height:145px;object-fit:cover;overflow:hidden}
       .rts-kicker{font:600 11px Arial,sans-serif;letter-spacing:.14em;color:#9b773b;margin:0 0 9px}
@@ -102,6 +103,27 @@ export default function NarrativeJourney() {
       .rts-reading-chapter .rts-kicker{margin-bottom:9px}
       .rts-reading-chapter .rts-divider{margin:24px 0 18px}
       .rts-reading-chapter .rts-actions{margin-top:24px}
+      /* Each teaching screen has a distinct visual rhythm; the underlying copy stays unchanged. */
+      .rts-scene{padding-top:10px}
+      .rts-scene h1{margin-bottom:25px}
+      .rts-scene>p:not(.rts-kicker){max-width:56ch}
+      .rts-scene--5 .rts-chapter-art{height:156px}
+      .rts-scene--5 blockquote{background:#e9eee9;border-left-color:#58736e}
+      .rts-scene--6 .rts-chain{position:relative;gap:0;margin:28px 0 30px}
+      .rts-scene--6 .rts-chain span{background:#f0ece4;border:1px solid #d9d0c0;border-left:4px solid #b18a45;border-radius:0;margin-bottom:-1px;padding:14px 17px}
+      .rts-scene--6 .rts-chain span:first-child{border-radius:12px 12px 0 0;background:#e1e8e5}
+      .rts-scene--6 .rts-chain span:last-child{border-radius:0 0 12px 12px;background:#263a4a;color:#fff}
+      .rts-scene--7 .rts-prompt{padding:20px;border-radius:12px;background:#e8ece8;border-left:4px solid #54746d;font:normal 22px/1.4 Georgia,serif}
+      .rts-scene--8 .rts-question-study{border-top:1px solid #cdbb9d;border-bottom:1px solid #cdbb9d;padding:17px 0 0;margin:26px 0;background:linear-gradient(90deg,#f0e8d9,transparent)}
+      .rts-scene--8 .rts-question-study p{padding:0 18px}
+      .rts-scene--8 blockquote{background:#263a4a;color:#fff;border-left-color:#c7a35d;border-radius:0 12px 12px 0}
+      .rts-scene--9 .rts-belief-contrast{background:#e5ebe9;border-radius:14px;padding:20px 20px 1px;margin:24px 0}
+      .rts-scene--9 blockquote{background:transparent;border-top:2px solid #b18a45;border-bottom:2px solid #b18a45;border-left:0;padding:22px 8px;text-align:center}
+      .rts-scene--10 .rts-example-panel{background:#ece6da;padding:21px 20px 1px;border-radius:14px;margin:24px 0}
+      .rts-scene--10 blockquote{background:none;border-left:0;border-top:1px solid #b18a45;border-bottom:1px solid #b18a45;text-align:center;padding:20px 8px}
+      .rts-scene--11 .rts-turning-point{background:#e6ece9;border-radius:14px;padding:22px 20px 1px;margin:24px 0;border-left:4px solid #648078}
+      .rts-scene--11 .rts-finish{background:#263a4a;color:#fff}
+      .rts-scene--11 .rts-finish h2,.rts-scene--11 .rts-finish p{color:#fff}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
@@ -125,7 +147,7 @@ export default function NarrativeJourney() {
         <p>Once we can see what is happening within us, we can begin exploring what is underneath it.</p>
         <button className="rts-button" onClick={()=>advance(5)}>Continue to See Clearly →</button>
         <button className="rts-button rts-back" onClick={()=>advance(3)}>← Revisit your reflection</button>
-      </section> : page>=5 ? <section className="rts-see">
+      </section> : page>=5 ? <section className={`rts-see rts-scene rts-scene--${page}`}>
         {page===5 ? <>
           <div className="rts-chapter-art" aria-hidden="true"><span>SEE<br/>CLEARLY</span><div className="rts-chapter-line"/></div>
           <p className="rts-kicker">02 / SEE CLEARLY</p><h1>Then We Learn to See Clearly</h1>
@@ -137,7 +159,7 @@ export default function NarrativeJourney() {
         </> : page===6 ? <>
           <p className="rts-kicker">SEE CLEARLY · THE INNER PATH</p><h1>What We See Shapes What We Become</h1>
           <p>What we see shapes what we believe. What we believe shapes what we expect. What we expect influences what we desire. What we desire influences what we intend.</p>
-          <div className="rts-chain"><span>What I see</span><span>What I believe</span><span>What I expect</span><span>What I desire</span><span>What I intend</span><span>What I choose</span><span>How I live</span></div>
+          <div className="rts-chain" aria-label="From perception to a way of life"><span>What I see</span><span>What I believe</span><span>What I expect</span><span>What I desire</span><span>What I intend</span><span>What I choose</span><span>How I live</span></div>
           <p>Our intentions shape our choices, and our repeated choices eventually become the way we live. So Reforming the Soul begins looking underneath behavior, rather than merely trying to correct it.</p>
           <p>Maybe what appears to be anger is actually self-protection. Perhaps what looks like ambition is being fueled by a need for approval. What looks like independence may actually reveal how difficult it is for us to trust someone else.</p>
           <p>Changing an action is not always the same as changing the person from whom the action comes. We can restrain a response while continuing to hold the belief that produced it.</p>
@@ -152,15 +174,15 @@ export default function NarrativeJourney() {
         </> : page===8 ? <>
           <p className="rts-kicker">SEE CLEARLY · THE PICTURE OF GOD WE CARRY</p><h1>What Do I Actually Believe About God?</h1>
           <p>Eventually, looking beneath our responses brings us to an even deeper question: What do I actually believe about God? Not simply what have I been taught about God, but what do I expect from Him when life is not going the way I want?</p>
-          <p>What do I expect from Him when I am disappointed? Do I believe He is good when He allows something I desperately wanted to avoid? Do I experience Him as a Father who wants me, or as someone constantly evaluating my performance?</p>
-          <p>Do I believe His acceptance must somehow be maintained through my behavior? Can I trust Him when I cannot understand what He is doing?</p>
+          <div className="rts-question-study"><p>What do I expect from Him when I am disappointed? Do I believe He is good when He allows something I desperately wanted to avoid? Do I experience Him as a Father who wants me, or as someone constantly evaluating my performance?</p>
+          <p>Do I believe His acceptance must somehow be maintained through my behavior? Can I trust Him when I cannot understand what He is doing?</p></div>
           <blockquote>Knowing what Christians say about God is not necessarily the same as living from what we believe about Him.</blockquote>
           <p>These are not questions for judging ourselves. They help us recognize the expectations we actually bring into our relationship with God.</p>
           <button className="rts-button rts-wide" onClick={()=>advance(9)}>See the Father through Jesus →</button>
         </> : page===9 ? <>
           <p className="rts-kicker">SEE CLEARLY · JESUS AS OUR LENS</p><h1>Learning to See God as He Is</h1>
           <p>This is the work of See Clearly. We begin examining what we believe about ourselves and what we believe about God. Jesus becomes the lens through which we learn to see the Father.</p>
-          <p>We may have learned to approach God as distant, disappointed, controlling, unpredictable, or merely tolerating us. Those expectations can shape how we pray, how we respond to difficulty, and whether we trust Him with what matters most.</p>
+          <div className="rts-belief-contrast"><p>We may have learned to approach God as distant, disappointed, controlling, unpredictable, or merely tolerating us. Those expectations can shape how we pray, how we respond to difficulty, and whether we trust Him with what matters most.</p></div>
           <p>Jesus does not simply give us another set of instructions. He reveals the Father's character. We can bring our inherited assumptions into the light of His life, His words, and the way He receives people.</p>
           <blockquote>Jesus is not the exception to what God is like. He is the revelation of what God is like.</blockquote>
           <p>Grace begins replacing our need to earn. Dependence begins replacing independence. Surrender begins challenging self-protection. We begin learning to trust the One we are actually coming to know.</p>
@@ -168,7 +190,7 @@ export default function NarrativeJourney() {
         </> : page===10 ? <>
           <p className="rts-kicker">SEE CLEARLY · WHAT IS ACTUALLY TRUE</p><h1>Understanding Where It Came From</h1>
           <p>Awaken made it possible to say, “I know what I did.” See Clearly invites us to go further: “I am starting to understand where that came from, and I am learning what is actually true.”</p>
-          <p>We may recognize that an angry response came from fear, that our need to control came from an expectation of abandonment, or that our desire for approval has shaped the way we relate to others. That recognition matters, but the goal is not to become experts at explaining ourselves.</p>
+          <div className="rts-example-panel"><p>We may recognize that an angry response came from fear, that our need to control came from an expectation of abandonment, or that our desire for approval has shaped the way we relate to others. That recognition matters, but the goal is not to become experts at explaining ourselves.</p></div>
           <p>We are learning to see ourselves and God truthfully, so that our relationship with Him can be lived from trust rather than fear, performance, or self-protection.</p>
           <blockquote>Clarity precedes obedience.</blockquote>
           <p>But even clear understanding is not the same as becoming the kind of person who naturally lives from what is true.</p>
@@ -176,7 +198,7 @@ export default function NarrativeJourney() {
         </> : <>
           <p className="rts-kicker">SEE CLEARLY · SECTION COMPLETE</p><h1>Truth Has to Become a Way of Living</h1>
           <p>Suppose I recognize that my need to control a situation comes from fear. I understand the fear. I recognize the false belief beneath it. I genuinely believe God can be trusted.</p>
-          <p>Then tomorrow something happens that I cannot control. What happens next?</p>
+          <div className="rts-turning-point"><p>Then tomorrow something happens that I cannot control. What happens next?</p></div>
           <p>That moment is where spiritual formation moves from an idea into an actual life. Seeing truth is different from becoming the kind of person who naturally lives from it.</p>
           <p>This is where Become begins: learning to live with God in the ordinary moments that reveal the person we are becoming.</p>
           <div className="rts-finish"><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p><button className="rts-button" onClick={()=>advance(10)}>← Revisit the teaching</button></div>
