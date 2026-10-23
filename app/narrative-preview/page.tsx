@@ -251,9 +251,9 @@ export default function NarrativeJourney() {
           <div className="rts-turning-point"><p>Then tomorrow something happens that I cannot control. What happens next?</p></div>
           <p>That moment is where spiritual formation moves from an idea into an actual life. Seeing truth is different from becoming the kind of person who naturally lives from it.</p>
           <p>This is where Become begins: learning to live with God in the ordinary moments that reveal the person we are becoming.</p>
-          <div className="rts-finish"><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p><button className="rts-button rts-wide" onClick={()=>advance(12)}>Begin Become →</button><button className="rts-button rts-back" onClick={()=>advance(10)}>← Revisit the teaching</button></div>
+          <div className="rts-transition-summary"><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p></div><button className="rts-button rts-wide" onClick={()=>advance(12)}>Begin Become →</button>
         </>}
-        {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
+        {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← {page===11?"Revisit the teaching":"Previous"}</button>}
       </section> : page>=12 && page<=17 ? <section className={`rts-see rts-scene rts-become rts-scene--${page}`}>
         {page===12 ? <>
           <div className="rts-become-hero"><span>03 / BECOME</span></div>
@@ -279,7 +279,7 @@ export default function NarrativeJourney() {
         </> : page===14 ? <>
           <p className="rts-kicker">BECOME · FAITHFULNESS IN THE PRESENT</p><h1>Take the Next Right Step. Repeat.</h1>
           <p>Then I take the next right step.</p>
-          <div className="rts-become-focus"><p>Not the next twenty steps. Not the step that guarantees the outcome I want. Not the step that removes every uncertainty.</p></div>
+          <div className="rts-teaching-emphasis"><p>Not the next twenty steps. Not the step that guarantees the outcome I want. Not the step that removes every uncertainty.</p></div>
           <p>Just the next faithful step available to me.</p>
           <p>Releasing control and receiving the moment prepare us to act differently. Instead of letting fear, the need for approval, or the demand for certainty decide our response, we can consider what love, truth, and faithfulness require in the situation actually before us.</p>
           <p>The next right step might mean listening before defending ourselves, speaking honestly without trying to manage another person's reaction, apologizing, setting a necessary boundary, or patiently completing an ordinary responsibility. It may be difficult, and it may not produce the result we hoped for. Its value lies in responding faithfully, not in guaranteeing an outcome.</p>
