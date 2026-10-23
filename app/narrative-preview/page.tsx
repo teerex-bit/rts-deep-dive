@@ -53,15 +53,15 @@ export default function NarrativeJourney() {
   return <main className="rts-root">
     <style>{`
       .rts-root{min-height:100dvh;background:#f8f5ef;color:#263a4a;font-family:Georgia,'Times New Roman',serif}
-      .rts-shell{max-width:600px;margin:auto;padding:16px 20px 80px}
-      .rts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font:600 11px/1.4 Arial,sans-serif;letter-spacing:.13em;color:#9b773b}
+      .rts-shell{max-width:600px;margin:auto;padding:12px 20px 70px}
+      .rts-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font:600 11px/1.4 Arial,sans-serif;letter-spacing:.13em;color:#9b773b}
       .rts-mark{width:29px;height:29px;border:1.5px solid #b18a45;border-radius:50%;display:grid;place-items:center;font-size:17px}
-      .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:19px}
+      .rts-progress{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:13px}
       .rts-progress span{height:4px;border-radius:4px;background:#ded7ca}.rts-progress span.active{background:#b18a45}
-      .rts-hero{width:100%;height:auto;display:block;border-radius:12px;margin:0 0 19px;overflow:hidden}
+      .rts-hero{width:100%;height:auto;display:block;border-radius:12px;margin:0 0 15px;max-height:145px;object-fit:cover;overflow:hidden}
       .rts-kicker{font:600 11px Arial,sans-serif;letter-spacing:.14em;color:#9b773b;margin:0 0 9px}
-      .rts-root h1{font-size:clamp(29px,7vw,39px);line-height:1.16;letter-spacing:-.025em;font-weight:normal;margin:0 0 20px}
-      .rts-prose p{font-size:17px;line-height:1.58;margin:0 0 17px}
+      .rts-root h1{font-size:clamp(28px,6.5vw,37px);line-height:1.16;letter-spacing:-.025em;font-weight:normal;margin:0 0 15px}
+      .rts-prose p{font-size:16px;line-height:1.57;margin:0 0 16px}
       .rts-prose p{color:#334451}
       .rts-divider{height:1px;background:#ddd7cc;margin:23px 0 18px}
       .rts-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:25px}
@@ -75,16 +75,13 @@ export default function NarrativeJourney() {
       .rts-small{font:12px/1.5 Arial,sans-serif;color:#6e7980}
       .rts-stage-label{font:600 11px/1.5 Arial,sans-serif;color:#967640;letter-spacing:.1em;margin:0 0 8px}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
-      @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16.5px}}
+      @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
     <div className="rts-shell">
       <header className="rts-header"><span>REFORMING THE SOUL</span><span className="rts-mark" aria-hidden="true">✦</span></header>
       <p className="rts-stage-label">{page<2?"YOUR JOURNEY · INTRODUCTION":"YOUR JOURNEY · AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{[0,1,2,3].map(i=><span key={i} className={i<=page?"active":""}/>)}</nav>
       {reading ? <>
-        {page===0&&<svg className="rts-hero" viewBox="0 0 640 320" role="img" aria-label="Golden morning sunlight through a window onto a quiet room">
-          <defs><linearGradient id="room" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#e6d4b3"/><stop offset="1" stopColor="#a89b86"/></linearGradient><linearGradient id="light" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff4d6" stopOpacity=".9"/><stop offset="1" stopColor="#e5b56b" stopOpacity=".05"/></linearGradient></defs>
-          <rect width="640" height="320" fill="url(#room)"/><path d="M0 246L640 196V320H0Z" fill="#b6a38a"/><path d="M62 0H359V205H62Z" fill="#786f61"/><path d="M75 0H347V193H75Z" fill="#e6c990"/><path d="M75 0H347V193H75Z" fill="#f6e3bb" opacity=".5"/><path d="M209 0V193M75 95H347" stroke="#e9dfcc" strokeWidth="13"/><path d="M83 195L347 195L640 320H0Z" fill="url(#light)"/><path d="M359 205L640 250V320L155 320Z" fill="#f3d6a1" opacity=".34"/><path d="M395 245Q455 218 516 245L548 320H358Z" fill="#6d6c5c" opacity=".65"/><path d="M420 236H502V249H420Z" fill="#6b5d4d"/><path d="M452 235V195" stroke="#6b5d4d" strokeWidth="5"/><ellipse cx="452" cy="191" rx="25" ry="7" fill="#b58c51"/><path d="M0 0H640V320H0Z" fill="#f5ead4" opacity=".09"/>
-        </svg>}
+        {page===0&&<div className="rts-hero" role="img" aria-label="Warm morning light falling across a quiet interior" style={{height:145,backgroundImage:"linear-gradient(90deg, rgba(30,35,34,.16), rgba(250,228,179,.07)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=85')",backgroundSize:"cover",backgroundPosition:"center 52%"}}/>}
         <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
         <article className="rts-prose">{chapter.paragraphs.map((p,i)=><p key={i}>{p}</p>)}</article>
         <div className="rts-divider"/>
