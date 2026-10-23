@@ -245,6 +245,9 @@ export default function NarrativeJourney() {
           <p>Then I take the next right step.</p>
           <div className="rts-become-focus"><p>Not the next twenty steps. Not the step that guarantees the outcome I want. Not the step that removes every uncertainty.</p></div>
           <p>Just the next faithful step available to me.</p>
+          <p>Releasing control and receiving the moment prepare us to act differently. Instead of letting fear, the need for approval, or the demand for certainty decide our response, we can consider what love, truth, and faithfulness require in the situation actually before us.</p>
+          <p>The next right step might mean listening before defending ourselves, speaking honestly without trying to manage another person's reaction, apologizing, setting a necessary boundary, or patiently completing an ordinary responsibility. It may be difficult, and it may not produce the result we hoped for. Its value lies in responding faithfully, not in guaranteeing an outcome.</p>
+          <p>This is where trust becomes visible. We cannot always choose our circumstances, but we can increasingly learn to choose how we participate with God within them.</p>
           <p>And then I repeat the process.</p>
           <p>That last part matters.</p>
           <p>We repeat because formation happens through living. Tomorrow will bring another person, another inconvenience, another disappointment, another opportunity, another fear, another decision, or another ordinary moment in which the person we have become will show up.</p>
