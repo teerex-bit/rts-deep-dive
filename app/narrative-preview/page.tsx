@@ -45,8 +45,8 @@ export default function NarrativeJourney() {
   const [response,setResponse] = useState('');
   const [reveal,setReveal] = useState(false);
   const [ready,setReady] = useState(false);
-  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(3,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setReveal(!!saved.reveal);}catch{}setReady(true)},[]);
-  useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,reveal}))},[page,selected,response,reveal,ready]);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(5,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setReveal(!!saved.reveal);}catch{}setReady(true)},[]);
+  useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,reveal}))},[page,selected,influence,response,reveal,ready]);
   const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
   const reading = page===0 || page===2;
   const chapter=chapters[page===0?0:1];
@@ -73,13 +73,13 @@ export default function NarrativeJourney() {
       .rts-field{width:100%;box-sizing:border-box;border:1px solid #cfc6b9;border-radius:12px;padding:16px;background:#fffdfa;color:#263a4a;font:16px/1.5 Arial,sans-serif;min-height:125px;resize:vertical}
       .rts-panel{background:#eee8dc;border-radius:14px;padding:20px;margin-top:20px}.rts-panel p{font-size:17px;line-height:1.6;margin:0 0 12px}
       .rts-small{font:12px/1.5 Arial,sans-serif;color:#6e7980}
-      .rts-stage-label{font:600 11px/1.5 Arial,sans-serif;color:#967640;letter-spacing:.1em;margin:0 0 8px}
+      .rts-completion{padding:24px 0}.rts-completion p{font-size:17px;line-height:1.6;margin:0 0 20px}.rts-completion .rts-button{display:block;margin:15px 0}.rts-complete{display:block;width:100%;margin-top:20px}.rts-stage-label{font:600 11px/1.5 Arial,sans-serif;color:#967640;letter-spacing:.1em;margin:0 0 8px}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
     <div className="rts-shell">
       <header className="rts-header"><span>REFORMING THE SOUL</span><span className="rts-mark" aria-hidden="true">✦</span></header>
-      <p className="rts-stage-label">{page<2?"YOUR JOURNEY · INTRODUCTION":"YOUR JOURNEY · AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{[0,1,2,3].map(i=><span key={i} className={i<=page?"active":""}/>)}</nav>
+      <p className="rts-stage-label">{page<2?"YOUR JOURNEY · INTRODUCTION":page===5?"YOUR JOURNEY · SEE CLEARLY":"YOUR JOURNEY · AWAKEN"}</p><nav aria-label="Section progress" className="rts-progress">{[0,1,2,3,4,5].map(i=><span key={i} className={i<=page?"active":""}/>)}</nav>
       {reading ? <>
         {page===0&&<div className="rts-hero" role="img" aria-label="Warm morning light falling across a quiet interior" style={{height:145,backgroundImage:"linear-gradient(90deg, rgba(30,35,34,.16), rgba(250,228,179,.07)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=85')",backgroundSize:"cover",backgroundPosition:"center 52%"}}/>}
         <p className="rts-kicker">{chapter.eyebrow}</p><h1>{chapter.title}</h1>
@@ -95,15 +95,32 @@ export default function NarrativeJourney() {
         {['Family and upbringing','Relationships','Success or failure','Pain or disappointment','Expectations of others','Something else'].map(v=><button key={v} className="rts-option" aria-pressed={influence===v} onClick={()=>setInfluence(v)}>{v}</button>)}
         <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(0)}>← Back</button><button className="rts-button" onClick={()=>advance(2)}>Continue →</button></div>
         <p className="rts-small">You may continue without choosing.</p>
-      </> : <>
+      </> : page===4 ? <section className="rts-completion">
+        <p className="rts-kicker">AWAKEN · COMPLETED</p><h1>The Beginning of Awareness</h1>
+        <p>You may not yet understand why you respond the way you do. That is all right. Awaken is not about figuring everything out. It is about beginning to notice what was previously invisible.</p>
+        <p>Once we can see what is happening within us, we can begin exploring what is underneath it.</p>
+        <button className="rts-button" onClick={()=>advance(5)}>Continue to See Clearly →</button>
+        <button className="rts-button rts-back" onClick={()=>advance(3)}>← Revisit your reflection</button>
+      </section> : page===5 ? <section className="rts-completion">
+        <p className="rts-kicker">02 / SEE CLEARLY</p><h1>Looking Beneath the Reaction</h1>
+        <p>Awaken helps us notice what happens within us. See Clearly invites us to consider the beliefs, expectations, desires, and fears that may shape those reactions.</p>
+        <p>We do not need to rush toward an explanation. Clarity begins with honest attention, and Jesus gives us the clearest picture of the Father we are learning to trust.</p>
+        <p className="rts-small">The full See Clearly chapter is not yet built.</p>
+        <button className="rts-button" onClick={()=>advance(4)}>← Return to Awaken</button>
+      </section> : <>
         <p className="rts-kicker">AWAKEN · A MOMENT OF DISCOVERY</p><h1>Catch yourself being you.</h1>
         <p className="rts-hint">Think about a recent experience. Which of these feels most familiar?</p>
         {options.map(v=><button key={v} className="rts-option" aria-pressed={selected===v} onClick={()=>{setSelected(v);setReveal(false)}}>{v}</button>)}
         <p className="rts-hint">What happened, and what came out of you?</p>
         <textarea className="rts-field" aria-label="Your reflection" placeholder="Write a few words, if you'd like…" value={response} onChange={e=>{setResponse(e.target.value);setReveal(false)}}/>
-        {reveal&&<section className="rts-panel"><p>Notice what you actually experienced before trying to explain it. You don't have to decide whether your response was right or wrong.</p><p>Awakening begins when you can say, “Something is happening in me, and I can see it.”</p><p className="rts-small">This prototype does not use AI or send your response to a server. Your progress is stored only in this browser.</p></section>}
+        {reveal&&<section className="rts-panel">
+          <p>{selected===options[0]?'When your decision was questioned, what did you feel you needed to protect or establish?':selected===options[1]?'When you felt overlooked, what did you notice yourself wanting from the other person?':selected===options[2]?'When something changed, what expectation was hardest to release?':selected===options[3]?'Even good moments can reveal our desires. What did you most want to hold onto?':'What did you notice happening in you before trying to explain it?'}</p>
+          {response.trim()&&<p>You wrote: “{response.trim()}”</p>}
+          <p>There is no need to judge the reaction or force an explanation. For now, simply notice it.</p>
+        </section>}
         <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(2)}>← Back</button><button className="rts-button" onClick={()=>setReveal(true)}>{reveal?'Reflect again':'Reflect →'}</button></div>
-        <p className="rts-small">Optional reflection · Your words stay in this browser in this prototype.</p>
+        <button className="rts-button rts-complete" onClick={()=>advance(4)}>Complete Awaken →</button>
+        <p className="rts-small">You may continue without writing a response.</p>
       </>}
     </div>
   </main>;
