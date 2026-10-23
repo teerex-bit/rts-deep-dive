@@ -172,6 +172,11 @@ export default function NarrativeJourney() {
       .rts-transition-summary h2{font:normal 25px/1.3 Georgia,serif;color:#263a4a;margin:0 0 12px}
       .rts-transition-summary p{margin:0!important}
       @media(max-width:380px){.rts-header .rts-tree-logo{width:105px}.rts-header .rts-restart{font-size:11px}}
+      .rts-scripture{background:#f0ebe1;border-left:3px solid #b18a45;border-radius:10px;padding:20px;margin:28px 0}
+      .rts-scripture>span{display:block;font:700 11px/1.4 Arial,sans-serif;letter-spacing:.12em;color:#8d6d3a;margin-bottom:13px}
+      .rts-scripture blockquote{background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;margin:0 0 16px!important;color:#263a4a!important;font:italic 19px/1.5 Georgia,serif!important}
+      .rts-scripture p{margin:0!important;font-size:16px!important;line-height:1.65!important}
+      .rts-subheading{font:normal 25px/1.3 Georgia,serif;margin:28px 0 16px}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
@@ -184,6 +189,7 @@ export default function NarrativeJourney() {
         <div className={`rts-chapter-art ${page===0?'rts-chapter-art--opening':'rts-chapter-art--awaken'}`} aria-hidden="true"><span>{page===0?<>THE<br/>BEGINNING</>:<>AWAKEN</>}</span><div className="rts-chapter-line"/></div>
         <h1>{chapter.title}</h1>
         <article className="rts-prose rts-chapter-prose">{chapter.paragraphs.map((p,i)=>page===2 && (i===3||i===5||i===7||i===11)?<blockquote key={i}>{p}</blockquote>:<p key={i}>{p}</p>)}</article>
+        {page===2 && <div className="rts-scripture"><span>JAMES 1:19–20 · WEB</span><blockquote>“So, then, my beloved brothers, let every man be swift to hear, slow to speak, and slow to anger; for the anger of man doesn't produce the righteousness of God.”</blockquote><p>James does not merely offer a rule for managing anger. He describes a different posture toward the moment: listening before reacting. The pause creates room to notice what is rising within us and to respond rather than simply repeat a familiar pattern.</p></div>}
         {page===2 ? <div className="rts-awaken-next"><button className="rts-button rts-wide" onClick={()=>advance(3)}>Pause and notice →</button><button className="rts-button rts-back" onClick={()=>advance(1)}>← Previous</button></div> : <><div className="rts-divider"/><div className="rts-actions"><span className="rts-small">Opening · Read at your pace</span><button className="rts-button" onClick={()=>advance(1)}>Pause and notice →</button></div></>}
       </section> : page===1 ? <>
         <p className="rts-kicker">A MOMENT TO NOTICE</p><h1>What has shaped you?</h1>
@@ -357,30 +363,18 @@ export default function NarrativeJourney() {
           <div className="rts-finish"><h2>The journey continues in the life you are living.</h2><button className="rts-button" onClick={()=>advance(0)}>Return to the beginning →</button></div>
         </>}
         {page>18&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
-      </section> : <>
-        <p className="rts-kicker">AWAKEN · NOTICE YOURSELF</p>
-        {reflectionStep===0 ? <>
-          <h1>Which of these feels familiar?</h1>
-          <p className="rts-hint">Think about everyday experiences. Choose one that brings a real situation to mind.</p>
-          {options.map(v=><button key={v} className="rts-option" aria-pressed={selected===v} onClick={()=>{setSelected(v);setResponse('');setFollowup('')}}>{v}</button>)}
-          <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(2)}>← Back</button><button className="rts-button" disabled={!selected} onClick={()=>setReflectionStep(1)}>Continue →</button></div>
-        </> : reflectionStep===1 ? <>
-          <h1>Bring that moment to mind.</h1>
-          <div className="rts-selected">{selected}</div>
-          <p className="rts-hint">What happened, and what did you notice happening within you?</p>
-          <textarea className="rts-field" aria-label="Your experience" placeholder="Describe what you remember…" value={response} onChange={e=>setResponse(e.target.value)}/>
-          <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>setReflectionStep(0)}>← Back</button><button className="rts-button" disabled={!response.trim()} onClick={()=>setReflectionStep(2)}>Continue →</button></div>
-        </> : <>
-          <h1>Look a little closer.</h1>
-          <p className="rts-hint">Read your own words before trying to explain what they mean.</p>
-          <div className="rts-selected">{response}</div>
-          <p className="rts-hint">What stands out most to you now—a thought, a feeling, an impulse, or something that stayed with you afterward?</p>
-          <textarea className="rts-field" aria-label="What stands out" placeholder="What do you notice now?" value={followup} onChange={e=>setFollowup(e.target.value)}/>
-          <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>setReflectionStep(1)}>← Back</button><button className="rts-button" onClick={()=>advance(4)}>Complete Awaken →</button></div>
-          <p className="rts-small">You can continue without writing more. No interpretation is imposed on your experience.</p>
-        </>}
-
-      </>}
+      </section> : <section className="rts-see rts-scene rts-reflection">
+        <p className="rts-kicker">AWAKEN · PRACTICING ATTENTION</p>
+        <h1>Notice Without Needing to Explain</h1>
+        <p>When something unsettles us, we usually turn our attention outward. We replay what someone said, what should have happened, or what needs to change. Sometimes those concerns are legitimate. But there is another part of the moment we can learn to notice: what is happening within us while we respond.</p>
+        <p>Jesus does not invite us into self-suspicion or endless analysis. He invites us into truth, and truth begins with the willingness to see. We can acknowledge a reaction without condemning ourselves for having it or rushing to justify it. Awareness is not yet surrender, but it gives us something real to bring into relationship with God.</p>
+        <div className="rts-scripture"><span>PSALM 139:23–24 · WEB</span><blockquote>“Search me, God, and know my heart. Try me, and know my thoughts. See if there is any wicked way in me, and lead me in the everlasting way.”</blockquote><p>David's prayer is not an attempt to diagnose himself. He invites God to know what he cannot fully see and to lead him. The goal is not self-mastery. It is an honest, trusting relationship with the One who sees clearly.</p></div>
+        <h2 className="rts-subheading">An invitation, not an assessment</h2>
+        <p>Think of a recent ordinary moment that stayed with you. Perhaps you felt dismissed, hurried, overlooked, praised, or unexpectedly interrupted. Instead of trying to uncover a hidden motive, simply remember what you noticed in yourself. You may have felt tension, urgency, a need to defend yourself, or a desire to withdraw. You may not be sure what you felt at all.</p>
+        <p>There is no score to earn, pattern to identify, or conclusion the app needs to produce. You can sit with the moment quietly, speak with God about it, or continue reading. The practice is learning to pay attention without needing to control what you discover.</p>
+        <div className="rts-teaching-emphasis"><p>“Lord, here is what I noticed. I do not need to understand it all before I bring it to You.”</p></div>
+        <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(2)}>← Previous</button><button className="rts-button" onClick={()=>advance(4)}>Continue →</button></div>
+      </section>}
     </div>
   </main>;
 }
