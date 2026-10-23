@@ -262,7 +262,7 @@ export default function NarrativeJourney() {
           <div className="rts-become-contrast"><p>Our relationships begin changing because we are changing.</p></div>
           <p>Our bodies learn different responses. Our wills become stronger in different directions. Our desires begin changing. The various parts of our lives become increasingly integrated around the life we are actually living with God.</p>
           <p>And eventually something appears that cannot be manufactured for very long.</p>
-          <div className="rts-become-focus"><p>Fruit.</p></div>
+          
           <button className="rts-button rts-wide" onClick={()=>advance(16)}>Recognize the fruit →</button>
         </> : page===16 ? <>
           <p className="rts-kicker">BECOME · THE FRUIT OF A RESTORED LIFE</p><h1>What Grows from Living With God</h1>
