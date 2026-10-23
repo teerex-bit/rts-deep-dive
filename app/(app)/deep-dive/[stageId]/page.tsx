@@ -39,15 +39,37 @@ export default async function StagePage({ params }: { params: Promise<{ stageId:
     awakenModuleNavigation('formation-is-not-identity', 'Understand · A4', a4),
   ];
 
+  const nextLesson = lessons.find(lesson => lesson.status !== 'review') ?? lessons[lessons.length - 1];
+  const firstArrival = !a1 && !a2 && !a3 && !a4;
   return (
     <AppShell stage="Awaken">
-      <section className="deep-dive-home deep-dive-home--awaken">
-        <p className="eyebrow">THE FORMATION JOURNEY · AWAKEN</p>
+      <section className="deep-dive-home deep-dive-home--see-clearly">
+        <p className="eyebrow">THE FORMATION JOURNEY{firstArrival ? '' : ' · AWAKEN'}</p>
         <h1>Awaken</h1>
-        <p className="deep-dive-introduction">{AWAKEN_INTRODUCTION}</p>
-        <div className="deep-dive-module-links" aria-label="Awaken lessons">
-          {lessons.map((lesson, index) => <Link className={index === 0 ? 'button' : 'button button--secondary'} href={lesson.href} key={lesson.href}>{lesson.label}</Link>)}
-        </div>
+        {firstArrival ? (
+          <>
+            <div className="see-clearly-welcome">
+              <p className="see-clearly-welcome__lead">{AWAKEN_INTRODUCTION}</p>
+            </div>
+            <div className="see-clearly-welcome__first">
+              <span className="eyebrow">YOUR FIRST STEP</span>
+              <h2>Pay Attention</h2>
+              <p>Begin by noticing what is already happening within you.</p>
+              <Link className="button deep-dive-stage-actions__primary" href={lessons[0].href}>BEGIN AWAKEN</Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="deep-dive-introduction">{AWAKEN_INTRODUCTION}</p>
+            <div className="see-clearly-next">
+              <p className="eyebrow">NEXT</p>
+              <h2>{nextLesson.label}</h2>
+              <p>Continue from where you are. You do not need to hold the whole journey in view.</p>
+              <Link className="button deep-dive-stage-actions__primary" href={nextLesson.href}>CONTINUE</Link>
+            </div>
+          </>
+        )}
+        <Link className="deep-dive-stage-actions__back" href="/dashboard">BACK TO FORMATION JOURNEY</Link>
       </section>
     </AppShell>
   );
