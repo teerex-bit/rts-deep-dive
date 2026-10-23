@@ -250,6 +250,8 @@ export default function NarrativeJourney() {
           <p>This is where trust becomes visible. We cannot always choose our circumstances, but we can increasingly learn to choose how we participate with God within them.</p>
           <p>And then I repeat the process.</p>
           <p>That last part matters.</p>
+          <p>A single moment of surrender does not instantly undo years of familiar responses. The same fears and desires may surface again tomorrow. Repeating the pattern is not a sign that we have failed; it is how a different way of living becomes familiar.</p>
+          <p>With practice we begin to notice sooner, release our demands more readily, and respond with greater freedom. The aim is not perfect performance. It is becoming a person who naturally turns toward God in the ordinary movement of life, rather than treating His presence as something reserved for exceptional moments.</p>
           <p>We repeat because formation happens through living. Tomorrow will bring another person, another inconvenience, another disappointment, another opportunity, another fear, another decision, or another ordinary moment in which the person we have become will show up.</p>
           <p>And when that happens, we practice again.</p>
           <div className="rts-become-steps">{['Release control.','Receive the moment.','Take the next right step.','Repeat.'].map((step,i)=><div className="rts-become-step" key={step}><strong>{String(i+1).padStart(2,'0')} · {step}</strong></div>)}</div>
