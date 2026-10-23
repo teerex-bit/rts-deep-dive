@@ -282,6 +282,45 @@ export default function NarrativeJourney() {
           <div className="rts-finish"><h2>Become complete</h2><p>The next movement is Join.</p><button className="rts-button" onClick={()=>advance(18)}>Begin Join →</button></div>
         </>}
         {page>12&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
+      </section> : page>=18 ? <section className={`rts-see rts-scene rts-become rts-join rts-scene--${page}`}>
+        {page===18 ? <>
+          <div className="rts-become-hero"><span>04 / JOIN</span></div>
+          <p className="rts-kicker">JOIN · NOTICE WHERE GOD IS WORKING</p><h1>A Restored Soul Becomes Available</h1>
+          <p>God is not restoring our souls simply so that we can become healthier versions of ourselves. The freedom we discover as we release control and learn to live with Him makes us increasingly available to others.</p>
+          <p>We do not have to invent a grand assignment or prove that our lives are useful. We can begin by noticing the people, needs, and opportunities already present. An interruption may become an invitation to listen. A difficult relationship may become an opportunity to love without controlling the outcome.</p>
+          <div className="rts-become-note"><p>We do not have to create God's work. We can become available to participate in it.</p></div>
+          <p>Join is not another performance to master. It is what becomes possible when we are less occupied with protecting ourselves, securing recognition, and arranging life around our own needs.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(19)}>Become available →</button>
+        </> : page===19 ? <>
+          <p className="rts-kicker">JOIN · BECOME AVAILABLE</p><h1>Notice, Then Respond</h1>
+          <p>Availability begins with attention. When we are preoccupied with our own plans, we can miss the person standing in front of us. We can learn to pause, notice what is happening, and listen for what love may require.</p>
+          <p>Becoming available does not mean every problem is ours to solve. We can recognize a need without taking possession of another person's life. Sometimes the next right step is practical help; sometimes it is a conversation, a prayer, or the willingness to remain present.</p>
+          <div className="rts-become-contrast"><p>We offer ourselves without claiming control of the outcome.</p></div>
+          <p>We can act faithfully and allow God to remain responsible for what we cannot do. This is the same surrender we have been practicing, now expressed in the way we relate to others.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(20)}>Serve and walk with people →</button>
+        </> : page===20 ? <>
+          <p className="rts-kicker">JOIN · SERVE AND WALK WITH PEOPLE</p><h1>Love Without Control</h1>
+          <p>Serving is not simply completing tasks for God. It is making the love we have received available to someone else. We may offer time, attention, encouragement, practical assistance, or the courage to speak truth.</p>
+          <p>Walking with people requires patience. Their choices may not match our expectations and their growth may not happen on our timetable. Love can remain present without trying to force another person's transformation.</p>
+          <div className="rts-become-note"><p>We can give faithfully without possessing the result.</p></div>
+          <p>We can listen without immediately correcting, help without creating dependence, and speak honestly without needing to manage the response. The freedom to love this way grows as our need to be approved, needed, or in control begins to loosen.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(21)}>Give what you have received →</button>
+        </> : page===21 ? <>
+          <p className="rts-kicker">JOIN · GIVE WHAT YOU HAVE RECEIVED</p><h1>Live Useful, Not Indispensable</h1>
+          <p>What God is forming within us is not meant to remain private. Peace becomes a steady presence for someone who is anxious. Patience makes room for another person's struggle. Grace interrupts blame. Our willingness to listen helps someone feel seen.</p>
+          <p>Yet usefulness is not indispensability. We are not called to make ourselves necessary or to prove our value through constant activity. Each of us has something particular to offer, including a love only we can give, without comparison or competition.</p>
+          <div className="rts-become-contrast"><p>We serve because we belong, not so that we can earn a place with God.</p></div>
+          <p>We give what we have received and leave room for God to do what only He can do. Participation is an expression of relationship, not a replacement for it.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(22)}>Return to attention →</button>
+        </> : <>
+          <p className="rts-kicker">JOIN · RETURN TO ATTENTION</p><h1>The Journey Continues Here</h1>
+          <p>Join does not bring formation to an end. Participating with God will reveal new fears, expectations, desires, and attempts to control. We may miss an opportunity, respond defensively, or make our own usefulness more important than love.</p>
+          <p>When that happens, we return to attention. We notice what surfaced, see it more clearly, and practice living with God again. The journey is not a straight line toward mastery. It is an ongoing relationship in which ordinary moments become opportunities to trust and respond.</p>
+          <div className="rts-become-steps"><div className="rts-become-step"><strong>Release control</strong><p>Let go of the demand to direct the outcome.</p></div><div className="rts-become-step"><strong>Receive the moment</strong><p>Be present with God and the person before you.</p></div><div className="rts-become-step"><strong>Take the next right step</strong><p>Offer what faithfulness and love require now.</p></div><div className="rts-become-step"><strong>Repeat</strong><p>Return to attention as life continues.</p></div></div>
+          <p>Awaken. See Clearly. Become. Join. Not four achievements to collect, but a way of learning to live with God and participate in His kingdom now.</p>
+          <div className="rts-finish"><h2>The journey continues in the life you are living.</h2><button className="rts-button" onClick={()=>advance(0)}>Return to the beginning →</button></div>
+        </>}
+        {page>18&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : <>
         <p className="rts-kicker">AWAKEN · NOTICE YOURSELF</p>
         {reflectionStep===0 ? <>
