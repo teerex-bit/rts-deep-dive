@@ -370,8 +370,6 @@ export default function NarrativeJourney() {
           <p>As we become present to Him, the moment is no longer only a problem to solve. It becomes an opportunity to listen, to see ourselves truthfully, and to respond from trust instead of fear.</p>
           <p>That changes the question.</p>
           <div className="rts-become-contrast"><p>Instead of asking only, How do I get out of this? I can begin asking, What does faithfulness look like here?</p></div>
-          
-        </>
           <p>Receiving does not mean approving of injustice, excusing harm, or calling pain good. We may need to grieve, resist something wrong, or take decisive action. But we can do those things with God rather than spending our strength insisting that the present must first become something else.</p>
           <p>Sometimes receiving begins quietly: acknowledge what is here, notice what it stirs in you, and bring both into God's presence. Before we try to do something for Him, we can be received by Him. This moment does not have to be impressive or comfortable to become a place of fellowship and formation.</p>
           <div className="rts-practice"><h2>Meet this moment</h2><p>What is happening now, apart from what you fear it means?</p><button type="button" aria-expanded={openPractice.includes(14)} onClick={()=>setOpenPractice(prev=>prev.includes(14)?prev.filter(x=>x!==14):[...prev,14])}>{openPractice.includes(14)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(14)&&<div className="rts-practice-insight">Receiving reality with God is not the same as approving everything in it.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(15)}>Take the next right step →</button>
