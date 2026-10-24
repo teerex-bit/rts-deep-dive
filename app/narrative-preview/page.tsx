@@ -51,7 +51,8 @@ export default function NarrativeJourney() {
   const [reflectionStep,setReflectionStep] = useState(0);
   const [followup,setFollowup] = useState('');
   const [ready,setReady] = useState(false);
-  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(22,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
+  const [openPractice,setOpenPractice] = useState<number[]>([]);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(23,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
   useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,clearResponse,reveal,reflectionStep,followup}))},[page,selected,influence,response,clearResponse,reveal,reflectionStep,followup,ready]);
   const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
   const reading = page===0 || page===2;
@@ -204,6 +205,11 @@ export default function NarrativeJourney() {
       .rts-reveal-chevron{display:block;width:9px;height:9px;border-right:2px solid #658176;border-bottom:2px solid #658176;transform:rotate(45deg);transition:transform .18s}
       .rts-reveal-trigger[aria-expanded=true] .rts-reveal-chevron{transform:rotate(225deg)}
       @media(prefers-reduced-motion:reduce){.rts-reveal-chevron{transition:none}}
+      .rts-practice{margin:28px 0;padding:20px;background:#e8ece8;border-left:3px solid #648078;border-radius:12px}
+      .rts-practice h2{font:700 18px/1.4 Arial,sans-serif;margin:0 0 12px}
+      .rts-practice p{margin:0 0 14px}
+      .rts-practice button{width:100%;padding:13px;border:1px solid #b7c7be;border-radius:9px;background:white;color:#263a4a;text-align:left;font:600 13px Arial,sans-serif;cursor:pointer}
+      .rts-practice-insight{padding-top:15px;font:16px/1.6 Georgia,serif}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
@@ -342,7 +348,7 @@ export default function NarrativeJourney() {
           <p>That moment is where spiritual formation moves from an idea into an actual life.</p>
           <p>Reforming the Soul teaches a simple pattern for these moments:</p>
           <div className="rts-become-steps"><div className="rts-become-step"><strong>01 · Release control</strong></div><div className="rts-become-step"><strong>02 · Receive the moment</strong></div><div className="rts-become-step"><strong>03 · Take the next right step</strong></div><div className="rts-become-step"><strong>04 · Repeat</strong></div></div>
-          <button className="rts-button rts-wide" onClick={()=>advance(13)}>Live the pattern →</button>
+          <div className="rts-become-note"><p><strong>Scripture for reflection: Romans 12:2 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Truth into life</h2><p>What truth do you believe but struggle to live when pressured?</p><button type="button" aria-expanded={openPractice.includes(12)} onClick={()=>setOpenPractice(prev=>prev.includes(12)?prev.filter(x=>x!==12):[...prev,12])}>{openPractice.includes(12)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(12)&&<div className="rts-practice-insight">Formation moves what we know into the way we respond.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(13)}>Live the pattern →</button>
         </> : page===13 ? <>
           <p className="rts-kicker">BECOME · RELEASE CONTROL</p><h1>Release Control.</h1>
           <div className="rts-become-step"><strong>Release control</strong><p>I release my demand that this situation must turn out the way I want before I can be okay.</p></div>
@@ -351,7 +357,7 @@ export default function NarrativeJourney() {
           <p>Releasing control is not refusing to plan or neglecting what is entrusted to us. We still make decisions, tell the truth, set boundaries, and do what love requires. What we release is the insistence that our obedience must produce the result we prefer. We can tell God what we hope for and what we fear without demanding that He follow our timetable.</p>
           <div className="rts-become-contrast"><p>I am responsible for my response, not for controlling the outcome.</p></div>
           <p>Trust precedes understanding. We can take the next faithful step even when we cannot see how the story will unfold.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(14)}>Receive the moment →</button>
+          <div className="rts-practice"><h2>Release the outcome</h2><p>What outcome are you trying to guarantee?</p><button type="button" aria-expanded={openPractice.includes(13)} onClick={()=>setOpenPractice(prev=>prev.includes(13)?prev.filter(x=>x!==13):[...prev,13])}>{openPractice.includes(13)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(13)&&<div className="rts-practice-insight">Faithful responsibility is ours; controlling the result is not.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(14)}>Receive the moment →</button>
         </> : page===14 ? <>
           <p className="rts-kicker">BECOME · RECEIVE THE MOMENT</p><h1>Receive the Moment.</h1>
           <div className="rts-become-step"><strong>Receive the moment</strong><p>I can meet the life in front of me with God, rather than waiting for life to become what I wish it were.</p></div>
@@ -368,7 +374,7 @@ export default function NarrativeJourney() {
         </>
           <p>Receiving does not mean approving of injustice, excusing harm, or calling pain good. We may need to grieve, resist something wrong, or take decisive action. But we can do those things with God rather than spending our strength insisting that the present must first become something else.</p>
           <p>Sometimes receiving begins quietly: acknowledge what is here, notice what it stirs in you, and bring both into God's presence. Before we try to do something for Him, we can be received by Him. This moment does not have to be impressive or comfortable to become a place of fellowship and formation.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(15)}>Take the next right step →</button>
+          <div className="rts-practice"><h2>Meet this moment</h2><p>What is happening now, apart from what you fear it means?</p><button type="button" aria-expanded={openPractice.includes(14)} onClick={()=>setOpenPractice(prev=>prev.includes(14)?prev.filter(x=>x!==14):[...prev,14])}>{openPractice.includes(14)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(14)&&<div className="rts-practice-insight">Receiving reality with God is not the same as approving everything in it.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(15)}>Take the next right step →</button>
         </> : page===15 ? <>
           <p className="rts-kicker">BECOME · FAITHFULNESS IN THE PRESENT</p><h1>Take the Next Right Step. Repeat.</h1>
           <p>Then I take the next right step.</p>
@@ -390,7 +396,7 @@ export default function NarrativeJourney() {
             {title:'Take the next right step.',description:'Respond to what love, truth, and faithfulness require now. You do not need the whole plan or a guaranteed result—only the next step you can take with God.'},
             {title:'Repeat.',description:'Return to this way of living when the next interruption, fear, or opportunity arrives. Formation grows through repeated trust in ordinary moments, not through one perfect response.'}
           ].map((step,i)=><div className="rts-become-step" key={step.title}><strong>{String(i+1).padStart(2,'0')} · {step.title}</strong><p>{step.description}</p></div>)}</div>
-          <button className="rts-button rts-wide" onClick={()=>advance(16)}>Notice what changes →</button>
+          <div className="rts-become-note"><p><strong>Scripture for reflection: James 1:22 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Respond faithfully</h2><p>What would love require without controlling the response?</p><button type="button" aria-expanded={openPractice.includes(15)} onClick={()=>setOpenPractice(prev=>prev.includes(15)?prev.filter(x=>x!==15):[...prev,15])}>{openPractice.includes(15)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(15)&&<div className="rts-practice-insight">The next right step may be to listen, apologize, speak honestly, or wait.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(16)}>Notice what changes →</button>
         </> : page===16 ? <>
           <p className="rts-kicker">BECOME · THE SLOW WORK OF FORMATION</p><h1>Slowly, Something Begins to Happen</h1>
           <p>What once required enormous effort becomes a little more natural. Situations that once controlled us begin losing some of their power. We notice ourselves sooner. We surrender more readily. We recover from our reactions faster. We become less dependent on circumstances being arranged exactly as we want them.</p>
@@ -398,7 +404,7 @@ export default function NarrativeJourney() {
           <p>Our bodies learn different responses. Our wills become stronger in different directions. Our desires begin changing. The various parts of our lives become increasingly integrated around the life we are actually living with God.</p>
           <p>And eventually something appears that cannot be manufactured for very long: fruit.</p>
           
-          <button className="rts-button rts-wide" onClick={()=>advance(17)}>Recognize the fruit →</button>
+          <div className="rts-become-note"><p><strong>Scripture for reflection: 2 Corinthians 3:18 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Notice the change</h2><p>Where do you return to trust sooner than before?</p><button type="button" aria-expanded={openPractice.includes(16)} onClick={()=>setOpenPractice(prev=>prev.includes(16)?prev.filter(x=>x!==16):[...prev,16])}>{openPractice.includes(16)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(16)&&<div className="rts-practice-insight">Growth is often a quicker return to God, not perfect performance.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(17)}>Recognize the fruit →</button>
         </> : page===17 ? <>
           <p className="rts-kicker">BECOME · THE FRUIT OF A RESTORED LIFE</p><h1>What Grows from Living With God</h1>
           <p>Love becomes more natural. Peace becomes less dependent upon circumstances. Patience begins replacing the need to control. Grace begins replacing defensiveness. We become more capable of listening because we do not constantly have to protect ourselves. We become more capable of serving because we need less recognition in return.</p>
@@ -416,7 +422,7 @@ export default function NarrativeJourney() {
           <p>As we become less preoccupied with protecting ourselves, proving ourselves, controlling outcomes, and arranging life around our own needs, we become increasingly free to participate in what God is doing around us.</p>
           <div className="rts-finish"><h2>Become complete</h2><p>The next movement is Join.</p><button className="rts-button" onClick={()=>advance(19)}>Begin Join →</button></div>
         </>}
-        {page>12&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
+        {page>12&&<div className="rts-become-note"><p><strong>Scripture for reflection: Galatians 5:22–23 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Fruit, not striving</h2><p>Which fruit of the Spirit could change a relationship this week?</p><button type="button" aria-expanded={openPractice.includes(17)} onClick={()=>setOpenPractice(prev=>prev.includes(17)?prev.filter(x=>x!==17):[...prev,17])}>{openPractice.includes(17)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(17)&&<div className="rts-practice-insight">Fruit emerges through abiding, not proving spiritual worth.</div>}</div><button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : page>=19 ? <section className={`rts-see rts-scene rts-become rts-join rts-scene--${page}`}>
         {page===19 ? <>
           <div className="rts-become-hero"><span>04 / JOIN</span></div>
@@ -425,35 +431,35 @@ export default function NarrativeJourney() {
           <p>We do not have to invent a grand assignment or prove that our lives are useful. We can begin by noticing the people, needs, and opportunities already present. An interruption may become an invitation to listen. A difficult relationship may become an opportunity to love without controlling the outcome.</p>
           <div className="rts-become-note"><p>We do not have to create God's work. We can become available to participate in it.</p></div>
           <p>Join is not another performance to master. It is what becomes possible when we are less occupied with protecting ourselves, securing recognition, and arranging life around our own needs.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(20)}>Become available →</button>
+          <div className="rts-become-note"><p><strong>Scripture for reflection: Ephesians 2:10 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Pay attention</h2><p>Who needs your attention more than your advice?</p><button type="button" aria-expanded={openPractice.includes(19)} onClick={()=>setOpenPractice(prev=>prev.includes(19)?prev.filter(x=>x!==19):[...prev,19])}>{openPractice.includes(19)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(19)&&<div className="rts-practice-insight">Availability begins with the person already in front of you.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(20)}>Become available →</button>
         </> : page===20 ? <>
           <p className="rts-kicker">JOIN · BECOME AVAILABLE</p><h1>Notice, Then Respond</h1>
           <p>Availability begins with attention. When we are preoccupied with our own plans, we can miss the person standing in front of us. We can learn to pause, notice what is happening, and listen for what love may require.</p>
           <p>Becoming available does not mean every problem is ours to solve. We can recognize a need without taking possession of another person's life. Sometimes the next right step is practical help; sometimes it is a conversation, a prayer, or the willingness to remain present.</p>
           <div className="rts-become-contrast"><p>We offer ourselves without claiming control of the outcome.</p></div>
           <p>We can act faithfully and allow God to remain responsible for what we cannot do. This is the same surrender we have been practicing, now expressed in the way we relate to others.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(21)}>Serve and walk with people →</button>
+          <div className="rts-become-note"><p><strong>Scripture for reflection: Galatians 6:2 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Help without taking over</h2><p>What can you offer without owning another person's choices?</p><button type="button" aria-expanded={openPractice.includes(20)} onClick={()=>setOpenPractice(prev=>prev.includes(20)?prev.filter(x=>x!==20):[...prev,20])}>{openPractice.includes(20)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(20)&&<div className="rts-practice-insight">Bearing burdens together is not taking possession of someone's life.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(21)}>Serve and walk with people →</button>
         </> : page===21 ? <>
           <p className="rts-kicker">JOIN · SERVE AND WALK WITH PEOPLE</p><h1>Love Without Control</h1>
           <p>Serving is not simply completing tasks for God. It is making the love we have received available to someone else. We may offer time, attention, encouragement, practical assistance, or the courage to speak truth.</p>
           <p>Walking with people requires patience. Their choices may not match our expectations and their growth may not happen on our timetable. Love can remain present without trying to force another person's transformation.</p>
           <div className="rts-become-note"><p>We can give faithfully without possessing the result.</p></div>
           <p>We can listen without immediately correcting, help without creating dependence, and speak honestly without needing to manage the response. The freedom to love this way grows as our need to be approved, needed, or in control begins to loosen.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(22)}>Give what you have received →</button>
+          <div className="rts-become-note"><p><strong>Scripture for reflection: 1 Corinthians 13:4–5 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Love without control</h2><p>How can you love someone without requiring a particular response?</p><button type="button" aria-expanded={openPractice.includes(21)} onClick={()=>setOpenPractice(prev=>prev.includes(21)?prev.filter(x=>x!==21):[...prev,21])}>{openPractice.includes(21)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(21)&&<div className="rts-practice-insight">Love remains truthful and patient without forcing transformation.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(22)}>Give what you have received →</button>
         </> : page===22 ? <>
           <p className="rts-kicker">JOIN · GIVE WHAT YOU HAVE RECEIVED</p><h1>Live Useful, Not Indispensable</h1>
           <p>What God is forming within us is not meant to remain private. Peace becomes a steady presence for someone who is anxious. Patience makes room for another person's struggle. Grace interrupts blame. Our willingness to listen helps someone feel seen.</p>
           <p>Yet usefulness is not indispensability. We are not called to make ourselves necessary or to prove our value through constant activity. Each of us has something particular to offer, including a love only we can give, without comparison or competition.</p>
           <div className="rts-become-contrast"><p>We serve because we belong, not so that we can earn a place with God.</p></div>
           <p>We give what we have received and leave room for God to do what only He can do. Participation is an expression of relationship, not a replacement for it.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(23)}>Return to attention →</button>
+          <div className="rts-become-note"><p><strong>Scripture for reflection: 1 Peter 4:10 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Give what you received</h2><p>What can you offer without comparison or applause?</p><button type="button" aria-expanded={openPractice.includes(22)} onClick={()=>setOpenPractice(prev=>prev.includes(22)?prev.filter(x=>x!==22):[...prev,22])}>{openPractice.includes(22)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(22)&&<div className="rts-practice-insight">Service expresses belonging; it never earns belonging.</div>}</div><button className="rts-button rts-wide" onClick={()=>advance(23)}>Return to attention →</button>
         </> : <>
           <p className="rts-kicker">JOIN · RETURN TO ATTENTION</p><h1>The Journey Continues Here</h1>
           <p>Join does not bring formation to an end. Participating with God will reveal new fears, expectations, desires, and attempts to control. We may miss an opportunity, respond defensively, or make our own usefulness more important than love.</p>
           <p>When that happens, we return to attention. We notice what surfaced, see it more clearly, and practice living with God again. The journey is not a straight line toward mastery. It is an ongoing relationship in which ordinary moments become opportunities to trust and respond.</p>
           <div className="rts-become-steps"><div className="rts-become-step"><strong>Release control</strong><p>Let go of the demand to direct the outcome.</p></div><div className="rts-become-step"><strong>Receive the moment</strong><p>Be present with God and the person before you.</p></div><div className="rts-become-step"><strong>Take the next right step</strong><p>Offer what faithfulness and love require now.</p></div><div className="rts-become-step"><strong>Repeat</strong><p>Return to attention as life continues.</p></div></div>
           <p>Awaken. See Clearly. Become. Join. Not four achievements to collect, but a way of learning to live with God and participate in His kingdom now.</p>
-          <div className="rts-finish"><h2>The journey continues in the life you are living.</h2><button className="rts-button" onClick={()=>advance(0)}>Return to the beginning →</button></div>
+          <div className="rts-become-note"><p><strong>Scripture for reflection: John 15:5 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Return to attention</h2><p>When does your service become striving or self-protection?</p><button type="button" aria-expanded={openPractice.includes(23)} onClick={()=>setOpenPractice(prev=>prev.includes(23)?prev.filter(x=>x!==23):[...prev,23])}>{openPractice.includes(23)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(23)&&<div className="rts-practice-insight">Return to God's presence, release control, and take the next faithful step.</div>}</div><div className="rts-finish"><h2>The journey continues in the life you are living.</h2><button className="rts-button" onClick={()=>advance(0)}>Return to the beginning →</button></div>
         </>}
         {page>19&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : <section className="rts-see rts-scene rts-reflection">
