@@ -409,6 +409,7 @@ export default function NarrativeJourney() {
           <div className="rts-become-steps">{['Love','Peace','Patience','Grace','Listening','Serving'].map(item=><div className="rts-become-step" key={item}><strong>{item}</strong></div>)}</div>
           <p>This is what it means to Become.</p>
           <div className="rts-become-note"><p>It is not pretending to be the person we think a Christian should be.</p><p>It is increasingly becoming that person.</p></div>
+          <div className="rts-become-note"><p><strong>Scripture for reflection: Galatians 5:22–23 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Fruit, not striving</h2><p>Which fruit of the Spirit could change a relationship this week?</p><button type="button" aria-expanded={openPractice.includes(17)} onClick={()=>setOpenPractice(prev=>prev.includes(17)?prev.filter(x=>x!==17):[...prev,17])}>{openPractice.includes(17)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(17)&&<div className="rts-practice-insight">Fruit emerges through abiding, not proving spiritual worth.</div>}</div>
           <button className="rts-button rts-wide" onClick={()=>advance(18)}>Complete Become →</button>
         </> : <>
           <p className="rts-kicker">BECOME · SECTION COMPLETE</p><h1>Formation Produces Participation</h1>
@@ -420,7 +421,7 @@ export default function NarrativeJourney() {
           <p>As we become less preoccupied with protecting ourselves, proving ourselves, controlling outcomes, and arranging life around our own needs, we become increasingly free to participate in what God is doing around us.</p>
           <div className="rts-finish"><h2>Become complete</h2><p>The next movement is Join.</p><button className="rts-button" onClick={()=>advance(19)}>Begin Join →</button></div>
         </>}
-        {page>12&&<div className="rts-become-note"><p><strong>Scripture for reflection: Galatians 5:22–23 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><div className="rts-practice"><h2>Fruit, not striving</h2><p>Which fruit of the Spirit could change a relationship this week?</p><button type="button" aria-expanded={openPractice.includes(17)} onClick={()=>setOpenPractice(prev=>prev.includes(17)?prev.filter(x=>x!==17):[...prev,17])}>{openPractice.includes(17)?"Close reflection":"Explore this further"} →</button>{openPractice.includes(17)&&<div className="rts-practice-insight">Fruit emerges through abiding, not proving spiritual worth.</div>}</div><button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
+        {page>12&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : page>=19 ? <section className={`rts-see rts-scene rts-become rts-join rts-scene--${page}`}>
         {page===19 ? <>
           <div className="rts-become-hero"><span>04 / JOIN</span></div>
