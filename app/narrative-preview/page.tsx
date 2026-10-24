@@ -215,7 +215,7 @@ export default function NarrativeJourney() {
           <button type="button" className="rts-reveal-trigger" aria-expanded={influence===item.name} onClick={()=>setInfluence(influence===item.name?'':item.name)}>
             <span>{item.name}</span><span className="rts-reveal-icon" aria-hidden="true">{influence===item.name?'−':'+'}</span>
           </button>
-          {influence===item.name&&<div className="rts-reveal-content"><p>{item.meaning}</p><span>Notice what resonates, if anything. This is an invitation to reflect, not a conclusion about you.</span></div>}
+          {influence===item.name&&<div className="rts-reveal-content"><p>{item.meaning}</p></div>}
         </div>)}
         <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(0)}>← Back</button><button className="rts-button" onClick={()=>advance(2)}>Continue →</button></div>
         <p className="rts-small">You may explore as many as you like, or continue without choosing.</p>
