@@ -200,6 +200,10 @@ export default function NarrativeJourney() {
       @media(prefers-reduced-motion:reduce){.rts-chain-chevron{transition:none}}
       .rts-chain-affordance{display:inline-flex;align-items:center;gap:10px;flex:none;font:600 11px/1.4 Arial,sans-serif;letter-spacing:.02em;color:#658176}
       .rts-chain-trigger[aria-expanded=true] .rts-chain-affordance{color:#526b62}
+      .rts-reveal-affordance{display:inline-flex;align-items:center;gap:10px;flex:none;font:600 11px/1.4 Arial,sans-serif;color:#658176}
+      .rts-reveal-chevron{display:block;width:9px;height:9px;border-right:2px solid #658176;border-bottom:2px solid #658176;transform:rotate(45deg);transition:transform .18s}
+      .rts-reveal-trigger[aria-expanded=true] .rts-reveal-chevron{transform:rotate(225deg)}
+      @media(prefers-reduced-motion:reduce){.rts-reveal-chevron{transition:none}}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
@@ -226,7 +230,7 @@ export default function NarrativeJourney() {
           {name:'Something else',meaning:'Not every formative experience fits a category. A particular season, responsibility, change, or unexpected moment may have influenced the way you see yourself, others, or God.'}
         ].map(item=><div key={item.name} className={`rts-reveal-card ${influence===item.name?'rts-reveal-card--open':''}`}>
           <button type="button" className="rts-reveal-trigger" aria-expanded={influence===item.name} onClick={()=>setInfluence(influence===item.name?'':item.name)}>
-            <span>{item.name}</span><span className="rts-reveal-icon" aria-hidden="true">{influence===item.name?'−':'+'}</span>
+            <span>{item.name}</span><span className="rts-reveal-affordance" aria-hidden="true"><span>{influence===item.name?"Hide":"Tap to read"}</span><span className="rts-reveal-chevron"/></span>
           </button>
           {influence===item.name&&<div className="rts-reveal-content"><p>{item.meaning}</p></div>}
         </div>)}
