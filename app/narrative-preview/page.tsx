@@ -317,7 +317,7 @@ export default function NarrativeJourney() {
           <p>Awaken made it possible to say, “I know what I did.” See Clearly invites us to go further: “I am starting to understand where that came from, and I am learning what is actually true.”</p>
           <div className="rts-example-panel"><p>We may recognize that an angry response came from fear, that our need to control came from an expectation of abandonment, or that our desire for approval has shaped the way we relate to others. That recognition matters, but the goal is not to become experts at explaining ourselves.</p></div>
           <p>We are learning to see ourselves and God truthfully, so that our relationship with Him can be lived from trust rather than fear, performance, or self-protection.</p>
-          <blockquote>Clarity precedes obedience.</blockquote>
+          <blockquote>Trust precedes understanding.</blockquote>
           <p>But even clear understanding is not the same as becoming the kind of person who naturally lives from what is true.</p>
           <h2 className="rts-subheading">From an inherited picture to a living relationship</h2>
           <p>There is a difference between agreeing that God is good and beginning to entrust a particular fear to Him. There is a difference between saying we are accepted in Christ and refusing to let failure drive us into hiding. In both cases, truth is moving from a statement we affirm toward a relationship we actually inhabit.</p>
