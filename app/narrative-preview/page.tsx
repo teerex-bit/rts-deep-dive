@@ -383,7 +383,13 @@ export default function NarrativeJourney() {
           <p>With practice we begin to notice sooner, release our demands more readily, and respond with greater freedom. The aim is not perfect performance. It is becoming a person who naturally turns toward God in the ordinary movement of life, rather than treating His presence as something reserved for exceptional moments.</p>
           <p>We repeat because formation happens through living. Tomorrow will bring another person, another inconvenience, another disappointment, another opportunity, another fear, another decision, or another ordinary moment in which the person we have become will show up.</p>
           <p>And when that happens, we practice again.</p>
-          <div className="rts-become-steps">{['Release control.','Receive the moment.','Take the next right step.','Repeat.'].map((step,i)=><div className="rts-become-step" key={step}><strong>{String(i+1).padStart(2,'0')} · {step}</strong></div>)}</div>
+          <p>Here is what the pattern looks like when we carry it into an ordinary day:</p>
+          <div className="rts-become-steps">{[
+            {title:'Release control.',description:'Recognize where you are insisting on a particular outcome. Bring your hopes and fears to God, do what is yours to do, and surrender the demand to manage what happens next.'},
+            {title:'Receive the moment.',description:'Stop fighting the fact that this is the moment in front of you. Pay attention to what is happening, what it reveals in you, and where God is inviting you to be present with Him.'},
+            {title:'Take the next right step.',description:'Respond to what love, truth, and faithfulness require now. You do not need the whole plan or a guaranteed result—only the next step you can take with God.'},
+            {title:'Repeat.',description:'Return to this way of living when the next interruption, fear, or opportunity arrives. Formation grows through repeated trust in ordinary moments, not through one perfect response.'}
+          ].map((step,i)=><div className="rts-become-step" key={step.title}><strong>{String(i+1).padStart(2,'0')} · {step.title}</strong><p>{step.description}</p></div>)}</div>
           <button className="rts-button rts-wide" onClick={()=>advance(16)}>Notice what changes →</button>
         </> : page===16 ? <>
           <p className="rts-kicker">BECOME · THE SLOW WORK OF FORMATION</p><h1>Slowly, Something Begins to Happen</h1>
