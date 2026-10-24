@@ -209,9 +209,9 @@ export default function NarrativeJourney() {
     `}</style>
     <div className="rts-shell">
       <header className="rts-header"><button type="button" className="rts-restart" onClick={()=>{setReflectionStep(0);advance(0)}}>← Back to beginning</button><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
-      <nav className="rts-breadcrumbs" aria-label="Journey location"><span>FORMATION JOURNEY</span><span aria-hidden="true">/</span><strong>{page<2?"Introduction":page>=18?"Join":page>=12?"Become":page>=5?"See Clearly":"Awaken"}</strong></nav>
-      <nav aria-label="Journey stages" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=18?3:page>=12?2:page>=5?1:0)?"active":""} aria-label={label+(i===(page>=18?3:page>=12?2:page>=5?1:0)?" current stage":"")} aria-current={i===(page>=18?3:page>=12?2:page>=5?1:0)?"step":undefined} title={label}/>)}</nav>
-      <div className="rts-screen-location"><span>{page<2?"INTRODUCTION":page>=18?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</span><span>{page<2? `${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<18?`${page-11} / 6`:`${page-17} / 5`}</span></div>
+      <nav className="rts-breadcrumbs" aria-label="Journey location"><span>FORMATION JOURNEY</span><span aria-hidden="true">/</span><strong>{page<2?"Introduction":page>=19?"Join":page>=12?"Become":page>=5?"See Clearly":"Awaken"}</strong></nav>
+      <nav aria-label="Journey stages" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=19?3:page>=12?2:page>=5?1:0)?"active":""} aria-label={label+(i===(page>=19?3:page>=12?2:page>=5?1:0)?" current stage":"")} aria-current={i===(page>=19?3:page>=12?2:page>=5?1:0)?"step":undefined} title={label}/>)}</nav>
+      <div className="rts-screen-location"><span>{page<2?"INTRODUCTION":page>=19?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</span><span>{page<2? `${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<19?`${page-11} / 7`:`${page-18} / 5`}</span></div>
       {reading ? <section className="rts-see rts-reading-chapter">
         <div className={`rts-chapter-art ${page===0?'rts-chapter-art--opening':'rts-chapter-art--awaken'}`} aria-hidden="true"><span>{page===0?<>THE<br/>BEGINNING</>:<>AWAKEN</>}</span><div className="rts-chapter-line"/></div>
         <h1>{chapter.title}</h1>
@@ -332,7 +332,7 @@ export default function NarrativeJourney() {
           <div className="rts-transition-summary"><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p></div><button className="rts-button rts-wide" onClick={()=>advance(12)}>Begin Become →</button>
         </>}
         {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← {page===11?"Revisit the teaching":"Previous"}</button>}
-      </section> : page>=12 && page<=17 ? <section className={`rts-see rts-scene rts-become rts-scene--${page}`}>
+      </section> : page>=12 && page<=18 ? <section className={`rts-see rts-scene rts-become rts-scene--${page}`}>
         {page===12 ? <>
           <div className="rts-become-hero"><span>03 / BECOME</span></div>
           <p className="rts-kicker">BECOME · TRUTH BECOMES LIFE</p><h1>Truth Has to Become a Way of Living</h1>
@@ -344,9 +344,20 @@ export default function NarrativeJourney() {
           <div className="rts-become-steps"><div className="rts-become-step"><strong>01 · Release control</strong></div><div className="rts-become-step"><strong>02 · Receive the moment</strong></div><div className="rts-become-step"><strong>03 · Take the next right step</strong></div><div className="rts-become-step"><strong>04 · Repeat</strong></div></div>
           <button className="rts-button rts-wide" onClick={()=>advance(13)}>Live the pattern →</button>
         </> : page===13 ? <>
-          <p className="rts-kicker">BECOME · RELEASE AND RECEIVE</p><h1>Release Control. Receive the Moment.</h1>
+          <p className="rts-kicker">BECOME · RELEASE CONTROL</p><h1>Release Control.</h1>
           <div className="rts-become-step"><strong>Release control</strong><p>I release my demand that this situation must turn out the way I want before I can be okay.</p></div>
-          <p>Recognizing our need for control is not the same as surrendering it. We can understand the fear beneath our reactions and still demand that events unfold according to our expectations. Releasing control means giving up the claim that our preferred outcome must happen before we can trust God.</p><p>We can still name what we want, make responsible decisions, and act with courage. Surrender is not abandoning our will. It is choosing to bring our will into relationship with God's will, without insisting that we already know the best outcome.</p><p>Then I receive the moment.</p>
+          <p>Recognizing our need for control is not the same as surrendering it. We can understand the fear beneath our reactions and still demand that events unfold according to our expectations. Releasing control means giving up the claim that our preferred outcome must happen before we can trust God.</p><p>We can still name what we want, make responsible decisions, and act with courage. Surrender is not abandoning our will. It is choosing to bring our will into relationship with God's will, without insisting that we already know the best outcome.</p><p>Control can disguise itself as responsibility. We may call it careful planning, protecting someone, or making sure things go well. But when our peace depends on a particular outcome, responsibility has become a demand. We are trying to carry what belongs to God.</p>
+          <div className="rts-scripture"><span>PROVERBS 3:5–6 · WEB</span><blockquote>“Trust in Yahweh with all your heart, and don’t lean on your own understanding. In all your ways acknowledge him, and he will make your paths straight.”</blockquote></div>
+          <p>Releasing control is not refusing to plan or neglecting what is entrusted to us. We still make decisions, tell the truth, set boundaries, and do what love requires. What we release is the insistence that our obedience must produce the result we prefer. We can tell God what we hope for and what we fear without demanding that He follow our timetable.</p>
+          <div className="rts-become-contrast"><p>I am responsible for my response, not for controlling the outcome.</p></div>
+          <p>Trust precedes understanding. We can take the next faithful step even when we cannot see how the story will unfold.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(14)}>Receive the moment →</button>
+        </> : page===14 ? <>
+          <p className="rts-kicker">BECOME · RECEIVE THE MOMENT</p><h1>Receive the Moment.</h1>
+          <div className="rts-become-step"><strong>Receive the moment</strong><p>I can meet the life in front of me with God, rather than waiting for life to become what I wish it were.</p></div>
+          <p>After releasing our demand to control what happens, we become available to what is actually happening. So much of our attention lives in yesterday's regrets or tomorrow's possibilities. Yet the present is where we are able to listen, respond, and walk with God.</p>
+          <div className="rts-scripture"><span>MATTHEW 6:34 · WEB</span><blockquote>“Therefore don’t be anxious for tomorrow, for tomorrow will be anxious for itself. Each day’s own evil is sufficient.”</blockquote></div>
+          
           <p>Receiving the moment does not mean pretending that everything happening to us is good. It does not mean becoming passive or refusing to change something that should be changed. It means acknowledging that this is the moment in which I am presently living with God.</p>
           <div className="rts-become-note"><p>If God has allowed this moment to reach me, then this moment cannot prevent Him from forming me through it.</p></div>
           <p>Receiving the moment also means paying attention to what it reveals. An interruption may uncover impatience, disappointment may expose our demand for certainty, and another person's words may reveal how deeply we seek approval. We do not need to hide those discoveries or immediately fix ourselves. We can bring them into our relationship with God.</p>
@@ -354,7 +365,11 @@ export default function NarrativeJourney() {
           <p>That changes the question.</p>
           <div className="rts-become-contrast"><p>Instead of asking only, How do I get out of this? I can begin asking, What does faithfulness look like here?</p></div>
           <button className="rts-button rts-wide" onClick={()=>advance(14)}>Take the next right step →</button>
-        </> : page===14 ? <>
+        </>
+          <p>Receiving does not mean approving of injustice, excusing harm, or calling pain good. We may need to grieve, resist something wrong, or take decisive action. But we can do those things with God rather than spending our strength insisting that the present must first become something else.</p>
+          <p>Sometimes receiving begins quietly: acknowledge what is here, notice what it stirs in you, and bring both into God's presence. Before we try to do something for Him, we can be received by Him. This moment does not have to be impressive or comfortable to become a place of fellowship and formation.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(16)}>Take the next right step →</button>
+        </> : page===15 ? <>
           <p className="rts-kicker">BECOME · FAITHFULNESS IN THE PRESENT</p><h1>Take the Next Right Step. Repeat.</h1>
           <p>Then I take the next right step.</p>
           <div className="rts-teaching-emphasis"><p>Not the next twenty steps. Not the step that guarantees the outcome I want. Not the step that removes every uncertainty.</p></div>
@@ -369,22 +384,22 @@ export default function NarrativeJourney() {
           <p>We repeat because formation happens through living. Tomorrow will bring another person, another inconvenience, another disappointment, another opportunity, another fear, another decision, or another ordinary moment in which the person we have become will show up.</p>
           <p>And when that happens, we practice again.</p>
           <div className="rts-become-steps">{['Release control.','Receive the moment.','Take the next right step.','Repeat.'].map((step,i)=><div className="rts-become-step" key={step}><strong>{String(i+1).padStart(2,'0')} · {step}</strong></div>)}</div>
-          <button className="rts-button rts-wide" onClick={()=>advance(15)}>Notice what changes →</button>
-        </> : page===15 ? <>
+          <button className="rts-button rts-wide" onClick={()=>advance(16)}>Notice what changes →</button>
+        </> : page===16 ? <>
           <p className="rts-kicker">BECOME · THE SLOW WORK OF FORMATION</p><h1>Slowly, Something Begins to Happen</h1>
           <p>What once required enormous effort becomes a little more natural. Situations that once controlled us begin losing some of their power. We notice ourselves sooner. We surrender more readily. We recover from our reactions faster. We become less dependent on circumstances being arranged exactly as we want them.</p>
           <div className="rts-become-contrast"><p>Our relationships begin changing because we are changing.</p></div>
           <p>Our bodies learn different responses. Our wills become stronger in different directions. Our desires begin changing. The various parts of our lives become increasingly integrated around the life we are actually living with God.</p>
           <p>And eventually something appears that cannot be manufactured for very long: fruit.</p>
           
-          <button className="rts-button rts-wide" onClick={()=>advance(16)}>Recognize the fruit →</button>
-        </> : page===16 ? <>
+          <button className="rts-button rts-wide" onClick={()=>advance(17)}>Recognize the fruit →</button>
+        </> : page===17 ? <>
           <p className="rts-kicker">BECOME · THE FRUIT OF A RESTORED LIFE</p><h1>What Grows from Living With God</h1>
           <p>Love becomes more natural. Peace becomes less dependent upon circumstances. Patience begins replacing the need to control. Grace begins replacing defensiveness. We become more capable of listening because we do not constantly have to protect ourselves. We become more capable of serving because we need less recognition in return.</p>
           <div className="rts-become-steps">{['Love','Peace','Patience','Grace','Listening','Serving'].map(item=><div className="rts-become-step" key={item}><strong>{item}</strong></div>)}</div>
           <p>This is what it means to Become.</p>
           <div className="rts-become-note"><p>It is not pretending to be the person we think a Christian should be.</p><p>It is increasingly becoming that person.</p></div>
-          <button className="rts-button rts-wide" onClick={()=>advance(17)}>Complete Become →</button>
+          <button className="rts-button rts-wide" onClick={()=>advance(18)}>Complete Become →</button>
         </> : <>
           <p className="rts-kicker">BECOME · SECTION COMPLETE</p><h1>Formation Produces Participation</h1>
           <p>And then something important changes.</p>
@@ -393,39 +408,39 @@ export default function NarrativeJourney() {
           <div className="rts-become-focus"><p>A restored soul becomes available.</p></div>
           <p>This is Join.</p>
           <p>As we become less preoccupied with protecting ourselves, proving ourselves, controlling outcomes, and arranging life around our own needs, we become increasingly free to participate in what God is doing around us.</p>
-          <div className="rts-finish"><h2>Become complete</h2><p>The next movement is Join.</p><button className="rts-button" onClick={()=>advance(18)}>Begin Join →</button></div>
+          <div className="rts-finish"><h2>Become complete</h2><p>The next movement is Join.</p><button className="rts-button" onClick={()=>advance(19)}>Begin Join →</button></div>
         </>}
         {page>12&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
-      </section> : page>=18 ? <section className={`rts-see rts-scene rts-become rts-join rts-scene--${page}`}>
-        {page===18 ? <>
+      </section> : page>=19 ? <section className={`rts-see rts-scene rts-become rts-join rts-scene--${page}`}>
+        {page===19 ? <>
           <div className="rts-become-hero"><span>04 / JOIN</span></div>
           <p className="rts-kicker">NOTICE WHERE GOD IS WORKING</p><h1>A Restored Soul Becomes Available</h1>
           <p>God is not restoring our souls simply so that we can become healthier versions of ourselves. The freedom we discover as we release control and learn to live with Him makes us increasingly available to others.</p>
           <p>We do not have to invent a grand assignment or prove that our lives are useful. We can begin by noticing the people, needs, and opportunities already present. An interruption may become an invitation to listen. A difficult relationship may become an opportunity to love without controlling the outcome.</p>
           <div className="rts-become-note"><p>We do not have to create God's work. We can become available to participate in it.</p></div>
           <p>Join is not another performance to master. It is what becomes possible when we are less occupied with protecting ourselves, securing recognition, and arranging life around our own needs.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(19)}>Become available →</button>
-        </> : page===19 ? <>
+          <button className="rts-button rts-wide" onClick={()=>advance(20)}>Become available →</button>
+        </> : page===20 ? <>
           <p className="rts-kicker">JOIN · BECOME AVAILABLE</p><h1>Notice, Then Respond</h1>
           <p>Availability begins with attention. When we are preoccupied with our own plans, we can miss the person standing in front of us. We can learn to pause, notice what is happening, and listen for what love may require.</p>
           <p>Becoming available does not mean every problem is ours to solve. We can recognize a need without taking possession of another person's life. Sometimes the next right step is practical help; sometimes it is a conversation, a prayer, or the willingness to remain present.</p>
           <div className="rts-become-contrast"><p>We offer ourselves without claiming control of the outcome.</p></div>
           <p>We can act faithfully and allow God to remain responsible for what we cannot do. This is the same surrender we have been practicing, now expressed in the way we relate to others.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(20)}>Serve and walk with people →</button>
-        </> : page===20 ? <>
+          <button className="rts-button rts-wide" onClick={()=>advance(21)}>Serve and walk with people →</button>
+        </> : page===21 ? <>
           <p className="rts-kicker">JOIN · SERVE AND WALK WITH PEOPLE</p><h1>Love Without Control</h1>
           <p>Serving is not simply completing tasks for God. It is making the love we have received available to someone else. We may offer time, attention, encouragement, practical assistance, or the courage to speak truth.</p>
           <p>Walking with people requires patience. Their choices may not match our expectations and their growth may not happen on our timetable. Love can remain present without trying to force another person's transformation.</p>
           <div className="rts-become-note"><p>We can give faithfully without possessing the result.</p></div>
           <p>We can listen without immediately correcting, help without creating dependence, and speak honestly without needing to manage the response. The freedom to love this way grows as our need to be approved, needed, or in control begins to loosen.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(21)}>Give what you have received →</button>
-        </> : page===21 ? <>
+          <button className="rts-button rts-wide" onClick={()=>advance(22)}>Give what you have received →</button>
+        </> : page===22 ? <>
           <p className="rts-kicker">JOIN · GIVE WHAT YOU HAVE RECEIVED</p><h1>Live Useful, Not Indispensable</h1>
           <p>What God is forming within us is not meant to remain private. Peace becomes a steady presence for someone who is anxious. Patience makes room for another person's struggle. Grace interrupts blame. Our willingness to listen helps someone feel seen.</p>
           <p>Yet usefulness is not indispensability. We are not called to make ourselves necessary or to prove our value through constant activity. Each of us has something particular to offer, including a love only we can give, without comparison or competition.</p>
           <div className="rts-become-contrast"><p>We serve because we belong, not so that we can earn a place with God.</p></div>
           <p>We give what we have received and leave room for God to do what only He can do. Participation is an expression of relationship, not a replacement for it.</p>
-          <button className="rts-button rts-wide" onClick={()=>advance(22)}>Return to attention →</button>
+          <button className="rts-button rts-wide" onClick={()=>advance(23)}>Return to attention →</button>
         </> : <>
           <p className="rts-kicker">JOIN · RETURN TO ATTENTION</p><h1>The Journey Continues Here</h1>
           <p>Join does not bring formation to an end. Participating with God will reveal new fears, expectations, desires, and attempts to control. We may miss an opportunity, respond defensively, or make our own usefulness more important than love.</p>
@@ -434,7 +449,7 @@ export default function NarrativeJourney() {
           <p>Awaken. See Clearly. Become. Join. Not four achievements to collect, but a way of learning to live with God and participate in His kingdom now.</p>
           <div className="rts-finish"><h2>The journey continues in the life you are living.</h2><button className="rts-button" onClick={()=>advance(0)}>Return to the beginning →</button></div>
         </>}
-        {page>18&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
+        {page>19&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : <section className="rts-see rts-scene rts-reflection">
         <p className="rts-kicker">AWAKEN · PRACTICING ATTENTION</p>
         <h1>Notice Without Needing to Explain</h1>
