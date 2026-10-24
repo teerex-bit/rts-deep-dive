@@ -177,6 +177,16 @@ export default function NarrativeJourney() {
       .rts-scripture blockquote{background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;margin:0 0 16px!important;color:#263a4a!important;font:italic 19px/1.5 Georgia,serif!important}
       .rts-scripture p{margin:0!important;font-size:16px!important;line-height:1.65!important}
       .rts-subheading{font:normal 25px/1.3 Georgia,serif;margin:28px 0 16px}
+      .rts-reveal-card{background:#fffdfa;border:1px solid #d9d1c5;border-radius:12px;margin:10px 0;overflow:hidden;transition:border-color .2s,background-color .2s}
+      .rts-reveal-card--open{border-color:#a47c36;background:#f5eee3}
+      .rts-reveal-trigger{width:100%;min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px;text-align:left;background:transparent;border:0;color:#263a4a;font:16px/1.4 Arial,sans-serif;cursor:pointer}
+      .rts-reveal-trigger:focus-visible{outline:3px solid #b18a45;outline-offset:-4px}
+      .rts-reveal-icon{flex:none;font:24px/1 Arial,sans-serif;color:#94723d}
+      .rts-reveal-content{padding:0 17px 19px;animation:rts-reveal-in .22s ease-out}
+      .rts-reveal-content p{font:16px/1.6 Georgia,serif;color:#334451;margin:2px 0 12px}
+      .rts-reveal-content>span{display:block;font:12px/1.5 Arial,sans-serif;color:#65737b}
+      @keyframes rts-reveal-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+      @media(prefers-reduced-motion:reduce){.rts-reveal-card,.rts-reveal-content{animation:none;transition:none}}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
@@ -193,10 +203,22 @@ export default function NarrativeJourney() {
         {page===2 ? <div className="rts-awaken-next"><button className="rts-button rts-wide" onClick={()=>advance(3)}>Pause and notice →</button><button className="rts-button rts-back" onClick={()=>advance(1)}>← Previous</button></div> : <><div className="rts-divider"/><div className="rts-actions"><span className="rts-small">Opening · Read at your pace</span><button className="rts-button" onClick={()=>advance(1)}>Pause and notice →</button></div></>}
       </section> : page===1 ? <>
         <p className="rts-kicker">A MOMENT TO NOTICE</p><h1>What has shaped you?</h1>
-        <p className="rts-hint">Much of our formation happened without our awareness. Which experience has been especially significant for you? There is no right answer.</p>
-        {['Family and upbringing','Relationships','Success or failure','Pain or disappointment','Expectations of others','Something else'].map(v=><button key={v} className="rts-option" aria-pressed={influence===v} onClick={()=>setInfluence(v)}>{v}</button>)}
+        <p className="rts-hint">Much of our formation happened without our awareness. Tap an experience to explore how it can shape us. Notice what resonates with your own story; there is no right answer.</p>
+        {[
+          {name:'Family and upbringing',meaning:'Our earliest surroundings often teach us what feels normal, safe, and expected. We may carry those lessons into adulthood without realizing where they began.'},
+          {name:'Relationships',meaning:'Relationships teach us what closeness, trust, acceptance, and rejection feel like. Over time, those experiences can shape what we expect from others, how much of ourselves we reveal, and how we respond when connection feels uncertain.'},
+          {name:'Success or failure',meaning:'Success can teach us to associate worth with achievement. Failure can make us hesitant to try again. Neither experience has to define us, but both can influence what we believe about ourselves.'},
+          {name:'Pain or disappointment',meaning:'Pain can leave us expecting another loss, protecting ourselves before anything has happened. Sometimes a response that once helped us endure a difficult season continues long after that season has passed.'},
+          {name:'Expectations of others',meaning:'When approval or belonging seems tied to meeting someone else’s expectations, we may learn to perform, please, or hide parts of ourselves. Those habits can feel like personality rather than something we learned.'},
+          {name:'Something else',meaning:'Not every formative experience fits a category. A particular season, responsibility, change, or unexpected moment may have influenced the way you see yourself, others, or God.'}
+        ].map(item=><div key={item.name} className={`rts-reveal-card ${influence===item.name?'rts-reveal-card--open':''}`}>
+          <button type="button" className="rts-reveal-trigger" aria-expanded={influence===item.name} onClick={()=>setInfluence(influence===item.name?'':item.name)}>
+            <span>{item.name}</span><span className="rts-reveal-icon" aria-hidden="true">{influence===item.name?'−':'+'}</span>
+          </button>
+          {influence===item.name&&<div className="rts-reveal-content"><p>{item.meaning}</p><span>Notice what resonates, if anything. This is an invitation to reflect, not a conclusion about you.</span></div>}
+        </div>)}
         <div className="rts-actions"><button className="rts-button rts-back" onClick={()=>advance(0)}>← Back</button><button className="rts-button" onClick={()=>advance(2)}>Continue →</button></div>
-        <p className="rts-small">You may continue without choosing.</p>
+        <p className="rts-small">You may explore as many as you like, or continue without choosing.</p>
       </> : page===4 ? <section className="rts-completion">
         <p className="rts-kicker">AWAKEN · COMPLETED</p><h1>The Beginning of Awareness</h1>
         <p>You may not yet understand why you respond the way you do. That is all right. Awaken is not about figuring everything out. It is about beginning to notice what was previously invisible.</p>
