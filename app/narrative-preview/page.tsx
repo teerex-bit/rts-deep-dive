@@ -73,6 +73,8 @@ export default function NarrativeJourney() {
       .rts-divider{height:1px;background:#ddd7cc;margin:23px 0 18px}
       .rts-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:25px}
       .rts-button{border:0;border-radius:12px;padding:15px 22px;background:#263a4a;color:white;font:600 15px Arial,sans-serif;min-height:50px;cursor:pointer}
+      .rts-actions .rts-button,.rts-awaken-next .rts-button:not(.rts-back){width:auto;max-width:100%;min-width:190px;padding:12px 20px;min-height:44px;border-radius:9px;margin:0}
+      .rts-awaken-next .rts-button:not(.rts-back){width:fit-content}
       .rts-button:disabled{opacity:.45;cursor:not-allowed}.rts-back{background:transparent;color:#53616a;padding-left:0}
       .rts-option{display:block;width:100%;text-align:left;background:#fffdfa;border:1px solid #d9d1c5;border-radius:12px;padding:17px 16px;margin:10px 0;color:#263a4a;font:16px/1.4 Arial,sans-serif;min-height:55px;cursor:pointer}
       .rts-option[aria-pressed=true]{border-color:#a47c36;background:#f2e9d9;box-shadow:inset 0 0 0 1px #a47c36}
