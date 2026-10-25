@@ -333,25 +333,24 @@ export default function NarrativeJourney() {
           <div className="rts-scripture"><span>2 CORINTHIANS 3:18 · WEB</span><blockquote>“But we all, with unveiled face seeing the glory of the Lord as in a mirror, are transformed into the same image from glory to glory, even as from the Lord, the Spirit.”</blockquote><p>Paul connects beholding and becoming. Transformation is not merely the product of examining ourselves more accurately; it comes as we turn toward the Lord. Seeing ourselves truthfully matters, but we are not the center of the process. The Spirit reforms us as we learn to live in His presence.</p></div>
           <button className="rts-button rts-wide" onClick={()=>advance(11)}>Complete See Clearly →</button>
         </> : <>
-          <p className="rts-kicker">SEE CLEARLY · SECTION COMPLETE</p><h1>Truth Has to Become a Way of Living</h1>
-          <p>Suppose I recognize that my need to control a situation comes from fear. I understand the fear. I recognize the false belief beneath it. I genuinely believe God can be trusted.</p>
-          <div className="rts-turning-point"><p>Then tomorrow something happens that I cannot control. What happens next?</p></div>
-          <p>That moment is where spiritual formation moves from an idea into an actual life. Seeing truth is different from becoming the kind of person who naturally lives from it.</p>
-          <p>This is where Become begins: learning to live with God in the ordinary moments that reveal the person we are becoming.</p>
-          <div className="rts-transition-summary"><h2>Clarity opens the way to becoming.</h2><p>The next movement is Become, where awareness and trust take shape in daily life.</p></div><button className="rts-button rts-wide" onClick={()=>advance(12)}>Begin Become →</button>
+          <p className="rts-kicker">SEE CLEARLY · SECTION COMPLETE</p><h1>Seeing Is Not Yet Living</h1>
+          <p>We have begun to recognize how our interpretations, beliefs, and expectations shape the way we respond. We have also looked again at the character of God through Jesus, rather than allowing fear or disappointment to define Him for us.</p>
+          <p>Seeing clearly matters because we cannot entrust ourselves to a picture of God we do not believe is true. Yet insight alone does not change our reflexes. The next movement is not more analysis. It is learning to remain with God as ordinary life unfolds.</p>
+          <div className="rts-transition-summary"><h2>Trust precedes understanding.</h2><p>We can begin living from what is true before we understand everything that will follow.</p></div>
+          <button className="rts-button rts-wide" onClick={()=>advance(12)}>Begin Become →</button>
         </>}
         {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← {page===11?"Revisit the teaching":"Previous"}</button>}
       </section> : page>=12 && page<=18 ? <section className={`rts-see rts-scene rts-become rts-scene--${page}`}>
         {page===12 ? <>
           <div className="rts-become-hero"><span>03 / BECOME</span></div>
-          <p className="rts-kicker">BECOME · TRUTH BECOMES LIFE</p><h1>Truth Has to Become a Way of Living</h1>
-          <p>This is where Become begins.</p>
-          <p>Suppose I recognize that my need to control a situation comes from fear. I understand the fear. I recognize the false belief beneath it. I genuinely believe God can be trusted.</p>
-          <div className="rts-become-focus"><p>Then tomorrow something happens that I cannot control. What happens next?</p></div>
-          <p>That moment is where spiritual formation moves from an idea into an actual life.</p>
-          <p>Reforming the Soul teaches a simple pattern for these moments:</p>
+          <p className="rts-kicker">BECOME · LIVING WITH GOD</p><h1>Learning to Live From Trust</h1>
+          <p>We do not become different people merely by understanding ourselves more accurately. Our lives take shape in the small moments when something interrupts us, disappoints us, or asks more of us than we expected. These are not interruptions to formation. They are the places where what we believe becomes visible.</p>
+          <p>Jesus did not describe life with the Father as a collection of correct conclusions. He lived in attentive dependence, listening and responding within the circumstances before Him. We learn that way of life not by manufacturing extraordinary experiences but by remaining available to God in ordinary ones.</p>
+          <div className="rts-scripture"><span>JOHN 5:19 · WEB</span><blockquote>“Most certainly, I tell you, the Son can do nothing of himself, but what he sees the Father doing. For whatever things he does, these the Son also does likewise.”</blockquote><p>Jesus reveals a life of participation rather than independence. The invitation is not to imitate His authority, but to learn His posture of attentive relationship with the Father.</p></div>
+          <p>That kind of life takes practice. We learn to loosen our grip on outcomes, meet the present with God, respond faithfully, and return when we lose our way. The pattern is simple enough to remember, yet deep enough to reshape the way we live.</p>
           <div className="rts-become-steps"><div className="rts-become-step"><strong>01 · Release control</strong></div><div className="rts-become-step"><strong>02 · Receive the moment</strong></div><div className="rts-become-step"><strong>03 · Take the next right step</strong></div><div className="rts-become-step"><strong>04 · Repeat</strong></div></div>
-          <div className="rts-become-note"><p><strong>Scripture for reflection: Romans 12:2 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><p><strong>A truth can be familiar long before it becomes the way we live.</strong> Consider Peter stepping out onto the water. His security did not come from understanding how the water would hold him, but from responding to the One who called him. The same distinction meets us in ordinary life: knowing God is trustworthy is not identical to entrusting Him with what matters to us. Formation happens as trust becomes a lived response, not merely a conclusion we agree with.</p><button className="rts-button rts-wide" onClick={()=>advance(13)}>Live the pattern →</button>
+          <p>These are not four tasks to perform perfectly. They are a way of returning to relationship with God in the life we are actually living.</p>
+          <button className="rts-button rts-wide" onClick={()=>advance(13)}>Begin with release →</button>
         </> : page===13 ? <>
           <p className="rts-kicker">BECOME · RELEASE CONTROL</p><h1>Release Control.</h1>
           <div className="rts-become-step"><strong>Release control</strong><p>I release my demand that this situation must turn out the way I want before I can be okay.</p></div>
@@ -408,11 +407,12 @@ export default function NarrativeJourney() {
           <div className="rts-become-note"><p><strong>Scripture for reflection: 2 Corinthians 3:18 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><p><strong>Transformation is sometimes easier to see in the return than in the reaction.</strong> A familiar fear may still arise. You may still feel the urge to defend yourself or regain control. But perhaps you notice sooner, hold the feeling more lightly, or turn toward God before it directs the whole encounter. Those quiet changes matter because they show a different way of living taking root.</p><button className="rts-button rts-wide" onClick={()=>advance(17)}>Recognize the fruit →</button>
         </> : page===17 ? <>
           <p className="rts-kicker">BECOME · THE FRUIT OF A RESTORED LIFE</p><h1>What Grows from Living With God</h1>
-          <p>Love becomes more natural. Peace becomes less dependent upon circumstances. Patience begins replacing the need to control. Grace begins replacing defensiveness. We become more capable of listening because we do not constantly have to protect ourselves. We become more capable of serving because we need less recognition in return.</p>
-          <div className="rts-become-steps">{['Love','Peace','Patience','Grace','Listening','Serving'].map(item=><div className="rts-become-step" key={item}><strong>{item}</strong></div>)}</div>
-          <p>This is what it means to Become.</p>
-          <div className="rts-become-note"><p>It is not pretending to be the person we think a Christian should be.</p><p>It is increasingly becoming that person.</p></div>
-          <div className="rts-become-note"><p><strong>Scripture for reflection: Galatians 5:22–23 (WEB).</strong> Read the passage and consider what it invites you to live.</p></div><p><strong>Fruit is evidence of life, not a performance score.</strong> A branch does not produce grapes by concentrating harder on being fruitful. It bears fruit through its connection to the vine. In the same way, patience, peace, kindness, and self-control are not separate achievements to collect. They increasingly become expressions of a life that remains with Christ.</p>
+          <p>Over time, a life lived with God begins to bear a different kind of fruit. Love becomes less conditional. Peace becomes less dependent on circumstances. Patience begins to replace urgency, and kindness becomes possible even when we have nothing to gain. These changes are not proof that we have mastered the process; they are signs of a different source of life.</p>
+          <div className="rts-scripture"><span>GALATIANS 5:22–23 · WEB</span><blockquote>“But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faith, gentleness, and self-control. Against such things there is no law.”</blockquote></div>
+          <p>Paul calls these qualities the fruit of the Spirit, not the accomplishments of a disciplined personality. A branch does not make itself fruitful through effort alone. It bears fruit by remaining connected to the life of the vine. Our part is not to manufacture the appearance of Christlikeness, but to live with Christ in ways that allow His life to shape ours.</p>
+          <h2 className="rts-subheading">Fruit becomes visible in relationships</h2>
+          <p>We may notice that we listen before defending ourselves, remain steady when plans change, or offer grace where we once demanded recognition. The people around us experience the difference. This is why becoming is never merely private: what God reforms within us begins to change what flows from us.</p>
+          <p>And that brings us to the next movement. We do not need to prove ourselves useful to God. As we learn to live with Him, we become more available to participate in what He is already doing.</p>
           <button className="rts-button rts-wide" onClick={()=>advance(18)}>Complete Become →</button>
         </> : <>
           <p className="rts-kicker">BECOME · SECTION COMPLETE</p><h1>Formation Produces Participation</h1>
