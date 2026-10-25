@@ -140,6 +140,7 @@ export default function NarrativeJourney() {
       .rts-become-focus{background:#263a4a;color:white;border-radius:14px;padding:24px;margin:28px 0}
       .rts-become-focus p{color:white!important;margin:0!important}
       .rts-become-note{border-top:2px solid #b18a45;border-bottom:2px solid #b18a45;padding:22px 4px;margin:25px 0}
+      .rts-moment-statement{margin:30px 0;padding:28px 30px;border:0;border-left:5px solid #b18a45;border-radius:0 14px 14px 0;background:#e8ece8;color:#203b46;font:600 clamp(20px,2.6vw,26px)/1.5 Georgia,serif;letter-spacing:-.01em;box-shadow:0 4px 14px #203b4610}
       .rts-become-contrast{padding:20px;background:#eee8dc;border-radius:14px;margin:25px 0}
       .rts-become-contrast p{margin:0!important}
       /* Consistent journey chrome, rhythm and responsive alignment across all stages. */
@@ -370,7 +371,7 @@ export default function NarrativeJourney() {
           <div className="rts-scripture"><span>MATTHEW 6:34 · WEB</span><blockquote>“Therefore don’t be anxious for tomorrow, for tomorrow will be anxious for itself. Each day’s own evil is sufficient.”</blockquote></div>
           
           <p>Receiving the moment does not mean pretending that everything happening to us is good. It does not mean becoming passive or refusing to change something that should be changed. It means acknowledging that this is the moment in which I am presently living with God.</p>
-          <div className="rts-become-note"><p>If God has allowed this moment to reach me, then this moment cannot prevent Him from forming me through it.</p></div>
+          <blockquote className="rts-moment-statement">If God has allowed this moment to reach me, then this moment cannot prevent Him from forming me through it.</blockquote>
           <p>Receiving the moment also means paying attention to what it reveals. An interruption may uncover impatience, disappointment may expose our demand for certainty, and another person's words may reveal how deeply we seek approval. We do not need to hide those discoveries or immediately fix ourselves. We can bring them into our relationship with God.</p>
           <p>As we become present to Him, the moment is no longer only a problem to solve. It becomes an opportunity to listen, to see ourselves truthfully, and to respond from trust instead of fear.</p>
           <p>That changes the question.</p>
