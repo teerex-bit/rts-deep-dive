@@ -41,7 +41,7 @@ const options = [
 ];
 const storageKey = 'rts-narrative-prototype-v1';
 export default function NarrativeJourney() {
-  const [page,setPage] = useState(0);
+  const [page,setPage] = useState(-1);
   const [selected,setSelected] = useState('');
   const [influence,setInfluence] = useState('');
   const [openChainSteps,setOpenChainSteps] = useState<number[]>([]);
@@ -51,7 +51,7 @@ export default function NarrativeJourney() {
   const [reflectionStep,setReflectionStep] = useState(0);
   const [followup,setFollowup] = useState('');
   const [ready,setReady] = useState(false);
-  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(Math.min(23,Math.max(0,saved.page||0)));setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
+  useEffect(()=>{try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');setPage(typeof saved.page==="number"?Math.min(23,Math.max(-1,saved.page)):-1);setSelected(saved.selected||'');setInfluence(saved.influence||'');setResponse(saved.response||'');setClearResponse(saved.clearResponse||'');setReveal(!!saved.reveal);setReflectionStep(saved.reflectionStep||0);setFollowup(saved.followup||'');}catch{}setReady(true)},[]);
   useEffect(()=>{if(ready)localStorage.setItem(storageKey,JSON.stringify({page,selected,influence,response,clearResponse,reveal,reflectionStep,followup}))},[page,selected,influence,response,clearResponse,reveal,reflectionStep,followup,ready]);
   const advance=(n:number)=>{setPage(n);window.scrollTo({top:0,behavior:'smooth'})};
   const reading = page===0 || page===2;
@@ -222,11 +222,25 @@ export default function NarrativeJourney() {
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
     `}</style>
     <div className="rts-shell">
-      <header className="rts-header"><button type="button" className="rts-restart" onClick={()=>{setReflectionStep(0);advance(0)}}>← Back to beginning</button><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
-      <nav className="rts-breadcrumbs" aria-label="Journey location"><span>FORMATION JOURNEY</span><span aria-hidden="true">/</span><strong>{page<2?"Introduction":page>=19?"Join":page>=12?"Become":page>=5?"See Clearly":"Awaken"}</strong></nav>
+      <header className="rts-header"><button type="button" className="rts-restart" onClick={()=>{setReflectionStep(0);advance(-1)}}>← Back to beginning</button><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
+      <nav className="rts-breadcrumbs" aria-label="Journey location"><span>FORMATION JOURNEY</span><span aria-hidden="true">/</span><strong>{page===-1?"Welcome":page<2?"Introduction":page>=19?"Join":page>=12?"Become":page>=5?"See Clearly":"Awaken"}</strong></nav>
       <nav aria-label="Journey stages" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=19?3:page>=12?2:page>=5?1:0)?"active":""} aria-label={label+(i===(page>=19?3:page>=12?2:page>=5?1:0)?" current stage":"")} aria-current={i===(page>=19?3:page>=12?2:page>=5?1:0)?"step":undefined} title={label}/>)}</nav>
-      <div className="rts-screen-location"><span>{page<2?"INTRODUCTION":page>=19?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</span><span>{page<2? `${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<19?`${page-11} / 7`:`${page-18} / 5`}</span></div>
-      {reading ? <section className="rts-see rts-reading-chapter">
+      <div className="rts-screen-location"><span>{page===-1?"WELCOME":page<2?"INTRODUCTION":page>=19?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</span><span>{page===-1?"START HERE":page<2? `${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<19?`${page-11} / 7`:`${page-18} / 5`}</span></div>
+      {page===-1 ? <section className="rts-see rts-reading-chapter">
+<div className="rts-chapter-art rts-chapter-art--opening"><span>REFORMING THE SOUL</span><div className="rts-chapter-line"/></div>
+<p className="rts-kicker">AN INVITATION TO LIFE WITH GOD</p>
+<h1>A Different Way of Living With God</h1>
+<article className="rts-prose rts-chapter-prose">
+<p>What if the Christian life was never intended to be primarily about what we accomplish for God, but about what becomes possible when we learn to live with Him?</p>
+<p>Reforming the Soul is an invitation to explore that possibility.</p>
+<p>Throughout Scripture, we discover a God who desires more than our obedience, service, or religious devotion. He desires relationship. From the beginning, humanity was created for life in His presence—not merely to believe in Him, but to walk with Him.</p>
+<p>And that relationship was never intended to be separate from ordinary life.</p>
+<p>This journey explores what it means to recover that way of living. Not through another collection of religious obligations, but through a process of spiritual formation that reaches beyond what we know and into who we are becoming.</p>
+<p>Along the way, we will learn to recognize what has shaped us, see ourselves and God more clearly, live with Him in the present, and participate in what He is doing in the world around us.</p>
+<p>There is no spiritual performance to achieve here, and no ideal version of yourself you must become before beginning.</p>
+<p><strong>The invitation is simply to discover what life with God can actually become.</strong></p>
+</article><button className="rts-button rts-wide" onClick={()=>advance(0)}>Begin the Journey →</button>
+</section> : reading ? <section className="rts-see rts-reading-chapter">
         <div className={`rts-chapter-art ${page===0?'rts-chapter-art--opening':'rts-chapter-art--awaken'}`} aria-hidden="true"><span>{page===0?<>THE<br/>BEGINNING</>:<>AWAKEN</>}</span><div className="rts-chapter-line"/></div>
         <h1>{chapter.title}</h1>
         <article className="rts-prose rts-chapter-prose">{chapter.paragraphs.map((p,i)=>page===2 && (i===3||i===5||i===7||i===11)?<blockquote key={i}>{p}</blockquote>:<p key={i}>{p}</p>)}</article>
