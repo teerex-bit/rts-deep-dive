@@ -140,7 +140,7 @@ export default function NarrativeJourney() {
       .rts-become-focus{background:#263a4a;color:white;border-radius:14px;padding:24px;margin:28px 0}
       .rts-become-focus p{color:white!important;margin:0!important}
       .rts-become-note{border-top:2px solid #b18a45;border-bottom:2px solid #b18a45;padding:22px 4px;margin:25px 0}
-      .rts-become-opening{margin:8px 0 26px!important;padding:0 0 0 18px;border-left:3px solid #b18a45;color:#344d54;font:italic 19px/1.6 Georgia,serif}
+      .rts-scene--13>.rts-become-step,.rts-scene--14>.rts-become-step{margin-bottom:24px}
       .rts-moment-statement{margin:30px 0;padding:28px 30px;border:0;border-left:5px solid #b18a45;border-radius:0 14px 14px 0;background:#e8ece8;color:#203b46;font:600 clamp(20px,2.6vw,26px)/1.5 Georgia,serif;letter-spacing:-.01em;box-shadow:0 4px 14px #203b4610}
       .rts-become-contrast{padding:20px;background:#eee8dc;border-radius:14px;margin:25px 0}
       .rts-become-contrast p{margin:0!important}
@@ -358,7 +358,7 @@ export default function NarrativeJourney() {
           <button className="rts-button rts-wide" onClick={()=>advance(13)}>Begin with release →</button>
         </> : page===13 ? <>
           <p className="rts-kicker">BECOME · RELEASE CONTROL</p><h1>Release Control.</h1>
-          <p className="rts-become-opening">I release my demand that this situation must turn out the way I want before I can be okay.</p>
+          <div className="rts-become-step"><strong>Release control</strong><p>I release my demand that this situation must turn out the way I want before I can be okay.</p></div>
           <p>Recognizing our need for control is not the same as surrendering it. We can understand the fear beneath our reactions and still demand that events unfold according to our expectations. Releasing control means giving up the claim that our preferred outcome must happen before we can trust God.</p><p>We can still name what we want, make responsible decisions, and act with courage. Surrender is not abandoning our will. It is choosing to bring our will into relationship with God's will, without insisting that we already know the best outcome.</p><p>Control can disguise itself as responsibility. We may call it careful planning, protecting someone, or making sure things go well. But when our peace depends on a particular outcome, responsibility has become a demand. We are trying to carry what belongs to God.</p>
           <div className="rts-scripture"><span>PROVERBS 3:5–6 · WEB</span><blockquote>“Trust in Yahweh with all your heart, and don’t lean on your own understanding. In all your ways acknowledge him, and he will make your paths straight.”</blockquote></div>
           <p>Releasing control is not refusing to plan or neglecting what is entrusted to us. We still make decisions, tell the truth, set boundaries, and do what love requires. What we release is the insistence that our obedience must produce the result we prefer. We can tell God what we hope for and what we fear without demanding that He follow our timetable.</p>
@@ -367,7 +367,7 @@ export default function NarrativeJourney() {
           <p><strong>Responsibility has a boundary.</strong> We are entrusted with decisions, honesty, effort, and love. We are not entrusted with guaranteeing another person's response or securing tomorrow's outcome. When we confuse the two, even good intentions can become a form of control. Surrender does not make us less responsible; it frees us to do what is ours without claiming what belongs to God.</p><button className="rts-button rts-wide" onClick={()=>advance(14)}>Receive the moment →</button>
         </> : page===14 ? <>
           <p className="rts-kicker">BECOME · RECEIVE THE MOMENT</p><h1>Receive the Moment.</h1>
-          <p className="rts-become-opening">I can meet the life in front of me with God, rather than waiting for life to become what I wish it were.</p>
+          <div className="rts-become-step"><strong>Receive the moment</strong><p>I can meet the life in front of me with God, rather than waiting for life to become what I wish it were.</p></div>
           <p>After releasing our demand to control what happens, we become available to what is actually happening. So much of our attention lives in yesterday's regrets or tomorrow's possibilities. Yet the present is where we are able to listen, respond, and walk with God.</p>
           <div className="rts-scripture"><span>MATTHEW 6:34 · WEB</span><blockquote>“Therefore don’t be anxious for tomorrow, for tomorrow will be anxious for itself. Each day’s own evil is sufficient.”</blockquote></div>
           
@@ -382,7 +382,9 @@ export default function NarrativeJourney() {
           <p><strong>The present is not an obstacle to life with God.</strong> We can spend so much attention resisting what is happening that we miss the place where God is already available to us. Receiving the moment does not make pain good or wrongdoing acceptable. It means we do not have to wait for circumstances to improve before we can listen, trust, grieve honestly, or respond faithfully.</p><button className="rts-button rts-wide" onClick={()=>advance(15)}>Take the next right step →</button>
         </> : page===15 ? <>
           <p className="rts-kicker">BECOME · FAITHFULNESS IN THE PRESENT</p><h1>Take the Next Right Step. Repeat.</h1>
-          <p className="rts-become-opening">Not the next twenty steps, and not the step that guarantees the outcome I want. Just the next faithful step available to me.</p>
+          <p>Then I take the next right step.</p>
+          <div className="rts-teaching-emphasis"><p>Not the next twenty steps. Not the step that guarantees the outcome I want. Not the step that removes every uncertainty.</p></div>
+          <p>Just the next faithful step available to me.</p>
           <p>Releasing control and receiving the moment prepare us to act differently. Instead of letting fear, the need for approval, or the demand for certainty decide our response, we can consider what love, truth, and faithfulness require in the situation actually before us.</p>
           <p>The next right step might mean listening before defending ourselves, speaking honestly without trying to manage another person's reaction, apologizing, setting a necessary boundary, or patiently completing an ordinary responsibility. It may be difficult, and it may not produce the result we hoped for. Its value lies in responding faithfully, not in guaranteeing an outcome.</p>
           <p>This is where trust becomes visible. We cannot always choose our circumstances, but we can increasingly learn to choose how we participate with God within them.</p>
