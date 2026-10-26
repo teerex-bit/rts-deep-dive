@@ -13,7 +13,7 @@ const chapters = [
     'That is where Reforming the Soul begins.',
     'It does not begin by asking us to try harder to behave like better Christians. It begins by helping us recognize the person from whom our behavior is already coming.'
   ]},
-  { eyebrow: '01 / AWAKEN', title: 'We Begin by Waking Up', paragraphs: [
+  { eyebrow: 'AWAKEN', title: 'We Begin by Waking Up', paragraphs: [
     'The first movement is Awaken, because we cannot intentionally surrender something we cannot see.',
     'Imagine someone says something that makes you feel dismissed. Before you have had time to think about it, something happens inside you. Maybe you become defensive. Maybe you withdraw. Maybe you feel an immediate need to explain yourself. Perhaps you become angry or spend the rest of the day replaying the conversation.',
     'Normally, we focus on the other person.',
@@ -346,7 +346,7 @@ export default function NarrativeJourney() {
         {page>5&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← {page===11?"Revisit the teaching":"Previous"}</button>}
       </section> : page>=12 && page<=18 ? <section className={`rts-see rts-scene rts-become rts-scene--${page}`}>
         {page===12 ? <>
-          <div className="rts-become-hero"><span>03 / BECOME</span></div>
+          <div className="rts-become-hero"><span>BECOME</span></div>
           <p className="rts-kicker">BECOME · LIVING WITH GOD</p><h1>Learning to Live From Trust</h1>
           <p>We do not become different people merely by understanding ourselves more accurately. Our lives take shape in the small moments when something interrupts us, disappoints us, or asks more of us than we expected. These are not interruptions to formation. They are the places where what we believe becomes visible.</p>
           <p>Jesus did not describe life with the Father as a collection of correct conclusions. He lived in attentive dependence, listening and responding within the circumstances before Him. We learn that way of life not by manufacturing extraordinary experiences but by remaining available to God in ordinary ones.</p>
@@ -431,7 +431,7 @@ export default function NarrativeJourney() {
         {page>12&&<button className="rts-button rts-back" onClick={()=>advance(page-1)}>← Previous</button>}
       </section> : page>=19 ? <section className={`rts-see rts-scene rts-become rts-join rts-scene--${page}`}>
         {page===19 ? <>
-          <div className="rts-become-hero"><span>04 / JOIN</span></div>
+          <div className="rts-become-hero"><span>JOIN</span></div>
           <p className="rts-kicker">NOTICE WHERE GOD IS WORKING</p><h1>A Restored Soul Becomes Available</h1>
           <p>God is not restoring our souls simply so that we can become healthier versions of ourselves. The freedom we discover as we release control and learn to live with Him makes us increasingly available to others.</p>
           <p>We do not have to invent a grand assignment or prove that our lives are useful. We can begin by noticing the people, needs, and opportunities already present. An interruption may become an invitation to listen. A difficult relationship may become an opportunity to love without controlling the outcome.</p>
