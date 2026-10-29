@@ -47,28 +47,28 @@ const narrativePhotos = [
   "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/formation-intro-hero.webp",
   "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/awaken-01-forest-clearing.webp",
   "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/awaken-02-still-lake.webp",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-00-hero-clean.webp",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/graphics/awaken-bottom-botanical.png",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-see-clearly/see-clearly-landing-hero.webp",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-see-clearly/see-clearly-hero-clear.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-11-15/seeing-god-forest.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-thoughts.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-inner-life.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-emotional-life.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-will.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-become/become-ordinary-life-hero-v2.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-become/become-ordinary-life-hero.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-body.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-relationships.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/changed-person-hero.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/alluminate-hero.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-39-alluminate.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-join/join-community-hero.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/join-community-hero.jpg",
-  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-37-community.jpg",
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=85",
-  "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1200&q=85",
-  "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1200&q=85"
+  "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1439853949212-09789ba4541d?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1458668383970-8ddd3927deed?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1500534314209-a26db0f5e6a3?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=1400&q=85"
 ];
 const storageKey = 'rts-narrative-prototype-v1';
 export default function NarrativeJourney() {
@@ -256,6 +256,7 @@ export default function NarrativeJourney() {
       .rts-photo-banner{height:145px;border-radius:14px;margin:0 0 26px;position:relative;overflow:hidden;display:flex;align-items:center;padding:24px;box-sizing:border-box;background-color:#263a4a;background-size:cover;background-position:center}
       .rts-photo-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(27,49,60,.88),rgba(27,49,60,.48) 65%,rgba(27,49,60,.13))}
       .rts-photo-banner-label{position:relative;z-index:1;color:#f8f5ef;font:700 19px/1.2 Arial,sans-serif;letter-spacing:.15em;text-transform:uppercase}
+      .rts-photo-banner-step{display:block;margin-top:9px;font:600 12px/1.3 Arial,sans-serif;letter-spacing:.12em;color:#f4e7cb}
       .rts-chapter-art,.rts-become-hero{display:none!important}
       @media(max-width:480px){.rts-photo-banner{height:125px;padding:20px}.rts-photo-banner-label{font-size:17px}}
     `}</style>
@@ -264,7 +265,7 @@ export default function NarrativeJourney() {
       <nav className="rts-breadcrumbs" aria-label="Journey location"><span>FORMATION JOURNEY</span><span aria-hidden="true">/</span><strong>{page===-1?"Welcome":page<2?"Introduction":page>=19?"Join":page>=12?"Become":page>=5?"See Clearly":"Awaken"}</strong></nav>
       <nav aria-label="Journey stages" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=19?3:page>=12?2:page>=5?1:0)?"active":""} aria-label={label+(i===(page>=19?3:page>=12?2:page>=5?1:0)?" current stage":"")} aria-current={i===(page>=19?3:page>=12?2:page>=5?1:0)?"step":undefined} title={label}/>)}</nav>
       <div className="rts-screen-location"><span>{page===-1?"WELCOME":page<2?"INTRODUCTION":page>=19?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</span><span>{page===-1?"START HERE":page<2? `${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<19?`${page-11} / 7`:`${page-18} / 5`}</span></div>
-      <div className="rts-photo-banner" aria-label="Formation journey stage artwork" style={{backgroundImage:`url("${narrativePhotos[page + 1]}")`}}><span className="rts-photo-banner-label">{page===-1?'REFORMING THE SOUL':page<2?'THE BEGINNING':page<5?'AWAKEN':page<12?'SEE CLEARLY':page<19?'BECOME':'JOIN'}</span></div>
+      <div className="rts-photo-banner" aria-label="Formation journey stage artwork" style={{backgroundImage:`url("${narrativePhotos[page + 1]}")`}}><span className="rts-photo-banner-label">{page===-1?'REFORMING THE SOUL':page<2?'THE BEGINNING':page<5?'AWAKEN':page<12?'SEE CLEARLY':page<19?'BECOME':'JOIN'}<small className="rts-photo-banner-step">{page===-1?'START HERE':page<2?`${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<19?`${page-11} / 7`:`${page-18} / 5`}</small></span></div>
       {page===-1 ? <section className="rts-see rts-reading-chapter">
 <div className="rts-chapter-art rts-chapter-art--opening"><span>REFORMING THE SOUL</span><div className="rts-chapter-line"/></div>
 <p className="rts-kicker">AN INVITATION TO LIFE WITH GOD</p>
