@@ -258,7 +258,6 @@ export default function NarrativeJourney() {
       .rts-photo-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(27,49,60,.88),rgba(27,49,60,.48) 65%,rgba(27,49,60,.13))}
       .rts-photo-banner-label{position:relative;z-index:1;color:#f8f5ef;font:700 19px/1.2 Arial,sans-serif;letter-spacing:.15em;text-transform:uppercase}
       .rts-photo-banner-step{display:block;margin-top:9px;font:600 12px/1.3 Arial,sans-serif;letter-spacing:.12em;color:#f4e7cb}
-      .rts-photo-banner-id{display:block;margin-top:7px;color:#fff;font:400 38px/1 Georgia,serif;letter-spacing:0;text-transform:none}
       .rts-chapter-art,.rts-become-hero{display:none!important}
       @media(max-width:480px){.rts-photo-banner{height:125px;padding:20px}.rts-photo-banner-label{font-size:17px}}
     `}</style>
@@ -267,7 +266,7 @@ export default function NarrativeJourney() {
       <nav className="rts-breadcrumbs" aria-label="Journey location"><span>FORMATION JOURNEY</span><span aria-hidden="true">/</span><strong>{page===-1?"Welcome":page<2?"Introduction":page>=19?"Join":page>=12?"Become":page>=5?"See Clearly":"Awaken"}</strong></nav>
       <nav aria-label="Journey stages" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=19?3:page>=12?2:page>=5?1:0)?"active":""} aria-label={label+(i===(page>=19?3:page>=12?2:page>=5?1:0)?" current stage":"")} aria-current={i===(page>=19?3:page>=12?2:page>=5?1:0)?"step":undefined} title={label}/>)}</nav>
       <div className="rts-screen-location"><span>{page===-1?"WELCOME":page<2?"INTRODUCTION":page>=19?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</span><span>{page===-1?"START HERE":page<2? `${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<19?`${page-11} / 7`:`${page-18} / 5`}</span></div>
-      <div className="rts-photo-banner" aria-label="Formation journey stage artwork" style={{backgroundImage:`url("${narrativePhotos[page + 1]}")`}}><span className="rts-photo-banner-label"><span>{page===-1?'REFORMING THE SOUL':page<2?'THE BEGINNING':page<5?'AWAKEN':page<12?'SEE CLEARLY':page<19?'BECOME':'JOIN'}</span><strong className="rts-photo-banner-id">{page===-1?'':page<2?`I${page+1}`:page<5?`A${page-1}`:page<12?`S${page-4}`:page<19?`B${page-11}`:`J${page-18}`}</strong><small className="rts-photo-banner-step">{page===-1?'START HERE':page<2?`${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<19?`${page-11} / 7`:`${page-18} / 5`}</small></span></div>
+      <div className="rts-photo-banner" aria-label="Formation journey stage artwork" style={{backgroundImage:`url("${narrativePhotos[page + 1]}")`}}><span className="rts-photo-banner-label"><span>{page===-1?'REFORMING THE SOUL':page<2?'THE BEGINNING':page<5?'AWAKEN':page<12?'SEE CLEARLY':page<19?'BECOME':'JOIN'}</span><small className="rts-photo-banner-step">{page===-1?'START HERE':page<2?`${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<19?`${page-11} / 7`:`${page-18} / 5`}</small></span></div>
       {page===-1 ? <section className="rts-see rts-reading-chapter">
 <div className="rts-chapter-art rts-chapter-art--opening"><span>REFORMING THE SOUL</span><div className="rts-chapter-line"/></div>
 <p className="rts-kicker">AN INVITATION TO LIFE WITH GOD</p>
