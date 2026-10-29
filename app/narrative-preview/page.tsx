@@ -41,6 +41,35 @@ const options = [
   'Something went particularly well.',
   'I had to make a difficult decision.'
 ];
+// One distinct photograph per narrative screen (welcome, then screens 0–23).
+// Images use the existing RTS website collection first, with complementary landscape photography.
+const narrativePhotos = [
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/formation-intro-hero.webp",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/awaken-01-forest-clearing.webp",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/awaken-02-still-lake.webp",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-00-hero-clean.webp",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/graphics/awaken-bottom-botanical.png",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-see-clearly/see-clearly-landing-hero.webp",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-see-clearly/see-clearly-hero-clear.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-11-15/seeing-god-forest.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-thoughts.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-inner-life.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-emotional-life.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-will.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-become/become-ordinary-life-hero-v2.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-become/become-ordinary-life-hero.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-body.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-36-relationships.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/changed-person-hero.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/alluminate-hero.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-39-alluminate.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-join/join-community-hero.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/join-community-hero.jpg",
+  "https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-36-40/fidelity/page-37-community.jpg",
+  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=85",
+  "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1200&q=85",
+  "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1200&q=85"
+];
 const storageKey = 'rts-narrative-prototype-v1';
 export default function NarrativeJourney() {
   const [page,setPage] = useState(-1);
@@ -235,7 +264,7 @@ export default function NarrativeJourney() {
       <nav className="rts-breadcrumbs" aria-label="Journey location"><span>FORMATION JOURNEY</span><span aria-hidden="true">/</span><strong>{page===-1?"Welcome":page<2?"Introduction":page>=19?"Join":page>=12?"Become":page>=5?"See Clearly":"Awaken"}</strong></nav>
       <nav aria-label="Journey stages" className="rts-progress">{["Awaken","See Clearly","Become","Join"].map((label,i)=><span key={label} className={i<=(page>=19?3:page>=12?2:page>=5?1:0)?"active":""} aria-label={label+(i===(page>=19?3:page>=12?2:page>=5?1:0)?" current stage":"")} aria-current={i===(page>=19?3:page>=12?2:page>=5?1:0)?"step":undefined} title={label}/>)}</nav>
       <div className="rts-screen-location"><span>{page===-1?"WELCOME":page<2?"INTRODUCTION":page>=19?"JOIN":page>=12?"BECOME":page>=5?"SEE CLEARLY":"AWAKEN"}</span><span>{page===-1?"START HERE":page<2? `${page+1} / 2`:page<5?`${page-1} / 3`:page<12?`${page-4} / 7`:page<19?`${page-11} / 7`:`${page-18} / 5`}</span></div>
-      <div className="rts-photo-banner" aria-label="Formation journey stage artwork" style={{backgroundImage:`url('${page % 2 === 0 ? 'https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/awaken-01-forest-clearing.webp' : 'https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/awaken-02-still-lake.webp'}')`}}><span className="rts-photo-banner-label">{page===-1?'REFORMING THE SOUL':page<2?'THE BEGINNING':page<5?'AWAKEN':page<12?'SEE CLEARLY':page<19?'BECOME':'JOIN'}</span></div>
+      <div className="rts-photo-banner" aria-label="Formation journey stage artwork" style={{backgroundImage:`url("${narrativePhotos[page + 1]}")`}}><span className="rts-photo-banner-label">{page===-1?'REFORMING THE SOUL':page<2?'THE BEGINNING':page<5?'AWAKEN':page<12?'SEE CLEARLY':page<19?'BECOME':'JOIN'}</span></div>
       {page===-1 ? <section className="rts-see rts-reading-chapter">
 <div className="rts-chapter-art rts-chapter-art--opening"><span>REFORMING THE SOUL</span><div className="rts-chapter-line"/></div>
 <p className="rts-kicker">AN INVITATION TO LIFE WITH GOD</p>
