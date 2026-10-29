@@ -25,6 +25,8 @@ const chapters = [
     'Why did that bother me so much? Why did I feel threatened? Why was it so important that I be understood? Why do I respond this way whenever someone questions me? Why does this particular situation keep producing the same reaction?',
     'At first, we may recognize these things long after they happen. Then we begin catching them sooner. Eventually, we sometimes recognize them while they are happening.',
     'That growing awareness is important because we are beginning to see the person beneath the behavior.',
+    'Much of what we call our personality may reflect ways we learned to navigate life. Our soul learned to protect us from rejection, disappointment, uncertainty, and pain. Those responses often served a purpose, but over time they could become automatic ways of interpreting and responding to the world.',
+    'We are not trying to eliminate the soul or condemn its protective responses. We are learning to bring the whole person into harmony with the Spirit, allowing God to become the source of security we once tried to manufacture for ourselves.',
     'We are learning to catch ourselves being ourselves.',
     'And eventually we can say, “Something is happening in me, and I can see it.”',
     'That is awakening.',
