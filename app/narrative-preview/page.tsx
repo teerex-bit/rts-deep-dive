@@ -222,6 +222,23 @@ export default function NarrativeJourney() {
       @media(min-width:700px){.rts-join-pair{grid-template-columns:1fr 1fr}}
       @media(min-width:700px){.rts-shell{padding-top:38px}.rts-prose p{font-size:18px}}
       @media(max-width:350px){.rts-shell{padding-left:17px;padding-right:17px}.rts-prose p{font-size:16px}}
+
+      /* Existing RTS website photography; no lesson text or interaction changes. */
+      .rts-chapter-art,.rts-become-hero{background-size:cover;background-position:center;position:relative;isolation:isolate;overflow:hidden}
+      .rts-chapter-art::before,.rts-become-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(27,49,60,.83),rgba(27,49,60,.36) 68%,rgba(27,49,60,.13));z-index:-1}
+      .rts-chapter-art--opening{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/formation-intro-hero.webp')}
+      .rts-chapter-art--awaken{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/awaken-01-forest-clearing.webp')}
+      .rts-scene--5 .rts-chapter-art{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-see-clearly/see-clearly-landing-hero.webp')}
+      .rts-scene--12 .rts-become-hero{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-become/become-ordinary-life-hero-v2.jpg')}
+      .rts-scene--19 .rts-become-hero{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-join/join-community-hero.jpg')}
+      .rts-scene:not(.rts-scene--5):not(.rts-scene--12):not(.rts-scene--19)::before,.rts-reflection::before,.rts-completion::before{content:'';display:block;height:125px;border-radius:14px;margin:0 0 26px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 1px rgba(38,58,74,.06)}
+      .rts-reflection::before{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/awaken-02-still-lake.webp')}
+      .rts-completion::before{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/images/awaken-01-forest-clearing.webp')}
+      .rts-scene--6::before,.rts-scene--7::before,.rts-scene--8::before{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-see-clearly/see-clearly-landing-hero.webp')}
+      .rts-scene--9::before,.rts-scene--10::before,.rts-scene--11::before{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-ranges/range-11-15/seeing-god-forest.jpg')}
+      .rts-scene--13::before,.rts-scene--14::before,.rts-scene--15::before,.rts-scene--16::before,.rts-scene--17::before,.rts-scene--18::before{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-become/become-ordinary-life-hero-v2.jpg')}
+      .rts-scene--20::before,.rts-scene--21::before,.rts-scene--22::before,.rts-scene--23::before{background-image:url('https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/page-join/join-community-hero.jpg')}
+      @media(max-width:480px){.rts-scene:not(.rts-scene--5):not(.rts-scene--12):not(.rts-scene--19)::before,.rts-reflection::before,.rts-completion::before{height:105px}}
     `}</style>
     <div className="rts-shell">
       <header className="rts-header"><button type="button" className="rts-restart" onClick={()=>{setReflectionStep(0);advance(-1)}}>← Back to beginning</button><img className="rts-tree-logo" src="https://raw.githubusercontent.com/teerex-bit/rts-website/main/public/assets/logos/rts-tree-wordmark.png" alt="Tree of Life" /></header>
