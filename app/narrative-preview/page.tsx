@@ -41,36 +41,33 @@ const options = [
   'Something went particularly well.',
   'I had to make a difficult decision.'
 ];
-// One distinct photograph per narrative screen (welcome, then screens 0–23).
-// Images use the existing RTS website collection first, with complementary landscape photography.
-// Distinct, clean landscape photographs; no screenshots or website artwork.
-// Original RTS-owned illustrated landscape assets stored in this repository.
+// Original generated landscape assets, one per screen; labels stay in HTML.
 const narrativePhotos = [
-  "/narrative-landscapes/scene-00.svg",
-  "/narrative-landscapes/scene-01.svg",
-  "/narrative-landscapes/scene-02.svg",
-  "/narrative-landscapes/scene-03.svg",
-  "/narrative-landscapes/scene-04.svg",
-  "/narrative-landscapes/scene-05.svg",
-  "/narrative-landscapes/scene-06.svg",
-  "/narrative-landscapes/scene-07.svg",
-  "/narrative-landscapes/scene-08.svg",
-  "/narrative-landscapes/scene-09.svg",
-  "/narrative-landscapes/scene-10.svg",
-  "/narrative-landscapes/scene-11.svg",
-  "/narrative-landscapes/scene-12.svg",
-  "/narrative-landscapes/scene-13.svg",
-  "/narrative-landscapes/scene-14.svg",
-  "/narrative-landscapes/scene-15.svg",
-  "/narrative-landscapes/scene-16.svg",
-  "/narrative-landscapes/scene-17.svg",
-  "/narrative-landscapes/scene-18.svg",
-  "/narrative-landscapes/scene-19.svg",
-  "/narrative-landscapes/scene-20.svg",
-  "/narrative-landscapes/scene-21.svg",
-  "/narrative-landscapes/scene-22.svg",
-  "/narrative-landscapes/scene-23.svg",
-  "/narrative-landscapes/scene-24.svg"
+  "/narrative-landscapes/scene-00.jpg",
+  "/narrative-landscapes/scene-01.jpg",
+  "/narrative-landscapes/scene-02.jpg",
+  "/narrative-landscapes/scene-03.jpg",
+  "/narrative-landscapes/scene-04.jpg",
+  "/narrative-landscapes/scene-05.jpg",
+  "/narrative-landscapes/scene-06.jpg",
+  "/narrative-landscapes/scene-07.jpg",
+  "/narrative-landscapes/scene-08.jpg",
+  "/narrative-landscapes/scene-09.jpg",
+  "/narrative-landscapes/scene-10.jpg",
+  "/narrative-landscapes/scene-11.jpg",
+  "/narrative-landscapes/scene-12.jpg",
+  "/narrative-landscapes/scene-13.jpg",
+  "/narrative-landscapes/scene-14.jpg",
+  "/narrative-landscapes/scene-15.jpg",
+  "/narrative-landscapes/scene-16.jpg",
+  "/narrative-landscapes/scene-17.jpg",
+  "/narrative-landscapes/scene-18.jpg",
+  "/narrative-landscapes/scene-19.jpg",
+  "/narrative-landscapes/scene-20.jpg",
+  "/narrative-landscapes/scene-21.jpg",
+  "/narrative-landscapes/scene-22.jpg",
+  "/narrative-landscapes/scene-23.jpg",
+  "/narrative-landscapes/scene-24.jpg"
 ];
 const storageKey = 'rts-narrative-prototype-v1';
 export default function NarrativeJourney() {
