@@ -307,7 +307,7 @@ export default function NarrativeJourney() {
         <p>You may not yet understand why you respond the way you do. That is all right. Awaken is not about figuring everything out. It is about beginning to notice what was previously invisible.</p>
         <p>Once we can see what is happening within us, we can begin exploring what is underneath it.</p>
         <button className="rts-button" onClick={()=>advance(5)}>Continue to See Clearly →</button>
-        <button className="rts-button rts-back" onClick={()=>advance(3)}>← Revisit your reflection</button>
+        <button className="rts-button rts-back" onClick={()=>advance(3)}>← Previous</button>
       </section> : page>=5 && page<=11 ? <section className={`rts-see rts-scene rts-scene--${page}`}>
         {page===5 ? <>
           <div className="rts-chapter-art" aria-hidden="true"><span>SEE<br/>CLEARLY</span><div className="rts-chapter-line"/></div>
